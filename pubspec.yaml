@@ -1,0 +1,78 @@
+name: spacemall
+description: A digital store for easy business management.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.6 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+  google_fonts: ^4.0.3
+  flutter_native_splash: ^2.2.19
+  liquid_swipe: ^3.1.0
+  smooth_page_indicator: ^1.1.0
+  get: ^4.6.5
+  country_picker: ^2.0.20
+  pinput: ^2.2.31
+  flutter_svg: ^2.0.5
+  percent_indicator: ^4.2.3
+  firebase_core: ^2.10.0
+  firebase_auth: ^4.5.0
+  shared_preferences: ^2.1.1
+  image_picker: ^0.8.7+5
+  cloud_firestore: ^4.7.1
+  firebase_storage: ^11.2.0
+  hive: ^2.2.3
+  hive_flutter: 
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  hive_generator: 
+  build_runner: 
+ 
+  flutter_lints: ^2.0.0
+
+
+flutter_native_splash:
+  color: '#cc5500'
+  color_dark: '#ffb317'
+  image: assets/logos/sMallLogoWhite.png
+  image_dark: assets/logos/sMallLogoWhite.png
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/ 
+    - assets/images/on_boarding_images/
+    - assets/images/welcome_image/
+    - assets/images/login_image/
+    - assets/images/backgroung_images/
+    - assets/images/dashboard_icons/
+    - assets/images/otp_image/
+    - assets/images/navbar_images/
+
+
+  fonts:
+    - family: Arial Rounded
+      fonts:
+        - asset: assets/fonts/Arial Rounded Font.ttf
+ 
+

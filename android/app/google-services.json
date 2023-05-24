@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1017415678363",
+    "project_id": "spacemall-v1",
+    "storage_bucket": "spacemall-v1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017415678363:android:350377590ed4d76752893e",
+        "android_client_info": {
+          "package_name": "com.example.spacemall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1017415678363-1mbva1dvqeopov2rtoe0ib92ohp6l91c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.spacemall",
+            "certificate_hash": "a47ebfb5aa4bdb5449005f7ad2b61c246cc9d454"
+          }
+        },
+        {
+          "client_id": "1017415678363-94gg0mporkvcigml1s6cqbrel87evibf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwHhpISVlHImqzxXaJZ5wWZFfL2L-gTis"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1017415678363-94gg0mporkvcigml1s6cqbrel87evibf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1017415678363-nn4tmt3qndv4k94mvmu7vikifefi3nra.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.spacemall"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
