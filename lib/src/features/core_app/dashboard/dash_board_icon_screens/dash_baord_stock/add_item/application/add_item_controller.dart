@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_itme_model.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
+import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
 class AddItemController extends GetxController {
@@ -15,8 +15,27 @@ class AddItemController extends GetxController {
     AddItemRepo(),
   );
 
+// observable variables
   RxString categoryValue = 'Category'.obs;
-  final selectedIndex = 0.obs;
+  var selectedIndex = 0.obs;
+
+  RxBool isPressed = false.obs;
+  RxInt numSelectedItems = 2.obs;
+
+  // my initial variable
+  RxList<AddItemModel> itemList = <AddItemModel>[].obs;
+
+  void increaementSelectedItem(int tapedIndex) {
+    if (tapedIndex >= 0) {
+      numSelectedItems++;
+    }
+  }
+
+  void decreaementSelectedItem(int tapedIndex) {
+    if (tapedIndex >= 0) {
+      selectedIndex--;
+    }
+  }
 
   void setCategory(newValue) => categoryValue.value = newValue;
 
@@ -35,10 +54,12 @@ class AddItemController extends GetxController {
     "Image 4",
   ];
 
-  RxList<AddItemModel> itemList = <AddItemModel>[].obs;
+// add item to hive
 
-  void addItem(AddItemModel item) {
-    itemList.add(item);
+  Future<void> addToHive(AddItemModel item) async {
+    AddItemController.instance.itemList.add(item);
+    await stockItemBox.put('item-${itemName.text}', item);
+
     update();
   }
 
@@ -87,9 +108,8 @@ class AddItemController extends GetxController {
   getItemPic() {}
 
   addItemToPhone() {
-    addItemRepo
-        .addItemToPhone()
-        .then((value) => Get.offAll(() => const Stock()));
+    addItemRepo.saveItemData();
+
     print('itemPic is: ${AddItemController.instance.itemPic.value}');
     print('category is: ${AddItemController.instance.categoryValue}');
     print('Track profit is: ${AddItemController.instance.trackProfit}');

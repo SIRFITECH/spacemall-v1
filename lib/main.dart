@@ -1,9 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:spacemall/src/features/auth/screens/login/login.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/file_adapter.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/item_list_data_adapter.dart';
+import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/themes/themes.dart';
 
 import 'firebase_options.dart';
@@ -13,6 +18,14 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   ).then((value) => Get.put(AuthRepo()));
+  await Hive.initFlutter();
+  Hive.registerAdapter(FileAdapter());
+  Hive.registerAdapter(ItemListDataAdapter());
+  Hive.registerAdapter(AddItemModelAdapter());
+  stockItemBox = await
+      // Hive.openBox<List<AddItemModel>?>('item_list');
+      Hive.openBox<AddItemModel>('item_list');
+
   runApp(const SpacemallApp());
 }
 

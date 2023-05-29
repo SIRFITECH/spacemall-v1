@@ -6,6 +6,7 @@ import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/add_items.dart';
 import 'package:spacemall/src/features/core_app/general/custom_button.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
@@ -394,7 +395,9 @@ class AddStock extends StatelessWidget {
               children: [
                 CustomButton(
                   screenSize: screenSize,
-                  onPress: () => AddItemController.instance.addItemToPhone(),
+                  onPress: () => AddItemRepo.instance
+                      .saveItemData()
+                      .then((value) => AddItemRepo.instance.clearControllers()),
                   title: kAddItemText,
                   width: screenSize.width * 0.3,
                 ),
