@@ -20,14 +20,21 @@ class AddItemController extends GetxController {
   var selectedIndex = 0.obs;
 
   RxBool isPressed = false.obs;
-  RxInt numSelectedItems = 2.obs;
+  RxInt numSelectedItems = 0.obs;
 
   // my initial variable
   RxList<AddItemModel> itemList = <AddItemModel>[].obs;
 
+  void setPressed() {
+    isPressed.value = true;
+    update();
+    // print(isPressed.value);
+  }
+
   void increaementSelectedItem(int tapedIndex) {
     if (tapedIndex >= 0) {
-      numSelectedItems++;
+      AddItemController.instance.numSelectedItems.value++;
+      print(AddItemController.instance.numSelectedItems.value);
     }
   }
 

@@ -28,35 +28,39 @@ class AddItemModelAdapter extends TypeAdapter<AddItemModel> {
       preventItemSalesWhenOutOfStock: fields[8] as bool,
       trackExpiry: fields[9] as String,
       expiryAlert: fields[10] as String,
+      // itemCount: fields[11] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, AddItemModel obj) {
     writer
-      ..writeByte(11)
-      ..writeByte(0)
-      ..write(obj.itemPic)
-      ..writeByte(1)
-      ..write(obj.itemName)
-      ..writeByte(2)
-      ..write(obj.itemCostPrice)
-      ..writeByte(3)
-      ..write(obj.itemSellingPrice)
-      ..writeByte(4)
-      ..write(obj.itemCategory)
-      ..writeByte(5)
-      ..write(obj.itemQuantity)
-      ..writeByte(6)
-      ..write(obj.trackProfit)
-      ..writeByte(7)
-      ..write(obj.trackLowStock)
-      ..writeByte(8)
-      ..write(obj.preventItemSalesWhenOutOfStock)
-      ..writeByte(9)
-      ..write(obj.trackExpiry)
-      ..writeByte(10)
-      ..write(obj.expiryAlert);
+          ..writeByte(12)
+          ..writeByte(0)
+          ..write(obj.itemPic)
+          ..writeByte(1)
+          ..write(obj.itemName)
+          ..writeByte(2)
+          ..write(obj.itemCostPrice)
+          ..writeByte(3)
+          ..write(obj.itemSellingPrice)
+          ..writeByte(4)
+          ..write(obj.itemCategory)
+          ..writeByte(5)
+          ..write(obj.itemQuantity)
+          ..writeByte(6)
+          ..write(obj.trackProfit)
+          ..writeByte(7)
+          ..write(obj.trackLowStock)
+          ..writeByte(8)
+          ..write(obj.preventItemSalesWhenOutOfStock)
+          ..writeByte(9)
+          ..write(obj.trackExpiry)
+          ..writeByte(10)
+          ..write(obj.expiryAlert)
+        // ..writeByte(11)
+        // ..write(obj.itemCount)
+        ;
   }
 
   @override

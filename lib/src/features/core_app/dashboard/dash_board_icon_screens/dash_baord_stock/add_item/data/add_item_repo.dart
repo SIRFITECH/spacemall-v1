@@ -32,6 +32,7 @@ class AddItemRepo extends GetxController {
               addItemController.preventItemSalesWhenOutOfStock.value,
           trackExpiry: addItemController.trackExpiry.text.trim(),
           expiryAlert: addItemController.expiryAlert.text.trim(),
+          // itemCount: 0,
         );
   }
 
@@ -61,6 +62,7 @@ class AddItemRepo extends GetxController {
           addItemController.preventItemSalesWhenOutOfStock.value,
       trackExpiry: addItemController.trackExpiry.text.trim(),
       expiryAlert: addItemController.expiryAlert.text.trim(),
+      // itemCount: 0,
     );
 
     await stockItemBox.put(

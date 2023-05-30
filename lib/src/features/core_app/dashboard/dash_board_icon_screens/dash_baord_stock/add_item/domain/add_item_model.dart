@@ -27,6 +27,8 @@ class AddItemModel {
   String trackExpiry;
   @HiveField(10)
   String expiryAlert;
+  // @HiveField(11)
+  // int? itemCount;
 
   AddItemModel({
     required this.itemPic,
@@ -40,6 +42,7 @@ class AddItemModel {
     required this.preventItemSalesWhenOutOfStock,
     required this.trackExpiry,
     required this.expiryAlert,
+    // required this.itemCount,
   });
   // populated from map, that is serializing the stock object from server
   factory AddItemModel.fromMap(Map<String, dynamic> map) {
@@ -56,6 +59,7 @@ class AddItemModel {
           map['preventItemSalesWhenOutOfStock'] ?? '',
       trackExpiry: map['trackExpiry'] ?? '',
       expiryAlert: map['expiryAlert'] ?? '',
+      // itemCount: map['itemCount'] ?? 0,
     );
   }
 
@@ -73,6 +77,7 @@ class AddItemModel {
       "preventItemSalesWhenOutOfStock": preventItemSalesWhenOutOfStock,
       "trackExpiry": trackExpiry,
       "expiryAlert": expiryAlert,
+      // "itemCount": itemCount,
     };
   }
 }

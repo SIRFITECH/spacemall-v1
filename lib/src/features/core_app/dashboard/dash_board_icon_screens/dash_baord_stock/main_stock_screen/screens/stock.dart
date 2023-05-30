@@ -84,16 +84,19 @@ class Stock extends StatelessWidget {
                         return GestureDetector(
                           onTap: () {
                             // variable to hold the state of the card, whetehr pressed or not
-                            bool cardState = addItemController.isPressed.value;
+
                             // varaible to track item taped
                             var tapIndex = index;
                             if (index == tapIndex) {
+                              // set the selected value to true
+                              addItemController.setPressed();
                               addItemController
                                   .increaementSelectedItem(tapIndex);
+
                               AddItemModel selectedStockItem =
                                   stockItemBox.getAt(tapIndex);
-                              cardState = true;
-                              print(selectedStockItem.itemCategory);
+                              // print(selectedStockItem.itemName);
+                              print(addItemController.isPressed.value);
                               debugPrint('$tapIndex');
                             }
                           },
@@ -258,25 +261,32 @@ class Stock extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              if (addItemController.isPressed.value = true)
-                                Container(
-                                  height: 30,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.5),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Text(
-                                    addItemController.numSelectedItems
-                                        .toString(),
-                                    // Display the index number as overlay
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                )
+                              Obx(
+                                () => addItemController.isPressed.isTrue
+                                    ? Positioned(
+                                        left: 10,
+                                        top: 10,
+                                        child: Container(
+                                          height: 80,
+                                          width: 90,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Colors.black.withOpacity(0.5),
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Text(
+                                            'x${addItemController.numSelectedItems.toString()}',
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
+                              ),
                             ],
                           ),
                         );
