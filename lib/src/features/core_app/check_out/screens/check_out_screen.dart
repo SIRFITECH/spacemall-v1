@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
+import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
+import 'package:spacemall/src/features/core_app/check_out/screens/confirm_payment.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 
@@ -17,9 +16,10 @@ class CheckOut extends StatelessWidget {
     final media = MediaQuery.of(context);
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
-    // final screenSize = media.size;
+    final screenSize = media.size;
 
-    final addItemController = Get.put(AddItemController());
+    final checkOutController = Get.put(CheckOutController());
+    int tapedIndex = -1;
     return Scaffold(
       backgroundColor: isDarkMood ? kDarkThemeBgColor : kLightThemeBgColor,
       body: Container(
@@ -35,60 +35,143 @@ class CheckOut extends StatelessWidget {
           //   ),
         ),
         child: SingleChildScrollView(
-            child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
-                  childAspectRatio: 1,
+          child: stockItemBox.isNotEmpty
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4,
+                          childAspectRatio: 1,
+                        ),
+                        padding: const EdgeInsets.only(
+                          top: 50,
+                          left: 10,
+                          right: 10,
+                        ),
+                        shrinkWrap: true,
+                        physics: const ClampingScrollPhysics(),
+                        itemCount: stockItemBox.length,
+                        itemBuilder: (context, index) {
+                          AddItemModel stockItem = stockItemBox.getAt(index);
+                          return GestureDetector(
+                            onTap: () {
+                              int totalCost = 1;
+                              int costOfItem = 1;
+                              tapedIndex = index;
+                              checkOutController.setNumberOfItemSelect(index);
+                              if (index == tapedIndex) {
+                                checkOutController.increamentItems(
+                                  index,
+                                  tapedIndex,
+                                );
+                                (() {
+                                  int itemCount = stockItem.itemCount++;
+                                  // set total price of item
+                                  costOfItem = itemCount <= 0
+                                      ? int.parse(stockItem.itemSellingPrice)
+                                      : int.parse(stockItem.itemSellingPrice) *
+                                          stockItem.itemCount;
+                                })();
+
+                                // print('The Item name is ${stockItem.itemName}');
+                                // print(
+                                //     'The selling price is  ${stockItem.itemSellingPrice}');
+                                print(
+                                    'It costs N$costOfItem for ${stockItem.itemCount} ${stockItem.itemName}');
+                                // print('${stockItem.itemPic}');
+                                // print('Total cost is ${totalCost}');
+                                // print('cost of Item is ${costOfItem}');
+                              }
+
+                              print('Cart item $index press');
+                            },
+                            child: Stack(
+                              children: [
+                                Card(
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                          width: 100,
+                                          height: 40,
+                                          child: stockItem.itemPic == null
+                                              ? SvgPicture.asset(
+                                                  kImageIcon,
+                                                  color: kMainColorDark,
+                                                  width: 50,
+                                                  height: 70,
+                                                  fit: BoxFit.scaleDown,
+                                                )
+                                              : ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: Image.file(
+                                                      stockItem.itemPic!))),
+                                      Text(
+                                        stockItem.itemName,
+                                      ),
+                                      const SizedBox(
+                                        height: 7,
+                                      ),
+                                      Text(
+                                        'N${stockItem.itemSellingPrice}',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                checkOutController.numberOfItemSelect == index
+                                    ? Positioned(
+                                        left: 6.5,
+                                        top: 4.5,
+                                        child: Container(
+                                          height: 60,
+                                          width: 80,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Colors.black.withOpacity(0.5),
+                                            shape: BoxShape.rectangle,
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(5)),
+                                          ),
+                                          child: Obx(
+                                            () => Text(
+                                              'x${checkOutController.items.value.toString()}',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : Container(),
+                              ],
+                            ),
+                          );
+                        }),
+                    Container(
+                        padding: EdgeInsets.only(
+                          top: screenSize.height * 0.23,
+                          left: screenSize.height * 0.02,
+                          right: screenSize.height * 0.02,
+                        ),
+                        width: double.infinity,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              Get.to(() => ConfirmPayment());
+                            },
+                            child: const Text('Check Out')))
+                  ],
+                )
+              : SizedBox(
+                  height: screenSize.height * 0.5,
+                  child: const Center(child: Text('Cart empty')),
                 ),
-                padding: const EdgeInsets.only(top: 80),
-                shrinkWrap: true,
-                physics: const ClampingScrollPhysics(),
-                itemCount: stockItemBox.length,
-                itemBuilder: (context, index) {
-                  AddItemModel stockItem = stockItemBox.getAt(index);
-                  return GestureDetector(
-                      onTap: () {
-                        // variable to hold the state of the card, whetehr pressed or not
-
-                        // varaible to track item taped
-                        var tapIndex = index;
-                        if (index == tapIndex) {
-                          // set the selected value to true
-                          addItemController.setPressed();
-                          addItemController.increaementSelectedItem(tapIndex);
-
-                          AddItemModel selectedStockItem =
-                              stockItemBox.getAt(tapIndex);
-                          // print(selectedStockItem.itemName);
-                          print(addItemController.isPressed.value);
-                          debugPrint('$tapIndex');
-                        }
-                      },
-                      child: Column(
-                        children: [
-                          SizedBox(
-                              width: 100,
-                              height: 60,
-                              child: stockItem.itemPic == null
-                                  ? SvgPicture.asset(
-                                      kImageIcon,
-                                      color: kMainColorDark,
-                                      width: 50,
-                                      height: 70,
-                                      fit: BoxFit.scaleDown,
-                                    )
-                                  : ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.file(stockItem.itemPic!))),
-                          Text(
-                            stockItem.itemName,
-                          ),
-                          Text(
-                            'N${stockItem.itemSellingPrice}',
-                          ),
-                        ],
-                      ));
-                })),
+        ),
       ),
     );
   }

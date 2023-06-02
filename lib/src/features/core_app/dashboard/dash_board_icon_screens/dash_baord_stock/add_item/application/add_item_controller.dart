@@ -31,8 +31,10 @@ class AddItemController extends GetxController {
     // print(isPressed.value);
   }
 
-  void increaementSelectedItem(int tapedIndex) {
-    if (tapedIndex >= 0) {
+  void increaementSelectedItem(int tapedIndex, int index) {
+    if (tapedIndex == index
+        // && isPressed.isTrue
+        ) {
       AddItemController.instance.numSelectedItems.value++;
       print(AddItemController.instance.numSelectedItems.value);
     }

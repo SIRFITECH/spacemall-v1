@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:get/get.dart';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -8,6 +6,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:path_provider/path_provider.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
+import 'package:uuid/uuid.dart';
 
 class AddItemRepo extends GetxController {
   static AddItemRepo get instance => Get.find();
@@ -15,6 +14,8 @@ class AddItemRepo extends GetxController {
   static AddItemController addItemController = Get.find();
 
   final itemPic = addItemController.itemPic.value;
+// add uuid to each item to identify it uniquely throughout the app
+  String itemId = const Uuid().v4();
 
   AddItemModel? _addItemModel;
   AddItemModel get addItemModel {
@@ -32,7 +33,7 @@ class AddItemRepo extends GetxController {
               addItemController.preventItemSalesWhenOutOfStock.value,
           trackExpiry: addItemController.trackExpiry.text.trim(),
           expiryAlert: addItemController.expiryAlert.text.trim(),
-          // itemCount: 0,
+          itemCount: 0,
         );
   }
 
@@ -62,7 +63,7 @@ class AddItemRepo extends GetxController {
           addItemController.preventItemSalesWhenOutOfStock.value,
       trackExpiry: addItemController.trackExpiry.text.trim(),
       expiryAlert: addItemController.expiryAlert.text.trim(),
-      // itemCount: 0,
+      itemCount: 0,
     );
 
     await stockItemBox.put(
@@ -100,16 +101,16 @@ class AddItemRepo extends GetxController {
     }
   }
 
-// print the hive box
+// // print the hive box
 
-  void printHiveBox(Box box) {
-    for (var key in box.keys) {
-      var item = box.get(key);
-      var value = box.keys;
-      print(item.toString());
-      print(value.toList());
-    }
-  }
+//   void printHiveBox(Box box) {
+//     for (var key in box.keys) {
+//       var item = box.get(key);
+//       var value = box.keys;
+//       print(item.toString());
+//       print(value.toList());
+//     }
+//   }
 
   ///DATABASE OPERATIONS
 }

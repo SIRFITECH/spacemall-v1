@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spacemall/src/features/core_app/check_out/domain/check_out_model.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
+import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
 class ProfileController extends GetxController {
@@ -12,6 +14,7 @@ class ProfileController extends GetxController {
 
   Rx<File?> profilePic = Rx(null);
 
+  final List<CheckOutModel> cart = [];
   final String uid = '';
   final TextEditingController tFName = TextEditingController();
   final TextEditingController tLName = TextEditingController();
@@ -46,6 +49,22 @@ class ProfileController extends GetxController {
     profilePic = (await pickImage(context));
     update();
   }
+
+  CheckOutModel? cartItem;
+
+  updateUserData(Map<String, dynamic> data) {
+    cartBox.put(cartItem!.itemName, data);
+    // firebaseFirestore
+    //     .collection(usersCollection)
+    //     .doc(firebaseUser.value.uid)
+    //     .update(data);
+  }
+
+  // Stream<UserModel> listenToUser() => firebaseFirestore
+  //     .collection(usersCollection)
+  //     .doc(firebaseUser.value.uid)
+  //     .snapshots()
+  //     .map((snapshot) => UserModel.fromSnapshot(snapshot));
 
   Future<void> createUser() async {}
 

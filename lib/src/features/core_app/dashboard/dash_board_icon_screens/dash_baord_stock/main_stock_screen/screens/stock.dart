@@ -68,6 +68,8 @@ class Stock extends StatelessWidget {
             // located in ...spacemall/spacemall/lib/widgets/componentWidgets/addItemsCard.dart
             AddItemsCard(items: stockController.items),
 
+            // stockItemBox.isNotEmpty
+            //     ?
             Container(
                 padding: const EdgeInsets.only(top: 10),
                 height: screenSize.height * 0.71,
@@ -88,15 +90,15 @@ class Stock extends StatelessWidget {
                             // varaible to track item taped
                             var tapIndex = index;
                             if (index == tapIndex) {
-                              // set the selected value to true
-                              addItemController.setPressed();
-                              addItemController
-                                  .increaementSelectedItem(tapIndex);
+                              // // set the selected value to true
+                              // addItemController.setPressed();
+                              // addItemController.increaementSelectedItem(
+                              //     tapIndex, index);
 
-                              AddItemModel selectedStockItem =
-                                  stockItemBox.getAt(tapIndex);
-                              // print(selectedStockItem.itemName);
-                              print(addItemController.isPressed.value);
+                              // AddItemModel selectedStockItem =
+                              //     stockItemBox.getAt(tapIndex);
+                              // // print(selectedStockItem.itemName);
+                              // print(addItemController.isPressed.value);
                               debugPrint('$tapIndex');
                             }
                           },
@@ -304,27 +306,26 @@ class Stock extends StatelessWidget {
                         //       )),
                         // );
                       }),
-                )
-                // : Column(
-                //     children: [
-                //       Text('Add Item'),
-                //     ],
-                //   ),
-                )
+                ))
+            // : SizedBox(
+            //     height: screenSize.height * 0.5,
+            //     child: const Center(child: Text('Add items')),
+            //   ),
           ],
         ),
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () => addItemRepo.printHiveBox(stockItemBox),
-        //     {
-        //   print(
-        //       'there are ${stockItemBox.length} items saved in the phone storage ');
-        //   print(
-        //       'The observable list has ${addItemController.itemList.length} items, ');
-        // },
-        // =>
-        // addItemRepo.deleteLastItemFromPhone(),
+        onPressed: ()
+            // => addItemRepo.printHiveBox(stockItemBox),
+            //     {
+            //   print(
+            //       'there are ${stockItemBox.length} items saved in the phone storage ');
+            //   print(
+            //       'The observable list has ${addItemController.itemList.length} items, ');
+            // },
+            =>
+            addItemRepo.deleteLastItemFromPhone(),
         backgroundColor: const Color(0xffffb31a),
         child: const Icon(
           Icons.add,

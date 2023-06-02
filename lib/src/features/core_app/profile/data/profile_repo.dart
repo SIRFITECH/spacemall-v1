@@ -81,6 +81,7 @@ class ProfileRepo extends GetxController {
   UserModel get userModel {
     return _userModel ??
         UserModel(
+            cart: [],
             profilePic: '',
             firstName: profileController.tFName.text.trim(),
             lastName: profileController.tLName.text.trim(),
@@ -100,6 +101,7 @@ class ProfileRepo extends GetxController {
 // store data
   saveData(BuildContext context) async {
     UserModel(
+      cart: [],
       profilePic: '',
       firstName: profileController.tFName.text.trim(),
       lastName: profileController.tLName.text.trim(),
