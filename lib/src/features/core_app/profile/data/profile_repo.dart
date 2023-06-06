@@ -26,53 +26,6 @@ class ProfileRepo extends GetxController {
   final dp = profileController.profilePic.value;
 
   final uid = AuthRepo.instance.uid;
-
-  // String? _tFName;
-  // String get tFName => _tFName!;
-
-  // String? _tLName;
-  // String get tLName => _tLName!;
-
-  // String? _tEmail;
-  // String get tEmail => _tEmail!;
-
-  // String? _tBio;
-  // String get tBio => _tBio!;
-
-  // String? _tHomeAddress;
-  // String get tHomeAddress => _tHomeAddress!;
-
-  // String? _tDOB;
-  // String get tDOB => _tDOB!;
-
-  // String? _tContact;
-  // String get tContact => _tContact!;
-
-  // String? _tWhatsApp;
-  // String get tWhatsApp => _tWhatsApp!;
-
-  // String? _tState;
-  // String get tState => _tState!;
-
-  // String? _tCity;
-  // String get tCity => _tCity!;
-
-  // String? _tCountry;
-  // String get tCountry => _tCountry!;
-
-  // String? _tZipCode;
-  // String get tZipCode => _tZipCode!;
-
-  // String? _tBankNumber;
-  // String get tBankNumber => _tBankNumber!;
-
-  // String? _tAccount;
-  // String get tAccount => _tAccount!;
-
-  // String? _tJobTitle;
-  // String get tJobTitle => _tJobTitle!;
-
-  // String? _tAlternativeEmail;
   // String get tAlternativeEmail => _tAlternativeEmail!;
 
   String? get currentUserId => _auth.currentUser?.uid;
@@ -154,6 +107,19 @@ class ProfileRepo extends GetxController {
       "user_model",
       jsonEncode(userModel.toMap()),
     );
+  }
+
+// get data from phone
+  Future<UserModel?> getProfileDataFromPhone() async {
+    SharedPreferences localDrive = await SharedPreferences.getInstance();
+
+    String? profileDataString = localDrive.getString("user_model");
+    if (profileDataString != null) {
+      Map<String, dynamic> jsonMap = jsonDecode(profileDataString);
+      return UserModel.fromMap(jsonMap);
+    }
+
+    return null;
   }
 
   ///DATABASE OPERATIONS

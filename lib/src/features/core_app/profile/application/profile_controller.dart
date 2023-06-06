@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spacemall/src/features/core_app/check_out/domain/check_out_model.dart';
+import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
@@ -14,7 +14,7 @@ class ProfileController extends GetxController {
 
   Rx<File?> profilePic = Rx(null);
 
-  final List<CheckOutModel> cart = [];
+  final List<CheckOutItemModel> cart = [];
   final String uid = '';
   final TextEditingController tFName = TextEditingController();
   final TextEditingController tLName = TextEditingController();
@@ -50,7 +50,7 @@ class ProfileController extends GetxController {
     update();
   }
 
-  CheckOutModel? cartItem;
+  CheckOutItemModel? cartItem;
 
   updateUserData(Map<String, dynamic> data) {
     cartBox.put(cartItem!.itemName, data);

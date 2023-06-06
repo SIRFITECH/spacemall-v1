@@ -1,25 +1,77 @@
 import 'package:get/get.dart';
-import 'package:spacemall/src/features/core_app/check_out/domain/check_out_model.dart';
+import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 
-class CheckOutController extends GetxController {
-  static CheckOutController get instance => Get.put(
-        CheckOutController(),
+class CheckOutItemController extends GetxController {
+  static CheckOutItemController get instance => Get.put(
+        CheckOutItemController(),
       );
 
   int numberOfItemSelect = -1;
-  RxInt items = 0.obs;
+
   RxBool isSelected = false.obs;
   RxInt totalCartPrice = 0.obs;
 
-  // RxList<CheckOutModel> cartItems = RxList<CheckOutModel>([
-  //   CheckOutModel(
-  //     itemPic: null,
-  //     itemName: 'itemName',
-  //     itemQuantity: 'itemQuantity',
-  //     price: 'price',
-  //     totalPrice: 'totalPrice',
-  //   ),
-  // ]);
+  // first attempt to render based on variable change,
+  // starting with tapedIndex
+
+  RxInt tapedIndex = (-1).obs;
+  RxInt items = 0.obs;
+
+  void setTapedIndex(int index) {
+    tapedIndex.value = index;
+    // incrementItemCount();
+  }
+
+  // void incrementItemCount() {
+  //   addItemRepo.addItemModel.itemCount++;
+  // }
+
+  RxList<CheckOutItemModel> cartItems = [
+    CheckOutItemModel(
+      itemId: 'itemId',
+      itemName: 'Egg Roll',
+      quantityInCart: '3',
+      price: '60',
+      totalItemPrice: '180',
+      totalCartPrice: 'totalCartPrice',
+      subTotal: '180',
+      discount: '0',
+      tax: '0',
+    ),
+    CheckOutItemModel(
+      itemId: 'itemId',
+      itemName: 'Hennessy',
+      quantityInCart: '5',
+      price: '100',
+      totalItemPrice: '500',
+      totalCartPrice: 'totalCartPrice',
+      subTotal: '500',
+      discount: '0',
+      tax: '0',
+    ),
+    CheckOutItemModel(
+      itemId: 'itemId',
+      itemName: 'Meat Pie',
+      quantityInCart: '2',
+      price: '35',
+      totalItemPrice: '70',
+      totalCartPrice: 'totalCartPrice',
+      subTotal: '70',
+      discount: '0',
+      tax: '0',
+    ),
+    CheckOutItemModel(
+      itemId: 'itemId',
+      itemName: 'Samusa',
+      quantityInCart: '5',
+      price: '60',
+      totalItemPrice: '300',
+      totalCartPrice: 'totalCartPrice',
+      subTotal: '300',
+      discount: '0',
+      tax: '0',
+    ),
+  ].obs;
 
   // addToCart() {
   //   // cartItems.add(item);
@@ -33,24 +85,17 @@ class CheckOutController extends GetxController {
   //   ever(profileController.user, (callback) => null)
   // }
 
-  List<CheckOutModel> convertCartItems(List cartFromDb) {
-    List<CheckOutModel> result = [];
-    cartFromDb.forEach((item) {
-      CheckOutModel.fromMap(item);
-    });
+  List<CheckOutItemModel> convertCartItems(List cartFromDb) {
+    List<CheckOutItemModel> result = [];
+    for (var item in cartFromDb) {
+      CheckOutItemModel.fromMap(item);
+    }
     return result;
-  }
-
-  setNumberOfItemSelect(int index) {
-    numberOfItemSelect = index;
-    // addToCart();
-    update();
-    print(' selected index is $numberOfItemSelect');
   }
 
   increamentItems(int index, int tapedIndex) {
     if (index == tapedIndex) {
-      CheckOutController.instance.items.value++;
+      setTapedIndex(index);
       update();
       print('Item increament worked, tapedIndex is $tapedIndex');
     }

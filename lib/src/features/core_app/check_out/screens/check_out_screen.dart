@@ -18,8 +18,10 @@ class CheckOut extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    final checkOutController = Get.put(CheckOutController());
+    final checkOutController = Get.put(CheckOutItemController());
+
     int tapedIndex = -1;
+
     return Scaffold(
       backgroundColor: isDarkMood ? kDarkThemeBgColor : kLightThemeBgColor,
       body: Container(
@@ -57,35 +59,30 @@ class CheckOut extends StatelessWidget {
                           AddItemModel stockItem = stockItemBox.getAt(index);
                           return GestureDetector(
                             onTap: () {
-                              int totalCost = 1;
                               int costOfItem = 1;
                               tapedIndex = index;
-                              checkOutController.setNumberOfItemSelect(index);
+                              // checkOutController.setNumberOfItemSelect(index);
                               if (index == tapedIndex) {
                                 checkOutController.increamentItems(
                                   index,
                                   tapedIndex,
                                 );
                                 (() {
-                                  int itemCount = stockItem.itemCount++;
+                                  CheckOutItemController.instance.items.value =
+                                      stockItem.itemCount++;
                                   // set total price of item
-                                  costOfItem = itemCount <= 0
+                                  costOfItem = CheckOutItemController
+                                              .instance.items.value <=
+                                          0
                                       ? int.parse(stockItem.itemSellingPrice)
                                       : int.parse(stockItem.itemSellingPrice) *
                                           stockItem.itemCount;
                                 })();
-
-                                // print('The Item name is ${stockItem.itemName}');
-                                // print(
-                                //     'The selling price is  ${stockItem.itemSellingPrice}');
                                 print(
                                     'It costs N$costOfItem for ${stockItem.itemCount} ${stockItem.itemName}');
-                                // print('${stockItem.itemPic}');
-                                // print('Total cost is ${totalCost}');
-                                // print('cost of Item is ${costOfItem}');
+                                print(
+                                    '${stockItem.itemName} is pressed ${CheckOutItemController.instance.items.value} times');
                               }
-
-                              print('Cart item $index press');
                             },
                             child: Stack(
                               children: [
@@ -120,24 +117,26 @@ class CheckOut extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                checkOutController.numberOfItemSelect == index
-                                    ? Positioned(
-                                        left: 6.5,
-                                        top: 4.5,
-                                        child: Container(
-                                          height: 60,
-                                          width: 80,
-                                          alignment: Alignment.center,
-                                          decoration: BoxDecoration(
-                                            color:
-                                                Colors.black.withOpacity(0.5),
-                                            shape: BoxShape.rectangle,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(5)),
-                                          ),
-                                          child: Obx(
-                                            () => Text(
+                                Obx(
+                                  () => checkOutController.tapedIndex.value ==
+                                          index
+                                      ? Positioned(
+                                          left: 6.5,
+                                          top: 4.5,
+                                          child: Container(
+                                            height: 60,
+                                            width: 80,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  Colors.black.withOpacity(0.5),
+                                              shape: BoxShape.rectangle,
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(5)),
+                                            ),
+                                            child: Text(
+                                              // 'x${stockItem.itemCount}',
                                               'x${checkOutController.items.value.toString()}',
                                               style: const TextStyle(
                                                 color: Colors.white,
@@ -146,9 +145,9 @@ class CheckOut extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      )
-                                    : Container(),
+                                        )
+                                      : Container(),
+                                ),
                               ],
                             ),
                           );
@@ -162,7 +161,8 @@ class CheckOut extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                             onPressed: () {
-                              Get.to(() => ConfirmPayment());
+                              // checkOutRepo.addProductToCart();
+                              Get.to(() => const ConfirmPayment());
                             },
                             child: const Text('Check Out')))
                   ],

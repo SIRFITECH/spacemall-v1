@@ -36,7 +36,7 @@ class AddItemController extends GetxController {
         // && isPressed.isTrue
         ) {
       AddItemController.instance.numSelectedItems.value++;
-      print(AddItemController.instance.numSelectedItems.value);
+      // print(AddItemController.instance.numSelectedItems.value);
     }
   }
 
@@ -73,7 +73,7 @@ class AddItemController extends GetxController {
   }
 
   printItemList() {
-    print(itemList.length);
+    // print(itemList.length);
   }
 
   Rx<File?> itemPic = Rx(null);
@@ -91,21 +91,21 @@ class AddItemController extends GetxController {
 
   void setProfitTracking() {
     trackProfit.value = !trackProfit.value;
-    print('track profit is ${trackProfit.value}');
+    // print('track profit is ${trackProfit.value}');
     update();
   }
 
   void setLowStockTracking() {
     trackLowStock.value = !trackLowStock.value;
-    print('Track low stock is ${trackLowStock.value}');
+    // print('Track low stock is ${trackLowStock.value}');
     update();
   }
 
   void setPreventItemSalesWhenOutOfStockTracking() {
     preventItemSalesWhenOutOfStock.value =
         !preventItemSalesWhenOutOfStock.value;
-    print(
-        'prevent item sale on low stock is ${preventItemSalesWhenOutOfStock.value}');
+    // print(
+    //     'prevent item sale on low stock is ${preventItemSalesWhenOutOfStock.value}');
     update();
   }
 
@@ -119,20 +119,20 @@ class AddItemController extends GetxController {
   addItemToPhone() {
     addItemRepo.saveItemData();
 
-    print('itemPic is: ${AddItemController.instance.itemPic.value}');
-    print('category is: ${AddItemController.instance.categoryValue}');
-    print('Track profit is: ${AddItemController.instance.trackProfit}');
-    print('Track Low Stock is: ${AddItemController.instance.trackLowStock}');
-    print(
-        'Prevent sale is:${AddItemController.instance.preventItemSalesWhenOutOfStock}');
-    print('item name is: ${AddItemController.instance.itemName.text.trim()}');
-    print('cost price is: ${AddItemController.instance.costPrice.text.trim()}');
-    print(
-        'selling price is: ${AddItemController.instance.sellingPrice.text.trim()}');
-    print(
-        'stock available is:${AddItemController.instance.stockAvailable.text.trim()}');
-    print(
-        'track expiry is: ${AddItemController.instance.trackExpiry.text.trim()}');
-    print('Expiery is: ${AddItemController.instance.expiryAlert.text.trim()}');
+    // print('itemPic is: ${AddItemController.instance.itemPic.value}');
+    // print('category is: ${AddItemController.instance.categoryValue}');
+    // print('Track profit is: ${AddItemController.instance.trackProfit}');
+    // print('Track Low Stock is: ${AddItemController.instance.trackLowStock}');
+    // print(
+    //     'Prevent sale is:${AddItemController.instance.preventItemSalesWhenOutOfStock}');
+    // print('item name is: ${AddItemController.instance.itemName.text.trim()}');
+    // print('cost price is: ${AddItemController.instance.costPrice.text.trim()}');
+    // print(
+    //     'selling price is: ${AddItemController.instance.sellingPrice.text.trim()}');
+    // print(
+    //     'stock available is:${AddItemController.instance.stockAvailable.text.trim()}');
+    // print(
+    //     'track expiry is: ${AddItemController.instance.trackExpiry.text.trim()}');
+    // print('Expiery is: ${AddItemController.instance.expiryAlert.text.trim()}');
   }
 }

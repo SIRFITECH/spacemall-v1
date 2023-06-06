@@ -15,7 +15,7 @@ class SingleCartItemWidget extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
     return Container(
-      margin: EdgeInsets.all(4),
+      margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
@@ -51,12 +51,12 @@ class SingleCartItemWidget extends StatelessWidget {
                 //     child: Image.file(stockItem.itemPic!),),
                 ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text('Product Name'),
           ),
-          Text('Product Category'),
-          SizedBox(
+          const Text('Product Category'),
+          const SizedBox(
             height: 5,
           ),
           // Row(

@@ -17,6 +17,7 @@ class DashboardGrid extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     // final screenSize = media.size;
+
     return Scaffold(
       backgroundColor: isDarkMood ? kDarkThemeBgColor : kLightThemeBgColor,
       body: Container(

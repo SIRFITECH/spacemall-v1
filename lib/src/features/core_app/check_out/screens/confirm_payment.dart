@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
 
 class ConfirmPayment extends StatelessWidget {
@@ -12,6 +14,8 @@ class ConfirmPayment extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
+
+    final CheckOutItemController checkOutItemController = Get.find();
 
     return Scaffold(
       appBar: AppBar(
@@ -36,136 +40,71 @@ class ConfirmPayment extends StatelessWidget {
                 child: Container(
                   color: kMainComplimemtColorDark,
                   height: MediaQuery.of(context).size.height * 0.5,
-                  child: ListView(
-                    children: [
-                      SizedBox(
-                        height: screenSize.height * 0.1,
-                        child: Column(
-                          children: [
-                            const ListTile(
-                              title: Text('5alive(Medium)'),
-                              subtitle: Text('2 x N1,000'),
-                              trailing: Text('N 2,000'),
+                  child: Obx(() => ListView.builder(
+                        itemCount: checkOutItemController.cartItems.length,
+                        itemBuilder: (context, index) {
+                          var stockItem =
+                              checkOutItemController.cartItems[index];
+
+                          return SizedBox(
+                            height: screenSize.height * 0.1,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: screenSize.height * 0.1,
+                                  child: Card(
+                                    color: kTransparentColor,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                stockItem.itemName,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headlineMedium,
+                                              ),
+                                              Text(
+                                                '${stockItem.quantityInCart} x N${stockItem.price}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium,
+                                              ),
+                                            ],
+                                          ),
+                                          Text(
+                                            'N${stockItem.totalItemPrice}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineMedium,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                CustomDivider(
+                                  height: screenSize.height * 0.0002,
+                                  thickness: screenSize.height * 0.002,
+                                  color: kWhiteLight,
+                                  margin: const EdgeInsets.all(0),
+                                ),
+                              ],
                             ),
-                            CustomDivider(
-                              height: screenSize.height * 0.0002,
-                              thickness: screenSize.height * 0.002,
-                              color: kWhiteLight,
-                              margin: const EdgeInsets.all(0),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: screenSize.height * 0.1,
-                        child: Column(
-                          children: [
-                            const ListTile(
-                              title: Text('5alive(Medium)'),
-                              subtitle: Text('2 x N1,000'),
-                              trailing: Text('N 2,000'),
-                            ),
-                            CustomDivider(
-                              height: screenSize.height * 0.0002,
-                              thickness: screenSize.height * 0.002,
-                              color: kWhiteLight,
-                              margin: const EdgeInsets.all(0),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: screenSize.height * 0.1,
-                        child: Column(
-                          children: [
-                            const ListTile(
-                              title: Text('5alive(Medium)'),
-                              subtitle: Text('2 x N1,000'),
-                              trailing: Text('N 2,000'),
-                            ),
-                            CustomDivider(
-                              height: screenSize.height * 0.0002,
-                              thickness: screenSize.height * 0.002,
-                              color: kWhiteLight,
-                              margin: const EdgeInsets.all(0),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: screenSize.height * 0.1,
-                        child: Column(
-                          children: [
-                            const ListTile(
-                              title: Text('5alive(Medium)'),
-                              subtitle: Text('2 x N1,000'),
-                              trailing: Text('N 2,000'),
-                            ),
-                            CustomDivider(
-                              height: screenSize.height * 0.0002,
-                              thickness: screenSize.height * 0.002,
-                              color: kWhiteLight,
-                              margin: const EdgeInsets.all(0),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: screenSize.height * 0.1,
-                        child: Column(
-                          children: [
-                            const ListTile(
-                              title: Text('5alive(Medium)'),
-                              subtitle: Text('2 x N1,000'),
-                              trailing: Text('N 2,000'),
-                            ),
-                            CustomDivider(
-                              height: screenSize.height * 0.0002,
-                              thickness: screenSize.height * 0.002,
-                              color: kWhiteLight,
-                              margin: const EdgeInsets.all(0),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: screenSize.height * 0.1,
-                        child: Column(
-                          children: [
-                            const ListTile(
-                              title: Text('5alive(Medium)'),
-                              subtitle: Text('2 x N1,000'),
-                              trailing: Text('N 2,000'),
-                            ),
-                            CustomDivider(
-                              height: screenSize.height * 0.0002,
-                              thickness: screenSize.height * 0.002,
-                              color: kWhiteLight,
-                              margin: const EdgeInsets.all(0),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: screenSize.height * 0.1,
-                        child: Column(
-                          children: [
-                            const ListTile(
-                              title: Text('5alive(Medium)'),
-                              subtitle: Text('2 x N1,000'),
-                              trailing: Text('N 2,000'),
-                            ),
-                            CustomDivider(
-                              height: screenSize.height * 0.0002,
-                              thickness: screenSize.height * 0.002,
-                              color: kWhiteLight,
-                              margin: const EdgeInsets.all(0),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                          );
+                        },
+                      )),
                 ),
               ),
             ),
@@ -196,6 +135,7 @@ class ConfirmPayment extends StatelessWidget {
                                 ),
                               ),
                               Text(
+                                // 'N${stockItem!.itemName}',
                                 'N 2,000',
                                 style: TextStyle(
                                   color: kWhiteLight,

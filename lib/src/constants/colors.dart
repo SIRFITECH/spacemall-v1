@@ -9,6 +9,9 @@ const kDarkComplementColor = Colors.black;
 const kDarkThemeBgColor = Color(0xb3faede6);
 const kLightThemeBgColor = Color(0xffffffff);
 const kGreyColor = Colors.grey;
+const kTransparentColor = Colors.transparent;
+// Color.fromRGBO(255, 255, 255, 0.0);
+// Color(0xffffff);
 
 // BUTTON COLORS
 // LIGHT MOOD BUTTON

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:spacemall/src/features/auth/screens/login/login.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
-import 'package:spacemall/src/features/core_app/check_out/domain/check_out_model.dart';
+import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/file_adapter.dart';
@@ -21,17 +21,13 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   ).then(
     (value) {
-      Get.put(AuthRepo());
-      // Get.put(LoginController());
-      // Get.put(OnBoradingController());
-      // Get.put(OtpController());
-      // Get.put(CheckOutController());
-      //   //  Get.put(CheckOutRepo());
-      // Get.put(DashBoardController());
-      // Get.put(AddItemRepo());
-      // Get.put(AddItemController());
-      // Get.put(StockController());
-      // Get.put(StoreRepo());
+      Get.put(
+        AuthRepo(),
+      );
+      // Get.put(
+      //   CheckOutRepo(),
+      // );
+      // Get.put(ProfileController());
     },
   );
   await Hive.initFlutter();
@@ -39,7 +35,7 @@ void main() async {
   Hive.registerAdapter(ItemListDataAdapter());
   Hive.registerAdapter(AddItemModelAdapter());
   stockItemBox = await Hive.openBox<AddItemModel>('item_list');
-  cartBox = await Hive.openBox<CheckOutModel>('cart');
+  cartBox = await Hive.openBox<CheckOutItemModel>('cart');
 
   runApp(const SpacemallApp());
 }
@@ -56,6 +52,10 @@ class SpacemallApp extends StatelessWidget {
       darkTheme: SAppTheme.darkTheme,
       defaultTransition: Transition.leftToRightWithFade,
       transitionDuration: const Duration(milliseconds: 500),
+      // initialBinding: BindingsBuilder(() {
+      //   Get.put(AddItemRepo());
+      //   Get.put(AddItemController());
+      // }),
       home: FutureBuilder<bool>(
         future: AuthRepo.instance.checkExistingUser(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {

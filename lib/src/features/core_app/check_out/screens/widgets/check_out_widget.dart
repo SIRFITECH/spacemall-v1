@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
-import 'package:spacemall/src/features/core_app/check_out/domain/check_out_model.dart';
-import 'package:spacemall/src/features/core_app/check_out/screens/widgets/single_cart_item.dart';
 
 class CartWidget extends StatelessWidget {
   const CartWidget({super.key});
@@ -11,7 +8,7 @@ class CartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // CheckOutController checkOutController = Get.find();
 
-    final checkOutController = Get.put(CheckOutController());
+    // final checkOutController = Get.put(CheckOutController());
     return Obx(() => GridView.count(
         crossAxisCount: 3,
         childAspectRatio: .63,

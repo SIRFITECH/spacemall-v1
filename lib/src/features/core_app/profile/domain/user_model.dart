@@ -1,5 +1,5 @@
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
-import 'package:spacemall/src/features/core_app/check_out/domain/check_out_model.dart';
+import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 
 class UserModel {
   String profilePic;
@@ -16,29 +16,30 @@ class UserModel {
   String zipCode;
   String bio;
   String uid;
-  List<CheckOutModel> cart;
+  List<CheckOutItemModel> cart;
 
-  UserModel(
-      {required this.profilePic,
-      required this.firstName,
-      required this.lastName,
-      required this.email,
-      required this.gender,
-      required this.contactNumber,
-      required this.whatsappNumber,
-      required this.homeAddress,
-      required this.zipCode,
-      required this.state,
-      required this.city,
-      required this.country,
-      required this.bio,
-      required this.uid,
-      required this.cart});
+  UserModel({
+    required this.profilePic,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
+    required this.gender,
+    required this.contactNumber,
+    required this.whatsappNumber,
+    required this.homeAddress,
+    required this.zipCode,
+    required this.state,
+    required this.city,
+    required this.country,
+    required this.bio,
+    required this.uid,
+    required this.cart,
+  });
 
   // populated from map, that is serializing the user object from server
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      cart: CheckOutController.instance.convertCartItems(map['cart'] ?? []),
+      cart: CheckOutItemController.instance.convertCartItems(map['cart'] ?? []),
       profilePic: map['profilePic'] ?? '',
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
