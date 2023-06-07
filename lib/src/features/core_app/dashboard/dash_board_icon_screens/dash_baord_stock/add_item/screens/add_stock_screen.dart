@@ -18,8 +18,6 @@ class AddStock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var itemPic = AddItemController.instance.getItemPicFromPhone();
-    // AddItemController.instance.itemPic.value;
     final media = MediaQuery.of(context);
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
@@ -398,7 +396,7 @@ class AddStock extends StatelessWidget {
                   onPress: () => AddItemRepo.instance
                       .saveItemData()
                       .then((value) => AddItemRepo.instance.clearControllers()),
-                  title: kAddItemText,
+                  title: kAddStockAppBarText,
                   width: screenSize.width * 0.3,
                 ),
               ],

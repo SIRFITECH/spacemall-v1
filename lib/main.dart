@@ -24,10 +24,6 @@ void main() async {
       Get.put(
         AuthRepo(),
       );
-      // Get.put(
-      //   CheckOutRepo(),
-      // );
-      // Get.put(ProfileController());
     },
   );
   await Hive.initFlutter();

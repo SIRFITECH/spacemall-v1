@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
+import 'package:spacemall/src/features/core_app/check_out/screens/pay_later.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
 
 class ConfirmPayment extends StatelessWidget {
@@ -128,7 +131,7 @@ class ConfirmPayment extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Subtitle',
+                                kSubTotalText,
                                 style: TextStyle(
                                   color: kWhiteLight,
                                   fontWeight: FontWeight.bold,
@@ -155,7 +158,7 @@ class ConfirmPayment extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Discount',
+                                kDiscountText,
                                 style: TextStyle(
                                   color: kWhiteLight,
                                   fontWeight: FontWeight.bold,
@@ -180,7 +183,7 @@ class ConfirmPayment extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Tax',
+                              Text(kTaxText,
                                   style: TextStyle(
                                     color: kWhiteLight,
                                     fontWeight: FontWeight.bold,
@@ -231,15 +234,15 @@ class ConfirmPayment extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      // Get.to(() => PayLater());
+                      Get.to(() => const PayLater());
                     },
-                    child: const Text('Pay Later'),
+                    child: const Text(kPayLaterText),
                   ),
                   GestureDetector(
                     onTap: () {
-                      // Get.to(() => AddNewToCheckOut());
+                      Get.to(() => DashBoard());
                     },
-                    child: const Text('Add Item'),
+                    child: const Text(kAddItemText),
                   ),
                 ],
               ),
@@ -253,15 +256,9 @@ class ConfirmPayment extends StatelessWidget {
                   width: 200,
                   color: kMainColorLight,
                   child: TextButton(
-                    onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => const AddModifierSuccess(),
-                      //     ));
-                    },
+                    onPressed: () {},
                     child: const Text(
-                      'Confirm Payment',
+                      kConfirmPaymentText,
                       style: TextStyle(fontSize: 15, color: kWhiteLight),
                     ),
                   ),

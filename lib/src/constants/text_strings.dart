@@ -107,8 +107,23 @@ const String kTrackExpiryDateText = 'Track Expiry Date';
 const String kExpiryDateAlertText = 'Expiry Date Alert';
 
 const String kVariantsText = 'VARAIANT(S)';
-const String kAddItemText = 'ADD ITEM';
+const String kAddItemText = 'Add Item';
 
 /// --- STOCK SCREEN TEXT ---
 
 const String kAddItemsText = 'Please add some items';
+
+/// --- CONFIRM PAYMENT SCREEN TEXT ---
+
+const String kPayLaterText = 'Pay Later';
+const String kConfirmPaymentText = 'Confirm Payment';
+const String kSubTotalText = 'Subtotal';
+const String kDiscountText = 'Discount';
+const String kTaxText = 'Tax';
+
+/// --- PAYLATER SCREEN TEXT ---
+
+const String kPaymentDateText = 'Payment Date';
+const String kCustomerNameText = 'Customer Name';
+const String kBackText = 'Back';
+const String kSaveText = 'Save';

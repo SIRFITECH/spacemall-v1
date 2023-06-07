@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/check_out/screens/check_out_screen.dart';
-import 'package:spacemall/src/features/core_app/check_out/screens/widgets/check_out_widget.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_main_display.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
 
