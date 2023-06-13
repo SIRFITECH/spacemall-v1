@@ -13,7 +13,7 @@ class SingleCartItemWidget extends StatelessWidget {
     final media = MediaQuery.of(context);
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
-    final screenSize = media.size;
+    // final screenSize = media.size;
     return Container(
       margin: const EdgeInsets.all(4),
       decoration: BoxDecoration(

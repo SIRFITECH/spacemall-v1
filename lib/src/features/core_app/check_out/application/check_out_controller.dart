@@ -63,7 +63,7 @@ class CheckOutItemController extends GetxController {
   ) async {
     String id = cartItems.length > index ? cartItems[index].itemId : '';
     // UserModel? user =  _userModel ?? await profileRepo.getProfileDataFromPhone();
-    UserModel? phoneUser = await profileRepo.getProfileDataFromPhone();
+    // UserModel? phoneUser = await profileRepo.getProfileDataFromPhone();
     if (!itemExistInCart(newItem, id)) {
       UserModel? user;
       // user = UserModel(
