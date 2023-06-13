@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
+import 'package:spacemall/src/features/auth/screens/splash_screen/splash_screen.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/screens/pay_later.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
@@ -53,46 +54,60 @@ class ConfirmPayment extends StatelessWidget {
                             height: screenSize.height * 0.1,
                             child: Column(
                               children: [
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: screenSize.height * 0.1,
-                                  child: Card(
-                                    color: kTransparentColor,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                stockItem.itemName,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headlineMedium,
-                                              ),
-                                              Text(
-                                                '${stockItem.quantityInCart} x N${stockItem.price}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium,
-                                              ),
-                                            ],
-                                          ),
-                                          Text(
-                                            'N${stockItem.totalItemPrice}',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headlineMedium,
-                                          ),
-                                        ],
+                                GestureDetector(
+                                  onTap: () {
+                                    print('${stockItem.itemId} taped');
+                                  },
+                                  onLongPress: () {
+                                    checkOutItemController
+                                        .removeItemFromCart(index);
+                                    Get.snackbar(
+                                      '${stockItem.itemName}  Deleted ',
+                                      '${stockItem.itemName} deleted successfully from cart',
+                                      backgroundColor: kWhiteLight,
+                                    );
+                                  },
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    height: screenSize.height * 0.1,
+                                    child: Card(
+                                      color: kTransparentColor,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  stockItem.itemName,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headlineMedium,
+                                                ),
+                                                Text(
+                                                  '${stockItem.quantityInCart} x ${stockItem.price}',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium,
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              stockItem.totalItemPrice,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineMedium,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -138,7 +153,6 @@ class ConfirmPayment extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                // 'N${stockItem!.itemName}',
                                 'N 2,000',
                                 style: TextStyle(
                                   color: kWhiteLight,
@@ -256,7 +270,9 @@ class ConfirmPayment extends StatelessWidget {
                   width: 200,
                   color: kMainColorLight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(() => const ChooseUserType());
+                    },
                     child: const Text(
                       kConfirmPaymentText,
                       style: TextStyle(fontSize: 15, color: kWhiteLight),

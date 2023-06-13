@@ -29,10 +29,8 @@ class AddItemModel {
   String expiryAlert;
   @HiveField(11)
   int itemCount;
-
-  //TODO: itemId to uniquely identify the item
-  //   @HiveField(12)
-  // String itemId;
+  @HiveField(12)
+  String itemId;
 
   AddItemModel({
     required this.itemPic,
@@ -47,6 +45,7 @@ class AddItemModel {
     required this.trackExpiry,
     required this.expiryAlert,
     required this.itemCount,
+    required this.itemId,
   });
 
   // populated from map, that is serializing the stock object from server
@@ -65,6 +64,7 @@ class AddItemModel {
       trackExpiry: map['trackExpiry'] ?? '',
       expiryAlert: map['expiryAlert'] ?? '',
       itemCount: map['itemCount'] ?? 0,
+      itemId: map['itemId'] ?? '',
     );
   }
 
@@ -83,6 +83,7 @@ class AddItemModel {
       "trackExpiry": trackExpiry,
       "expiryAlert": expiryAlert,
       "itemCount": itemCount,
+      "itemId": itemId,
     };
   }
 }

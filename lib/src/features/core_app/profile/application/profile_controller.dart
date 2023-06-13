@@ -14,7 +14,7 @@ class ProfileController extends GetxController {
 
   Rx<File?> profilePic = Rx(null);
 
-  final List<CheckOutItemModel> cart = [];
+  RxList<CheckOutItemModel> cart = <CheckOutItemModel>[].obs;
   final String uid = '';
   final TextEditingController tFName = TextEditingController();
   final TextEditingController tLName = TextEditingController();
@@ -65,8 +65,4 @@ class ProfileController extends GetxController {
   //     .doc(firebaseUser.value.uid)
   //     .snapshots()
   //     .map((snapshot) => UserModel.fromSnapshot(snapshot));
-
-  Future<void> createUser() async {}
-
-  Future getUser() async {}
 }

@@ -15,7 +15,7 @@ class AddItemRepo extends GetxController {
 
   final itemPic = addItemController.itemPic.value;
 // add uuid to each item to identify it uniquely throughout the app
-  String itemId = const Uuid().v4();
+  // String genItemId = '';
 
   AddItemModel? _addItemModel;
   AddItemModel get addItemModel {
@@ -34,6 +34,7 @@ class AddItemRepo extends GetxController {
           trackExpiry: addItemController.trackExpiry.text.trim(),
           expiryAlert: addItemController.expiryAlert.text.trim(),
           itemCount: 0,
+          itemId: const Uuid().v4(),
         );
   }
 
@@ -64,12 +65,14 @@ class AddItemRepo extends GetxController {
       trackExpiry: addItemController.trackExpiry.text.trim(),
       expiryAlert: addItemController.expiryAlert.text.trim(),
       itemCount: 0,
+      itemId: const Uuid().v4(),
     );
 
     await stockItemBox.put(
         'item-${addItemController.itemName.text.trim()}', newItem);
 
     Get.to(() => const Stock());
+    print(newItem.itemId);
   }
 
   // clear the TextEditingControllers

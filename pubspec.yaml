@@ -36,6 +36,7 @@ dependencies:
   hive_flutter: 
   path_provider: ^2.0.15
   uuid: ^3.0.7
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
@@ -47,8 +48,8 @@ dev_dependencies:
 
 
 flutter_native_splash:
-  color: '#cc5500'
-  color_dark: '#ffb317'
+  color: '#cc6601'
+  color_dark: '#0d0d0d' 
   image: assets/logos/sMallLogoWhite.png
   image_dark: assets/logos/sMallLogoWhite.png
 

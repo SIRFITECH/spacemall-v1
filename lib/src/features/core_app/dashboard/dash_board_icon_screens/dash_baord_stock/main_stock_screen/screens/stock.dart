@@ -1,5 +1,3 @@
-// import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -12,6 +10,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/application/stock_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/add_items.dart';
+import 'package:spacemall/src/localizations/currency.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 
 class Stock extends StatelessWidget {
@@ -90,16 +89,7 @@ class Stock extends StatelessWidget {
                             // varaible to track item taped
                             var tapIndex = index;
                             if (index == tapIndex) {
-                              // // set the selected value to true
-                              // addItemController.setPressed();
-                              // addItemController.increaementSelectedItem(
-                              //     tapIndex, index);
-
-                              // AddItemModel selectedStockItem =
-                              //     stockItemBox.getAt(tapIndex);
-                              // // print(selectedStockItem.itemName);
-                              // print(addItemController.isPressed.value);
-                              debugPrint('$tapIndex');
+                              debugPrint(stockItem.itemId);
                             }
                           },
                           child: Stack(
@@ -196,7 +186,9 @@ class Stock extends StatelessWidget {
                                                 CrossAxisAlignment.end,
                                             children: [
                                               Text(
-                                                'N ${stockItem.itemSellingPrice}',
+                                                nairaFormat.format(int.parse(
+                                                    stockItem
+                                                        .itemSellingPrice)),
                                                 style: const TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   color: kMainColorLight,
@@ -292,25 +284,8 @@ class Stock extends StatelessWidget {
                             ],
                           ),
                         );
-
-                        // Card(
-                        //   child: Title(
-                        //       color: kMainColorDark,
-                        //       child: Column(
-                        //         children: [
-                        //           Text(stockItem.itemName),
-                        //           Text(stockItem.itemCategory),
-                        //           // Text(stockItem.itemSellingPrice),
-                        //           // Text(stockItem.itemQuantity),
-                        //         ],
-                        //       )),
-                        // );
                       }),
                 ))
-            // : SizedBox(
-            //     height: screenSize.height * 0.5,
-            //     child: const Center(child: Text('Add items')),
-            //   ),
           ],
         ),
       ),

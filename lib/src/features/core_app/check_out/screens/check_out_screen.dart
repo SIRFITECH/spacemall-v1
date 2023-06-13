@@ -3,9 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
+import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/check_out/screens/confirm_payment.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
+import 'package:spacemall/src/localizations/currency.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 
 class CheckOut extends StatelessWidget {
@@ -61,7 +64,6 @@ class CheckOut extends StatelessWidget {
                             onTap: () {
                               int costOfItem = 1;
                               tapedIndex = index;
-                              // checkOutController.setNumberOfItemSelect(index);
                               if (index == tapedIndex) {
                                 checkOutController.increamentItems(
                                   index,
@@ -70,18 +72,38 @@ class CheckOut extends StatelessWidget {
                                 (() {
                                   CheckOutItemController.instance.items.value =
                                       stockItem.itemCount++;
-                                  // set total price of item
+                                  nairaFormat.format(
+                                      int.parse(stockItem.itemSellingPrice));
+
                                   costOfItem = CheckOutItemController
                                               .instance.items.value <=
                                           0
                                       ? int.parse(stockItem.itemSellingPrice)
                                       : int.parse(stockItem.itemSellingPrice) *
                                           stockItem.itemCount;
+
+                                  CheckOutItemController.instance.addToCart(
+                                      CheckOutItemModel(
+                                        itemId: stockItem.itemId,
+                                        itemName: stockItem.itemName,
+                                        quantityInCart:
+                                            '${stockItem.itemCount}',
+                                        price: nairaFormat.format(int.parse(
+                                            stockItem.itemSellingPrice)),
+                                        totalItemPrice:
+                                            nairaFormat.format(costOfItem),
+                                        totalCartPrice: 'totalCartPrice',
+                                        subTotal: '$costOfItem',
+                                        discount: '0',
+                                        tax: '0',
+                                      ),
+                                      tapedIndex,
+                                      context);
                                 })();
-                                print(
-                                    'It costs N$costOfItem for ${stockItem.itemCount} ${stockItem.itemName}');
-                                print(
-                                    '${stockItem.itemName} is pressed ${CheckOutItemController.instance.items.value} times');
+                                // print(
+                                //     'It costs N$costOfItem for ${stockItem.itemCount} ${stockItem.itemName}');
+                                // print(
+                                //     '${stockItem.itemName} is pressed ${CheckOutItemController.instance.items.value} times');
                               }
                             },
                             child: Stack(
@@ -112,7 +134,9 @@ class CheckOut extends StatelessWidget {
                                         height: 7,
                                       ),
                                       Text(
-                                        'N${stockItem.itemSellingPrice}',
+                                        nairaFormat.format(
+                                          int.parse(stockItem.itemSellingPrice),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -161,15 +185,14 @@ class CheckOut extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                             onPressed: () {
-                              // checkOutRepo.addProductToCart();
                               Get.to(() => const ConfirmPayment());
                             },
-                            child: const Text('Check Out')))
+                            child: const Text(kCheckOutText)))
                   ],
                 )
               : SizedBox(
                   height: screenSize.height * 0.5,
-                  child: const Center(child: Text('Cart empty')),
+                  child: const Center(child: Text(kCartEmptyText)),
                 ),
         ),
       ),

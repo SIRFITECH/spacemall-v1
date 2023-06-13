@@ -1,6 +1,5 @@
 class CheckOutItemModel {
   String itemId;
-  // File? itemPic;
   String itemName;
   String quantityInCart;
   String price;
@@ -12,7 +11,6 @@ class CheckOutItemModel {
 
   CheckOutItemModel({
     required this.itemId,
-    // required this.itemPic,
     required this.itemName,
     required this.quantityInCart,
     required this.price,
@@ -27,7 +25,6 @@ class CheckOutItemModel {
   factory CheckOutItemModel.fromMap(Map<String, dynamic> map) {
     return CheckOutItemModel(
       itemId: map['itemId'] ?? '',
-      // itemPic: File(map['itemPic'] ?? ''),
       itemName: map['itemName'] ?? '',
       quantityInCart: map['quantityInCart'] ?? '',
       price: map['price'] ?? '',

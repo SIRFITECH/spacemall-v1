@@ -23,10 +23,11 @@ class BottomBarIcon extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final darkMood = isDarkMood ? kWhiteDark : kBrighComplementColor;
-    final lightMood = isDarkMood ? kSecondary2Color : kMainComplimemtColorLight;
+    final lightMood =
+        isDarkMood ? kDarkModeIconColor : kMainComplimemtColorLight;
     return Container(
       decoration: BoxDecoration(
-        color: isDarkMood ? kMainComplimemtColorLight : kMainColorLight,
+        color: isDarkMood ? kDarkModeBackgroundColor : kMainColorLight,
       ),
       child: Container(
         margin: bottomNavIconSpace,

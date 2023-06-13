@@ -29,13 +29,14 @@ class AddItemModelAdapter extends TypeAdapter<AddItemModel> {
       trackExpiry: fields[9] as String,
       expiryAlert: fields[10] as String,
       itemCount: fields[11] as int,
+      itemId: fields[12] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, AddItemModel obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.itemPic)
       ..writeByte(1)
@@ -59,7 +60,9 @@ class AddItemModelAdapter extends TypeAdapter<AddItemModel> {
       ..writeByte(10)
       ..write(obj.expiryAlert)
       ..writeByte(11)
-      ..write(obj.itemCount);
+      ..write(obj.itemCount)
+      ..writeByte(12)
+      ..write(obj.itemId);
   }
 
   @override

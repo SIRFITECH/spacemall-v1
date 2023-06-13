@@ -48,10 +48,6 @@ class SpacemallApp extends StatelessWidget {
       darkTheme: SAppTheme.darkTheme,
       defaultTransition: Transition.leftToRightWithFade,
       transitionDuration: const Duration(milliseconds: 500),
-      // initialBinding: BindingsBuilder(() {
-      //   Get.put(AddItemRepo());
-      //   Get.put(AddItemController());
-      // }),
       home: FutureBuilder<bool>(
         future: AuthRepo.instance.checkExistingUser(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {

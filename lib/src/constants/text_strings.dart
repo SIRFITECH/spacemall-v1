@@ -113,6 +113,11 @@ const String kAddItemText = 'Add Item';
 
 const String kAddItemsText = 'Please add some items';
 
+/// --- CHECKOUT SCREEN TEXT ---
+
+const String kCheckOutText = 'Check Out';
+const String kCartEmptyText = 'Cart empty';
+
 /// --- CONFIRM PAYMENT SCREEN TEXT ---
 
 const String kPayLaterText = 'Pay Later';

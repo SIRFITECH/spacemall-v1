@@ -22,7 +22,8 @@ class DashBoard extends StatelessWidget {
     final screenSize = media.size;
 
     return Scaffold(
-      backgroundColor: isDarkMood ? kDarkThemeBgColor : kLightThemeBgColor,
+      backgroundColor:
+          isDarkMood ? kDarkModeBackgroundColor : kLightModeBackgroundColor,
       body: SafeArea(
         child: Stack(
           children: [
@@ -35,7 +36,9 @@ class DashBoard extends StatelessWidget {
                   scale: 10.0,
                   alignment: Alignment.centerRight,
                 ),
-                color: isDarkMood ? kMainComplimemtColorLight : kMainColorLight,
+                color: isDarkMood
+                    ? kDarkModeDashboardAppbarColor
+                    : kLightModeDashboardAppbarColor,
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),

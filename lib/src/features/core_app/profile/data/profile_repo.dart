@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
+import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
@@ -110,13 +111,30 @@ class ProfileRepo extends GetxController {
   }
 
 // get data from phone
+  // Future<UserModel?> getProfileDataFromPhone() async {
+  //   SharedPreferences localDrive = await SharedPreferences.getInstance();
+
+  //   String? profileDataString = localDrive.getString("user_model");
+  //   if (profileDataString != null) {
+  //     Map<String, dynamic> jsonMap = jsonDecode(profileDataString);
+  //     return UserModel.fromMap(jsonMap);
+  //   }
+
+  //   return null;
+  // }
+
   Future<UserModel?> getProfileDataFromPhone() async {
     SharedPreferences localDrive = await SharedPreferences.getInstance();
 
     String? profileDataString = localDrive.getString("user_model");
     if (profileDataString != null) {
       Map<String, dynamic> jsonMap = jsonDecode(profileDataString);
-      return UserModel.fromMap(jsonMap);
+      UserModel userModel = UserModel.fromMap(jsonMap);
+      List<dynamic> cartList = jsonMap['cart'];
+      List<CheckOutItemModel> cart =
+          cartList.map((item) => CheckOutItemModel.fromMap(item)).toList();
+      userModel.cart = cart;
+      return userModel;
     }
 
     return null;

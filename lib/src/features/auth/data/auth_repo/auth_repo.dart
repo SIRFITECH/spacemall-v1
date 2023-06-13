@@ -1,5 +1,3 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -76,6 +74,7 @@ class AuthRepo extends GetxController {
     );
     if (credentials.user != null) {
       _uid = credentials.user!.uid;
+      print('uid is $_uid');
     }
     return credentials.user != null ? true : false;
   }
@@ -87,6 +86,8 @@ class AuthRepo extends GetxController {
     SharedPreferences access = await SharedPreferences.getInstance();
 
     String user = access.getString('uid') ?? '';
+
+    // print(snapshot.data());
 
     if (user.isNotEmpty) {
       // && snapshot.exists

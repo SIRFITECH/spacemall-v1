@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/check_out/screens/check_out_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_main_display.dart';
-import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
+import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
 
 class NavBarController extends GetxController {
   final selectedIndex = 0.obs;
@@ -18,7 +18,7 @@ class NavBarController extends GetxController {
       // Text('CheckOutAddItem()'),
     ),
     Center(
-      child: SetProfile(),
+      child: ProfileScreen(),
     ),
     Center(
       child: Text('SpacemallDrawer()'),

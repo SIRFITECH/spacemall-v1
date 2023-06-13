@@ -91,21 +91,18 @@ class AddItemController extends GetxController {
 
   void setProfitTracking() {
     trackProfit.value = !trackProfit.value;
-    // print('track profit is ${trackProfit.value}');
     update();
   }
 
   void setLowStockTracking() {
     trackLowStock.value = !trackLowStock.value;
-    // print('Track low stock is ${trackLowStock.value}');
+
     update();
   }
 
   void setPreventItemSalesWhenOutOfStockTracking() {
     preventItemSalesWhenOutOfStock.value =
         !preventItemSalesWhenOutOfStock.value;
-    // print(
-    //     'prevent item sale on low stock is ${preventItemSalesWhenOutOfStock.value}');
     update();
   }
 

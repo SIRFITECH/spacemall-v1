@@ -19,7 +19,7 @@ class DashboardGrid extends StatelessWidget {
     // final screenSize = media.size;
 
     return Scaffold(
-      backgroundColor: isDarkMood ? kDarkThemeBgColor : kLightThemeBgColor,
+      backgroundColor: isDarkMood ? kDarkModeBackgroundColor : kWhiteLight,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
