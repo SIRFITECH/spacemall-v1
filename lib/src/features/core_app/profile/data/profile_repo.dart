@@ -6,12 +6,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
-import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
+import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
 class ProfileRepo extends GetxController {
@@ -27,7 +29,6 @@ class ProfileRepo extends GetxController {
   final dp = profileController.profilePic.value;
 
   final uid = AuthRepo.instance.uid;
-  // String get tAlternativeEmail => _tAlternativeEmail!;
 
   String? get currentUserId => _auth.currentUser?.uid;
 
@@ -49,12 +50,13 @@ class ProfileRepo extends GetxController {
             city: profileController.tCity.text.trim(),
             country: profileController.tCountry.text.trim(),
             bio: profileController.tBio.text.trim(),
+            role: profileController.tJobTitle.text.trim(),
             uid: uid);
   }
 
 // store data
   saveData(BuildContext context) async {
-    UserModel(
+    UserModel user = UserModel(
       cart: [],
       profilePic: '',
       firstName: profileController.tFName.text.trim(),
@@ -69,6 +71,7 @@ class ProfileRepo extends GetxController {
       city: profileController.tCity.text.trim(),
       country: profileController.tCountry.text.trim(),
       bio: profileController.tBio.text.trim(),
+      role: profileController.tJobTitle.text.trim(),
       uid: '',
     );
     if (dp == null) {
@@ -80,8 +83,8 @@ class ProfileRepo extends GetxController {
         userModel: userModel,
         dp: profileController.profilePic.value!,
         onSucess: () {
-          // save to shared preference
-          ProfileRepo.instance.saveDataToPhone().then(
+          // save to phone memory
+          ProfileRepo.instance.saveDataToPhone(user).then(
                 (value) => AuthRepo.instance.setSignedIn().then(
                   (value) {
                     Get.to(
@@ -93,52 +96,69 @@ class ProfileRepo extends GetxController {
         },
       );
     } else {
-      showSnackBar(
-          context, 'Please add a profile pic ${profileController.profilePic}');
+      Get.snackbar(
+        'Error',
+        'Please add a profile pic ${profileController.profilePic}',
+        backgroundColor: kWhiteLight,
+      );
+
+      // showSnackBar(
+      //     context, 'Please add a profile pic ${profileController.profilePic}');
     }
   }
 
   ///PHONE OPERATIONS
 
 // save data to phone
-  Future saveDataToPhone() async {
-    SharedPreferences localDrive = await SharedPreferences.getInstance();
+  Future saveDataToPhone(UserModel user) async {
+    // SharedPreferences localDrive = await SharedPreferences.getInstance();
 
-    await localDrive.setString(
-      "user_model",
-      jsonEncode(userModel.toMap()),
+    // await localDrive.setString(
+    //   "user_model",
+    //   jsonEncode(userModel.toMap()),
+    // );
+
+    final appDocumentDir = await getApplicationDocumentsDirectory();
+    Hive.init(appDocumentDir.path);
+
+    await userBox.put('user_profile', user);
+
+    Get.snackbar(
+      'User created',
+      'User ${profileController.tFName} created successfully',
+      backgroundColor: kWhiteLight,
     );
   }
 
-// get data from phone
+// fetch saved data from phone storage
+  Future<UserModel> getUserDataFromPhone() async {
+    UserModel user = await userBox.get('user_profile', defaultValue: null);
+    return user;
+  }
+
+  Future<void> deleteLastItemFromPhone() async {
+    if (userBox.isNotEmpty) {
+      userBox.deleteFromDisk();
+      update();
+    }
+  }
+
   // Future<UserModel?> getProfileDataFromPhone() async {
   //   SharedPreferences localDrive = await SharedPreferences.getInstance();
 
   //   String? profileDataString = localDrive.getString("user_model");
   //   if (profileDataString != null) {
   //     Map<String, dynamic> jsonMap = jsonDecode(profileDataString);
-  //     return UserModel.fromMap(jsonMap);
+  //     UserModel userModel = UserModel.fromMap(jsonMap);
+  //     List<dynamic> cartList = jsonMap['cart'];
+  //     List<CheckOutItemModel> cart =
+  //         cartList.map((item) => CheckOutItemModel.fromMap(item)).toList();
+  //     userModel.cart = cart;
+  //     return userModel;
   //   }
 
   //   return null;
   // }
-
-  Future<UserModel?> getProfileDataFromPhone() async {
-    SharedPreferences localDrive = await SharedPreferences.getInstance();
-
-    String? profileDataString = localDrive.getString("user_model");
-    if (profileDataString != null) {
-      Map<String, dynamic> jsonMap = jsonDecode(profileDataString);
-      UserModel userModel = UserModel.fromMap(jsonMap);
-      List<dynamic> cartList = jsonMap['cart'];
-      List<CheckOutItemModel> cart =
-          cartList.map((item) => CheckOutItemModel.fromMap(item)).toList();
-      userModel.cart = cart;
-      return userModel;
-    }
-
-    return null;
-  }
 
   ///DATABASE OPERATIONS
 

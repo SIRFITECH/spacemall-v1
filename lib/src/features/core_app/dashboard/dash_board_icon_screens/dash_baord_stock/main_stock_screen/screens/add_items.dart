@@ -13,16 +13,19 @@ class AddItemsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context);
+    final brightness = media.platformBrightness;
+    final isDarkMood = brightness == Brightness.dark;
+    final screenSize = media.size;
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
       child: SizedBox(
           height: 70,
-          width: MediaQuery.of(context).size.width,
+          width: screenSize.width,
           child: ListView.builder(
             itemBuilder: ((context, index) {
               return InkWell(
                 onTap: (() {
-                  // var tapIndex = index;
                   if (index == 0) {
                     Get.to(
                       () => const AddStock(),
@@ -35,7 +38,11 @@ class AddItemsCard extends StatelessWidget {
                     width: 84,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.0),
-                      color: index == 0 ? kMainColorLight : kWhiteLight,
+                      color: index == 0
+                          ? isDarkMood
+                              ? kDarkModeDashboardAppbarColor
+                              : kMainColorLight
+                          : kWhiteLight,
                       boxShadow: const [
                         BoxShadow(
                             color: kBlackDark,
@@ -77,18 +84,24 @@ class AddItemsCard extends StatelessWidget {
                                   debugPrint('$index add modifier');
                                   break;
                               }
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => const AddStock()));
                             },
                             child: Container(
                               decoration: BoxDecoration(
-                                  color: kMainColorLight,
+                                  color: index == 0
+                                      ? isDarkMood
+                                          ? kDarkModeDashboardAppbarColor
+                                          : kMainColorLight
+                                      : isDarkMood
+                                          ? kBlack
+                                          : kMainColorLight,
                                   borderRadius: BorderRadius.circular(12.0)),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.add,
-                                color: kWhiteLight,
+                                color: index == 0
+                                    ? isDarkMood
+                                        ? kDarkModeDashboardAppbarColor
+                                        : kMainColorLight
+                                    : kWhiteLight,
                               ),
                             ),
                           ),
@@ -97,11 +110,16 @@ class AddItemsCard extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Text(
+                              textAlign: TextAlign.center,
                               items[index],
                               style: index == 0
                                   ? const TextStyle(
-                                      fontSize: 12, color: kWhiteLight)
-                                  : const TextStyle(fontSize: 12),
+                                      fontSize: 12,
+                                      color: kWhiteLight,
+                                    )
+                                  : const TextStyle(
+                                      fontSize: 12,
+                                      color: kDarkComplementColor),
                             ),
                           ),
                         ),

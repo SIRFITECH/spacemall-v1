@@ -8,6 +8,7 @@ import 'package:spacemall/src/features/core_app/check_out/application/check_out_
 import 'package:spacemall/src/features/core_app/check_out/screens/pay_later.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
+import 'package:spacemall/src/localizations/currency.dart';
 
 class ConfirmPayment extends StatelessWidget {
   const ConfirmPayment({super.key});
@@ -42,7 +43,9 @@ class ConfirmPayment extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(6),
                 child: Container(
-                  color: kMainComplimemtColorDark,
+                  color: isDarkMood
+                      ? kDarkModeBackgroundColor.withOpacity(0.1)
+                      : kLightModeBackgroundColor.withOpacity(0.1),
                   height: MediaQuery.of(context).size.height * 0.5,
                   child: Obx(() => ListView.builder(
                         itemCount: checkOutItemController.cartItems.length,
@@ -56,6 +59,34 @@ class ConfirmPayment extends StatelessWidget {
                               children: [
                                 GestureDetector(
                                   onTap: () {
+                                    print(checkOutItemController
+                                        .cartItems[index].quantityInCart);
+                                    num quantity = int.parse(
+                                            checkOutItemController
+                                                .cartItems[index]
+                                                .quantityInCart) +
+                                        1;
+                                    checkOutItemController.cartItems[index]
+                                        .quantityInCart = quantity.toString();
+                                    String priceString = checkOutItemController
+                                        .cartItems[index].price;
+                                    String numPriceString = priceString
+                                        .replaceAll(RegExp(r'[^0-9]'), '');
+                                    String quantityInCartString =
+                                        checkOutItemController
+                                            .cartItems[index].quantityInCart;
+                                    String numQuantityInCartString =
+                                        quantityInCartString.replaceAll(
+                                            RegExp(r'[^0-9]'), '');
+                                    num initCost =
+                                        int.parse(numQuantityInCartString) *
+                                            int.parse(numPriceString);
+                                    num cost = initCost;
+
+                                    checkOutItemController.cartItems[index]
+                                        .subTotal = cost.toString();
+                                    print(checkOutItemController
+                                        .cartItems[index].subTotal);
                                     print('${stockItem.itemId} taped');
                                   },
                                   onLongPress: () {
@@ -101,7 +132,9 @@ class ConfirmPayment extends StatelessWidget {
                                               ],
                                             ),
                                             Text(
-                                              stockItem.totalItemPrice,
+                                              nairaFormat.format(
+                                                int.parse(stockItem.subTotal),
+                                              ),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .headlineMedium,
@@ -132,14 +165,19 @@ class ConfirmPayment extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(6),
                 child: Container(
-                  color: kMainColorLight,
-                  height: 181,
+                  color: isDarkMood
+                      ? kDarkModeIconColor
+                      : kLightModeBackgroundColor,
+                  height: screenSize.height * 0.215,
+                  // 181,
                   child: Column(
                     children: [
-                      const Card(
+                      Card(
                         elevation: 0,
-                        color: kMainColorLight,
-                        child: Padding(
+                        color: isDarkMood
+                            ? kDarkModeIconColor
+                            : kLightModeBackgroundColor,
+                        child: const Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 8),
                           child: Row(
@@ -163,10 +201,12 @@ class ConfirmPayment extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const Card(
+                      Card(
                         elevation: 0,
-                        color: kMainColorLight,
-                        child: Padding(
+                        color: isDarkMood
+                            ? kDarkModeIconColor
+                            : kLightModeBackgroundColor,
+                        child: const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -189,10 +229,12 @@ class ConfirmPayment extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const Card(
+                      Card(
                         elevation: 0,
-                        color: kMainColorLight,
-                        child: Padding(
+                        color: isDarkMood
+                            ? kDarkModeIconColor
+                            : kLightModeBackgroundColor,
+                        child: const Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -263,23 +305,15 @@ class ConfirmPayment extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.all(screenSize.height * 0.05),
-              child: Center(
-                  child: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: Container(
-                  width: 200,
-                  color: kMainColorLight,
-                  child: TextButton(
-                    onPressed: () {
-                      Get.to(() => const ChooseUserType());
-                    },
-                    child: const Text(
-                      kConfirmPaymentText,
-                      style: TextStyle(fontSize: 15, color: kWhiteLight),
-                    ),
-                  ),
+              child: ElevatedButton(
+                onPressed: () {
+                  Get.to(() => const ChooseUserType());
+                },
+                child: const Text(
+                  kConfirmPaymentText,
+                  style: TextStyle(fontSize: 15, color: kWhiteLight),
                 ),
-              )),
+              ),
             ),
           ],
         ),

@@ -1,21 +1,43 @@
+import 'package:hive_flutter/adapters.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 
+part 'user_model.g.dart';
+
+@HiveType(typeId: 3)
 class UserModel {
+  @HiveField(0)
+  // File? profilePic;
   String profilePic;
+  @HiveField(1)
   String firstName;
+  @HiveField(2)
   String lastName;
+  @HiveField(3)
   String email;
+  @HiveField(4)
   String gender;
+  @HiveField(5)
   String contactNumber;
+  @HiveField(6)
   String whatsappNumber;
+  @HiveField(7)
   String homeAddress;
+  @HiveField(8)
   String state;
+  @HiveField(9)
   String city;
+  @HiveField(10)
   String country;
+  @HiveField(11)
   String zipCode;
+  @HiveField(12)
   String bio;
+  @HiveField(13)
   String uid;
+  @HiveField(14)
+  String role;
+  @HiveField(15)
   List<CheckOutItemModel> cart;
 
   UserModel({
@@ -33,6 +55,7 @@ class UserModel {
     required this.country,
     required this.bio,
     required this.uid,
+    required this.role,
     required this.cart,
   });
 
@@ -40,6 +63,7 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       cart: CheckOutItemController.instance.convertCartItems(map['cart'] ?? []),
+      // profilePic: File(map['profilePic'] ?? ''),
       profilePic: map['profilePic'] ?? '',
       firstName: map['firstName'] ?? '',
       lastName: map['lastName'] ?? '',
@@ -53,6 +77,7 @@ class UserModel {
       country: map['country'] ?? '',
       zipCode: map['zipCode'] ?? '',
       bio: map['bio'] ?? '',
+      role: map['role'] ?? '',
       uid: map['uid'] ?? '',
     );
   }
@@ -62,6 +87,7 @@ class UserModel {
     return {
       "cart": cart,
       "profilePic": profilePic,
+      // "profilePic": profilePic?.path,
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
@@ -74,6 +100,7 @@ class UserModel {
       "country": country,
       "zipCode": zipCode,
       "bio": bio,
+      "role": role,
       "uid": uid,
     };
   }

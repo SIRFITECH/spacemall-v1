@@ -35,6 +35,7 @@ class CartController extends GetxController {
       country: '',
       bio: '',
       uid: '',
+      role: '',
       cart: <CheckOutItemModel>[],
     );
     user.cart.add(newCartItem);

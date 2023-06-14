@@ -26,18 +26,13 @@ class CheckOut extends StatelessWidget {
     int tapedIndex = -1;
 
     return Scaffold(
-      backgroundColor: isDarkMood ? kDarkThemeBgColor : kLightThemeBgColor,
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
+        decoration: BoxDecoration(
+          image: const DecorationImage(
             image: AssetImage(kBackGroundCart),
             fit: BoxFit.contain,
           ),
-          //   color: isDarkMood ? kMainComplimemtColorLight : kMainColorLight,
-          //   borderRadius: const BorderRadius.only(
-          //     bottomLeft: Radius.circular(20),
-          //     bottomRight: Radius.circular(20),
-          //   ),
+          color: isDarkMood ? kDarkModeBackgroundColor : kWhiteLight,
         ),
         child: SingleChildScrollView(
           child: stockItemBox.isNotEmpty
@@ -60,6 +55,7 @@ class CheckOut extends StatelessWidget {
                         itemCount: stockItemBox.length,
                         itemBuilder: (context, index) {
                           AddItemModel stockItem = stockItemBox.getAt(index);
+
                           return GestureDetector(
                             onTap: () {
                               int costOfItem = 1;
@@ -83,32 +79,32 @@ class CheckOut extends StatelessWidget {
                                           stockItem.itemCount;
 
                                   CheckOutItemController.instance.addToCart(
-                                      CheckOutItemModel(
-                                        itemId: stockItem.itemId,
-                                        itemName: stockItem.itemName,
-                                        quantityInCart:
-                                            '${stockItem.itemCount}',
-                                        price: nairaFormat.format(int.parse(
-                                            stockItem.itemSellingPrice)),
-                                        totalItemPrice:
-                                            nairaFormat.format(costOfItem),
-                                        totalCartPrice: 'totalCartPrice',
-                                        subTotal: '$costOfItem',
-                                        discount: '0',
-                                        tax: '0',
-                                      ),
-                                      tapedIndex,
-                                      context);
+                                    CheckOutItemModel(
+                                      itemId: stockItem.itemId,
+                                      itemName: stockItem.itemName,
+                                      quantityInCart: '${stockItem.itemCount}',
+                                      price: nairaFormat.format(int.parse(
+                                          stockItem.itemSellingPrice)),
+                                      totalItemPrice:
+                                          nairaFormat.format(costOfItem),
+                                      totalCartPrice: 'totalCartPrice',
+                                      subTotal: '$costOfItem',
+                                      discount: '0',
+                                      tax: '0',
+                                    ),
+                                    // tapedIndex,
+                                    context,
+                                  );
+                                  // print('itemCount is ${stockItem.itemCount}');
+                                  // print(CheckOutItemController
+                                  //     .instance.items.value);
                                 })();
-                                // print(
-                                //     'It costs N$costOfItem for ${stockItem.itemCount} ${stockItem.itemName}');
-                                // print(
-                                //     '${stockItem.itemName} is pressed ${CheckOutItemController.instance.items.value} times');
                               }
                             },
                             child: Stack(
                               children: [
                                 Card(
+                                  color: kWhiteLight,
                                   child: Column(
                                     children: [
                                       SizedBox(
@@ -129,6 +125,9 @@ class CheckOut extends StatelessWidget {
                                                       stockItem.itemPic!))),
                                       Text(
                                         stockItem.itemName,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium,
                                       ),
                                       const SizedBox(
                                         height: 7,
@@ -137,6 +136,9 @@ class CheckOut extends StatelessWidget {
                                         nairaFormat.format(
                                           int.parse(stockItem.itemSellingPrice),
                                         ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelMedium,
                                       ),
                                     ],
                                   ),
@@ -191,7 +193,7 @@ class CheckOut extends StatelessWidget {
                   ],
                 )
               : SizedBox(
-                  height: screenSize.height * 0.5,
+                  height: screenSize.height * 0.62,
                   child: const Center(child: Text(kCartEmptyText)),
                 ),
         ),

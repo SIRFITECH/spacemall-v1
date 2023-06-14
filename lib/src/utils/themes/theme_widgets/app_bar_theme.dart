@@ -10,6 +10,6 @@ class SAppBarTheme {
   );
   // dark divider theme
   static const darkAppBarTheme = AppBarTheme(
-    backgroundColor: kMainComplimemtColorDark,
+    backgroundColor: kDarkModeDashboardAppbarColor,
   );
 }

@@ -21,6 +21,7 @@ const kLightModeIconColor = Color(0xffcc5400);
 const kLightModeActiveButtonColor = Color(0xffcc5400);
 const kLightModeInactiveButtonColor = Color(0xffe4a579);
 const kLightModeDashboardAppbarColor = Color(0xffCC5500);
+const kLightModeCheckOutBackground = Color(0xffCC5500);
 
 // Color.fromRGBO(255, 255, 255, 0.0);
 // Color(0xffffff);
@@ -29,7 +30,7 @@ const kLightModeDashboardAppbarColor = Color(0xffCC5500);
 // LIGHT MOOD BUTTON
 const kLightMoodButtonColor = Color(0xffCC5500);
 // DARK MOOD BUTTON
-const kDarkMoodButtonColor = Color(0xffd9814f);
+const kDarkMoodButtonColor = Color(0xffffbd3f);
 
 // LIGHT THEME COLORS
 const kMainColorLight = Color(0xffCC5500);

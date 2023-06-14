@@ -89,6 +89,10 @@ const String kAlternativeEmailText = 'Alternative Email';
 
 /// --- PROFILE SCREEN TEXT ---
 
+const String kEditProfileText = 'Edit Profile';
+const String kNameText = 'Name';
+const String kRoleText = 'Role';
+
 /// --- ADDSTOCK SCREEN TEXT ---
 
 const String kAddStockAppBarText = 'ADD ITEM';

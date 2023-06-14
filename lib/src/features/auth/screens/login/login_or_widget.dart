@@ -18,6 +18,7 @@ class LoginOr extends StatelessWidget {
         children: [
           const LoginDivider(
             height: kDividerHeight,
+            thickness: kLoginDividerThickness,
           ),
           Text(
             kDividerText.toUpperCase(),
@@ -25,6 +26,7 @@ class LoginOr extends StatelessWidget {
           ),
           const LoginDivider(
             height: kDividerHeight,
+            thickness: kLoginDividerThickness,
           ),
         ],
       ),

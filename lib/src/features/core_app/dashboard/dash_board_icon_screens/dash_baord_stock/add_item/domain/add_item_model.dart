@@ -63,7 +63,7 @@ class AddItemModel {
           map['preventItemSalesWhenOutOfStock'] ?? '',
       trackExpiry: map['trackExpiry'] ?? '',
       expiryAlert: map['expiryAlert'] ?? '',
-      itemCount: map['itemCount'] ?? 0,
+      itemCount: map['itemCount'] ?? 1,
       itemId: map['itemId'] ?? '',
     );
   }

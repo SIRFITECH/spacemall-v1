@@ -64,21 +64,19 @@ class AddStock extends StatelessWidget {
                               child: ClipOval(
                             child: Padding(
                               padding: const EdgeInsets.all(1.0),
-                              child: // check if the image placeholder is empty, get image from
-                                  // sharedPreferences, otherwise, display the icon
-                                  itemPic.value == null
-                                      ? SvgPicture.asset(
-                                          kImageIcon,
-                                          color: kMainColorDark,
-                                          width: 100,
-                                          height: 100,
-                                          fit: BoxFit.scaleDown,
-                                        )
-                                      : CircleAvatar(
-                                          radius: 60,
-                                          backgroundImage:
-                                              FileImage(itemPic.value!),
-                                        ),
+                              child: itemPic.value == null
+                                  ? SvgPicture.asset(
+                                      kImageIcon,
+                                      color: kMainColorDark,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.scaleDown,
+                                    )
+                                  : CircleAvatar(
+                                      radius: 60,
+                                      backgroundImage:
+                                          FileImage(itemPic.value!),
+                                    ),
                             ),
                           )),
                         )),
@@ -148,10 +146,12 @@ class AddStock extends StatelessWidget {
                                       height: 0,
                                     ),
                                     iconSize: 32,
-                                    icon: const Icon(
+                                    icon: Icon(
                                       Icons.arrow_drop_down_circle,
                                       size: 10,
-                                      color: kMainColorDark,
+                                      color: isDarkMood
+                                          ? kDarkModeIconColor
+                                          : kMainColorDark,
                                     ),
                                     value: addItemController.categoryValue
                                         .toString(),
@@ -161,8 +161,6 @@ class AddStock extends StatelessWidget {
                                                 .platformBrightness ==
                                             Brightness.light
                                         ? kWhiteLight
-                                        // kMainComplimemtColorLight
-                                        //     .withOpacity(.4)
                                         : kBlackDark,
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
@@ -224,7 +222,9 @@ class AddStock extends StatelessWidget {
                                       addItemController.setProfitTracking(),
                                   color: addItemController.trackProfit.value ==
                                           true
-                                      ? kMainColorDark
+                                      ? isDarkMood
+                                          ? kDarkModeIconColor
+                                          : kMainColorDark
                                       : kGreyColor,
                                   groupValue:
                                       addItemController.trackProfit.value,

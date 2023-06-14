@@ -19,8 +19,8 @@ class Stock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
-    // final brightness = media.platformBrightness;
-    // final isDarkMood = brightness == Brightness.dark;
+    final brightness = media.platformBrightness;
+    final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
     final stockController = Get.put(StockController());
     final addItemController = Get.put(AddItemController());
@@ -37,7 +37,6 @@ class Stock extends StatelessWidget {
        */
       // drawer: const SpacemallDrawer(),
       body: Container(
-        // color: isDarkMood?:,
         decoration: const BoxDecoration(
             image: DecorationImage(
           image: AssetImage(kBackGroundCart),
@@ -51,13 +50,24 @@ class Stock extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    kStockManagentText,
-                    style: Theme.of(context).textTheme.headlineMedium,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Text(
+                      kStockManagentText,
+                      style: TextStyle(
+                        fontFamily: 'Arial Rounded',
+                        color: isDarkMood ? kWhiteDark : kBlackDark,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     width: double.infinity,
-                    child: LoginDivider(height: 5),
+                    child: LoginDivider(
+                      height: 5,
+                      thickness: 3,
+                    ),
                   ),
                 ],
               ),
@@ -84,9 +94,6 @@ class Stock extends StatelessWidget {
                         AddItemModel stockItem = stockItemBox.getAt(index);
                         return GestureDetector(
                           onTap: () {
-                            // variable to hold the state of the card, whetehr pressed or not
-
-                            // varaible to track item taped
                             var tapIndex = index;
                             if (index == tapIndex) {
                               debugPrint(stockItem.itemId);
@@ -95,7 +102,7 @@ class Stock extends StatelessWidget {
                           child: Stack(
                             children: [
                               Card(
-                                color: kBrighComplementColor,
+                                color: kTransparentColor,
                                 elevation: 5,
                                 child: Column(
                                   mainAxisAlignment:
@@ -124,27 +131,25 @@ class Stock extends StatelessWidget {
                                                       padding:
                                                           const EdgeInsets.all(
                                                               1.0),
-                                                      child: // check if the image placeholder is empty, get image from
-                                                          // sharedPreferences, otherwise, display the icon
-                                                          stockItem.itemPic ==
-                                                                  null
-                                                              ? SvgPicture
-                                                                  .asset(
-                                                                  kImageIcon,
-                                                                  color:
-                                                                      kMainColorDark,
-                                                                  width: 100,
-                                                                  height: 100,
-                                                                  fit: BoxFit
-                                                                      .scaleDown,
-                                                                )
-                                                              : CircleAvatar(
-                                                                  radius: 60,
-                                                                  backgroundImage:
-                                                                      FileImage(
-                                                                          stockItem
-                                                                              .itemPic!),
-                                                                ),
+                                                      child: stockItem
+                                                                  .itemPic ==
+                                                              null
+                                                          ? SvgPicture.asset(
+                                                              kImageIcon,
+                                                              color:
+                                                                  kMainColorDark,
+                                                              width: 100,
+                                                              height: 100,
+                                                              fit: BoxFit
+                                                                  .scaleDown,
+                                                            )
+                                                          : CircleAvatar(
+                                                              radius: 60,
+                                                              backgroundImage:
+                                                                  FileImage(
+                                                                      stockItem
+                                                                          .itemPic!),
+                                                            ),
                                                     ),
                                                   )),
                                                 ),
@@ -158,19 +163,23 @@ class Stock extends StatelessWidget {
                                                   children: [
                                                     Text(
                                                       stockItem.itemName,
-                                                      style: const TextStyle(
+                                                      style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          color: kBlackDark,
+                                                          color: isDarkMood
+                                                              ? kWhiteLight
+                                                              : kBlackDark,
                                                           fontSize: 19),
                                                     ),
                                                     Text(
                                                       stockItem.itemCategory,
                                                       textAlign: TextAlign.left,
-                                                      style: const TextStyle(
+                                                      style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        color: kBlackDark,
+                                                        color: isDarkMood
+                                                            ? kGreyColor
+                                                            : kBlackDark,
                                                       ),
                                                     ),
                                                   ],
@@ -196,62 +205,56 @@ class Stock extends StatelessWidget {
                                               ),
                                               Text(
                                                 "${stockItem.itemQuantity} in stock",
-                                                style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: kBlackDark,
-                                                    fontSize: 15),
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: isDarkMood
+                                                      ? kGreyColor
+                                                      : kBlackDark,
+                                                  fontSize: 15,
+                                                ),
                                               ),
                                             ],
                                           ),
                                         ),
                                       ],
                                     ),
-                                    // `SizedBox(
-                                    //   height: 45,
-                                    //   child: Padding(
-                                    //     padding: const EdgeInsets.only(
-                                    //         bottom: 8.0, left: 8),
-                                    //     child:
-                                    //     ListView(
-                                    //       scrollDirection: Axis.horizontal,
-                                    //       children: [
-                                    //         SizeButton(
-                                    //           title: 'Small',
-                                    //           action: () {},
-                                    //           color: kMainColor,
-                                    //         ),
-                                    //         const SizedBox(
-                                    //           width: 5,
-                                    //         ),
-                                    //         SizeButton(
-                                    //           title: 'Small',
-                                    //           action: () {},
-                                    //           color: kMainColor,
-                                    //         ),
-                                    //         const SizedBox(
-                                    //           width: 5,
-                                    //         ),
-                                    //         SizeButton(
-                                    //           title: 'Small',
-                                    //           action: () {},
-                                    //           color: kMainColor,
-                                    //         ),
-                                    //         const SizedBox(
-                                    //           width: 5,
-                                    //         ),
-                                    //         SizeButton(
-                                    //           title: 'Small',
-                                    //           action: () {},
-                                    //           color: kMainColor,
-                                    //         ),
-                                    //         const SizedBox(
-                                    //           width: 5,
-                                    //         ),
-                                    //       ],
-                                    //     ),
-
-                                    //   ),
-                                    // ),`
+                                    const SizedBox(
+                                        child: LoginDivider(
+                                            height: 0, thickness: 3)),
+                                    SizedBox(
+                                      height: 30,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 7, bottom: 5),
+                                        child: ListView(
+                                          scrollDirection: Axis.horizontal,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {},
+                                              style: ElevatedButton.styleFrom(
+                                                padding:
+                                                    const EdgeInsets.all(5),
+                                              ),
+                                              child: const Text('Small'),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {},
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    kLightModeInactiveButtonColor
+                                                        .withOpacity(0.3),
+                                                padding:
+                                                    const EdgeInsets.all(5),
+                                              ),
+                                              child: const Text('Meduim'),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -301,10 +304,9 @@ class Stock extends StatelessWidget {
             // },
             =>
             addItemRepo.deleteLastItemFromPhone(),
-        backgroundColor: const Color(0xffffb31a),
         child: const Icon(
           Icons.add,
-          color: kWhiteDark,
+          size: 45,
         ),
       ),
     );

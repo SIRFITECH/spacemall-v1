@@ -28,9 +28,9 @@ class BottomNavBar extends StatelessWidget {
           children: [
             CustomDivider(
               height: 0,
-              thickness: 1,
+              thickness: 0.1,
               color: isDarkMood ? kWhiteLight : kLightModeBackgroundColor,
-              margin: EdgeInsets.all(0),
+              margin: const EdgeInsets.all(0),
             ),
             Padding(
               padding: const EdgeInsets.only(right: 0, left: 0),

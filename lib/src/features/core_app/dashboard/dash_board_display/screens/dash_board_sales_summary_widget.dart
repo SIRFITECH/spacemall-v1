@@ -25,7 +25,7 @@ class DashBoardSalesSummary extends StatelessWidget {
               color: isDarkMood ? kLightThemeBgColor : kLightThemeBgColor,
               border: Border.all(
                 width: 2,
-                color: isDarkMood ? kMainComplimemtColorLight : kMainColorLight,
+                color: isDarkMood ? kDarkModeIconColor : kMainColorLight,
               ),
               borderRadius: BorderRadius.circular(12.0),
               boxShadow: const [
@@ -50,16 +50,14 @@ class DashBoardSalesSummary extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 16.0),
                     child: Iconz(
                       image: kCalenderIcon,
-                      color: isDarkMood
-                          ? kMainComplimemtColorLight
-                          : kMainColorLight,
+                      color: isDarkMood ? kDarkModeIconColor : kMainColorLight,
                       height: 40,
                       isDarkMood: isDarkMood,
                     ),
                   ),
                 ),
                 const Icon(
-                  Icons.keyboard_arrow_down_outlined,
+                  Icons.arrow_drop_down,
                   color: kBlackDark,
                 ),
                 Row(
@@ -78,7 +76,7 @@ class DashBoardSalesSummary extends StatelessWidget {
                       ],
                     ),
                     const Icon(
-                      Icons.arrow_forward_ios_outlined,
+                      Icons.arrow_right,
                       color: kBlackDark,
                     ),
                   ],

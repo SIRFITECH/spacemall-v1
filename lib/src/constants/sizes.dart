@@ -12,6 +12,7 @@ const kCoutryCodeHorizontal = 15.0;
 const kFormBorderRadius = 6.0;
 const kDividerThickness = 4.0;
 const kDividerHeight = 50.0;
+const kLoginDividerThickness = 5.0;
 const kDividerMargin = 8.0;
 const kFImageWidth = 35.0;
 const kFImageHeight = 80.0;
@@ -33,7 +34,7 @@ double kLastHighestCustomerText = 100;
 double kLowStockLinearBarIndicator = (kStockAvailbaleText / kTotalStockText);
 double kCustomerLinearBarIndicator =
     (kCustomersOfTheDayText / kLastHighestCustomerText);
-const kMallIconzHeight = 40.0;
+const kMallIconzHeight = 30.0;
 const kLinearBarIconzHeight = 15.0;
 
 /// ---- NAVBAR MAGING SIZES

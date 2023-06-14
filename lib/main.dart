@@ -9,6 +9,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/scr
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/file_adapter.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/item_list_data_adapter.dart';
+import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/themes/themes.dart';
 
@@ -30,8 +31,10 @@ void main() async {
   Hive.registerAdapter(FileAdapter());
   Hive.registerAdapter(ItemListDataAdapter());
   Hive.registerAdapter(AddItemModelAdapter());
+  Hive.registerAdapter(UserModelAdapter());
   stockItemBox = await Hive.openBox<AddItemModel>('item_list');
   cartBox = await Hive.openBox<CheckOutItemModel>('cart');
+  userBox = await Hive.openBox<UserModel>('user');
 
   runApp(const SpacemallApp());
 }

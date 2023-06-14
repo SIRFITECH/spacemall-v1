@@ -23,8 +23,7 @@ class SElevatedButtonTheme {
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(5))),
       foregroundColor: kWhiteLight,
-      backgroundColor: kMainComplimemtColorLight,
-      // kDarkMoodButtonColor,
+      backgroundColor: kDarkMoodButtonColor,
       padding: const EdgeInsets.all(kButtonHeight),
     ),
   );
