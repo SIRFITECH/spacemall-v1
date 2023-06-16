@@ -24,7 +24,7 @@ class BottomBarIcon extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final darkMood = isDarkMood ? kWhiteDark : kBrighComplementColor;
     final lightMood =
-        isDarkMood ? kDarkModeIconColor : kMainComplimemtColorLight;
+        isDarkMood ? kDarkModeBrightIconColor : kMainComplimemtColorLight;
     return Container(
       decoration: BoxDecoration(
         color: isDarkMood ? kDarkModeBackgroundColor : kMainColorLight,

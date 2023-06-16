@@ -10,9 +10,9 @@ class SingleCartItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     // AddItemModel stockItem = stockItemBox.get('item_list') ?? null;
 
-    final media = MediaQuery.of(context);
-    final brightness = media.platformBrightness;
-    final isDarkMood = brightness == Brightness.dark;
+    // final media = MediaQuery.of(context);
+    // final brightness = media.platformBrightness;
+    // final isDarkMood = brightness == Brightness.dark;
     // final screenSize = media.size;
     return Container(
       margin: const EdgeInsets.all(4),

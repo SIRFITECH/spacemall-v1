@@ -4,6 +4,9 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
+import 'package:spacemall/src/repository/hive_boxes.dart';
+
+import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 
 class CheckOutItemController extends GetxController {
   static CheckOutItemController get instance => Get.put(
@@ -14,11 +17,17 @@ class CheckOutItemController extends GetxController {
   int numberOfItemSelect = -1;
 
   RxBool isSelected = false.obs;
-  RxInt totalCartPrice = 0.obs;
 
+  RxDouble totalCartTotal = 0.0.obs;
+  RxDouble totalCartSubTotal = 0.0.obs;
+  RxDouble totalCartDiscount = 0.0.obs;
+  RxDouble totalCartTax = 0.0.obs;
   RxInt tapedIndex = (-1).obs;
-  RxInt items = RxInt(1);
-  // 1.obs;
+  RxInt items = RxInt(0);
+  RxBool isFirstTime = true.obs;
+
+  double discountRate = 0.1;
+  double taxRate = 0.075;
 
   void setTapedIndex(int index) {
     tapedIndex.value = index;
@@ -26,10 +35,132 @@ class CheckOutItemController extends GetxController {
 
   RxList<CheckOutItemModel> cartItems = <CheckOutItemModel>[].obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    setCartSubTotal();
+    setCartTotal();
+    setCartDiscount(totalCartDiscount.value);
+    setCartTax(totalCartTax.value);
+  }
+
+  setCartSubTotal() {
+    double subTotal = 0;
+    for (var item in cartItems) {
+      subTotal += int.parse(item.subTotal);
+    }
+    totalCartSubTotal.value = subTotal;
+  }
+
+  setCartTotal() {
+    double total =
+        totalCartSubTotal.value - totalCartDiscount.value + totalCartTax.value;
+    totalCartTotal.value = total;
+  }
+
+  setCartDiscount(double discount) {
+    double discountedAmount = totalCartSubTotal.value * discount;
+    totalCartDiscount.value = discountedAmount;
+  }
+
+  setCartTax(double tax) {
+    double taxAmount = totalCartSubTotal.value * tax;
+    totalCartTax.value = taxAmount;
+  }
+
   removeItemFromCart(
     int index,
   ) {
     cartItems.removeAt(index);
+
+    if (cartItems.isEmpty) {
+      isFirstTime.value = true;
+    }
+  }
+
+  deleteItemFromCart(index) {
+    AddItemModel stockItem = stockItemBox.getAt(index);
+    Get.snackbar(
+      '${cartItems[index].itemName}  Deleted ',
+      '${cartItems[index].itemName} deleted successfully from cart',
+      backgroundColor: kWhiteLight,
+      colorText: kBlack,
+    );
+    num quantity = int.parse(cartItems[index].quantityInCart) -
+        int.parse(cartItems[index].quantityInCart);
+
+    cartItems[index].quantityInCart = quantity.toString();
+
+    stockItem.itemCount = int.parse(cartItems[index].quantityInCart);
+    items.value = 0;
+    removeItemFromCart(index);
+  }
+
+  decreaseItemQuantityInCart(index) {
+    num quantity = int.parse(cartItems[index].quantityInCart) - 1;
+    cartItems[index].quantityInCart = quantity.toString();
+
+    // Recalculate the subtotal
+    String priceString = cartItems[index].price;
+    String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
+    String quantityInCartString = cartItems[index].quantityInCart;
+    String numQuantityInCartString =
+        quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
+    num initCost =
+        int.parse(numQuantityInCartString) * int.parse(numPriceString);
+    num cost = initCost;
+    cartItems[index].subTotal = cost.toString();
+    items.value--;
+
+    if (int.parse(numQuantityInCartString) < 1) {
+      removeItemFromCart(index);
+      Get.snackbar(
+        '${cartItems[index].itemName}  Deleted ',
+        '${cartItems[index].itemName} deleted successfully from cart',
+        backgroundColor: kWhiteLight,
+        colorText: kBlack,
+      );
+    } else {
+      Get.snackbar(
+        '1 ${cartItems[index].itemName}  Deleted ',
+        '1 ${cartItems[index].itemName} has been removed from cart',
+        backgroundColor: kWhiteLight,
+        colorText: kBlack,
+      );
+    }
+  }
+
+  increaseItemQuantityInCart(index) {
+    num quantity = int.parse(cartItems[index].quantityInCart) + 1;
+    cartItems[index].quantityInCart = quantity.toString();
+    String priceString = cartItems[index].price;
+    String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
+    String quantityInCartString = cartItems[index].quantityInCart;
+    String numQuantityInCartString =
+        quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
+    num initCost =
+        int.parse(numQuantityInCartString) * int.parse(numPriceString);
+    num cost = initCost;
+    CheckOutItemController.instance.items.value++;
+
+    cartItems[index].subTotal = cost.toString();
+
+    // cartItems.forEach((item) {
+    //   int itemCost = int.parse(item.subTotal);
+    //   totalCartSubTotal.value = itemCost++;
+    // });
+    // for (CheckOutItemModel item in cartItems) {
+    //   int itemCost = int.parse(item.subTotal);
+    //   totalCartSubTotal.value = itemCost++;
+    // }
+    // CheckOutItemController.instance.totalCartSubTotal.value =
+    //     int.parse(cartItems[index].subTotal);
+    Get.snackbar(
+      '1 more ${cartItems[index].itemName} add to cart',
+      'If you want to delete ${cartItems[index].itemName} from cart just press and hold',
+      backgroundColor: kWhiteLight,
+      colorText: kBlack,
+    );
   }
 
   UserModel? _userModel;
@@ -55,199 +186,7 @@ class CheckOutItemController extends GetxController {
         );
   }
 
-  /// TODO: FIRST LOGIC
-
-  // addToCart(
-  //   CheckOutItemModel newItem,
-  //   int index,
-  //   BuildContext context,
-  // ) async {
-  //   String id = cartItems.length > index ? cartItems[index].itemId : '';
-  //   if (itemExistInCart(newItem, id)) {
-  //     num quantity = int.parse(cartItems[index].quantityInCart) + 1;
-  //     cartItems[index].quantityInCart = quantity.toString();
-  //     String priceString = (cartItems[index].price);
-  //     String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
-  //     String quantityInCartString = (cartItems[index].quantityInCart);
-  //     String numQuantityInCartString =
-  //         quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
-  //     num initCost =
-  //         int.parse(numQuantityInCartString) * int.parse(numPriceString);
-  //     num cost = initCost;
-
-  //     cartItems[index].subTotal = cost.toString();
-  //     print(
-  //         '${newItem.itemName} with id $id already exists ane new cost is ${cartItems[index].subTotal}');
-  //     print(' Item quantity is ${cartItems[index].quantityInCart}');
-  //     Get.snackbar(
-  //       '1 more ${cartItems[index].itemName} add to cart',
-  //       'If you want to delete ${cartItems[index].itemName} from cart just presse and hold',
-  //       backgroundColor: kWhiteLight,
-  //     );
-  //   } else {
-  //     UserModel? user;
-  //     if (_userModel == null) {
-  //       user = await profileRepo.getUserDataFromPhone();
-  //       user.cart.add(newItem);
-  //       cartItems.value = user.cart;
-
-  //       print('${newItem.itemName} is added');
-
-  //       Get.snackbar(
-  //         'Operation Successfull',
-  //         'Item added to cart succeffully',
-  //         backgroundColor: kWhiteLight,
-  //         colorText: kBlack,
-  //       );
-  //     } else {
-  //       user = _userModel;
-  //       user!.cart.add(newItem);
-  //       cartItems.value = user.cart;
-  //     }
-  //   }
-  // }
-
-  // bool itemExistInCart(CheckOutItemModel newItem, String id) {
-  //   for (CheckOutItemModel item in cartItems) {
-  //     if (item.itemId == id) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
-
-  /// TODO: SECOND LOGIC
-  // addToCart(
-  //   CheckOutItemModel newItem,
-  //   int index,
-  //   BuildContext context,
-  // ) async {
-  //   String id = cartItems.length > index ? cartItems[index].itemId : '';
-  //   if (!itemExistInCart(newItem)) {
-  //     UserModel? user;
-  //     if (_userModel == null) {
-  //       user = await profileRepo.getUserDataFromPhone();
-
-  //       user.cart.add(newItem);
-  //       cartItems.value = user.cart;
-
-  //       print('${newItem.itemName} is added');
-  //       Get.snackbar(
-  //         'Operation Successful',
-  //         'Item added to cart succeffuly',
-  //         backgroundColor: kWhiteLight,
-  //         colorText: kBlack,
-  //       );
-  //     } else {
-  //       user = _userModel;
-  //       user!.cart.add(newItem);
-  //       cartItems.value = user.cart;
-  //       // print('User cart has ${user.cart.length} items');
-  //       // print(
-  //       //     'the item id of the new item is ${newItem.itemId}, id of the pressed item $id');
-  //     }
-  //   } else {
-  //     num quantity = int.parse(cartItems[index].quantityInCart) + 1;
-  //     cartItems[index].quantityInCart = quantity.toString();
-  //     String priceString = (cartItems[index].price);
-  //     String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
-  //     String quantityInCartString = (cartItems[index].quantityInCart);
-  //     String numQuantityInCartString =
-  //         quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
-  //     num initCost =
-  //         int.parse(numQuantityInCartString) * int.parse(numPriceString);
-  //     num cost = initCost;
-
-  //     cartItems[index].subTotal = cost.toString();
-  //     print(
-  //         '${newItem.itemName} with id $id already exists ane new cost is ${cartItems[index].subTotal}');
-  //     print(' Item quantity is ${cartItems[index].quantityInCart}');
-  //     Get.snackbar(
-  //       '1 more ${cartItems[index].itemName} add to cart',
-  //       'If you want to delete ${cartItems[index].itemName} from cart just presse and hold',
-  //       backgroundColor: kWhiteLight,
-  //     );
-  //   }
-  // }
-
-  // bool itemExistInCart(CheckOutItemModel newItem) {
-  //   for (CheckOutItemModel item in cartItems) {
-  //     if (item.itemId == newItem.itemId) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
-
-  /// TODO: THIRD LOGIC
-
-  // addToCart(
-  //   CheckOutItemModel newItem,
-  //   int index,
-  //   BuildContext context,
-  // ) async {
-  //   String id = cartItems.length > index ? cartItems[index].itemId : '';
-
-  //   if (!itemExistInCart(newItem)) {
-  //     // Item does not exist in cart, add it
-  //     UserModel? user;
-  //     if (_userModel == null) {
-  //       user = await profileRepo.getUserDataFromPhone();
-  //     } else {
-  //       user = _userModel;
-  //     }
-
-  //     user!.cart.add(newItem);
-  //     cartItems.value = user.cart;
-
-  //     print('${newItem.itemName} is added for the first time');
-
-  //     Get.snackbar(
-  //       'Operation Successful',
-  //       'Item added to cart successfully',
-  //       backgroundColor: kWhiteLight,
-  //       colorText: kBlack,
-  //     );
-  //   } else {
-  //     // Item already exists in cart, update quantity and subtotal
-  //     if (index >= 0 && index < cartItems.length) {
-  //       num quantity = int.parse(cartItems[index].quantityInCart) + 1;
-  //       cartItems[index].quantityInCart = quantity.toString();
-  //       String priceString = (cartItems[index].price);
-  //       String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
-  //       String quantityInCartString = (cartItems[index].quantityInCart);
-  //       String numQuantityInCartString =
-  //           quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
-  //       num initCost =
-  //           int.parse(numQuantityInCartString) * int.parse(numPriceString);
-  //       num cost = initCost;
-
-  //       cartItems[index].subTotal = cost.toString();
-
-  //       print(
-  //           '${newItem.itemName} with id $id already exists and new cost is ${cartItems[index].subTotal}');
-  //       print('Item quantity is ${cartItems[index].quantityInCart}');
-  //       Get.snackbar(
-  //         '1 more ${cartItems[index].itemName} add to cart',
-  //         'If you want to delete ${cartItems[index].itemName} from cart just press and hold',
-  //         backgroundColor: kWhiteLight,
-  //       );
-  //     } else {
-  //       print('Invalid index');
-  //     }
-  //   }
-  // }
-
-  // bool itemExistInCart(CheckOutItemModel newItem) {
-  //   for (CheckOutItemModel item in cartItems) {
-  //     if (item.itemId == newItem.itemId) {
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
-
-  /// TODO: FOURTH LOGIC
+  /// FOURTH LOGIC
 
   void addToCart(
     CheckOutItemModel newItem,
@@ -264,8 +203,6 @@ class CheckOutItemController extends GetxController {
 
       user!.cart.add(newItem);
       cartItems.value = user.cart;
-
-      print('${newItem.itemName} is added for the first time');
 
       Get.snackbar(
         'Operation Successful',
@@ -292,22 +229,20 @@ class CheckOutItemController extends GetxController {
         num cost = initCost;
 
         existingItem.subTotal = cost.toString();
-
-        print(
-            '${newItem.itemName} with id ${existingItem.itemId} already exists and new cost is ${existingItem.subTotal}');
-        print('Item quantity is ${existingItem.quantityInCart}');
         Get.snackbar(
           '1 more ${existingItem.itemName} add to cart',
           'If you want to delete ${existingItem.itemName} from cart just press and hold',
           backgroundColor: kWhiteLight,
+          colorText: kBlack,
         );
       } else {
         Get.snackbar(
           'An Error Occured',
           'Item not found in cart',
           backgroundColor: kWhiteLight,
+          colorText: kBlack,
         );
-        print('Item not found in cart');
+        // print('Item not found in cart');
       }
     }
   }

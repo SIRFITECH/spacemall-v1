@@ -12,13 +12,6 @@ class CartController extends GetxController {
 
   RxInt cartTotalPrice = 0.obs;
 
-  // I want to change the vaue of the cart total whenever it changes
-  // @override
-  // void onReady() {
-  //   super.onReady();
-  //   ever(profileController.user as RxInterface<Object?>, (callback) => null);
-  // }
-
   void addItemToCart(CheckOutItemModel newCartItem) {
     UserModel user = UserModel(
       profilePic: '',

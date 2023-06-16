@@ -8,9 +8,11 @@ import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/add_items.dart';
+import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/general/custom_button.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
 import 'package:spacemall/src/features/core_app/general/custom_radio.dart';
+import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widget.dart';
 
 class AddStock extends StatelessWidget {
@@ -30,20 +32,22 @@ class AddStock extends StatelessWidget {
 
     var itemPic = addItemController.itemPic;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(kAddStockAppBarText),
-        centerTitle: true,
-        elevation: 0.5,
-        actions: const [
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: kMainColorDark,
-            ),
-          )
-        ],
-      ),
+      appBar: MyAppBar(isDarkMood: isDarkMood),
+      // AppBar(
+      //   title: const Text(kAddStockAppBarText),
+      //   centerTitle: true,
+      //   elevation: 0.5,
+      //   actions: const [
+      //     Padding(
+      //       padding: EdgeInsets.all(8.0),
+      //       child: Icon(
+      //         Icons.arrow_back_ios,
+      //         color: kMainColorDark,
+      //       ),
+      //     )
+      //   ],
+      // ),
+      drawer: const SpacemallDrawer(),
       body: Padding(
         padding: EdgeInsets.all(screenSize.width * 0.025),
         child: ListView(

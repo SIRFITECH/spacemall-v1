@@ -12,7 +12,8 @@ const kGreyColor = Colors.grey;
 const kTransparentColor = Colors.transparent;
 
 const kDarkModeBackgroundColor = Color(0xff000000);
-const kDarkModeIconColor = Color(0xffffb317);
+const kDarkModeIconColor = Color(0xff665229);
+const kDarkModeBrightIconColor = Color(0xffffb317);
 const kDarkModeInactiveButtonColor = Color(0xff876013);
 const kDarkModeDashboardAppbarColor = Color(0xff876013);
 

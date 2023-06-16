@@ -4,8 +4,8 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/pay_later_controller.dart';
-import 'package:spacemall/src/features/core_app/check_out/screens/check_out_screen.dart';
 import 'package:spacemall/src/features/core_app/check_out/screens/confirm_payment.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widget.dart';
 
 class PayLater extends StatelessWidget {
@@ -17,7 +17,7 @@ class PayLater extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
-    final textTheme = Theme.of(context).textTheme;
+    // final textTheme = Theme.of(context).textTheme;
     final payLaterController = Get.put(
       PayLaterController(),
     );
@@ -94,7 +94,7 @@ class PayLater extends StatelessWidget {
             padding: const EdgeInsets.only(left: 32.0),
             child: ElevatedButton(
               onPressed: () {
-                Get.to(() => const CheckOut());
+                Get.to(() => DashBoard());
               },
               child: const Text(
                 kSaveText,

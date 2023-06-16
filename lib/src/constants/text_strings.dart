@@ -61,6 +61,15 @@ const String kCheckOutIconText = 'Checkout';
 const String kProfileIconText = 'Profile';
 const String kSettingIconText = 'Setting';
 
+/// --- DRAWER SCREEN TEXT ---
+const String kAddNewStoreText = 'Add New Store';
+const String kHelpText = 'Help';
+const String kSignOutText = 'Sign Out';
+const String kOnText = 'On';
+const String kOffText = 'Off';
+const String kDarkMoodText = 'Dark Mood';
+const String kUseSystemSettingsText = 'Use System Settings';
+
 /// --- STOCK SCREEN TEXT ---
 
 const String kStockManagentText = 'Stock Management';
@@ -127,8 +136,13 @@ const String kCartEmptyText = 'Cart empty';
 const String kPayLaterText = 'Pay Later';
 const String kConfirmPaymentText = 'Confirm Payment';
 const String kSubTotalText = 'Subtotal';
+const String kTotalText = 'Total';
 const String kDiscountText = 'Discount';
 const String kTaxText = 'Tax';
+const String kOkayText = 'Okay';
+const String kAdjustCartItemText = 'Adjust Cart Item';
+const String kAlertBodyText =
+    'To add item, tap on the item, to delete item, press and hold the item, to reduce quantity, swipe it horizontally.';
 
 /// --- PAYLATER SCREEN TEXT ---
 

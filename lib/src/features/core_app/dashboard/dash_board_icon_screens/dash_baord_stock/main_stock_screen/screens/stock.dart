@@ -10,6 +10,8 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/application/stock_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/add_items.dart';
+import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
+import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/localizations/currency.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 
@@ -27,15 +29,8 @@ class Stock extends StatelessWidget {
     final addItemRepo = Get.put(AddItemRepo());
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(kStockManagentText),
-        centerTitle: true,
-      ),
-      /**
-       * Drawer that expose the menu options on the side
-       * The SpacemallDrawer() is located in .../widgets/navWidgets/drawer.dart
-       */
-      // drawer: const SpacemallDrawer(),
+      appBar: MyAppBar(isDarkMood: isDarkMood),
+      drawer: const SpacemallDrawer(),
       body: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -292,7 +287,6 @@ class Stock extends StatelessWidget {
           ],
         ),
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: ()
             // => addItemRepo.printHiveBox(stockItemBox),

@@ -73,8 +73,9 @@ class AuthRepo extends GetxController {
           verificationId: verificationId.value, smsCode: otp),
     );
     if (credentials.user != null) {
+      credentials.user!.uid;
       _uid = credentials.user!.uid;
-      print('uid is $_uid');
+      print('user is assigned the id  $_uid');
     }
     return credentials.user != null ? true : false;
   }

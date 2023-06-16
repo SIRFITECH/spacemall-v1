@@ -68,6 +68,8 @@ class CheckOut extends StatelessWidget {
                                 (() {
                                   CheckOutItemController.instance.items.value =
                                       stockItem.itemCount++;
+                                  CheckOutItemController.instance.items.value++;
+
                                   nairaFormat.format(
                                       int.parse(stockItem.itemSellingPrice));
 
@@ -89,15 +91,15 @@ class CheckOut extends StatelessWidget {
                                           nairaFormat.format(costOfItem),
                                       totalCartPrice: 'totalCartPrice',
                                       subTotal: '$costOfItem',
-                                      discount: '0',
-                                      tax: '0',
+                                      discount: CheckOutItemController
+                                          .instance.totalCartDiscount.value
+                                          .toString(),
+                                      tax: CheckOutItemController
+                                          .instance.totalCartTax.value
+                                          .toString(),
                                     ),
-                                    // tapedIndex,
                                     context,
                                   );
-                                  // print('itemCount is ${stockItem.itemCount}');
-                                  // print(CheckOutItemController
-                                  //     .instance.items.value);
                                 })();
                               }
                             },
@@ -145,7 +147,9 @@ class CheckOut extends StatelessWidget {
                                 ),
                                 Obx(
                                   () => checkOutController.tapedIndex.value ==
-                                          index
+                                              index &&
+                                          checkOutController.items.value > 0 &&
+                                          tapedIndex == index
                                       ? Positioned(
                                           left: 6.5,
                                           top: 4.5,
@@ -162,7 +166,6 @@ class CheckOut extends StatelessWidget {
                                                       Radius.circular(5)),
                                             ),
                                             child: Text(
-                                              // 'x${stockItem.itemCount}',
                                               'x${checkOutController.items.value.toString()}',
                                               style: const TextStyle(
                                                 color: Colors.white,
@@ -178,24 +181,38 @@ class CheckOut extends StatelessWidget {
                             ),
                           );
                         }),
-                    Container(
-                        padding: EdgeInsets.only(
-                          top: screenSize.height * 0.23,
-                          left: screenSize.height * 0.02,
-                          right: screenSize.height * 0.02,
-                        ),
-                        width: double.infinity,
-                        child: ElevatedButton(
-                            onPressed: () {
-                              Get.to(() => const ConfirmPayment());
-                            },
-                            child: const Text(kCheckOutText)))
+                    // Container(
+                    //     padding: EdgeInsets.only(
+                    //       top: screenSize.height * 0.23,
+                    //       left: screenSize.height * 0.02,
+                    //       right: screenSize.height * 0.02,
+                    //     ),
+                    //     width: double.infinity,
+                    //     child: ElevatedButton(
+                    //         onPressed: () {
+                    //           Get.to(() => const ConfirmPayment());
+                    //         },
+                    //         child: const Text(kCheckOutText)))
                   ],
                 )
               : SizedBox(
                   height: screenSize.height * 0.62,
                   child: const Center(child: Text(kCartEmptyText)),
                 ),
+        ),
+      ),
+      floatingActionButton: Container(
+        padding: EdgeInsets.only(
+          top: screenSize.height * 0.23,
+          left: screenSize.height * 0.05,
+          right: screenSize.height * 0.02,
+        ),
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: () {
+            Get.to(() => const ConfirmPayment());
+          },
+          child: const Text(kCheckOutText),
         ),
       ),
     );

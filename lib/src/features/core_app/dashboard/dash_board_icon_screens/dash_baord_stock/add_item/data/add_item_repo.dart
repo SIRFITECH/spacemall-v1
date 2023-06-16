@@ -71,7 +71,7 @@ class AddItemRepo extends GetxController {
     await stockItemBox.put(
         'item-${addItemController.itemName.text.trim()}', newItem);
 
-    Get.to(() => const Stock());
+    Get.back();
     print(newItem.itemId);
   }
 

@@ -15,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
     final media = MediaQuery.of(context);
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
-    final screenSize = media.size;
+    // final screenSize = media.size;
 
     final profileRepo = Get.put(ProfileRepo());
 
@@ -28,7 +28,6 @@ class ProfileScreen extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else {
               UserModel? user = snapshot.data;
-              print(user!.firstName);
               return Container(
                   decoration: BoxDecoration(
                     image: const DecorationImage(
@@ -71,7 +70,7 @@ class ProfileScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 40,
                                   child: Text(
-                                    user.country,
+                                    user!.country,
                                     style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.bold,
