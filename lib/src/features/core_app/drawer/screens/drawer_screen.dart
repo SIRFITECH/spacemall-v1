@@ -60,7 +60,7 @@ class SpacemallDrawer extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   child: SizedBox(
                       child: ClipOval(
-                    child: Image.asset(kTrialImage1),
+                    child: Image.asset(kTrailImage2),
                   )),
                 ),
                 CircleAvatar(
@@ -68,7 +68,7 @@ class SpacemallDrawer extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   child: SizedBox(
                       child: ClipOval(
-                    child: Image.asset(kTrailImage2),
+                    child: Image.asset(kTrailImage3),
                   )),
                 ),
                 CircleAvatar(

@@ -1,7 +1,8 @@
 /// --- APP IMAGE TEXT STRING ---
 
-const String kTrialImage1 = 'assets/images/on_boarding_images/open.png';
-const String kTrailImage2 = 'assets/images/on_boarding_images/bns.png';
+const String kTrialImage1 = 'assets/images/welcome_image/mosnyik.jpeg';
+const String kTrailImage2 = 'assets/images/welcome_image/mos.jpg';
+const String kTrailImage3 = 'assets/images/welcome_image/logo.png';
 
 /// --- GENERIC SCREEN IMAGE STRINGS ---
 const String kBackGroundCart =
