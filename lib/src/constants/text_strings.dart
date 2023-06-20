@@ -142,7 +142,7 @@ const String kTaxText = 'Tax';
 const String kOkayText = 'Okay';
 const String kAdjustCartItemText = 'Adjust Cart Item';
 const String kAlertBodyText =
-    'To add item, tap on the item, to delete item, press and hold the item, to reduce quantity, swipe it horizontally.';
+    'To add item, tap on the item, \n to delete item, press and hold the item, \n to reduce quantity, swipe it horizontally.';
 
 /// --- PAYLATER SCREEN TEXT ---
 

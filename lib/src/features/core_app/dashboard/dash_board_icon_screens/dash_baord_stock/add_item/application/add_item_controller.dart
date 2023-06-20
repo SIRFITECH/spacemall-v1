@@ -28,7 +28,6 @@ class AddItemController extends GetxController {
   void setPressed() {
     isPressed.value = true;
     update();
-    // print(isPressed.value);
   }
 
   void increaementSelectedItem(int tapedIndex, int index) {

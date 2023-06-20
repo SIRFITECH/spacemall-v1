@@ -14,6 +14,7 @@ import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/themes/themes.dart';
 
 import 'firebase_options.dart';
+import 'src/features/core_app/profile/application/date_widget_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,9 @@ void main() async {
     (value) {
       Get.put(
         AuthRepo(),
+      );
+      Get.put(
+        DateFieldController(),
       );
     },
   );

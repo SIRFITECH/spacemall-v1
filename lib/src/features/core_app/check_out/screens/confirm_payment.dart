@@ -27,7 +27,10 @@ class ConfirmPayment extends StatelessWidget {
     checkOutItemController.onInit();
 
     return Scaffold(
-      appBar: MyAppBar(isDarkMood: isDarkMood),
+      appBar: MyAppBar(
+        isDarkMood: isDarkMood,
+        title: '',
+      ),
       drawer: const SpacemallDrawer(),
       body: Container(
         height: screenSize.height * 0.9,

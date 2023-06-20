@@ -6,10 +6,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   const MyAppBar({
     super.key,
     required this.isDarkMood,
+    required this.title,
   });
   // : super(key: key);
 
   final bool isDarkMood;
+  final String title;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -17,6 +19,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      title: Text(title),
       backgroundColor: isDarkMood
           ? kDarkModeBackgroundColor.withAlpha(2)
           : kWhiteLight.withAlpha(2),

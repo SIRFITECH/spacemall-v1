@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/screens/add_category_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/screens/add_stock_screen.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_modifier/screens/add_modifier_screen.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_tag/screens/add_tag_screen.dart';
 
 class AddItemsCard extends StatelessWidget {
   const AddItemsCard({
@@ -64,23 +67,21 @@ class AddItemsCard extends StatelessWidget {
                                   );
                                   break;
                                 case 1:
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) =>
-                                  //           const AddCategory()),
-                                  // );
+                                  Get.to(
+                                    () => const AddCategory(),
+                                  );
                                   debugPrint('$index add category');
                                   break;
                                 case 2:
-                                  // Navigator.push(
-                                  //   context,
-                                  //   MaterialPageRoute(
-                                  //       builder: (context) => const AddTag()),
-                                  // );
+                                  Get.to(
+                                    () => const AddTag(),
+                                  );
                                   debugPrint('$index add tag');
                                   break;
                                 case 3:
+                                  Get.to(
+                                    () => const AddModifier(),
+                                  );
                                   debugPrint('$index add modifier');
                                   break;
                               }

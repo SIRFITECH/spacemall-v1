@@ -13,6 +13,7 @@ import 'package:spacemall/src/features/core_app/general/custom_button.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
 import 'package:spacemall/src/features/core_app/general/custom_radio.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
+import 'package:spacemall/src/features/core_app/profile/application/date_widget_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widget.dart';
 
 class AddStock extends StatelessWidget {
@@ -30,9 +31,13 @@ class AddStock extends StatelessWidget {
       AddItemController(),
     );
 
+    final DateFieldController dateFieldController = Get.find();
     var itemPic = addItemController.itemPic;
     return Scaffold(
-      appBar: MyAppBar(isDarkMood: isDarkMood),
+      appBar: MyAppBar(
+        isDarkMood: isDarkMood,
+        title: '',
+      ),
       // AppBar(
       //   title: const Text(kAddStockAppBarText),
       //   centerTitle: true,
@@ -58,32 +63,35 @@ class AddStock extends StatelessWidget {
                 Column(
                   children: [
                     GestureDetector(
-                        onTap: () =>
-                            AddItemController.instance.selectItemImage(context),
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundColor:
-                              kMainComplimemtColorDark.withOpacity(0.2),
-                          child: SizedBox(
-                              child: ClipOval(
-                            child: Padding(
-                              padding: const EdgeInsets.all(1.0),
-                              child: itemPic.value == null
-                                  ? SvgPicture.asset(
+                      onTap: () =>
+                          AddItemController.instance.selectItemImage(context),
+                      child: itemPic.value == null
+                          ? CircleAvatar(
+                              radius: 40,
+                              backgroundColor:
+                                  kDarkComplementColor.withOpacity(0.2),
+                              child: SizedBox(
+                                child: ClipOval(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: SvgPicture.asset(
                                       kImageIcon,
-                                      color: kMainColorDark,
-                                      width: 100,
-                                      height: 100,
+                                      color: isDarkMood
+                                          ? kDarkModeIconColor
+                                          : kMainColorLight,
+                                      width: 200,
+                                      height: 200,
                                       fit: BoxFit.scaleDown,
-                                    )
-                                  : CircleAvatar(
-                                      radius: 60,
-                                      backgroundImage:
-                                          FileImage(itemPic.value!),
                                     ),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : CircleAvatar(
+                              radius: 40,
+                              backgroundImage: FileImage(itemPic.value!),
                             ),
-                          )),
-                        )),
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
@@ -282,7 +290,9 @@ class AddStock extends StatelessWidget {
                             onChange: (bool? value) =>
                                 addItemController.setLowStockTracking(),
                             color: addItemController.trackLowStock.value == true
-                                ? kMainColorDark
+                                ? isDarkMood
+                                    ? kDarkModeIconColor
+                                    : kMainColorDark
                                 : kGreyColor,
                             groupValue: addItemController.trackLowStock.value,
                             value: addItemController.trackLowStock.value,
@@ -309,7 +319,9 @@ class AddStock extends StatelessWidget {
                         color: addItemController
                                     .preventItemSalesWhenOutOfStock.value ==
                                 true
-                            ? kMainColorDark
+                            ? isDarkMood
+                                ? kDarkModeIconColor
+                                : kMainColorDark
                             : kGreyColor,
                         groupValue: addItemController
                             .preventItemSalesWhenOutOfStock.value,
@@ -358,7 +370,7 @@ class AddStock extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextFeildWidget(
+                  child: DateFeildWidget(
                     screenSize: screenSize,
                     isDarkMood: isDarkMood,
                     controller: addItemController.trackExpiry,
@@ -368,11 +380,14 @@ class AddStock extends StatelessWidget {
                     maxLines: 1,
                     height: screenSize.height * 0.04,
                     width: screenSize.width * 0.4,
+                    onTap: () {
+                      print('From UI');
+                    },
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextFeildWidget(
+                  child: DateFeildWidget(
                     screenSize: screenSize,
                     isDarkMood: isDarkMood,
                     controller: addItemController.expiryAlert,
@@ -382,6 +397,7 @@ class AddStock extends StatelessWidget {
                     maxLines: 1,
                     height: screenSize.height * 0.04,
                     width: screenSize.width * 0.4,
+                    onTap: () => dateFieldController.toggleTapped(),
                   ),
                 ),
               ],

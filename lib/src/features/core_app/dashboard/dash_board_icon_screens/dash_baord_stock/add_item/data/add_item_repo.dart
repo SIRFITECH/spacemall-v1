@@ -13,8 +13,6 @@ class AddItemRepo extends GetxController {
   static AddItemController addItemController = Get.find();
 
   final itemPic = addItemController.itemPic.value;
-// add uuid to each item to identify it uniquely throughout the app
-  // String genItemId = '';
 
   AddItemModel? _addItemModel;
   AddItemModel get addItemModel {
@@ -68,10 +66,10 @@ class AddItemRepo extends GetxController {
     );
 
     await stockItemBox.put(
-        'item-${addItemController.itemName.text.trim()}', newItem);
-
+      'item-${addItemController.itemName.text.trim()}',
+      newItem,
+    );
     Get.back();
-    print(newItem.itemId);
   }
 
   // clear the TextEditingControllers

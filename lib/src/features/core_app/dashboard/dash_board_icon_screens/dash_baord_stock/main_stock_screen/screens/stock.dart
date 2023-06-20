@@ -29,7 +29,10 @@ class Stock extends StatelessWidget {
     final addItemRepo = Get.put(AddItemRepo());
 
     return Scaffold(
-      appBar: MyAppBar(isDarkMood: isDarkMood),
+      appBar: MyAppBar(
+        isDarkMood: isDarkMood,
+        title: '',
+      ),
       drawer: const SpacemallDrawer(),
       body: Container(
         decoration: const BoxDecoration(
