@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
+import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
+import 'package:spacemall/src/features/auth/application/splash_controller/splash_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
@@ -18,6 +20,10 @@ class ProfileScreen extends StatelessWidget {
     // final screenSize = media.size;
 
     final profileRepo = Get.put(ProfileRepo());
+    final LoginController loginController = Get.find();
+
+    print(
+        'user role is ${SplashController.instance.userRole.value}, user phone is ${loginController.phone.value}');
 
     return SafeArea(
       child: Scaffold(
@@ -70,9 +76,9 @@ class ProfileScreen extends StatelessWidget {
                                 SizedBox(
                                   height: 40,
                                   child: Text(
-                                    user!.country,
+                                    loginController.country.value.flagEmoji,
                                     style: TextStyle(
-                                      fontSize: 13,
+                                      fontSize: 30,
                                       fontWeight: FontWeight.bold,
                                       color:
                                           isDarkMood ? kWhiteLight : kBlackDark,
@@ -100,7 +106,9 @@ class ProfileScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(2.0),
                             child: CircleAvatar(
                               radius: 60,
-                              backgroundImage: NetworkImage(user.profilePic),
+                              backgroundImage:
+                                  // FileImage(File(user!.profilePic)),
+                                  NetworkImage(user!.profilePic),
                             ),
                           ),
                         )),
@@ -130,7 +138,7 @@ class ProfileScreen extends StatelessWidget {
                             columns: [
                               DataColumn(
                                 label: Text(
-                                  kNameText,
+                                  kUserNameText,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color:
@@ -141,7 +149,7 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               DataColumn(
                                 label: Text(
-                                  '${user.firstName} ${user.lastName}',
+                                  user.userName,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: isDarkMood
@@ -180,7 +188,7 @@ class ProfileScreen extends StatelessWidget {
                               ]),
                               DataRow(cells: [
                                 DataCell(Text(
-                                  kContactText,
+                                  kPhoneText,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color:
@@ -191,7 +199,8 @@ class ProfileScreen extends StatelessWidget {
                                 DataCell(Row(
                                   children: [
                                     Text(
-                                      user.contactNumber,
+                                      // loginController.phone.value,
+                                      '0123456789',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: isDarkMood
@@ -215,7 +224,8 @@ class ProfileScreen extends StatelessWidget {
                                 )),
                                 DataCell(
                                   Text(
-                                    user.role,
+                                    SplashController.instance.userRole.value
+                                        .toString(),
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: isDarkMood

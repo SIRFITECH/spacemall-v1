@@ -21,7 +21,7 @@ class CheckOut extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    final checkOutController = Get.put(CheckOutItemController());
+    final cartItemController = Get.put(CartItemController());
 
     int tapedIndex = -1;
 
@@ -61,42 +61,40 @@ class CheckOut extends StatelessWidget {
                               int costOfItem = 1;
                               tapedIndex = index;
                               if (index == tapedIndex) {
-                                checkOutController.increamentItems(
+                                cartItemController.increamentItems(
                                   index,
                                   tapedIndex,
                                 );
                                 (() {
-                                  CheckOutItemController.instance.items.value =
+                                  CartItemController.instance.items.value =
                                       stockItem.itemCount++;
-                                  CheckOutItemController.instance.items.value++;
+                                  CartItemController.instance.items.value++;
 
                                   nairaFormat.format(
                                       int.parse(stockItem.itemSellingPrice));
 
-                                  costOfItem = CheckOutItemController
+                                  costOfItem = CartItemController
                                               .instance.items.value <=
                                           0
                                       ? int.parse(stockItem.itemSellingPrice)
                                       : int.parse(stockItem.itemSellingPrice) *
                                           stockItem.itemCount;
 
-                                  CheckOutItemController.instance.addToCart(
-                                    CheckOutItemModel(
+                                  CartItemController.instance.addToCart(
+                                    CartItemModel(
                                       itemId: stockItem.itemId,
                                       itemName: stockItem.itemName,
-                                      quantityInCart: '${stockItem.itemCount}',
-                                      price: nairaFormat.format(int.parse(
-                                          stockItem.itemSellingPrice)),
-                                      totalItemPrice:
-                                          nairaFormat.format(costOfItem),
-                                      totalCartPrice: 'totalCartPrice',
-                                      subTotal: '$costOfItem',
-                                      discount: CheckOutItemController
-                                          .instance.totalCartDiscount.value
-                                          .toString(),
-                                      tax: CheckOutItemController
-                                          .instance.totalCartTax.value
-                                          .toString(),
+                                      quantityInCart: stockItem.itemCount,
+                                      price: 0.0,
+                                      // nairaFormat.format(int.parse(
+                                      //     stockItem.itemSellingPrice)),
+                                      totalItemPrice: 0.0,
+                                      // nairaFormat.format(costOfItem),
+                                      subTotal: costOfItem.toDouble(),
+                                      discount: CartItemController
+                                          .instance.totalCartDiscount.value,
+                                      tax: CartItemController
+                                          .instance.totalCartTax.value,
                                     ),
                                     context,
                                   );
@@ -146,9 +144,9 @@ class CheckOut extends StatelessWidget {
                                   ),
                                 ),
                                 Obx(
-                                  () => checkOutController.tapedIndex.value ==
+                                  () => cartItemController.tapedIndex.value ==
                                               index &&
-                                          checkOutController.items.value > 0 &&
+                                          cartItemController.items.value > 0 &&
                                           tapedIndex == index
                                       ? Positioned(
                                           left: 6.5,
@@ -166,7 +164,7 @@ class CheckOut extends StatelessWidget {
                                                       Radius.circular(5)),
                                             ),
                                             child: Text(
-                                              'x${checkOutController.items.value.toString()}',
+                                              'x${cartItemController.items.value.toString()}',
                                               style: const TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 18,

@@ -4,13 +4,14 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
+import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 
 import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 
-class CheckOutItemController extends GetxController {
-  static CheckOutItemController get instance => Get.put(
-        CheckOutItemController(),
+class CartItemController extends GetxController {
+  static CartItemController get instance => Get.put(
+        CartItemController(),
       );
   final profileRepo = Get.put(ProfileRepo());
 
@@ -33,7 +34,7 @@ class CheckOutItemController extends GetxController {
     tapedIndex.value = index;
   }
 
-  RxList<CheckOutItemModel> cartItems = <CheckOutItemModel>[].obs;
+  RxList<CartItemModel> cartItems = <CartItemModel>[].obs;
 
   @override
   void onInit() {
@@ -47,7 +48,7 @@ class CheckOutItemController extends GetxController {
   setCartSubTotal() {
     double subTotal = 0;
     for (var item in cartItems) {
-      subTotal += int.parse(item.subTotal);
+      subTotal += item.subTotal;
     }
     totalCartSubTotal.value = subTotal;
   }
@@ -86,30 +87,30 @@ class CheckOutItemController extends GetxController {
       backgroundColor: kWhiteLight,
       colorText: kBlack,
     );
-    num quantity = int.parse(cartItems[index].quantityInCart) -
-        int.parse(cartItems[index].quantityInCart);
+    int quantity =
+        cartItems[index].quantityInCart - cartItems[index].quantityInCart;
 
-    cartItems[index].quantityInCart = quantity.toString();
+    cartItems[index].quantityInCart = quantity;
 
-    stockItem.itemCount = int.parse(cartItems[index].quantityInCart);
+    stockItem.itemCount = cartItems[index].quantityInCart;
     items.value = 0;
     removeItemFromCart(index);
   }
 
   decreaseItemQuantityInCart(index) {
-    num quantity = int.parse(cartItems[index].quantityInCart) - 1;
-    cartItems[index].quantityInCart = quantity.toString();
+    int quantity = cartItems[index].quantityInCart - 1;
+    cartItems[index].quantityInCart = quantity;
 
     // Recalculate the subtotal
-    String priceString = cartItems[index].price;
+    String priceString = cartItems[index].price.toString();
     String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
-    String quantityInCartString = cartItems[index].quantityInCart;
+    String quantityInCartString = cartItems[index].quantityInCart.toString();
     String numQuantityInCartString =
         quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
-    num initCost =
-        int.parse(numQuantityInCartString) * int.parse(numPriceString);
-    num cost = initCost;
-    cartItems[index].subTotal = cost.toString();
+    double initCost =
+        double.parse(numQuantityInCartString) * int.parse(numPriceString);
+    double cost = initCost;
+    cartItems[index].subTotal = cost;
     items.value--;
 
     if (int.parse(numQuantityInCartString) < 1) {
@@ -131,29 +132,29 @@ class CheckOutItemController extends GetxController {
   }
 
   increaseItemQuantityInCart(index) {
-    num quantity = int.parse(cartItems[index].quantityInCart) + 1;
-    cartItems[index].quantityInCart = quantity.toString();
-    String priceString = cartItems[index].price;
+    int quantity = cartItems[index].quantityInCart + 1;
+    cartItems[index].quantityInCart = quantity;
+    String priceString = cartItems[index].price.toString();
     String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
-    String quantityInCartString = cartItems[index].quantityInCart;
+    String quantityInCartString = cartItems[index].quantityInCart.toString();
     String numQuantityInCartString =
         quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
-    num initCost =
-        int.parse(numQuantityInCartString) * int.parse(numPriceString);
-    num cost = initCost;
-    CheckOutItemController.instance.items.value++;
+    double initCost =
+        double.parse(numQuantityInCartString) * int.parse(numPriceString);
+    double cost = initCost;
+    CartItemController.instance.items.value++;
 
-    cartItems[index].subTotal = cost.toString();
+    cartItems[index].subTotal = cost;
 
     // cartItems.forEach((item) {
     //   int itemCost = int.parse(item.subTotal);
     //   totalCartSubTotal.value = itemCost++;
     // });
-    // for (CheckOutItemModel item in cartItems) {
+    // for (CartItemModel item in cartItems) {
     //   int itemCost = int.parse(item.subTotal);
     //   totalCartSubTotal.value = itemCost++;
     // }
-    // CheckOutItemController.instance.totalCartSubTotal.value =
+    // CartItemController.instance.totalCartSubTotal.value =
     //     int.parse(cartItems[index].subTotal);
     Get.snackbar(
       '1 more ${cartItems[index].itemName} add to cart',
@@ -168,28 +169,22 @@ class CheckOutItemController extends GetxController {
     return _userModel ??
         UserModel(
           profilePic: '',
-          firstName: '',
-          lastName: '',
+          userName: '',
           email: '',
-          gender: '',
           contactNumber: '',
-          whatsappNumber: '',
-          homeAddress: '',
-          zipCode: '',
-          state: '',
-          city: '',
           country: '',
           bio: '',
           uid: '',
           role: '',
-          cart: <CheckOutItemModel>[],
+          cart: <CartItemModel>[],
+          stores: <StoreModel>[],
         );
   }
 
   /// FOURTH LOGIC
 
   void addToCart(
-    CheckOutItemModel newItem,
+    CartItemModel newItem,
     BuildContext context,
   ) async {
     if (!itemExistInCart(newItem)) {
@@ -212,23 +207,23 @@ class CheckOutItemController extends GetxController {
       );
     } else {
       // Item already exists in cart, update quantity and subtotal
-      CheckOutItemModel existingItem = cartItems.firstWhere(
+      CartItemModel existingItem = cartItems.firstWhere(
         (item) => item.itemId == newItem.itemId,
       );
 
       if (existingItem.itemId.isNotEmpty) {
-        num quantity = int.parse(existingItem.quantityInCart) + 1;
-        existingItem.quantityInCart = quantity.toString();
-        String priceString = existingItem.price;
+        int quantity = existingItem.quantityInCart + 1;
+        existingItem.quantityInCart = quantity;
+        String priceString = existingItem.price.toString();
         String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
-        String quantityInCartString = existingItem.quantityInCart;
+        String quantityInCartString = existingItem.quantityInCart.toString();
         String numQuantityInCartString =
             quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
-        num initCost =
-            int.parse(numQuantityInCartString) * int.parse(numPriceString);
-        num cost = initCost;
+        double initCost =
+            double.parse(numQuantityInCartString) * int.parse(numPriceString);
+        double cost = initCost;
 
-        existingItem.subTotal = cost.toString();
+        existingItem.subTotal = cost;
         Get.snackbar(
           '1 more ${existingItem.itemName} add to cart',
           'If you want to delete ${existingItem.itemName} from cart just press and hold',
@@ -247,8 +242,8 @@ class CheckOutItemController extends GetxController {
     }
   }
 
-  bool itemExistInCart(CheckOutItemModel newItem) {
-    for (CheckOutItemModel item in cartItems) {
+  bool itemExistInCart(CartItemModel newItem) {
+    for (CartItemModel item in cartItems) {
       if (item.itemId == newItem.itemId) {
         return true;
       }
@@ -256,10 +251,10 @@ class CheckOutItemController extends GetxController {
     return false;
   }
 
-  List<CheckOutItemModel> convertCartItems(List cartFromDb) {
-    List<CheckOutItemModel> result = [];
+  List<CartItemModel> convertCartItems(List cartFromDb) {
+    List<CartItemModel> result = [];
     for (var item in cartFromDb) {
-      CheckOutItemModel.fromMap(item);
+      CartItemModel.fromMap(item);
     }
     return result;
   }

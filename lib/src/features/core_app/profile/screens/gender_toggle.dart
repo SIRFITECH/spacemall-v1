@@ -4,7 +4,11 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
 
 class GenderToggle extends StatelessWidget {
-  GenderToggle({super.key});
+  GenderToggle({
+    super.key,
+    required this.isDarkMood,
+  });
+  final bool isDarkMood;
 
   final profileController = Get.put(
     ProfileController(),
@@ -15,8 +19,9 @@ class GenderToggle extends StatelessWidget {
       Obx(
         () => ToggleButtons(
           borderRadius: BorderRadius.circular(20),
-          selectedBorderColor: kMainColorLight,
-          fillColor: kMainColorLight,
+          selectedBorderColor:
+              isDarkMood ? kMainComplimemtColorLight : kMainColorLight,
+          fillColor: isDarkMood ? kMainComplimemtColorLight : kMainColorLight,
           isSelected: profileController.isSelected,
           onPressed: (int index) {
             profileController.isSelected[index] =
@@ -27,37 +32,43 @@ class GenderToggle extends StatelessWidget {
               profileController.isSelected[index] = true;
               profileController.selectedGender.value =
                   profileController.genders[index];
-              debugPrint('male button is pressed');
             } else {
               profileController.isSelected
                   .fillRange(0, profileController.genders.length, false);
               profileController.isSelected[index] = true;
               profileController.selectedGender.value =
                   profileController.genders[index];
-              debugPrint('female button is pressed');
             }
           },
           children: <Widget>[
             CircleAvatar(
               backgroundColor: profileController.selectedGender.value == 'Male'
-                  ? kMainColorLight
-                  : kWhiteLight,
+                  ? isDarkMood
+                      ? kMainComplimemtColorLight
+                      : kMainColorLight
+                  : Colors.transparent,
               child: Icon(
                 Icons.male,
                 color: profileController.selectedGender.value == 'Female'
-                    ? kMainComplimemtColorLight
+                    ? isDarkMood
+                        ? kMainComplimemtColorLight
+                        : kMainComplimemtColorLight
                     : kWhiteLight,
               ),
             ),
             CircleAvatar(
               backgroundColor:
                   profileController.selectedGender.value == 'Female'
-                      ? kMainColorLight
-                      : kWhiteLight,
+                      ? isDarkMood
+                          ? kMainComplimemtColorLight
+                          : kMainColorLight
+                      : Colors.transparent,
               child: Icon(
                 Icons.female,
                 color: profileController.selectedGender.value == 'Female'
-                    ? kWhiteLight
+                    ? isDarkMood
+                        ? kWhiteLight
+                        : kWhiteLight
                     : kMainComplimemtColorLight,
               ),
             ),

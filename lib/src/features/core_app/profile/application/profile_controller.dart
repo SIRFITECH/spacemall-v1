@@ -4,37 +4,30 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
+import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
 class ProfileController extends GetxController {
-  static ProfileController get instance => Get.put(
-        ProfileController(),
-      );
-
+  static ProfileController get instance => Get.find();
+  // static ProfileController get instance => Get.put(
+  //       ProfileController(),
+  //     );
+  //TODO: You can change profilePic as the commented lins below
+// File profilePic = File('');
+// Rx<File> profilePic = Rx(File(''));
+  RxBool isLoading = false.obs;
   Rx<File?> profilePic = Rx(null);
-
-  RxList<CheckOutItemModel> cart = <CheckOutItemModel>[].obs;
+  RxList<CartItemModel> cart = <CartItemModel>[].obs;
+  RxList<StoreModel> stores = <StoreModel>[].obs;
   final String uid = '';
-  final TextEditingController tFName = TextEditingController();
-  final TextEditingController tLName = TextEditingController();
+  final TextEditingController tUserName = TextEditingController();
   final TextEditingController tEmail = TextEditingController();
-  final TextEditingController tHomeAddress = TextEditingController();
-  final TextEditingController tDOB = TextEditingController();
-  final TextEditingController tContact = TextEditingController();
-  final TextEditingController tWhatsApp = TextEditingController();
-  final TextEditingController tState = TextEditingController();
-  final TextEditingController tCity = TextEditingController();
-  final TextEditingController tCountry = TextEditingController();
-  final TextEditingController tZipCode = TextEditingController();
-  final TextEditingController tBankName = TextEditingController();
-  final TextEditingController tAccount = TextEditingController();
   final TextEditingController tBio = TextEditingController();
-  final TextEditingController tJobTitle = TextEditingController();
-  final TextEditingController tAlternativeEmail = TextEditingController();
 
   UserModel? user;
 
+// for gender select
   final List<String> genders = [
     'Male',
     'Female',
@@ -45,12 +38,14 @@ class ProfileController extends GetxController {
   ].obs;
   Rx<String> selectedGender = ''.obs;
 
+  // gender select end here
+
   void selectImage(BuildContext context) async {
     profilePic = (await pickImage(context));
     update();
   }
 
-  CheckOutItemModel? cartItem;
+  CartItemModel? cartItem;
 
   updateUserData(Map<String, dynamic> data) {
     cartBox.put(cartItem!.itemName, data);

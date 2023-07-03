@@ -23,13 +23,14 @@ class ConfirmPayment extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    final CheckOutItemController checkOutItemController = Get.find();
+    final CartItemController checkOutItemController = Get.find();
     checkOutItemController.onInit();
 
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
         title: '',
+        automaticallyImplyLeading: true,
       ),
       drawer: const SpacemallDrawer(),
       body: Container(
@@ -143,9 +144,8 @@ class ConfirmPayment extends StatelessWidget {
                                             ],
                                           ),
                                           Text(
-                                            nairaFormat.format(
-                                              int.parse(stockItem.subTotal),
-                                            ),
+                                            nairaFormat
+                                                .format(stockItem.subTotal),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .headlineMedium,

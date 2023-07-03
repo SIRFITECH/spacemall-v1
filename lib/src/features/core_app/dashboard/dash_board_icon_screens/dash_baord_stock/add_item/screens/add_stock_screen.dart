@@ -5,6 +5,7 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/add_items.dart';
@@ -13,7 +14,6 @@ import 'package:spacemall/src/features/core_app/general/custom_button.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
 import 'package:spacemall/src/features/core_app/general/custom_radio.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
-import 'package:spacemall/src/features/core_app/profile/application/date_widget_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widget.dart';
 
 class AddStock extends StatelessWidget {
@@ -27,31 +27,19 @@ class AddStock extends StatelessWidget {
     final screenSize = media.size;
     final textTheme = Theme.of(context).textTheme;
 
-    final addItemController = Get.put(
-      AddItemController(),
-    );
+    final AddItemController addItemController = Get.find();
+    final AddCategoryController addCategoryController = Get.find();
+    // final DateFieldController dateFieldController = Get.find();
 
-    final DateFieldController dateFieldController = Get.find();
+    var stockCategory = addCategoryController.categoryItems;
+
     var itemPic = addItemController.itemPic;
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
         title: '',
+        automaticallyImplyLeading: true,
       ),
-      // AppBar(
-      //   title: const Text(kAddStockAppBarText),
-      //   centerTitle: true,
-      //   elevation: 0.5,
-      //   actions: const [
-      //     Padding(
-      //       padding: EdgeInsets.all(8.0),
-      //       child: Icon(
-      //         Icons.arrow_back_ios,
-      //         color: kMainColorDark,
-      //       ),
-      //     )
-      //   ],
-      // ),
       drawer: const SpacemallDrawer(),
       body: Padding(
         padding: EdgeInsets.all(screenSize.width * 0.025),
@@ -63,8 +51,7 @@ class AddStock extends StatelessWidget {
                 Column(
                   children: [
                     GestureDetector(
-                      onTap: () =>
-                          AddItemController.instance.selectItemImage(context),
+                      onTap: () => addItemController.selectItemImage(context),
                       child: itemPic.value == null
                           ? CircleAvatar(
                               radius: 40,
@@ -144,11 +131,7 @@ class AddStock extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                       color:
-                                          // isDarkMood
-                                          //     ? kTextFieldDarkColor
-                                          //     : kWhiteDark,
                                           isDarkMood ? kWhiteDark : kBlackDark,
-                                      // kTextFieldDarkBorderColor,
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(4.0),
@@ -165,7 +148,7 @@ class AddStock extends StatelessWidget {
                                           ? kDarkModeIconColor
                                           : kMainColorDark,
                                     ),
-                                    value: addItemController.categoryValue
+                                    value: addCategoryController.categoryValue
                                         .toString(),
                                     style: textTheme.labelSmall,
                                     elevation: 0,
@@ -176,7 +159,7 @@ class AddStock extends StatelessWidget {
                                         : kBlackDark,
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10)),
-                                    items: addItemController.categoryItems
+                                    items: stockCategory
                                         .map<DropdownMenuItem<String>>(
                                             (String value) {
                                       return DropdownMenuItem<String>(
@@ -187,7 +170,8 @@ class AddStock extends StatelessWidget {
                                         ),
                                       );
                                     }).toList(),
-                                    onChanged: addItemController.setCategory,
+                                    onChanged:
+                                        addCategoryController.setCategory,
                                   ),
                                 ),
                               ),
@@ -375,14 +359,11 @@ class AddStock extends StatelessWidget {
                     isDarkMood: isDarkMood,
                     controller: addItemController.trackExpiry,
                     keyboardType: TextInputType.datetime,
-                    hintText: kDOBHintText,
+                    hintText: kDateHintText,
                     labelText: kTrackExpiryDateText,
                     maxLines: 1,
                     height: screenSize.height * 0.04,
                     width: screenSize.width * 0.4,
-                    onTap: () {
-                      print('From UI');
-                    },
                   ),
                 ),
                 Padding(
@@ -392,16 +373,16 @@ class AddStock extends StatelessWidget {
                     isDarkMood: isDarkMood,
                     controller: addItemController.expiryAlert,
                     keyboardType: TextInputType.datetime,
-                    hintText: kDOBHintText,
+                    hintText: kDateHintText,
                     labelText: kExpiryDateAlertText,
                     maxLines: 1,
                     height: screenSize.height * 0.04,
                     width: screenSize.width * 0.4,
-                    onTap: () => dateFieldController.toggleTapped(),
                   ),
                 ),
               ],
             ),
+
             CustomDivider(
               height: screenSize.width * 0.025,
               thickness: screenSize.width * 0.004,
@@ -413,8 +394,8 @@ class AddStock extends StatelessWidget {
               children: [
                 CustomButton(
                   screenSize: screenSize,
-                  onPress: () => AddItemRepo.instance
-                      .saveItemData()
+                  onPress: () => AddItemController.instance
+                      .addItemToPhone()
                       .then((value) => AddItemRepo.instance.clearControllers()),
                   title: kAddStockAppBarText,
                   width: screenSize.width * 0.3,

@@ -1,4 +1,4 @@
-class CheckOutItemModel {
+class CartModel {
   String cartId;
   String itemName;
   String quantityInCart;
@@ -8,7 +8,7 @@ class CheckOutItemModel {
   String discount;
   String tax;
 
-  CheckOutItemModel({
+  CartModel({
     required this.cartId,
     required this.itemName,
     required this.quantityInCart,
@@ -20,8 +20,8 @@ class CheckOutItemModel {
   });
 
   // populated from map, that is serializing the stock object from server
-  factory CheckOutItemModel.fromMap(Map<String, dynamic> map) {
-    return CheckOutItemModel(
+  factory CartModel.fromMap(Map<String, dynamic> map) {
+    return CartModel(
       cartId: map['cartId'] ?? '',
       itemName: map['itemName'] ?? '',
       quantityInCart: map['quantityInCart'] ?? '',

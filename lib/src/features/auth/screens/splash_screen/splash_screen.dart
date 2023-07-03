@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
-import 'package:spacemall/src/constants/image_strings.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
+import 'package:spacemall/src/features/auth/application/splash_controller/splash_controller.dart';
+import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_screen.dart';
+import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
 
 class ChooseUserType extends StatelessWidget {
   const ChooseUserType({super.key});
@@ -14,6 +15,7 @@ class ChooseUserType extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     // final screenSize = media.size;
+    final SplashController splashController = Get.find();
     return Scaffold(
       backgroundColor:
           isDarkMood ? kDarkModeBackgroundColor : kLightModeBackgroundColor,
@@ -26,10 +28,9 @@ class ChooseUserType extends StatelessWidget {
               itemBuilder: ((context, index) {
                 return InkWell(
                   onTap: (() {
-                    // var tapIndex = index;
                     if (index == 0) {
-                      Get.to(
-                        () => DashBoard(),
+                      Get.offAll(
+                        () => const OnBoarding(),
                       );
                     }
                   }),
@@ -37,18 +38,15 @@ class ChooseUserType extends StatelessWidget {
                     onTap: () {
                       switch (index) {
                         case 0:
-                          Get.to(
-                            () => DashBoard(),
+                          Get.offAll(
+                            () => const OnBoarding(),
                           );
                           debugPrint('$index Own a store');
                           break;
                         case 1:
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           const AddCategory()),
-                          // );
+                          Get.offAll(
+                            () => const SetProfile(),
+                          );
                           debugPrint('$index Customer');
                           break;
                       }
@@ -71,7 +69,7 @@ class ChooseUserType extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: SvgPicture.asset(
-                                kMallIcon,
+                                splashController.icons[index],
                                 color: isDarkMood
                                     ? kDarkModeIconColor
                                     : kLightModeIconColor,
@@ -85,11 +83,11 @@ class ChooseUserType extends StatelessWidget {
                         const SizedBox(
                           height: 5,
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(right: 12.0),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 12.0),
                           child: Text(
-                            'Own A Store',
-                            style: TextStyle(color: kWhiteLight),
+                            splashController.role[index],
+                            style: const TextStyle(color: kWhiteLight),
                           ),
                         )
                       ],

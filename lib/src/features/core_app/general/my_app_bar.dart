@@ -7,11 +7,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
     required this.isDarkMood,
     required this.title,
+    required this.automaticallyImplyLeading,
   });
   // : super(key: key);
 
   final bool isDarkMood;
   final String title;
+  final bool automaticallyImplyLeading;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -19,7 +21,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Text(title),
+      automaticallyImplyLeading: automaticallyImplyLeading,
+      centerTitle: true,
+      title: Text(title.toUpperCase()),
+      titleTextStyle: TextStyle(
+          color: isDarkMood ? kWhiteLight : kMainComplimemtColorLight,
+          fontSize: 23,
+          fontWeight: FontWeight.bold),
       backgroundColor: isDarkMood
           ? kDarkModeBackgroundColor.withAlpha(2)
           : kWhiteLight.withAlpha(2),

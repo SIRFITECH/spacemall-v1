@@ -54,40 +54,40 @@ class SpacemallDrawer extends StatelessWidget {
                   ),
                 )),
               ),
-              otherAccountsPictures: [
-                CircleAvatar(
-                  radius: 100,
-                  backgroundColor: Colors.transparent,
-                  child: SizedBox(
-                      child: ClipOval(
-                    child: Image.asset(kTrailImage2),
-                  )),
-                ),
-                CircleAvatar(
-                  radius: 100,
-                  backgroundColor: Colors.transparent,
-                  child: SizedBox(
-                      child: ClipOval(
-                    child: Image.asset(kTrailImage3),
-                  )),
-                ),
-                CircleAvatar(
-                  radius: 100,
-                  backgroundColor: Colors.transparent,
-                  child: SizedBox(
-                      child: ClipOval(
-                    child: Image.asset(kTrialImage1),
-                  )),
-                ),
-                CircleAvatar(
-                  radius: 100,
-                  backgroundColor: Colors.transparent,
-                  child: SizedBox(
-                      child: ClipOval(
-                    child: Image.asset(kTrailImage2),
-                  )),
-                ),
-              ],
+              // otherAccountsPictures: [
+              //   CircleAvatar(
+              //     radius: 100,
+              //     backgroundColor: Colors.transparent,
+              //     child: SizedBox(
+              //         child: ClipOval(
+              //       child: Image.asset(kTrailImage2),
+              //     )),
+              //   ),
+              //   CircleAvatar(
+              //     radius: 100,
+              //     backgroundColor: Colors.transparent,
+              //     child: SizedBox(
+              //         child: ClipOval(
+              //       child: Image.asset(kTrailImage3),
+              //     )),
+              //   ),
+              //   CircleAvatar(
+              //     radius: 100,
+              //     backgroundColor: Colors.transparent,
+              //     child: SizedBox(
+              //         child: ClipOval(
+              //       child: Image.asset(kTrialImage1),
+              //     )),
+              //   ),
+              //   CircleAvatar(
+              //     radius: 100,
+              //     backgroundColor: Colors.transparent,
+              //     child: SizedBox(
+              //         child: ClipOval(
+              //       child: Image.asset(kTrailImage2),
+              //     )),
+              //   ),
+              // ],
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

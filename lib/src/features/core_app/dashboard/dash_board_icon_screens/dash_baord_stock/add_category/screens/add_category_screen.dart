@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
@@ -16,14 +17,14 @@ class AddCategory extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    final addCategoryController = Get.put(
-      AddCategoryController(),
-    );
+    final AddCategoryController addCategoryController = Get.find();
+
     return Scaffold(
       drawer: const SpacemallDrawer(),
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: '',
+        title: kAddCategoryAppBarText,
+        automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -35,56 +36,59 @@ class AddCategory extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.width * 0.4,
-                child: ListView(children: const [
-                  SizedBox(
-                    height: 10,
+                height: MediaQuery.of(context).size.height * 0.65,
+                child: Obx(
+                  () => ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: addCategoryController.categoryItems.length,
+                    itemBuilder: (context, index) {
+                      final category =
+                          addCategoryController.categoryItems[index];
+                      return ListTile(
+                        leading: IconButton(
+                          onPressed: () {
+                            addCategoryController.removeCategory(index);
+                          },
+                          icon: const Icon(Icons.remove_circle),
+                          color: Colors.red,
+                        ),
+                        title: Text(
+                          category,
+                          style: Theme.of(context).textTheme.labelSmall,
+                        ),
+                      );
+                    },
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 16.0,
-                      right: 16.0,
-                      top: 32.0,
-                      bottom: 16,
-                    ),
-                    child: Text('List of added Categories'),
-                  )
-                ]),
+                ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.width * 0.5,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 0),
-                      child: Text(
-                        'Category Name',
-                      ),
-                    ),
-                    TextFeildWidget(
-                      screenSize: screenSize,
-                      isDarkMood: isDarkMood,
-                      controller: addCategoryController.categoryName,
-                      keyboardType: TextInputType.text,
-                      hintText: 'Drink',
-                      labelText: '',
-                      maxLines: 1,
-                      height: MediaQuery.of(context).size.width * 0.135,
-                      width: MediaQuery.of(context).size.width * 0.90,
-                    ),
-                  ],
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextFeildWidget(
+                    screenSize: screenSize,
+                    isDarkMood: isDarkMood,
+                    controller: addCategoryController.categoryName,
+                    keyboardType: TextInputType.text,
+                    hintText: kHintText,
+                    labelText: kCategoryLabelText,
+                    maxLines: 1,
+                    height: MediaQuery.of(context).size.width * 0.135,
+                    width: MediaQuery.of(context).size.width * 0.90,
+                  ),
+                ],
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.width * 0.1,
               ),
-              ElevatedButton(onPressed: () {}, child: Text('Add Category'))
+              ElevatedButton(
+                  onPressed: () {
+                    // print(addCategoryController.categoryName.text.trim());
+                    addCategoryController.addNewCategory();
+                  },
+                  child: const Text(kAddCategoryText))
             ],
           ),
         ),

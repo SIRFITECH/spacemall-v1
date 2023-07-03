@@ -8,4 +8,10 @@ class AddTagController extends GetxController {
   final variantName = TextEditingController();
   final item = TextEditingController();
   RxList<String> myStrings = <String>[].obs;
+
+  var isAlertShown = true.obs;
+
+  // void showComingSoon() {
+  //   isAlertShown.value = true;
+  // }
 }

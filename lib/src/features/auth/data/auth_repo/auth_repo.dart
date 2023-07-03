@@ -22,6 +22,9 @@ class AuthRepo extends GetxController {
   String? _profilePic;
   String get profilePic => _profilePic?.toString() ?? '';
 
+  String? _phoneNumber;
+  String get phoneNumber => _phoneNumber?.toString() ?? '';
+
   @override
   void onReady() {
     firebaseUser = Rx<User?>(_auth.currentUser);
@@ -75,6 +78,7 @@ class AuthRepo extends GetxController {
     if (credentials.user != null) {
       credentials.user!.uid;
       _uid = credentials.user!.uid;
+
       print('user is assigned the id  $_uid');
     }
     return credentials.user != null ? true : false;

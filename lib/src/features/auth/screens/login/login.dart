@@ -21,7 +21,8 @@ class Login extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
 
-    final loginController = Get.put(LoginController());
+    // final loginController = Get.put(LoginController());
+    final LoginController loginController = Get.find();
 
     return Scaffold(
         backgroundColor: isDarkMood ? kDarkThemeBgColor : kLightThemeBgColor,

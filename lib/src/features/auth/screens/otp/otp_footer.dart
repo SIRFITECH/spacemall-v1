@@ -10,6 +10,7 @@ class OTPFooter extends StatelessWidget {
   });
 
   final OtpController otpController;
+  // final OtpController otpController = Get.find();
 
   @override
   Widget build(BuildContext context) {

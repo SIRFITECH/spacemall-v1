@@ -19,4 +19,12 @@ class StockController extends GetxController {
   void removeStock(StockModel object) {
     stockList.remove(object);
   }
+
+  List<StockModel> convertStockItems(List stockFromDb) {
+    List<StockModel> result = [];
+    for (var item in stockFromDb) {
+      StockModel.fromMap(item);
+    }
+    return result;
+  }
 }

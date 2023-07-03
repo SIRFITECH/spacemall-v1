@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
+import 'package:spacemall/src/features/auth/application/splash_controller/splash_controller.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
@@ -16,8 +18,13 @@ import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
 class ProfileRepo extends GetxController {
-  static ProfileRepo get instance => Get.put(ProfileRepo());
-  static ProfileController profileController = Get.put(
+  static ProfileRepo get instance => Get.find();
+  final AuthRepo authRepo = Get.find();
+
+  final SplashController splashController = Get.find();
+  final LoginController loginController = Get.find();
+
+  final ProfileController profileController = Get.put(
     ProfileController(),
   );
 
@@ -25,55 +32,48 @@ class ProfileRepo extends GetxController {
   final FirebaseStorage _firestorage = FirebaseStorage.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
-  final dp = profileController.profilePic.value;
-
-  final uid = AuthRepo.instance.uid;
-
+  var dp =
+      // profileController
+      ProfileController.instance.profilePic.value;
   String? get currentUserId => _auth.currentUser?.uid;
+
+  // bool isLoading = false;
 
   UserModel? _userModel;
   UserModel get userModel {
     return _userModel ??
         UserModel(
-            cart: [],
-            profilePic: '',
-            firstName: profileController.tFName.text.trim(),
-            lastName: profileController.tLName.text.trim(),
-            email: profileController.tEmail.text.trim(),
-            gender: profileController.selectedGender.value,
-            contactNumber: profileController.tContact.text.trim(),
-            whatsappNumber: profileController.tWhatsApp.text.trim(),
-            homeAddress: profileController.tHomeAddress.text.trim(),
-            zipCode: profileController.tZipCode.text.trim(),
-            state: profileController.tState.text.trim(),
-            city: profileController.tCity.text.trim(),
-            country: profileController.tCountry.text.trim(),
-            bio: profileController.tBio.text.trim(),
-            role: profileController.tJobTitle.text.trim(),
-            uid: uid);
+          cart: [],
+          stores: [],
+          profilePic: '',
+          userName: profileController.tUserName.text.trim(),
+          email: profileController.tEmail.text.trim(),
+          contactNumber: loginController.phone.value,
+          country: loginController.country.value.flagEmoji,
+          role: splashController.userRole.value,
+          uid: AuthRepo.instance.uid,
+          bio: profileController.tBio.text.trim(),
+        );
   }
 
 // store data
   saveData(BuildContext context) async {
+    dp = profileController.profilePic.value;
     UserModel user = UserModel(
-      cart: [],
       profilePic: '',
-      firstName: profileController.tFName.text.trim(),
-      lastName: profileController.tLName.text.trim(),
-      email: profileController.tEmail.text.trim(),
-      gender: profileController.selectedGender.value,
-      contactNumber: profileController.tContact.text.trim(),
-      whatsappNumber: profileController.tWhatsApp.text.trim(),
-      homeAddress: profileController.tHomeAddress.text.trim(),
-      zipCode: profileController.tZipCode.text.trim(),
-      state: profileController.tState.text.trim(),
-      city: profileController.tCity.text.trim(),
-      country: profileController.tCountry.text.trim(),
-      bio: profileController.tBio.text.trim(),
-      role: profileController.tJobTitle.text.trim(),
+      contactNumber: loginController.phone.value,
+      role: splashController.userRole.value,
+      cart: [],
+      stores: [],
       uid: '',
+      country: loginController.country.value.name,
+      userName: profileController.tUserName.text.trim(),
+      email: profileController.tEmail.text.trim(),
+      bio: profileController.tBio.text.trim(),
     );
-    if (dp == null) {
+    print(
+        'User role is ${splashController.userRole.value} and phone is ${loginController.phone.value}');
+    if (profileController.profilePic.value!.path.isNotEmpty) {
       const Center(
         child: CircularProgressIndicator(),
       );
@@ -86,7 +86,7 @@ class ProfileRepo extends GetxController {
           ProfileRepo.instance.saveDataToPhone(user).then(
                 (value) => AuthRepo.instance.setSignedIn().then(
                   (value) {
-                    Get.to(
+                    Get.offAll(
                       DashBoard(),
                     );
                   },
@@ -97,12 +97,9 @@ class ProfileRepo extends GetxController {
     } else {
       Get.snackbar(
         'Error',
-        'Please add a profile pic ${profileController.profilePic}',
+        'You need to pick a profile photo',
         backgroundColor: kWhiteLight,
       );
-
-      // showSnackBar(
-      //     context, 'Please add a profile pic ${profileController.profilePic}');
     }
   }
 
@@ -124,7 +121,7 @@ class ProfileRepo extends GetxController {
 
     Get.snackbar(
       'User created',
-      'User ${profileController.tFName} created successfully',
+      'User with username ${profileController.tUserName.text.toUpperCase()} created successfully',
       backgroundColor: kWhiteLight,
     );
   }
@@ -141,23 +138,6 @@ class ProfileRepo extends GetxController {
       update();
     }
   }
-
-  // Future<UserModel?> getProfileDataFromPhone() async {
-  //   SharedPreferences localDrive = await SharedPreferences.getInstance();
-
-  //   String? profileDataString = localDrive.getString("user_model");
-  //   if (profileDataString != null) {
-  //     Map<String, dynamic> jsonMap = jsonDecode(profileDataString);
-  //     UserModel userModel = UserModel.fromMap(jsonMap);
-  //     List<dynamic> cartList = jsonMap['cart'];
-  //     List<CheckOutItemModel> cart =
-  //         cartList.map((item) => CheckOutItemModel.fromMap(item)).toList();
-  //     userModel.cart = cart;
-  //     return userModel;
-  //   }
-
-  //   return null;
-  // }
 
   ///DATABASE OPERATIONS
 
@@ -181,7 +161,8 @@ class ProfileRepo extends GetxController {
     required Function onSucess,
   }) async {
     try {
-      await saveImageToStorage('profilePic/$uid', dp).then((value) {
+      profileController.isLoading.value = true;
+      await saveImageToStorage('profilePic/${authRepo.uid}', dp).then((value) {
         userModel.profilePic = value;
         userModel.uid = AuthRepo.instance.uid;
       });
@@ -189,9 +170,14 @@ class ProfileRepo extends GetxController {
       _userModel = userModel;
 
       // save the data to firebase
-      await _fireStore.collection('users').doc(uid).set(userModel.toMap()).then(
+      await _fireStore
+          .collection('users')
+          .doc(authRepo.uid)
+          .set(userModel.toMap())
+          .then(
             (value) => onSucess(),
           );
+      profileController.isLoading.value = false;
     } on FirebaseAuthException catch (e) {
       showSnackBar(
         context,

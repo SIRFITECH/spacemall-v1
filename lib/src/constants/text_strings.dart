@@ -76,31 +76,36 @@ const String kStockManagentText = 'Stock Management';
 
 /// --- SETPROFILE SCREEN TEXT ---
 
-const String kChangeLogoText = 'Change Logo';
-const String kFNameText = 'Fisrt Name';
-const String kLNameText = 'Last Name';
-const String kEmailText = 'Email';
-const String kHomeText = 'Home Address';
-const String kDOBText = 'D.O.B';
-const String kDOBHintText = 'YYYY/MM/DD';
-const String kGenderText = 'Gender';
-const String kContactText = 'Contact';
-const String kWhatsAppText = 'WhatsApp';
-const String kStateText = 'State';
-const String kCityText = 'City';
-const String kCountryText = 'Country';
-const String kZipCodeText = 'Zip-Code';
-const String kBankNameText = 'Bank Name';
-const String kAccountText = 'Account Number';
-const String kBioText = 'Bio';
-const String kJobTitleText = 'Job Title';
-const String kAlternativeEmailText = 'Alternative Email';
+// const String kUserNameText = 'Userame';
+// const String kLNameText = 'Last Name';
+
+// const String kHomeText = 'Home Address';
+// const String kDOBText = 'D.O.B';
+// const String kDOBHintText = 'YYYY/MM/DD';
+// const String kGenderText = 'Gender';
+// const String kContactText = 'Contact';
+// const String kWhatsAppText = 'WhatsApp';
+// const String kStateText = 'State';
+// const String kCityText = 'City';
+
+// const String kZipCodeText = 'Zip-Code';
+// const String kBankNameText = 'Bank Name';
+// const String kAccountText = 'Account Number';
+
+// const String kJobTitleText = 'Job Title';
+// const String kAlternativeEmailText = 'Alternative Email';
 
 /// --- PROFILE SCREEN TEXT ---
 
+const String kAppBarTitleText = 'Set Profile';
+const String kChangePhotoText = 'Change Profile Photo';
 const String kEditProfileText = 'Edit Profile';
-const String kNameText = 'Name';
+const String kUserNameText = 'Username';
+const String kEmailText = 'Email';
+const String kBioText = 'About You';
+const String kCountryText = 'Country';
 const String kRoleText = 'Role';
+const String kPhoneText = 'Phone';
 
 /// --- ADDSTOCK SCREEN TEXT ---
 
@@ -118,13 +123,23 @@ const String kAddMoreImagesText = 'ADD MORE IMAGES';
 
 const String kTrackExpiryDateText = 'Track Expiry Date';
 const String kExpiryDateAlertText = 'Expiry Date Alert';
+const String kDateHintText = 'dd/mm/yyyy';
 
 const String kVariantsText = 'VARAIANT(S)';
 const String kAddItemText = 'Add Item';
 
+/// --- ADDSTOCK SCREEN TEXT ---
+
+const String kAddCategoryAppBarText = 'ADD CATEGORY';
+const String kCategoryLabelText = 'Category Name';
+const String kHintText = 'eg Drinks';
+const String kAddCategoryText = 'Add Category';
+
 /// --- STOCK SCREEN TEXT ---
 
 const String kAddItemsText = 'Please add some items';
+const String kComingSoonTitleText = 'Coming Soon';
+const String kComingSoonBodyText = 'This page is coming soon.';
 
 /// --- CHECKOUT SCREEN TEXT ---
 

@@ -4,6 +4,7 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_icons.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
 
 import '../../dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
@@ -18,6 +19,11 @@ class DashboardGrid extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     // final screenSize = media.size;
 
+    // final addItemRepo =
+    Get.put(
+      AddItemRepo(),
+    );
+
     return Scaffold(
       backgroundColor: isDarkMood ? kDarkModeBackgroundColor : kWhiteLight,
       body: Container(
@@ -26,11 +32,10 @@ class DashboardGrid extends StatelessWidget {
             image: AssetImage(kBackGroundCart),
             fit: BoxFit.contain,
           ),
-          //   color: isDarkMood ? kMainComplimemtColorLight : kMainColorLight,
-          //   borderRadius: const BorderRadius.only(
-          //     bottomLeft: Radius.circular(20),
-          //     bottomRight: Radius.circular(20),
-          //   ),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
         ),
         child: GridView.count(
             crossAxisCount: 3,
