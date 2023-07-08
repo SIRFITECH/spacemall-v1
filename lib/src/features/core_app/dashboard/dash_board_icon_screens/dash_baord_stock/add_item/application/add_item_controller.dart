@@ -6,7 +6,6 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
-import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
 class AddItemController extends GetxController {
@@ -61,15 +60,6 @@ class AddItemController extends GetxController {
     "Image 4",
   ];
 
-// add item to hive
-
-  Future<void> addToHive(AddItemModel item) async {
-    AddItemController.instance.itemList.add(item);
-    await stockItemBox.put('item-${itemName.text}', item);
-
-    update();
-  }
-
   printItemList() {
     // print(itemList.length);
   }
@@ -105,7 +95,7 @@ class AddItemController extends GetxController {
   }
 
   void selectItemImage(BuildContext context) async {
-    itemPic = (await pickImage(context));
+    itemPic.value = (await pickImage(context));
     update();
   }
 

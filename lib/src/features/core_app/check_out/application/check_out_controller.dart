@@ -80,7 +80,7 @@ class CartItemController extends GetxController {
   }
 
   deleteItemFromCart(index) {
-    AddItemModel stockItem = stockItemBox.getAt(index);
+    AddItemModel stockItem = stockBox.getAt(index);
     Get.snackbar(
       '${cartItems[index].itemName}  Deleted ',
       '${cartItems[index].itemName} deleted successfully from cart',

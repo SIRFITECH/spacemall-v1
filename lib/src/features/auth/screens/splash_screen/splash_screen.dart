@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/auth/application/splash_controller/splash_controller.dart';
 import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_screen.dart';
-import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
+import 'package:spacemall/src/features/core_app/mall/screens/mall_screen.dart';
 
 class ChooseUserType extends StatelessWidget {
   const ChooseUserType({super.key});
@@ -41,12 +41,15 @@ class ChooseUserType extends StatelessWidget {
                           Get.offAll(
                             () => const OnBoarding(),
                           );
+                          splashController.userRole.value = 'Store Owner';
                           debugPrint('$index Own a store');
+                          debugPrint('${splashController.userRole.value}');
                           break;
                         case 1:
                           Get.offAll(
-                            () => const SetProfile(),
+                            () => const MallScreen(),
                           );
+                          splashController.userRole.value = 'Buyer';
                           debugPrint('$index Customer');
                           break;
                       }

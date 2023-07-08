@@ -10,9 +10,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 bool _isLoading = false;
 bool get isLoading => _isLoading;
 
-final AddTagController addTagController = Get.find(
-    // AddTagController(),
-    );
+final AddTagController addTagController = Get.find();
 void showSnackBar(BuildContext context, String content) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     padding: EdgeInsets.only(
@@ -26,20 +24,17 @@ void showSnackBar(BuildContext context, String content) {
   ));
 }
 
-Future<Rx<File?>> pickImage(BuildContext context) async {
-  Rx<File?> dp = Rx(null);
-
+Future<File?> pickImage(BuildContext context) async {
   try {
     final selectedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (selectedImage != null) {
-      dp.value = File(selectedImage.path);
+      return File(selectedImage.path);
     }
   } catch (e) {
-    // show a snachbar with the error message
     showSnackBar(context, e.toString());
   }
-  return dp;
+  return null;
 }
 
 // // using the string type

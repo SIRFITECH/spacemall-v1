@@ -7,26 +7,34 @@ import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/application/dash_baord_controller.dart';
 import 'package:spacemall/src/features/core_app/generic_dash_board_screens/linear_bar_indicator_widget.dart';
 import 'package:spacemall/src/features/core_app/generic_dash_board_screens/svg_icons_widget.dart';
+import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
+import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
+import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 
-class DashBoardCustomerWidget extends StatefulWidget {
-  const DashBoardCustomerWidget({
+class DashBoardCustomerWidget extends StatelessWidget {
+  DashBoardCustomerWidget({
     super.key,
     required this.isDarkMood,
   });
 
   final bool isDarkMood;
 
-  @override
-  State<DashBoardCustomerWidget> createState() =>
-      _DashBoardCustomerWidgetState();
-}
-
-class _DashBoardCustomerWidgetState extends State<DashBoardCustomerWidget> {
   final dashBoardController = DashBoardController();
+  final StoreRepo storeRepo = Get.find();
+
+  //   final storeRepo = StoreRepo();
+  // final storeController = StoreController(storeRepo: storeRepo);
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final media = MediaQuery.of(context);
+    final brightness = media.platformBrightness;
+    final isDarkMood = brightness == Brightness.dark;
+    final screenSize = media.size;
+
+    var stores = StoreController.instance.stores;
+    final storeController = StoreController(storeRepo: storeRepo);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,7 +47,7 @@ class _DashBoardCustomerWidgetState extends State<DashBoardCustomerWidget> {
               style: textTheme.titleMedium,
             ),
             LinearBarIndicator(
-              isDarkMood: widget.isDarkMood,
+              isDarkMood: isDarkMood,
               percentage: kCustomerLinearBarIndicator,
             ),
             const SizedBox(
@@ -48,9 +56,9 @@ class _DashBoardCustomerWidgetState extends State<DashBoardCustomerWidget> {
             Row(
               children: [
                 Iconz(
-                  isDarkMood: widget.isDarkMood,
+                  isDarkMood: isDarkMood,
                   image: kCustomerIcon,
-                  color: widget.isDarkMood ? kWhiteDark : kBrighComplementColor,
+                  color: isDarkMood ? kWhiteDark : kBrighComplementColor,
                   height: kLinearBarIconzHeight,
                 ),
                 const SizedBox(
@@ -66,13 +74,8 @@ class _DashBoardCustomerWidgetState extends State<DashBoardCustomerWidget> {
         ),
         Container(
           height: 40,
-          width: 110,
+          width: screenSize.width * 0.4,
           decoration: BoxDecoration(
-            // color: MediaQuery.of(context).platformBrightness == Brightness.light
-            //     ? kMainComplimemtColorLight.withOpacity(.4)
-            //     : kBrighComplementColor,
-            // // kBlackDark,
-            // // kMainColorLight.withOpacity(.4),
             border: const Border(bottom: BorderSide.none),
             borderRadius: BorderRadius.circular(5),
           ),
@@ -80,30 +83,34 @@ class _DashBoardCustomerWidgetState extends State<DashBoardCustomerWidget> {
             padding: const EdgeInsets.only(left: 4.0),
             child: Center(
                 child: Obx(
-              () => DropdownButton<String>(
+              () => DropdownButton<StoreModel>(
                 iconSize: 32,
                 icon: const Icon(
                   Icons.arrow_drop_down,
                   color: kBrighComplementColor,
                 ),
-                value: dashBoardController.dropdownValue.toString(),
+                value:
+                    // stores.isNotEmpty
+                    //     ? stores.first
+                    //     :
+                    storeController.selectedStore.value,
                 elevation: 0,
-                dropdownColor: MediaQuery.of(context).platformBrightness ==
-                        Brightness.light
+                dropdownColor: !isDarkMood
                     ? kMainComplimemtColorLight.withOpacity(.4)
                     : kBlackDark,
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
-                items: dashBoardController.items
-                    .map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
+                items: stores
+                    .map<DropdownMenuItem<StoreModel>>((StoreModel value) {
+                  return DropdownMenuItem<StoreModel>(
                     value: value,
                     child: Text(
-                      value,
+                      value.storeName,
                       style: textTheme.titleSmall,
                     ),
                   );
                 }).toList(),
-                onChanged: dashBoardController.setStore,
+                onChanged: (StoreModel? newValue) =>
+                    storeController.setStore(newValue),
               ),
             )),
           ),

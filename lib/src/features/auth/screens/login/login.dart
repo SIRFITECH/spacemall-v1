@@ -6,6 +6,7 @@ import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/screens/login/f_login.dart';
 import 'package:spacemall/src/features/auth/screens/login/login_or_widget.dart';
 import 'package:spacemall/src/features/auth/screens/otp/otp_screen.dart';
+import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 
 import '../../../../constants/colors.dart';
 import '../../application/login_controller/login_controller.dart';
@@ -21,7 +22,7 @@ class Login extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
 
-    // final loginController = Get.put(LoginController());
+    // Get.put(StoreController());
     final LoginController loginController = Get.find();
 
     return Scaffold(
@@ -111,9 +112,12 @@ class Login extends StatelessWidget {
                         loginController.signUserInWithPhone(
                           '+${loginController.country.value.phoneCode}${loginController.phoneController.text.trim()}',
                         );
+                        ProfileRepo.instance.conttactNumber.value =
+                            '+${loginController.country.value.phoneCode}${loginController.phoneController.text.trim()}';
                         Get.off(
                           () => const OTPScreen(),
                         );
+                        print(ProfileRepo.instance.conttactNumber.value);
                       }
                     },
                     child: const Text(
@@ -132,3 +136,40 @@ class Login extends StatelessWidget {
 }
 
 final _formKey = GlobalKey<FormState>();
+
+
+/**
+ *   ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: values.length,
+              itemBuilder: (context, index) {
+                final value = values[index];
+                return ExpansionTile(
+                  title: Text(
+                    value,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+                        return ListTile(
+                          leading: Text('Pic'),
+                          // Image.asset(item['pic']),
+                          title: Text(item['name']!),
+                          subtitle: Text(item['Vendor']!),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
+          
+ */

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:hive/hive.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/application/stock_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/domain/stock_model.dart';
@@ -17,7 +19,7 @@ part 'store_model.g.dart';
 @HiveType(typeId: 4)
 class StoreModel {
   @HiveField(0)
-  String logo;
+  File? logo;
   @HiveField(1)
   String storeName;
   @HiveField(2)
@@ -36,11 +38,18 @@ class StoreModel {
   List<SalesModel> sales;
   @HiveField(9)
   List<CustomerModel> customer;
+  @HiveField(10)
+  String storeId;
+  @HiveField(11)
+  String accountNumber;
+  @HiveField(12)
 
+  // store constructor
   StoreModel({
     required this.logo,
     required this.storeName,
     required this.bankName,
+    required this.accountNumber,
     required this.contact,
     required this.stock,
     required this.receipts,
@@ -48,14 +57,19 @@ class StoreModel {
     required this.staff,
     required this.sales,
     required this.customer,
+    required this.storeId,
   });
+
+  // populated from map, that is serializing the store object to string for server use
 
   factory StoreModel.fromMap(Map<String, dynamic> map) {
     return StoreModel(
-      logo: '',
+      logo: null,
       storeName: '',
       bankName: '',
       contact: '',
+      accountNumber: '',
+      storeId: '',
       stock:
           StockController.instance.convertStockItems(map['stock-item'] ?? []),
       receipts:
@@ -66,5 +80,23 @@ class StoreModel {
       customer:
           CustomersController.instance.convertCustomers(map['customer'] ?? []),
     );
+  }
+
+  // populated to map, that is serializing the store object to string for server use
+  Map<String, dynamic> toMap() {
+    return {
+      "logo": logo,
+      " storeName": storeName,
+      "bankName": bankName,
+      "contact": contact,
+      "accountNumber": accountNumber,
+      "stock": stock,
+      "receipts": receipts,
+      "debts": debts,
+      'staff': staff,
+      "sales": sales,
+      "customer": customer,
+      "storeId": storeId,
+    };
   }
 }

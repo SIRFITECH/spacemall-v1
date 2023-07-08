@@ -15,7 +15,11 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/item_list_data_adapter.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_modifier/application/add_modifier_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/application/stock_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_shopfront/application/store_front_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
+import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
+import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
+import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/themes/themes.dart';
 
@@ -32,6 +36,17 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   ).then(
     (value) {
+      Get.put(
+        StoreRepo(),
+      );
+      final StoreRepo storeRepo = StoreRepo();
+      final StoreController storeController =
+          StoreController(storeRepo: storeRepo);
+      storeRepo.storeController = storeController;
+      Get.put(
+        StoreController(storeRepo: storeRepo),
+      );
+
       Get.put(
         AddItemController(),
       );
@@ -56,6 +71,10 @@ void main() async {
       Get.put(
         OtpController(),
       );
+
+      Get.put(
+        ShopFrontController(),
+      );
       Get.put(
         AddCategoryController(),
       );
@@ -73,9 +92,11 @@ void main() async {
   Hive.registerAdapter(ItemListDataAdapter());
   Hive.registerAdapter(AddItemModelAdapter());
   Hive.registerAdapter(UserModelAdapter());
-  stockItemBox = await Hive.openBox<AddItemModel>('item_list');
+  Hive.registerAdapter(StoreModelAdapter());
+  stockBox = await Hive.openBox<AddItemModel>('item_list');
   cartBox = await Hive.openBox<CartItemModel>('cart');
   userBox = await Hive.openBox<UserModel>('user');
+  storeBox = await Hive.openBox<StoreModel>('store');
 
   runApp(const SpacemallApp());
 }
@@ -91,7 +112,7 @@ class SpacemallApp extends StatelessWidget {
       theme: SAppTheme.lightTheme,
       darkTheme: SAppTheme.darkTheme,
       defaultTransition: Transition.leftToRightWithFade,
-      transitionDuration: const Duration(milliseconds: 500),
+      transitionDuration: const Duration(milliseconds: 50),
       home: FutureBuilder<bool>(
         future: AuthRepo.instance.checkExistingUser(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {

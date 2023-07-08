@@ -18,26 +18,26 @@ class AddItemRepo extends GetxController {
 
   final itemPic = addItemController.itemPic.value;
 
-  AddItemModel? _addItemModel;
-  AddItemModel get addItemModel {
-    return _addItemModel ??
-        AddItemModel(
-          itemPic: addItemController.itemPic.value,
-          itemName: addItemController.itemName.text.trim(),
-          itemSellingPrice: addItemController.sellingPrice.text.trim(),
-          itemCategory: addCategoryController.categoryValue.value,
-          itemQuantity: addItemController.stockAvailable.text.trim(),
-          itemCostPrice: addItemController.costPrice.text.trim(),
-          trackProfit: addItemController.trackProfit.value,
-          trackLowStock: addItemController.trackLowStock.value,
-          preventItemSalesWhenOutOfStock:
-              addItemController.preventItemSalesWhenOutOfStock.value,
-          trackExpiry: addItemController.trackExpiry.text.trim(),
-          expiryAlert: addItemController.expiryAlert.text.trim(),
-          itemCount: 0,
-          itemId: const Uuid().v4(),
-        );
-  }
+  // AddItemModel? _addItemModel;
+  // AddItemModel get addItemModel {
+  //   return _addItemModel ??
+  //       AddItemModel(
+  //         itemPic: addItemController.itemPic.value,
+  //         itemName: addItemController.itemName.text.trim(),
+  //         itemSellingPrice: addItemController.sellingPrice.text.trim(),
+  //         itemCategory: addCategoryController.categoryValue.value,
+  //         itemQuantity: addItemController.stockAvailable.text.trim(),
+  //         itemCostPrice: addItemController.costPrice.text.trim(),
+  //         trackProfit: addItemController.trackProfit.value,
+  //         trackLowStock: addItemController.trackLowStock.value,
+  //         preventItemSalesWhenOutOfStock:
+  //             addItemController.preventItemSalesWhenOutOfStock.value,
+  //         trackExpiry: addItemController.trackExpiry.text.trim(),
+  //         expiryAlert: addItemController.expiryAlert.text.trim(),
+  //         itemCount: 0,
+  //         itemId: const Uuid().v4(),
+  //       );
+  // }
 
   ///PHONE OPERATIONS
   ///
@@ -69,7 +69,7 @@ class AddItemRepo extends GetxController {
       itemId: const Uuid().v4(),
     );
 
-    await stockItemBox.put(
+    await stockBox.put(
       'item-${addItemController.itemName.text.trim()}',
       newItem,
     );
@@ -98,15 +98,24 @@ class AddItemRepo extends GetxController {
 // fetch saved data from phone storage
   Future<List<AddItemModel>> getDataFromPhone() async {
     List<AddItemModel> itemList =
-        await stockItemBox.get('item_list', defaultValue: null);
+        await stockBox.get('item_list', defaultValue: null);
     return itemList;
   }
 
   Future<void> deleteLastItemFromPhone() async {
-    if (stockItemBox.isNotEmpty) {
-      stockItemBox.deleteAt(stockItemBox.length - 1);
+    if (stockBox.isNotEmpty) {
+      stockBox.deleteAt(stockBox.length - 1);
       update();
     }
+  }
+
+  // add item to hive
+
+  Future<void> addToHive(AddItemModel item) async {
+    AddItemController.instance.itemList.add(item);
+    await stockBox.put('item-${addItemController.itemName.text.trim()}', item);
+
+    update();
   }
 
 // // print the hive box

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/generic_dash_board_screens/linear_bar_indicator_widget.dart';
 import 'package:spacemall/src/features/core_app/generic_dash_board_screens/svg_icons_widget.dart';
+import 'package:spacemall/src/features/core_app/mall/screens/mall_screen.dart';
+import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
+import 'package:spacemall/src/repository/hive_boxes.dart';
 
 class DashBaordLowStockWidget extends StatelessWidget {
   const DashBaordLowStockWidget({
@@ -16,6 +20,7 @@ class DashBaordLowStockWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // StoreModel stores = storeBox.get('store');
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -53,7 +58,9 @@ class DashBaordLowStockWidget extends StatelessWidget {
           ],
         ),
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Get.to(() => const MallScreen());
+          },
           child: Column(
             children: [
               Iconz(

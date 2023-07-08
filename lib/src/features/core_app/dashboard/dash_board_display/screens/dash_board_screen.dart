@@ -8,6 +8,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/scr
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_sales_summary_widget.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/application/nav_bar_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/screens/bottom_nav_bar_screen.dart';
+import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
 
 class DashBoard extends StatelessWidget {
   DashBoard({super.key});
@@ -20,6 +21,9 @@ class DashBoard extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
+    Get.put(
+      StoreRepo(),
+    );
 
     return Scaffold(
       backgroundColor:

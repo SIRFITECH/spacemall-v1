@@ -199,8 +199,9 @@ class ProfileScreen extends StatelessWidget {
                                 DataCell(Row(
                                   children: [
                                     Text(
-                                      // loginController.phone.value,
-                                      '0123456789',
+                                      user.contactNumber,
+                                      // profileRepo.conttactNumber.value,
+                                      // '0123456789',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: isDarkMood
@@ -224,8 +225,9 @@ class ProfileScreen extends StatelessWidget {
                                 )),
                                 DataCell(
                                   Text(
-                                    SplashController.instance.userRole.value
-                                        .toString(),
+                                    user.role,
+                                    // SplashController.instance.userRole.value
+                                    //     .toString(),
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: isDarkMood

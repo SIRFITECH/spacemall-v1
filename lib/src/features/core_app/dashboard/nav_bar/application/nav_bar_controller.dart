@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/check_out/screens/check_out_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_main_display.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
+import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
 
 class NavBarController extends GetxController {
   final selectedIndex = 0.obs;
@@ -12,16 +13,13 @@ class NavBarController extends GetxController {
       child: DashboardGrid(),
     ),
     Center(
-      child:
-          // CartWidget(),
-          CheckOut(),
-      // Text('CheckOutAddItem()'),
+      child: CheckOut(),
     ),
     Center(
       child: ProfileScreen(),
     ),
     Center(
-      child: Text('SpacemallDrawer()'),
+      child: AddStore(),
       // SettingsHome(),
     ),
   ];

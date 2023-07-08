@@ -39,6 +39,9 @@ class ProfileRepo extends GetxController {
 
   // bool isLoading = false;
 
+  RxString conttactNumber = ''.obs;
+  RxString role = ''.obs;
+
   UserModel? _userModel;
   UserModel get userModel {
     return _userModel ??
@@ -48,7 +51,7 @@ class ProfileRepo extends GetxController {
           profilePic: '',
           userName: profileController.tUserName.text.trim(),
           email: profileController.tEmail.text.trim(),
-          contactNumber: loginController.phone.value,
+          contactNumber: '',
           country: loginController.country.value.flagEmoji,
           role: splashController.userRole.value,
           uid: AuthRepo.instance.uid,
@@ -61,7 +64,7 @@ class ProfileRepo extends GetxController {
     dp = profileController.profilePic.value;
     UserModel user = UserModel(
       profilePic: '',
-      contactNumber: loginController.phone.value,
+      contactNumber: conttactNumber.value,
       role: splashController.userRole.value,
       cart: [],
       stores: [],
@@ -123,6 +126,7 @@ class ProfileRepo extends GetxController {
       'User created',
       'User with username ${profileController.tUserName.text.toUpperCase()} created successfully',
       backgroundColor: kWhiteLight,
+      colorText: kBlack,
     );
   }
 

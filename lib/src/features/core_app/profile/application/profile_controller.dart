@@ -10,12 +10,7 @@ import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
 class ProfileController extends GetxController {
   static ProfileController get instance => Get.find();
-  // static ProfileController get instance => Get.put(
-  //       ProfileController(),
-  //     );
-  //TODO: You can change profilePic as the commented lins below
-// File profilePic = File('');
-// Rx<File> profilePic = Rx(File(''));
+
   RxBool isLoading = false.obs;
   Rx<File?> profilePic = Rx(null);
   RxList<CartItemModel> cart = <CartItemModel>[].obs;
@@ -41,7 +36,7 @@ class ProfileController extends GetxController {
   // gender select end here
 
   void selectImage(BuildContext context) async {
-    profilePic = (await pickImage(context));
+    profilePic.value = (await pickImage(context));
     update();
   }
 

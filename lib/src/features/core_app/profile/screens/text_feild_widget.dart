@@ -122,6 +122,7 @@ class DateFeildWidget extends StatelessWidget {
                   DateTime selectedDate =
                       await dateFieldController.pickDate(context);
 
+                  // ignore: unnecessary_null_comparison
                   if (selectedDate != null) {
                     controller.text =
                         DateFormat('dd-MM-yyyy').format(selectedDate);

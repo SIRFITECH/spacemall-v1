@@ -35,7 +35,7 @@ class CheckOut extends StatelessWidget {
           color: isDarkMood ? kDarkModeBackgroundColor : kWhiteLight,
         ),
         child: SingleChildScrollView(
-          child: stockItemBox.isNotEmpty
+          child: stockBox.isNotEmpty
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -52,9 +52,9 @@ class CheckOut extends StatelessWidget {
                         ),
                         shrinkWrap: true,
                         physics: const ClampingScrollPhysics(),
-                        itemCount: stockItemBox.length,
+                        itemCount: stockBox.length,
                         itemBuilder: (context, index) {
-                          AddItemModel stockItem = stockItemBox.getAt(index);
+                          AddItemModel stockItem = stockBox.getAt(index);
 
                           return GestureDetector(
                             onTap: () {

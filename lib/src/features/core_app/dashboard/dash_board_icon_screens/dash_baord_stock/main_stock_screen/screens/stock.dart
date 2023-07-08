@@ -5,7 +5,6 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/screens/login/login_divider_widget.dart';
-// import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/application/stock_controller.dart';
@@ -26,6 +25,7 @@ class Stock extends StatelessWidget {
     final screenSize = media.size;
     final StockController stockController = Get.find();
     final AddItemRepo addItemRepo = Get.find();
+
     // final addItemController = Get.put(AddItemController());
 
     return Scaffold(
@@ -76,7 +76,7 @@ class Stock extends StatelessWidget {
             // located in ...spacemall/spacemall/lib/widgets/componentWidgets/addItemsCard.dart
             AddItemsCard(items: stockController.items),
 
-            // stockItemBox.isNotEmpty
+            // stockBox.isNotEmpty
             //     ?
             Container(
               padding: const EdgeInsets.only(top: 10),
@@ -88,9 +88,9 @@ class Stock extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                       horizontal: 14.0,
                     ),
-                    itemCount: stockItemBox.length,
+                    itemCount: stockBox.length,
                     itemBuilder: (context, index) {
-                      AddItemModel stockItem = stockItemBox.getAt(index);
+                      AddItemModel stockItem = stockBox.getAt(index);
                       return GestureDetector(
                         onTap: () {
                           var tapIndex = index;
@@ -263,10 +263,10 @@ class Stock extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: ()
-            // => addItemRepo.printHiveBox(stockItemBox),
+            // => addItemRepo.printHiveBox(stockBox),
             //     {
             //   print(
-            //       'there are ${stockItemBox.length} items saved in the phone storage ');
+            //       'there are ${stockBox.length} items saved in the phone storage ');
             //   print(
             //       'The observable list has ${addItemController.itemList.length} items, ');
             // },

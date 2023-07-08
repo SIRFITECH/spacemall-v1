@@ -76,25 +76,6 @@ const String kStockManagentText = 'Stock Management';
 
 /// --- SETPROFILE SCREEN TEXT ---
 
-// const String kUserNameText = 'Userame';
-// const String kLNameText = 'Last Name';
-
-// const String kHomeText = 'Home Address';
-// const String kDOBText = 'D.O.B';
-// const String kDOBHintText = 'YYYY/MM/DD';
-// const String kGenderText = 'Gender';
-// const String kContactText = 'Contact';
-// const String kWhatsAppText = 'WhatsApp';
-// const String kStateText = 'State';
-// const String kCityText = 'City';
-
-// const String kZipCodeText = 'Zip-Code';
-// const String kBankNameText = 'Bank Name';
-// const String kAccountText = 'Account Number';
-
-// const String kJobTitleText = 'Job Title';
-// const String kAlternativeEmailText = 'Alternative Email';
-
 /// --- PROFILE SCREEN TEXT ---
 
 const String kAppBarTitleText = 'Set Profile';
@@ -165,3 +146,12 @@ const String kPaymentDateText = 'Payment Date';
 const String kCustomerNameText = 'Customer Name';
 const String kBackText = 'Back';
 const String kSaveText = 'Save';
+
+/// --- ADDSTORE SCREEN TEXT ---
+
+const String kAddStoreAppBarText = 'ADD STORE';
+const String kLogoText = 'Change Logo';
+const String kStoreNameText = 'Business Name';
+const String kStoreBankNameText = 'Bank Name';
+const String kStoreAccountNumberText = 'Account Number';
+const String kStoreBusinessContactText = 'Business Contact';

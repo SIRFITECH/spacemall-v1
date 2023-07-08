@@ -17,9 +17,10 @@ class StoreModelAdapter extends TypeAdapter<StoreModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return StoreModel(
-      logo: fields[0] as String,
+      logo: fields[0] as File?,
       storeName: fields[1] as String,
       bankName: fields[2] as String,
+      accountNumber: fields[11] as String,
       contact: fields[3] as String,
       stock: (fields[4] as List).cast<StockModel>(),
       receipts: (fields[5] as List).cast<ReceiptsModel>(),
@@ -27,13 +28,14 @@ class StoreModelAdapter extends TypeAdapter<StoreModel> {
       staff: (fields[7] as List).cast<StaffModel>(),
       sales: (fields[8] as List).cast<SalesModel>(),
       customer: (fields[9] as List).cast<CustomerModel>(),
+      storeId: fields[10] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, StoreModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.logo)
       ..writeByte(1)
@@ -53,7 +55,11 @@ class StoreModelAdapter extends TypeAdapter<StoreModel> {
       ..writeByte(8)
       ..write(obj.sales)
       ..writeByte(9)
-      ..write(obj.customer);
+      ..write(obj.customer)
+      ..writeByte(10)
+      ..write(obj.storeId)
+      ..writeByte(11)
+      ..write(obj.accountNumber);
   }
 
   @override
