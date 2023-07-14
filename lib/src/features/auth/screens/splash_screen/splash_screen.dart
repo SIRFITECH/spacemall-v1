@@ -42,8 +42,7 @@ class ChooseUserType extends StatelessWidget {
                             () => const OnBoarding(),
                           );
                           splashController.userRole.value = 'Store Owner';
-                          debugPrint('$index Own a store');
-                          debugPrint('${splashController.userRole.value}');
+
                           break;
                         case 1:
                           Get.offAll(
@@ -73,6 +72,7 @@ class ChooseUserType extends StatelessWidget {
                               padding: const EdgeInsets.all(16.0),
                               child: SvgPicture.asset(
                                 splashController.icons[index],
+                                // ignore: deprecated_member_use
                                 color: isDarkMood
                                     ? kDarkModeIconColor
                                     : kLightModeIconColor,

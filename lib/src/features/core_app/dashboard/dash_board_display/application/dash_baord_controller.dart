@@ -1,58 +1,24 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../store/data/store_repo.dart';
+import '../../../store/domain/store_model.dart';
+
 class DashBoardController extends GetxController {
-  RxString dropdownValue = 'Sirfimix'.obs;
-  final selectedIndex = 0.obs;
+  // RxString dropdownValue = 'Sirfimix'.obs;
+  // final selectedIndex = 0.obs;
 
-  final items = <String>[
-    'Sirfimix',
-    'Sirfitmunch',
-    'Sirfitech',
-    'Sabitech',
-  ];
+  List<StoreModel> storesFromBox = StoreRepo.instance.getStoresFromBox();
 
-// final RxList<String> items = <String>[
-//   'Sirfimix',
-//     'Sirfitmunch',
-//     'Sirfitech',
-//     'Sabitech',
-// ].obs;
+  // void setIndex(int newIndex) {
+  //   selectedIndex.value = newIndex;
+  // }
 
-//   void addToList(String item) {
-//     items.add(item);
-//   }
+  // void increamentIndex() {
+  //   selectedIndex.value + 1;
+  // }
 
-//   void removeFromList(String item) {
-//     items.remove(item);
-//   }
+  // void setSelectedIndex(int activeSelectedIndex) =>
+  //     selectedIndex.value = activeSelectedIndex;
 
-  final List<Widget> screens = const [
-    Center(
-      child: Text('Dashboard() '),
-    ),
-    Center(
-      child: Text('CheckOutAddItem()'),
-    ),
-    Center(
-      child: Text('Profile()'),
-    ),
-    Center(
-      child: Text('SpacemallDrawer()'),
-      // SettingsHome(),
-    ),
-  ];
-
-  void setIndex(int newIndex) {
-    selectedIndex.value = newIndex;
-  }
-
-  void increamentIndex() {
-    selectedIndex.value + 1;
-  }
-
-  void setSelectedIndex(int activeSelectedIndex) =>
-      selectedIndex.value = activeSelectedIndex;
-
-  void setStore(newValue) => dropdownValue.value = newValue;
+  // void setStore(newValue) => dropdownValue.value = newValue;
 }

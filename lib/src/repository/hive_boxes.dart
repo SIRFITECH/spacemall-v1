@@ -20,4 +20,5 @@ late Box storeBox;
  * TypeAdapter for typeId 2, 
  * TypeAdapter for typeId 3
  * TypeAdapter for typeId 4
+ * TypeAdapter for typeId 5
  */

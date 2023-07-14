@@ -5,6 +5,7 @@ import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/application/dash_baord_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_reports/screens/top_customer_report.dart';
 import 'package:spacemall/src/features/core_app/generic_dash_board_screens/linear_bar_indicator_widget.dart';
 import 'package:spacemall/src/features/core_app/generic_dash_board_screens/svg_icons_widget.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
@@ -33,44 +34,52 @@ class DashBoardCustomerWidget extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    var stores = StoreController.instance.stores;
     final storeController = StoreController(storeRepo: storeRepo);
+
+    List<StoreModel> storesFromBox = storeRepo.getStoresFromBox();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              '$kCustomersOfTheDayText / $kLastHighestCustomerText',
-              style: textTheme.titleMedium,
-            ),
-            LinearBarIndicator(
-              isDarkMood: isDarkMood,
-              percentage: kCustomerLinearBarIndicator,
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Row(
-              children: [
-                Iconz(
-                  isDarkMood: isDarkMood,
-                  image: kCustomerIcon,
-                  color: isDarkMood ? kWhiteDark : kBrighComplementColor,
-                  height: kLinearBarIconzHeight,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  kCustomerCommentText,
-                  style: textTheme.titleSmall,
-                ),
-              ],
-            ),
-          ],
+        GestureDetector(
+          onTap: () {
+            Get.to(
+              () => const TopCustomerReport(),
+            );
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '$kCustomersOfTheDayText / $kLastHighestCustomerText',
+                style: textTheme.titleMedium,
+              ),
+              LinearBarIndicator(
+                isDarkMood: isDarkMood,
+                percentage: kCustomerLinearBarIndicator,
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Row(
+                children: [
+                  Iconz(
+                    isDarkMood: isDarkMood,
+                    image: kCustomerIcon,
+                    color: isDarkMood ? kWhiteDark : kBrighComplementColor,
+                    height: kLinearBarIconzHeight,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    kCustomerCommentText,
+                    style: textTheme.titleSmall,
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
         Container(
           height: 40,
@@ -89,30 +98,61 @@ class DashBoardCustomerWidget extends StatelessWidget {
                   Icons.arrow_drop_down,
                   color: kBrighComplementColor,
                 ),
-                value:
-                    // stores.isNotEmpty
-                    //     ? stores.first
-                    //     :
-                    storeController.selectedStore.value,
+                value: storeController.selectedStore.value,
                 elevation: 0,
                 dropdownColor: !isDarkMood
                     ? kMainComplimemtColorLight.withOpacity(.4)
                     : kBlackDark,
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
-                items: stores
+                items: storesFromBox
                     .map<DropdownMenuItem<StoreModel>>((StoreModel value) {
-                  return DropdownMenuItem<StoreModel>(
-                    value: value,
-                    child: Text(
-                      value.storeName,
-                      style: textTheme.titleSmall,
-                    ),
-                  );
-                }).toList(),
+                      return DropdownMenuItem<StoreModel>(
+                        value: value,
+                        child: Text(
+                          value.storeName,
+                          style: textTheme.titleSmall,
+                        ),
+                      );
+                    })
+                    .toSet()
+                    .toList(), // Ensure unique values
                 onChanged: (StoreModel? newValue) =>
                     storeController.setStore(newValue),
               ),
-            )),
+            )
+
+                // Obx(
+                //   () => DropdownButton<StoreModel>(
+                //     iconSize: 32,
+                //     icon: const Icon(
+                //       Icons.arrow_drop_down,
+                //       color: kBrighComplementColor,
+                //     ),
+                //     value:
+                //         // storesFromBox.isNotEmpty
+                //         //     ? storesFromBox.first = storeController.selectedStore.value!
+                //         //     :
+                //         storeController.selectedStore.value,
+                //     elevation: 0,
+                //     dropdownColor: !isDarkMood
+                //         ? kMainComplimemtColorLight.withOpacity(.4)
+                //         : kBlackDark,
+                //     borderRadius: const BorderRadius.all(Radius.circular(10)),
+                //     items: storesFromBox
+                //         .map<DropdownMenuItem<StoreModel>>((StoreModel value) {
+                //       return DropdownMenuItem<StoreModel>(
+                //         value: value,
+                //         child: Text(
+                //           value.storeName,
+                //           style: textTheme.titleSmall,
+                //         ),
+                //       );
+                //     }).toList(),
+                //     onChanged: (StoreModel? newValue) =>
+                //         storeController.setStore(newValue),
+                //   ),
+                // ),
+                ),
           ),
         ),
       ],

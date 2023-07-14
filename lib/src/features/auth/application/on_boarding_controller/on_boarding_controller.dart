@@ -50,7 +50,7 @@ class OnBoradingController extends GetxController {
         const Duration(seconds: 3),
         () {
           Get.off(
-            () => SetProfile(),
+            () => const SetProfile(),
           );
           _timer.cancel();
         },
@@ -66,7 +66,7 @@ class OnBoradingController extends GetxController {
       controller.animateToPage(page: nextpage);
     } else if (controller.currentPage == 2) {
       Get.off(
-        () => SetProfile(),
+        () => const SetProfile(),
       );
     }
   }

@@ -14,7 +14,8 @@ class AddItemModel {
   @HiveField(3)
   String itemSellingPrice;
   @HiveField(4)
-  String itemCategory;
+  // List<CategoryModel> itemCategory;
+  String? itemCategory;
   @HiveField(5)
   String itemQuantity;
   @HiveField(6)

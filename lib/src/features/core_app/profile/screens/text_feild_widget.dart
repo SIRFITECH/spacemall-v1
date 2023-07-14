@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -73,7 +75,7 @@ class TextFeildWidget extends StatelessWidget {
 
 // date inputfield
 class DateFeildWidget extends StatelessWidget {
-  DateFeildWidget({
+  const DateFeildWidget({
     super.key,
     required this.screenSize,
     required this.isDarkMood,
@@ -127,7 +129,6 @@ class DateFeildWidget extends StatelessWidget {
                     controller.text =
                         DateFormat('dd-MM-yyyy').format(selectedDate);
                   }
-                  print('tap is ${dateFieldController.isTapped.value}');
                 },
                 readOnly: true,
                 decoration: InputDecoration(

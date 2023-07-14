@@ -110,13 +110,6 @@ class ProfileRepo extends GetxController {
 
 // save data to phone
   Future saveDataToPhone(UserModel user) async {
-    // SharedPreferences localDrive = await SharedPreferences.getInstance();
-
-    // await localDrive.setString(
-    //   "user_model",
-    //   jsonEncode(userModel.toMap()),
-    // );
-
     final appDocumentDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
 

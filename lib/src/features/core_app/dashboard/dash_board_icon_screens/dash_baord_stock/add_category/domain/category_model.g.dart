@@ -8,7 +8,7 @@ part of 'category_model.dart';
 
 class CategoryModelAdapter extends TypeAdapter<CategoryModel> {
   @override
-  final int typeId = 4;
+  final int typeId = 5;
 
   @override
   CategoryModel read(BinaryReader reader) {
@@ -18,15 +18,27 @@ class CategoryModelAdapter extends TypeAdapter<CategoryModel> {
     };
     return CategoryModel(
       categoryName: fields[0] as String,
+      itemId: fields[3] as String,
+      categoryId: fields[4] as String,
+      itemName: fields[1] as String,
+      itemQuantity: fields[2] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, CategoryModel obj) {
     writer
-      ..writeByte(1)
+      ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.categoryName);
+      ..write(obj.categoryName)
+      ..writeByte(1)
+      ..write(obj.itemName)
+      ..writeByte(2)
+      ..write(obj.itemQuantity)
+      ..writeByte(3)
+      ..write(obj.itemId)
+      ..writeByte(4)
+      ..write(obj.categoryId);
   }
 
   @override

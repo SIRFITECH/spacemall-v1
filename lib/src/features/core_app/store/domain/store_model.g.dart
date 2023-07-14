@@ -22,20 +22,21 @@ class StoreModelAdapter extends TypeAdapter<StoreModel> {
       bankName: fields[2] as String,
       accountNumber: fields[11] as String,
       contact: fields[3] as String,
-      stock: (fields[4] as List).cast<StockModel>(),
+      stock: (fields[4] as List).cast<AddItemModel>(),
       receipts: (fields[5] as List).cast<ReceiptsModel>(),
       debts: (fields[6] as List).cast<DebtsModel>(),
       staff: (fields[7] as List).cast<StaffModel>(),
       sales: (fields[8] as List).cast<SalesModel>(),
       customer: (fields[9] as List).cast<CustomerModel>(),
       storeId: fields[10] as String,
+      categories: (fields[12] as List).cast<CategoryModel>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, StoreModel obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.logo)
       ..writeByte(1)
@@ -59,7 +60,9 @@ class StoreModelAdapter extends TypeAdapter<StoreModel> {
       ..writeByte(10)
       ..write(obj.storeId)
       ..writeByte(11)
-      ..write(obj.accountNumber);
+      ..write(obj.accountNumber)
+      ..writeByte(12)
+      ..write(obj.categories);
   }
 
   @override

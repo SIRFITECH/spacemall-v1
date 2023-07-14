@@ -1,9 +1,17 @@
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
+import 'package:hive/hive.dart';
 
+part 'sales_model.g.dart';
+
+@HiveType(typeId: 8)
 class SalesModel {
+  @HiveField(0)
   String saleId;
+  @HiveField(1)
   String attendant;
+  @HiveField(2)
   DateTime date;
+  @HiveField(3)
   CartItemModel cart;
 
   SalesModel({

@@ -9,12 +9,17 @@ import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/domain/category_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/file_adapter.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/item_list_data_adapter.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_modifier/application/add_modifier_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/application/stock_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_customers/domain/customer_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/domain/debts_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_shopfront/application/store_front_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
@@ -46,7 +51,6 @@ void main() async {
       Get.put(
         StoreController(storeRepo: storeRepo),
       );
-
       Get.put(
         AddItemController(),
       );
@@ -93,10 +97,16 @@ void main() async {
   Hive.registerAdapter(AddItemModelAdapter());
   Hive.registerAdapter(UserModelAdapter());
   Hive.registerAdapter(StoreModelAdapter());
+  Hive.registerAdapter(CategoryModelAdapter());
+  Hive.registerAdapter(CustomerModelAdapter());
+  Hive.registerAdapter(DebtsModelAdapter());
+  Hive.registerAdapter(ReceiptsModelAdapter());
+  Hive.registerAdapter(SalesModelAdapter());
   stockBox = await Hive.openBox<AddItemModel>('item_list');
   cartBox = await Hive.openBox<CartItemModel>('cart');
   userBox = await Hive.openBox<UserModel>('user');
   storeBox = await Hive.openBox<StoreModel>('store');
+  receiptsBox = await Hive.openBox<ReceiptsModel>('receipt');
 
   runApp(const SpacemallApp());
 }

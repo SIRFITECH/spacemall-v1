@@ -4,7 +4,6 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
-import 'package:spacemall/src/features/auth/application/splash_controller/splash_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
@@ -21,9 +20,6 @@ class ProfileScreen extends StatelessWidget {
 
     final profileRepo = Get.put(ProfileRepo());
     final LoginController loginController = Get.find();
-
-    print(
-        'user role is ${SplashController.instance.userRole.value}, user phone is ${loginController.phone.value}');
 
     return SafeArea(
       child: Scaffold(

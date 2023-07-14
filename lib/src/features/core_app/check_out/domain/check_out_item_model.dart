@@ -2,8 +2,8 @@ class CartItemModel {
   String itemId;
   String itemName;
   int quantityInCart;
-  double price;
-  double totalItemPrice; // total item price after deductions - tax & discount
+  String price;
+  String totalItemPrice; // total item price after deductions - tax & discount
   double
       subTotal; // total price before deductions - tax & discount = price * qauntityInCart
   double discount;
@@ -26,11 +26,11 @@ class CartItemModel {
       itemId: map['itemId'] ?? '',
       itemName: map['itemName'] ?? '',
       quantityInCart: map['quantityInCart'] ?? 0,
-      price: map['price'] ?? 0.0,
-      totalItemPrice: map['totalItemPrice'] ?? 0.0,
-      subTotal: map['subTotal'] ?? 0.0,
-      discount: map['discount'] ?? 0.0,
-      tax: map['tax'] ?? 0.0,
+      price: map['price'] ?? '0.0',
+      totalItemPrice: map['totalItemPrice'] ?? '0.0',
+      subTotal: map['subTotal'] ?? '0.0',
+      discount: map['discount'] ?? '0.0',
+      tax: map['tax'] ?? ' 0.0',
     );
   }
 

@@ -36,30 +36,34 @@ class AddCategory extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.65,
-                child: Obx(
-                  () => ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: addCategoryController.categoryItems.length,
-                    itemBuilder: (context, index) {
-                      final category =
-                          addCategoryController.categoryItems[index];
-                      return ListTile(
-                        leading: IconButton(
-                          onPressed: () {
-                            addCategoryController.removeCategory(index);
-                          },
-                          icon: const Icon(Icons.remove_circle),
-                          color: Colors.red,
-                        ),
-                        title: Text(
-                          category,
-                          style: Theme.of(context).textTheme.labelSmall,
-                        ),
-                      );
-                    },
-                  ),
+                height: screenSize.height * 0.65,
+                child:
+                    //  Obx(
+                    //   () =>
+                    ListView.builder(
+                  shrinkWrap: true,
+                  itemCount:
+                      addCategoryController.getCategoriesFromBox().length,
+                  itemBuilder: (context, index) {
+                    final category =
+                        addCategoryController.getCategoriesFromBox()[index];
+                    return ListTile(
+                      leading: IconButton(
+                        onPressed: () {
+                          print('Delete from category');
+                          // addCategoryController.removeCategory(index);
+                        },
+                        icon: const Icon(Icons.remove_circle),
+                        color: Colors.red,
+                      ),
+                      title: Text(
+                        category.categoryName,
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                    );
+                  },
                 ),
+                // ),
               ),
               const SizedBox(
                 height: 10,
@@ -75,8 +79,8 @@ class AddCategory extends StatelessWidget {
                     hintText: kHintText,
                     labelText: kCategoryLabelText,
                     maxLines: 1,
-                    height: MediaQuery.of(context).size.width * 0.135,
-                    width: MediaQuery.of(context).size.width * 0.90,
+                    height: screenSize.width * 0.135,
+                    width: screenSize.width * 0.90,
                   ),
                 ],
               ),

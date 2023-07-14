@@ -60,6 +60,7 @@ const String kDashBoardIconText = 'Dashboard';
 const String kCheckOutIconText = 'Checkout';
 const String kProfileIconText = 'Profile';
 const String kSettingIconText = 'Setting';
+const String kWalletIconText = 'Wallet';
 
 /// --- DRAWER SCREEN TEXT ---
 const String kAddNewStoreText = 'Add New Store';
@@ -115,6 +116,7 @@ const String kAddCategoryAppBarText = 'ADD CATEGORY';
 const String kCategoryLabelText = 'Category Name';
 const String kHintText = 'eg Drinks';
 const String kAddCategoryText = 'Add Category';
+const String kAddCategoryAlertBodyText = 'Please add category to continue';
 
 /// --- STOCK SCREEN TEXT ---
 
@@ -155,3 +157,80 @@ const String kStoreNameText = 'Business Name';
 const String kStoreBankNameText = 'Bank Name';
 const String kStoreAccountNumberText = 'Account Number';
 const String kStoreBusinessContactText = 'Business Contact';
+const String kAddStoreAlertBodyText = 'Please add store to continue';
+// const String kAdjustCartItemText = 'Adjust Cart Item';
+
+/// --- REPORTS SCREEN TEXT ---
+
+const String kReportAppBarText = 'REPORTS';
+const String kReportRemainingStockText = 'Remaining Stock';
+const String kReportTodayText = 'Today';
+const String kReportPOSReportText = 'POS Reports';
+const String kReportShopfrontReportText = 'Shopfront Reports';
+const String kReportByTimeText = 'Report By Time';
+const String kReportCategoryReportText = 'Category reports';
+const String kReportShopfrontText = 'Shop reports';
+const String kReportCustomerReportText = 'Customer Report';
+
+/// --- SALES SCREEN TEXT ---
+
+const String kSalesAppBarText = 'Sales';
+const String kSalesPendingPaymentText = 'Pending Payment';
+const String kSalesItemText = 'ITEMS';
+const String kSummaryOfItemsBoughtText = 'Summary of items bought';
+const String kSalesPaymentSummaryText = 'Payment Summary';
+const String kSalesMEthodOfPaymentText = 'METHOD OF PAYMENT';
+const String kSalesMEthodOfPaymentHintText = '2settle';
+const String kSalesAmountText = 'Amount';
+const String kSalesAmountHintText = 'N 100,000';
+const String kSalesDateText = 'Date';
+const String kSalesDateHintText = '12-07-2023';
+const String kSalesTimeText = 'Time';
+const String kSalesTimeHintText = '04:15:35 PM';
+
+/// --- CUSTOMER SCREEN TEXT ---
+
+const String kCustomerAppBarText = 'CUSTOMERS';
+// const String kSalesPendingPaymentText = 'Pending Payment';
+// const String kSalesItemText = 'ITEMS';
+
+/// --- STAFF SCREEN TEXT ---
+
+const String kStaffAppBarText = 'STAFF';
+const String kAddStaffAppBarText = 'ADD STAFF';
+const String kAddStaffFirstNameText = 'First Name ';
+const String kAddStaffLastNameText = 'Last Name ';
+const String kAddStaffEmailText = 'Email Address';
+const String kAddStaffEmailHintText = 'spacemall@sirfitech.com';
+
+/// --- RECEIPTS SCREEN TEXT ---
+
+const String kReceiptsAppBarText = 'Receipts';
+const String kReceiptsLoadMoreText = 'Load More';
+const String kReceiptsSettingsAppBarText = 'Receipts Settings';
+
+/// --- DEBTS SCREEN TEXT ---
+
+const String kDebtAppBarText = 'DebtScreen';
+const String kDebtSummaryAppBarText = 'Debt Summary';
+const String kAddDebtorText = 'Add debtor';
+
+/// --- SOCIALS SCREEN TEXT ---
+
+const String kSocialsAppBarText = 'SOCIALS';
+const String kAddSocialText = 'Add Socail';
+
+/// --- SHOPFRONT SCREEN TEXT ---
+
+const String kShopFrontSettingsAppBarText = 'SHOPFRONT SETTINGS';
+const String kShopFrontAppBarText = 'Shopfront';
+const String kShopFrontLayoutsText = 'LAYOUTS';
+const String kShopFrontShareText = 'SHARE';
+const String kShopFrontCopyText = 'COPY';
+
+/// --- SETTINGS SCREEN TEXT ---
+
+const String kSettingsAppBarText = 'Printer Settings';
+const String kConnectPrinterAppBarText = 'Connect Printer';
+// const String kAddSocialText = 'Add Socail';
+

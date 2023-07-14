@@ -14,6 +14,8 @@ import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/localizations/currency.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 
+import '../../../../../store/domain/store_model.dart';
+
 class Stock extends StatelessWidget {
   const Stock({super.key});
 
@@ -26,7 +28,26 @@ class Stock extends StatelessWidget {
     final StockController stockController = Get.find();
     final AddItemRepo addItemRepo = Get.find();
 
-    // final addItemController = Get.put(AddItemController());
+    StoreModel store = storeBox.get(
+      addItemRepo.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+    List<AddItemModel> stocks = store.stock.toList();
+    // storeRepo.getStoresFromBox();
 
     return Scaffold(
       appBar: MyAppBar(
@@ -36,9 +57,11 @@ class Stock extends StatelessWidget {
       ),
       drawer: const SpacemallDrawer(),
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
             image: DecorationImage(
-          image: AssetImage(kBackGroundCart),
+          image: !isDarkMood
+              ? const AssetImage(kBackGroundCart)
+              : const AssetImage(kBackGroundCartDarkMood),
           fit: BoxFit.contain,
         )),
         child: ListView(
@@ -72,7 +95,6 @@ class Stock extends StatelessWidget {
               ),
             ),
 
-            // Card below the "Stock Managment" bold text
             // located in ...spacemall/spacemall/lib/widgets/componentWidgets/addItemsCard.dart
             AddItemsCard(items: stockController.items),
 
@@ -88,9 +110,10 @@ class Stock extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                       horizontal: 14.0,
                     ),
-                    itemCount: stockBox.length,
+                    itemCount: stocks.length,
                     itemBuilder: (context, index) {
-                      AddItemModel stockItem = stockBox.getAt(index);
+                      AddItemModel stockItem = store.stock[index];
+
                       return GestureDetector(
                         onTap: () {
                           var tapIndex = index;
@@ -169,7 +192,7 @@ class Stock extends StatelessWidget {
                                                         fontSize: 19),
                                                   ),
                                                   Text(
-                                                    stockItem.itemCategory,
+                                                    stockItem.itemCategory!,
                                                     textAlign: TextAlign.left,
                                                     style: TextStyle(
                                                       fontWeight:

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
@@ -19,8 +18,6 @@ class AddItemController extends GetxController {
 
   var isItemAdded = false.obs;
 
-// observable variables
-  // RxString categoryValue = 'Category'.obs;
   var selectedIndex = 0.obs;
 
   RxBool isPressed = false.obs;
@@ -48,11 +45,6 @@ class AddItemController extends GetxController {
     }
   }
 
-  // void setCategory(newValue) => categoryValue.value = newValue;
-  // RxList<String> categoryItems = <String>[
-  //   'Category',
-  // ].obs;
-
   final moreImages = <String>[
     "Image 1",
     "Image 2",
@@ -65,8 +57,6 @@ class AddItemController extends GetxController {
   }
 
   Rx<File?> itemPic = Rx(null);
-//TODO: Category
-  // final RxList <CategoryModel> category = categoryController.categories.value;
   final RxBool trackProfit = false.obs;
   final RxBool trackLowStock = false.obs;
   final RxBool preventItemSalesWhenOutOfStock = false.obs;
@@ -99,27 +89,17 @@ class AddItemController extends GetxController {
     update();
   }
 
+  List<AddItemModel> convertStockItems(List stockFromDb) {
+    List<AddItemModel> result = [];
+    for (var item in stockFromDb) {
+      AddItemModel.fromMap(item);
+    }
+    return result;
+  }
+
   getItemPic() {}
 
   Future<void> addItemToPhone() async {
-    // addItemToPhone() {
-    // addItemRepo.saveItemData();
     addItemRepo.saveItemData().then((value) => Get.offAll(() => const Stock()));
-
-    print('itemPic is: ${AddItemController.instance.itemPic.value}');
-    print('category is: ${AddCategoryController.instance.categoryValue}');
-    print('Track profit is: ${AddItemController.instance.trackProfit}');
-    print('Track Low Stock is: ${AddItemController.instance.trackLowStock}');
-    print(
-        'Prevent sale is:${AddItemController.instance.preventItemSalesWhenOutOfStock}');
-    print('item name is: ${AddItemController.instance.itemName.text.trim()}');
-    print('cost price is: ${AddItemController.instance.costPrice.text.trim()}');
-    print(
-        'selling price is: ${AddItemController.instance.sellingPrice.text.trim()}');
-    print(
-        'stock available is:${AddItemController.instance.stockAvailable.text.trim()}');
-    print(
-        'track expiry is: ${AddItemController.instance.trackExpiry.text.trim()}');
-    print('Expiery is: ${AddItemController.instance.expiryAlert.text.trim()}');
   }
 }

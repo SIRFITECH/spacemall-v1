@@ -1,12 +1,23 @@
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
+import 'package:hive/hive.dart';
 
+part 'debts_model.g.dart';
+
+@HiveType(typeId: 7)
 class DebtsModel {
+  @HiveField(0)
   String debtId;
+  @HiveField(1)
   String customerName;
+  @HiveField(2)
   DateTime payDate;
+  @HiveField(3)
   String phone;
+  @HiveField(4)
   bool isPaid;
-  CartItemModel cart; //
+  @HiveField(5)
+  CartItemModel cart;
+  @HiveField(6) //
   double amountPayable;
 
   DebtsModel({

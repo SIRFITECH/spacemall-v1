@@ -11,6 +11,10 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/localizations/currency.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 
+import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
+import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
+import '../../store/domain/store_model.dart';
+
 class CheckOut extends StatelessWidget {
   const CheckOut({super.key});
 
@@ -22,8 +26,31 @@ class CheckOut extends StatelessWidget {
     final screenSize = media.size;
 
     final cartItemController = Get.put(CartItemController());
-
+    final AddItemRepo addItemRepo = Get.find();
+    Get.put(
+      ReceiptsController(),
+    );
     int tapedIndex = -1;
+
+    StoreModel store = storeBox.get(
+      addItemRepo.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+    List<AddItemModel> stocks = store.stock.toList();
 
     return Scaffold(
       body: Container(
@@ -35,7 +62,7 @@ class CheckOut extends StatelessWidget {
           color: isDarkMood ? kDarkModeBackgroundColor : kWhiteLight,
         ),
         child: SingleChildScrollView(
-          child: stockBox.isNotEmpty
+          child: stocks.isNotEmpty
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -52,9 +79,9 @@ class CheckOut extends StatelessWidget {
                         ),
                         shrinkWrap: true,
                         physics: const ClampingScrollPhysics(),
-                        itemCount: stockBox.length,
+                        itemCount: stocks.length,
                         itemBuilder: (context, index) {
-                          AddItemModel stockItem = stockBox.getAt(index);
+                          AddItemModel stockItem = store.stock[index];
 
                           return GestureDetector(
                             onTap: () {
@@ -85,11 +112,10 @@ class CheckOut extends StatelessWidget {
                                       itemId: stockItem.itemId,
                                       itemName: stockItem.itemName,
                                       quantityInCart: stockItem.itemCount,
-                                      price: 0.0,
-                                      // nairaFormat.format(int.parse(
-                                      //     stockItem.itemSellingPrice)),
-                                      totalItemPrice: 0.0,
-                                      // nairaFormat.format(costOfItem),
+                                      price: nairaFormat.format(int.parse(
+                                          stockItem.itemSellingPrice)),
+                                      totalItemPrice:
+                                          nairaFormat.format(costOfItem),
                                       subTotal: costOfItem.toDouble(),
                                       discount: CartItemController
                                           .instance.totalCartDiscount.value,

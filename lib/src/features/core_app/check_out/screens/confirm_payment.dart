@@ -4,10 +4,11 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
-import 'package:spacemall/src/features/auth/screens/splash_screen/splash_screen.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/screens/pay_later.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/data/receipts_repo.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/screens/receiptScreen.dart';
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
@@ -25,6 +26,8 @@ class ConfirmPayment extends StatelessWidget {
 
     final CartItemController checkOutItemController = Get.find();
     checkOutItemController.onInit();
+    // final profileRepo = Get.put(ProfileRepo());
+    // final checkOutRepo = Get.put(CheckOutRepo());
 
     return Scaffold(
       appBar: MyAppBar(
@@ -87,75 +90,81 @@ class ConfirmPayment extends StatelessWidget {
                     return ListView.builder(
                       itemCount: checkOutItemController.cartItems.length,
                       itemBuilder: (context, index) {
-                        var stockItem = checkOutItemController.cartItems[index];
+                        var stockList = checkOutItemController.cartItems[index];
 
                         return SizedBox(
                           height: screenSize.height * 0.1,
                           child: Column(
                             children: [
-                              GestureDetector(
-                                onHorizontalDragStart:
-                                    (DragStartDetails details) {
-                                  checkOutItemController
-                                      .decreaseItemQuantityInCart(index);
-                                },
-                                onTap: () {
-                                  checkOutItemController
-                                      .increaseItemQuantityInCart(index);
-
-                                  // checkOutItemController.setCartDiscount(0.1);
-                                  // checkOutItemController.setCartTax(0.075);
-                                },
-                                onLongPress: () {
-                                  checkOutItemController
-                                      .deleteItemFromCart(index);
-                                },
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  height: screenSize.height * 0.1,
-                                  child: Card(
-                                    color: kTransparentColor,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                stockItem.itemName,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .headlineMedium,
+                              if (index <
+                                  checkOutItemController.cartItems.length)
+                                GestureDetector(
+                                  onHorizontalDragStart:
+                                      (DragStartDetails details) {
+                                    checkOutItemController
+                                        .decreaseItemQuantityInCart(index);
+                                  },
+                                  onTap: () {
+                                    checkOutItemController
+                                        .increaseItemQuantityInCart(index);
+                                  },
+                                  onLongPress: () {
+                                    checkOutItemController
+                                        .deleteItemFromCart(index);
+                                  },
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    height: screenSize.height * 0.1,
+                                    child: Card(
+                                      color: kTransparentColor,
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  checkOutItemController
+                                                      .cartItems[index]
+                                                      .itemName,
+                                                  // stockItem[index].itemName,
+                                                  // stockList.itemName,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headlineMedium,
+                                                ),
+                                                Text(
+                                                  // '${stockItem[index].quantityInCart} x ${stockItem[index].price}',
+                                                  '${stockList.quantityInCart} x ${stockList.price}',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleMedium,
+                                                ),
+                                              ],
+                                            ),
+                                            Text(
+                                              nairaFormat.format(
+                                                // stockItem[index].subTotal
+                                                stockList.subTotal,
                                               ),
-                                              Text(
-                                                '${stockItem.quantityInCart} x ${stockItem.price}',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium,
-                                              ),
-                                            ],
-                                          ),
-                                          Text(
-                                            nairaFormat
-                                                .format(stockItem.subTotal),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headlineMedium,
-                                          ),
-                                        ],
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineMedium,
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
                               CustomDivider(
                                 height: screenSize.height * 0.0002,
                                 thickness: screenSize.height * 0.002,
@@ -369,7 +378,12 @@ class ConfirmPayment extends StatelessWidget {
               padding: EdgeInsets.all(screenSize.height * 0.05),
               child: ElevatedButton(
                 onPressed: () {
-                  Get.to(() => const ChooseUserType());
+                  AddReceiptsRepo.instance.saveReceiptData().then(
+                        (value) => Get.to(
+                          () => const ReceiptListScreen(),
+                        ),
+                      );
+                  ;
                 },
                 child: const Text(
                   kConfirmPaymentText,

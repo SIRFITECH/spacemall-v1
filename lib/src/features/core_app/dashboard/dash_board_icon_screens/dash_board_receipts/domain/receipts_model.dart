@@ -1,17 +1,29 @@
 import 'dart:io';
 
-import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
+import 'package:hive/hive.dart';
 
+part 'receipts_model.g.dart';
+
+@HiveType(typeId: 10)
 class ReceiptsModel {
+  @HiveField(0)
   File? logo;
+  @HiveField(1)
   String storeName;
+  @HiveField(2)
   String businessEmail;
+  @HiveField(3)
   String businessPhone;
+  @HiveField(4)
   DateTime date;
+  @HiveField(5)
   String receiptNo; // start with 00000000, increament and convert to string
+  @HiveField(6)
   String attendant;
+  @HiveField(7)
   String receiptId;
-  CartItemModel cart;
+  @HiveField(8)
+  String cartId;
 
   ReceiptsModel({
     required this.logo,
@@ -22,7 +34,7 @@ class ReceiptsModel {
     required this.receiptNo,
     required this.attendant,
     required this.receiptId,
-    required this.cart,
+    required this.cartId,
   });
 
   // populated from map, that is serializing the stock object from server
@@ -36,7 +48,7 @@ class ReceiptsModel {
       receiptNo: map['receiptNo'] ?? '',
       attendant: map['attendant'] ?? '',
       receiptId: map['receiptId'] ?? '',
-      cart: map['receiptId'] ?? '',
+      cartId: map['cartId'] ?? '',
     );
   }
 
@@ -51,7 +63,7 @@ class ReceiptsModel {
       'receiptNo': receiptNo,
       "attendant": attendant,
       "receiptId": receiptId,
-      "cart": cart,
+      "cartId": cartId,
     };
   }
 }

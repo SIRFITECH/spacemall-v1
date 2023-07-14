@@ -19,14 +19,9 @@ class AddStore extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    // final StoreRepo storeRepo = Get.find();
     final StoreController storeController = Get.find();
 
     var logo = storeController.logo;
-    // final String storeName = storeController.storeName.text;
-    // final String contact = storeController.contact.text;
-    // final String bankName = storeController.bankName.text;
-    // final String accountNumber = storeController.accountNumber.text;
     return Scaffold(
         appBar: MyAppBar(
           isDarkMood: isDarkMood,
@@ -143,29 +138,7 @@ class AddStore extends StatelessWidget {
                     CustomButton(
                       screenSize: screenSize,
                       onPress: () {
-                        // final newStore = StoreModel(
-                        //   logo: logo.value,
-                        //   storeName: storeName,
-                        //   bankName: bankName,
-                        //   accountNumber: accountNumber,
-                        //   contact: contact,
-                        //   stock: [],
-                        //   receipts: [],
-                        //   debts: [],
-                        //   staff: [],
-                        //   sales: [],
-                        //   customer: [],
-                        //   storeId: const Uuid().v4(),
-                        // );
-                        // storeController.addNewStore(newStore).then((value) {
-                        //   Get.offAll(() => DashBoard());
-                        //   storeController.clearFeilds();
-                        // });
                         storeController.addNewStoreToPhone();
-                        // print({
-                        //   'from the store variabl ${storeController.stores.last.storeName} '
-                        //   // ${storeController.storeName.text} ${storeController.contact.text} ${storeController.bankName.text} ${storeController.accountNumber.text}'
-                        // });
                       },
                       title: kSave,
                       width: screenSize.width * 0.3,

@@ -3,10 +3,11 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/check_out/screens/check_out_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_main_display.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
-import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
+import 'package:spacemall/src/features/core_app/settings/screens/settings_screen.dart';
 
 class NavBarController extends GetxController {
   final selectedIndex = 0.obs;
+  final selectedMallIndex = 0.obs;
 
   final List<Widget> screens = const [
     Center(
@@ -19,13 +20,42 @@ class NavBarController extends GetxController {
       child: ProfileScreen(),
     ),
     Center(
-      child: AddStore(),
-      // SettingsHome(),
+      child:
+          // AddStore(),
+          SettingsScreen(),
     ),
   ];
 
+  final List<Widget> mallScreens = const [
+    Center(
+      child: Center(
+        child: Text(
+          'Wallet Screen',
+        ),
+      ),
+    ),
+    Center(
+      child: Text(
+        ' CheckOut()',
+      ),
+    ),
+    Center(
+      child: Text(
+        'ProfileScreen()',
+      ),
+    ),
+    Center(
+      child: Text(
+        ' SettingsScreen()',
+      ),
+    ),
+  ];
   void setIndex(int newIndex) {
     selectedIndex.value = newIndex;
+  }
+
+  void setMallIndex(int newIndex) {
+    selectedMallIndex.value = newIndex;
   }
 
   void increamentIndex() {
@@ -33,6 +63,14 @@ class NavBarController extends GetxController {
     update();
   }
 
+  void increamentMallIndex() {
+    selectedMallIndex.value + 1;
+    update();
+  }
+
   void setSelectedIndex(int activeSelectedIndex) =>
       selectedIndex.value = activeSelectedIndex;
+
+  void setSelectedMallIndex(int activeSelectedMallIndex) =>
+      selectedMallIndex.value = activeSelectedMallIndex;
 }

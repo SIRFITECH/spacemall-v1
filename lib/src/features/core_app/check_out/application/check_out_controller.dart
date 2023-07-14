@@ -8,12 +8,14 @@ import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 
 import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
+import '../data/check_out_repo.dart';
 
 class CartItemController extends GetxController {
   static CartItemController get instance => Get.put(
         CartItemController(),
       );
   final profileRepo = Get.put(ProfileRepo());
+  final checkOutRepo = Get.put(CheckOutRepo());
 
   int numberOfItemSelect = -1;
 
@@ -146,16 +148,6 @@ class CartItemController extends GetxController {
 
     cartItems[index].subTotal = cost;
 
-    // cartItems.forEach((item) {
-    //   int itemCost = int.parse(item.subTotal);
-    //   totalCartSubTotal.value = itemCost++;
-    // });
-    // for (CartItemModel item in cartItems) {
-    //   int itemCost = int.parse(item.subTotal);
-    //   totalCartSubTotal.value = itemCost++;
-    // }
-    // CartItemController.instance.totalCartSubTotal.value =
-    //     int.parse(cartItems[index].subTotal);
     Get.snackbar(
       '1 more ${cartItems[index].itemName} add to cart',
       'If you want to delete ${cartItems[index].itemName} from cart just press and hold',
@@ -195,9 +187,16 @@ class CartItemController extends GetxController {
       } else {
         user = _userModel;
       }
+      var cart = checkOutRepo.getCheckOutCartFromBox();
+      // cartItems.value = ;
 
       user!.cart.add(newItem);
-      cartItems.value = user.cart;
+      cart.add(newItem);
+      cartItems.value = [...user.cart];
+      // print('user.cart: ${user.cart[0].itemName}');
+      // print('user.cart: ${user.cart[1].itemName}');
+      // print('cartItems: ${cartItems[0].itemName}');
+      // print('cartItems: ${cartItems[1].itemName}');
 
       Get.snackbar(
         'Operation Successful',

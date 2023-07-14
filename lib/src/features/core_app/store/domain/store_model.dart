@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:hive/hive.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/application/stock_controller.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/domain/stock_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/domain/category_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_customers/application/customer_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_customers/domain/customer_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/application/debt_controller.dart';
@@ -13,6 +14,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_staff/application/staff_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_staff/domain/staff_model.dart';
+import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 
 part 'store_model.g.dart';
 
@@ -27,7 +29,7 @@ class StoreModel {
   @HiveField(3)
   String contact;
   @HiveField(4)
-  List<StockModel> stock;
+  List<AddItemModel> stock;
   @HiveField(5)
   List<ReceiptsModel> receipts;
   @HiveField(6)
@@ -43,6 +45,7 @@ class StoreModel {
   @HiveField(11)
   String accountNumber;
   @HiveField(12)
+  List<CategoryModel> categories;
 
   // store constructor
   StoreModel({
@@ -58,6 +61,7 @@ class StoreModel {
     required this.sales,
     required this.customer,
     required this.storeId,
+    required this.categories,
   });
 
   // populated from map, that is serializing the store object to string for server use
@@ -70,8 +74,10 @@ class StoreModel {
       contact: '',
       accountNumber: '',
       storeId: '',
+      categories:
+          StoreController.instance.convertCategories(map['categories'] ?? []),
       stock:
-          StockController.instance.convertStockItems(map['stock-item'] ?? []),
+          AddItemController.instance.convertStockItems(map['stock-item'] ?? []),
       receipts:
           ReceiptsController.instance.convertReceipts(map['reciept'] ?? []),
       debts: DebtController.instance.convertDebts(map['debt'] ?? []),
@@ -97,6 +103,7 @@ class StoreModel {
       "sales": sales,
       "customer": customer,
       "storeId": storeId,
+      "categories": categories
     };
   }
 }

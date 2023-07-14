@@ -4,6 +4,12 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 class ReceiptsController extends GetxController {
   static ReceiptsController get instance => Get.put(ReceiptsController());
 
+  final RxList<ReceiptsModel> receipts = <ReceiptsModel>[].obs;
+
+  void addReceipt(ReceiptsModel newReceipt) {
+    receipts.add(newReceipt);
+  }
+
   RxInt receiptNo = 0.obs;
   RxBool receiptStatus = false.obs; // false = unsuccessful, true = successful
 

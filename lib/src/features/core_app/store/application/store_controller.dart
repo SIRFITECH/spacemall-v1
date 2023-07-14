@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/domain/stock_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_customers/domain/customer_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/domain/debts_model.dart';
@@ -15,6 +15,9 @@ import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
+import '../../../../constants/colors.dart';
+import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_category/domain/category_model.dart';
+
 class StoreController extends GetxController {
   StoreController({required this.storeRepo}) {
     storeRepo.storeController = this;
@@ -24,6 +27,8 @@ class StoreController extends GetxController {
   static StoreController get instance => Get.put(
         StoreController(storeRepo: StoreRepo.instance),
       );
+  // final AddItemRepo addItemRepo = AddItemRepo();
+
   // bool to indicate loading
   RxBool isLoading = false.obs;
 
@@ -50,9 +55,14 @@ class StoreController extends GetxController {
     update();
   }
 
-// store dropdown
-  // RxString storeValue = 'Add Store'.obs;
-  Rx<StoreModel?> selectedStore = Rx<StoreModel?>(null);
+  Rx<StoreModel?> selectedStore = Rx<StoreModel?>(
+    null,
+  );
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
 
   RxList<StoreModel> stores = <StoreModel>[].obs;
 
@@ -72,38 +82,53 @@ class StoreController extends GetxController {
       colorText: kBlack,
     );
     isStoreAdded.value = true;
-    print(uid);
+
     isLoading.value = false;
   }
+
+  // List myStores = storeBox.values.toList();
 
   void setStore(StoreModel? newValue) {
     if (newValue == null) {
       return;
     }
+
     if (stores.any((element) => element.storeName == newValue.storeName)) {
-      selectedStore.value = newValue;
-      print('store exists');
+      Get.to(
+        () => const AddStore(),
+      );
+      print('new store');
     } else {
-      Get.to(() => const AddStore());
-      // addNewStore();
-      print('new store ');
+      AddItemRepo.instance.currentStore.value = 'store-${newValue.storeId}';
+      selectedStore.value = newValue;
+      // StoreModel store = storeBox.get(
+      //   // 'store-${newValue.storeId}',
+      //   addItemRepo.currentStore.value,
+      //   defaultValue: StoreModel(
+      //     logo: null,
+      //     storeName: '',
+      //     bankName: '',
+      //     accountNumber: '',
+      //     contact: '',
+      //     stock: [],
+      //     receipts: [],
+      //     debts: [],
+      //     staff: [],
+      //     sales: [],
+      //     customer: [],
+      //     storeId: '',
+      //     categories: [],
+      //   ),
+      // );
+
+      // print('${newValue.storeName} stock list ${newValue.stock}');
+      // print(stores);
+      // print(
+      //   storeBox.get('store-${newValue.storeId}'),
+      // );
+
+      // print(store.storeName);
     }
-  }
-
-  Future<void> addNewStore(StoreModel newStore) async {
-    // Add the new store to the list
-    stores.add(newStore);
-    selectedStore.value = newStore;
-
-    Get.snackbar(
-      '${storeName.text.trim()} created',
-      '${storeName.text.trim()} store created successfully',
-      backgroundColor: kWhiteLight,
-      colorText: kBlack,
-    );
-
-    print('Store added');
-    print('store available are ${stores.length}');
   }
 
 // add new store
@@ -115,62 +140,12 @@ class StoreController extends GetxController {
     }
     return result;
   }
+
+  List<CategoryModel> convertCategories(List<dynamic> categoriesFromDb) {
+    List<CategoryModel> result = [];
+    for (var category in categoriesFromDb) {
+      result.add(category);
+    }
+    return result;
+  }
 }
-
-// addNewStore() {
-//   store.add(storeName.text.trim());
-//   Get.snackbar(
-//     '${storeName.text.trim()} created',
-//     '${storeName.text.trim()} store created successfully',
-//     backgroundColor: kWhiteLight,
-//     colorText: kBlack,
-//   );
-//   print(store);
-//   // if (categoryName.text.isEmpty) {
-//   //   Get.snackbar(
-//   //     'Error',
-//   //     'You can not add an empty category',
-//   //     backgroundColor: kWhiteLight,
-//   //     colorText: kBlack,
-//   //   );
-//   // } else {
-//   //   store.add(storeName.text.trim());
-//   //   Get.snackbar(
-//   //     '${storeName.text.trim()} created',
-//   //     '${storeName.text.trim()} store created successfully',
-//   //     backgroundColor: kWhiteLight,
-//   //     colorText: kBlack,
-//   //   );
-//   //   print(store);
-//   // }
-// }
-
-// store models
-// StoreModel(
-//   logo: null,
-//   storeName: "Add Store",
-//   bankName: "",
-//   accountNumber: "",
-//   contact: "",
-//   stock: [],
-//   receipts: [],
-//   debts: [],
-//   staff: [],
-//   sales: [],
-//   customer: [],
-//   storeId: '',
-// ),
-// StoreModel(
-//   logo: null,
-//   storeName: "yeye people",
-//   bankName: "bankName",
-//   accountNumber: "accountNumber",
-//   contact: "contact",
-//   stock: [],
-//   receipts: [],
-//   debts: [],
-//   staff: [],
-//   sales: [],
-//   customer: [],
-//   storeId: '',
-// ),

@@ -1,11 +1,10 @@
 import 'package:get/get.dart';
 
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:spacemall/src/features/core_app/profile/application/date_widget_controller.dart';
+import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:uuid/uuid.dart';
 
@@ -18,45 +17,37 @@ class AddItemRepo extends GetxController {
 
   final itemPic = addItemController.itemPic.value;
 
-  // AddItemModel? _addItemModel;
-  // AddItemModel get addItemModel {
-  //   return _addItemModel ??
-  //       AddItemModel(
-  //         itemPic: addItemController.itemPic.value,
-  //         itemName: addItemController.itemName.text.trim(),
-  //         itemSellingPrice: addItemController.sellingPrice.text.trim(),
-  //         itemCategory: addCategoryController.categoryValue.value,
-  //         itemQuantity: addItemController.stockAvailable.text.trim(),
-  //         itemCostPrice: addItemController.costPrice.text.trim(),
-  //         trackProfit: addItemController.trackProfit.value,
-  //         trackLowStock: addItemController.trackLowStock.value,
-  //         preventItemSalesWhenOutOfStock:
-  //             addItemController.preventItemSalesWhenOutOfStock.value,
-  //         trackExpiry: addItemController.trackExpiry.text.trim(),
-  //         expiryAlert: addItemController.expiryAlert.text.trim(),
-  //         itemCount: 0,
-  //         itemId: const Uuid().v4(),
-  //       );
-  // }
+  RxString currentStore = ''.obs;
 
   ///PHONE OPERATIONS
-  ///
-  ///
-  ///
-  ///
-  ///
-  ///
 
   Future saveItemData() async {
-    final appDocumentDir = await getApplicationDocumentsDirectory();
-    Hive.init(appDocumentDir.path);
+    // fetch store from storeBox
+    StoreModel storeList = storeBox.get(
+      currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
 
     // create a new item
     AddItemModel newItem = AddItemModel(
       itemPic: addItemController.itemPic.value,
       itemName: addItemController.itemName.text.trim(),
       itemSellingPrice: addItemController.sellingPrice.text.trim(),
-      itemCategory: addCategoryController.categoryValue.value,
+      itemCategory: addCategoryController.categoryValue.value?.categoryName,
       itemQuantity: addItemController.stockAvailable.text.trim(),
       itemCostPrice: addItemController.costPrice.text.trim(),
       trackProfit: addItemController.trackProfit.value,
@@ -69,10 +60,15 @@ class AddItemRepo extends GetxController {
       itemId: const Uuid().v4(),
     );
 
-    await stockBox.put(
-      'item-${addItemController.itemName.text.trim()}',
-      newItem,
+    // Add the new stock item to the store's stock list
+    storeList.stock.add(newItem);
+
+// update the storeBox
+    await storeBox.put(
+      currentStore.value,
+      storeList,
     );
+
     Get.back();
     addItemController.isItemAdded.value = true;
   }
@@ -86,7 +82,7 @@ class AddItemRepo extends GetxController {
     addItemController.trackExpiry.clear();
     addItemController.expiryAlert.clear();
     addItemController.itemPic.value = null;
-    addCategoryController.categoryValue.value = 'Category';
+    addCategoryController.categoryValue.value = null;
     addItemController.trackProfit.value = false;
     addItemController.trackLowStock.value = false;
     addItemController.preventItemSalesWhenOutOfStock.value = false;
@@ -117,17 +113,6 @@ class AddItemRepo extends GetxController {
 
     update();
   }
-
-// // print the hive box
-
-//   void printHiveBox(Box box) {
-//     for (var key in box.keys) {
-//       var item = box.get(key);
-//       var value = box.keys;
-//       print(item.toString());
-//       print(value.toList());
-//     }
-//   }
 
   ///DATABASE OPERATIONS
 }

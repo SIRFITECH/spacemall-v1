@@ -5,11 +5,17 @@ import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_icons.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_shopfront/screens/store_front.dart';
-import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_customers/screens/customer_screen.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/screens/receiptScreen.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_reports/screens/report_screen.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/screens/sales_screen.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_shopfront/screens/shop_front.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_socials/screens/socialsScreen.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_staff/screens/staff_screen.dart';
 import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
 
 import '../../dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
+import '../../dash_board_icon_screens/dash_board_debts/screens/debts_screen.dart';
 
 class DashboardGrid extends StatelessWidget {
   const DashboardGrid({super.key});
@@ -32,12 +38,15 @@ class DashboardGrid extends StatelessWidget {
     return Scaffold(
       backgroundColor: isDarkMood ? kDarkModeBackgroundColor : kWhiteLight,
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(kBackGroundCart),
+            image: !isDarkMood
+                ? const AssetImage(kBackGroundCart)
+                : const AssetImage(kBackGroundCartDarkMood),
             fit: BoxFit.contain,
+            scale: 10.0,
           ),
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             bottomLeft: Radius.circular(20),
             bottomRight: Radius.circular(20),
           ),
@@ -60,7 +69,7 @@ class DashboardGrid extends StatelessWidget {
               // Reports icon
               GestureDetector(
                 onTap: () {
-                  Get.to(() => const SetProfile());
+                  Get.to(() => const ReportScreen());
                 },
                 child: DashBoardIcon(
                   title: kDashbaordReportsText,
@@ -71,7 +80,7 @@ class DashboardGrid extends StatelessWidget {
               // sales icon
               GestureDetector(
                 onTap: () {
-                  Get.to(() => " const Profile()");
+                  Get.to(() => const SalesScreen());
                 },
                 child: DashBoardIcon(
                   title: kDashbaordSalesText,
@@ -82,11 +91,9 @@ class DashboardGrid extends StatelessWidget {
               // customer icon
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const Text(' const Customer()')));
+                  Get.to(
+                    () => const CustomerScreen(),
+                  );
                 },
                 child: DashBoardIcon(
                   title: kDashbaordCustomersText,
@@ -97,11 +104,8 @@ class DashboardGrid extends StatelessWidget {
               // staff icon
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Text('const Staff()'),
-                    ),
+                  Get.to(
+                    () => const StaffScreen(),
                   );
                 },
                 child: DashBoardIcon(
@@ -113,11 +117,7 @@ class DashboardGrid extends StatelessWidget {
               // receipts icon
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const Text('const ReceiptList()')));
+                  Get.to(() => const ReceiptListScreen());
                 },
                 child: DashBoardIcon(
                   title: kDashbaordReceiptsText,
@@ -128,10 +128,7 @@ class DashboardGrid extends StatelessWidget {
               // debts icon
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Text('const Debt()')));
+                  Get.to(() => const DebtScreen());
                 },
                 child: DashBoardIcon(
                   title: kDashbaordDebtsText,
@@ -142,10 +139,9 @@ class DashboardGrid extends StatelessWidget {
               // social icon
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Text('const Socials()')));
+                  Get.to(
+                    () => const SocialsScreen(),
+                  );
                 },
                 child: DashBoardIcon(
                   title: kDashbaordSocialsText,
@@ -159,7 +155,7 @@ class DashboardGrid extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const StoreFront(),
+                      builder: (context) => const ShopFrontScreen(),
                     ),
                   );
                 },

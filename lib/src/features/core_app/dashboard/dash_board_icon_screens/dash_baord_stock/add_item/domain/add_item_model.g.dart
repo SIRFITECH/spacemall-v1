@@ -20,7 +20,7 @@ class AddItemModelAdapter extends TypeAdapter<AddItemModel> {
       itemPic: fields[0] as File?,
       itemName: fields[1] as String,
       itemSellingPrice: fields[3] as String,
-      itemCategory: fields[4] as String,
+      itemCategory: fields[4] as String?,
       itemQuantity: fields[5] as String,
       itemCostPrice: fields[2] as String,
       trackProfit: fields[6] as bool,
