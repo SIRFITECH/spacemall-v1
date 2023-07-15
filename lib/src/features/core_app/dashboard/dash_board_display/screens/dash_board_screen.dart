@@ -12,7 +12,6 @@ import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
 import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
 
 import '../../../../../constants/text_strings.dart';
-import '../../dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
 
 class DashBoard extends StatelessWidget {
   DashBoard({super.key});
