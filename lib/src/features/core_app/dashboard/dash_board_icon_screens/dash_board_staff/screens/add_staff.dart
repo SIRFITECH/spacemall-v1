@@ -500,9 +500,7 @@ class _AddStaffState extends State<AddStaff> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: kMainColorLight,
-        onPressed: () {
-          print('Add staff');
-        },
+        onPressed: () {},
         // =>
         // saveStaff(),
         child: const Padding(

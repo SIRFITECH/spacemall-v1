@@ -123,9 +123,7 @@ class SpacemallDrawer extends StatelessWidget {
                         ),
                         ListTile(
                           horizontalTitleGap: 0,
-                          onTap: () {
-                            print('contact support');
-                          },
+                          onTap: () {},
                           leading: const Icon(
                             Icons.contact_support_rounded,
                             color: kWhiteLight,

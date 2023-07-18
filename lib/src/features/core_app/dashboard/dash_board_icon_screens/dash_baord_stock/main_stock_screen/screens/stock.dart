@@ -52,7 +52,7 @@ class Stock extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: '',
+        title: 'stock in ${store.storeName}',
         automaticallyImplyLeading: true,
       ),
       drawer: const SpacemallDrawer(),
@@ -157,6 +157,7 @@ class Stock extends StatelessWidget {
                                                             null
                                                         ? SvgPicture.asset(
                                                             kImageIcon,
+                                                            // ignore: deprecated_member_use
                                                             color:
                                                                 kMainColorDark,
                                                             width: 100,

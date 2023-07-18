@@ -79,7 +79,6 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                       TextFeildWidget(
                         screenSize: screenSize,
                         isDarkMood: isDarkMood,
-                        //TODO: change controller
                         controller: controller,
                         keyboardType: TextInputType.text,
                         hintText: kSalesMEthodOfPaymentHintText,
@@ -94,7 +93,6 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                       TextFeildWidget(
                         screenSize: screenSize,
                         isDarkMood: isDarkMood,
-                        //TODO: change controller
                         controller: controller,
                         keyboardType: TextInputType.number,
                         hintText: kSalesAmountHintText.toUpperCase(),
@@ -112,7 +110,6 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                           TextFeildWidget(
                             screenSize: screenSize,
                             isDarkMood: isDarkMood,
-                            //TODO: change controller
                             controller: controller,
                             keyboardType: TextInputType.datetime,
                             hintText: kSalesDateHintText.toUpperCase(),
@@ -124,7 +121,6 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                           TextFeildWidget(
                             screenSize: screenSize,
                             isDarkMood: isDarkMood,
-                            //TODO: change controller
                             controller: controller,
                             keyboardType: TextInputType.datetime,
                             hintText: kSalesTimeHintText.toUpperCase(),

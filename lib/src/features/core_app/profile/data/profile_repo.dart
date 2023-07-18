@@ -74,8 +74,7 @@ class ProfileRepo extends GetxController {
       email: profileController.tEmail.text.trim(),
       bio: profileController.tBio.text.trim(),
     );
-    print(
-        'User role is ${splashController.userRole.value} and phone is ${loginController.phone.value}');
+
     if (profileController.profilePic.value!.path.isNotEmpty) {
       const Center(
         child: CircularProgressIndicator(),

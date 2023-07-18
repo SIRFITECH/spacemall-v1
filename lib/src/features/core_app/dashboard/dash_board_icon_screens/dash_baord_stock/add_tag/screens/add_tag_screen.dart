@@ -81,6 +81,7 @@ class AddTag extends StatelessWidget {
                                                 //     ?
                                                 SvgPicture.asset(
                                               kImageIcon,
+                                              // ignore: deprecated_member_use
                                               color: isDarkMood
                                                   ? kDarkModeIconColor
                                                   : kMainColorLight,

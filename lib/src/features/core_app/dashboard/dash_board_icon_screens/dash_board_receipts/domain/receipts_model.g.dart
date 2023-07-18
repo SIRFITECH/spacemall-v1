@@ -8,7 +8,7 @@ part of 'receipts_model.dart';
 
 class ReceiptsModelAdapter extends TypeAdapter<ReceiptsModel> {
   @override
-  final int typeId = 10;
+  final int typeId = 17;
 
   @override
   ReceiptsModel read(BinaryReader reader) {
@@ -18,29 +18,31 @@ class ReceiptsModelAdapter extends TypeAdapter<ReceiptsModel> {
     };
     return ReceiptsModel(
       logo: fields[0] as File?,
-      storeName: fields[1] as String,
+      customerName: fields[1] as String,
       businessEmail: fields[2] as String,
-      businessPhone: fields[3] as String,
+      cartTotal: fields[3] as String,
       date: fields[4] as DateTime,
       receiptNo: fields[5] as String,
       attendant: fields[6] as String,
       receiptId: fields[7] as String,
       cartId: fields[8] as String,
+      itemsInCart: fields[9] as String,
+      paymentMethod: fields[10] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, ReceiptsModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.logo)
       ..writeByte(1)
-      ..write(obj.storeName)
+      ..write(obj.customerName)
       ..writeByte(2)
       ..write(obj.businessEmail)
       ..writeByte(3)
-      ..write(obj.businessPhone)
+      ..write(obj.cartTotal)
       ..writeByte(4)
       ..write(obj.date)
       ..writeByte(5)
@@ -50,7 +52,11 @@ class ReceiptsModelAdapter extends TypeAdapter<ReceiptsModel> {
       ..writeByte(7)
       ..write(obj.receiptId)
       ..writeByte(8)
-      ..write(obj.cartId);
+      ..write(obj.cartId)
+      ..writeByte(9)
+      ..write(obj.itemsInCart)
+      ..writeByte(10)
+      ..write(obj.paymentMethod);
   }
 
   @override

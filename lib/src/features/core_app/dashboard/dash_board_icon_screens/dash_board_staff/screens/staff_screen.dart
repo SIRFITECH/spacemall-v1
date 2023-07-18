@@ -226,7 +226,7 @@ class _StaffState extends State<StaffScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Get.to(
-            () => AddStaff(),
+            () => const AddStaff(),
           );
           // Navigator.push(
           //   context,

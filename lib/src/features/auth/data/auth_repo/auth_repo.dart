@@ -96,7 +96,7 @@ class AuthRepo extends GetxController {
 
     if (user.isNotEmpty) {
       // && snapshot.exists
-      print('Existing User');
+
       print('Existing User id $_uid');
       print('Existing User on the phone is $user');
 

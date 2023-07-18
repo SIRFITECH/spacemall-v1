@@ -139,6 +139,7 @@ class CheckOut extends StatelessWidget {
                                           child: stockItem.itemPic == null
                                               ? SvgPicture.asset(
                                                   kImageIcon,
+                                                  // ignore: deprecated_member_use
                                                   color: kMainColorDark,
                                                   width: 50,
                                                   height: 70,

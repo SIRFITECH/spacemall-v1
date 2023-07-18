@@ -100,6 +100,6 @@ class AddItemController extends GetxController {
   getItemPic() {}
 
   Future<void> addItemToPhone() async {
-    addItemRepo.saveItemData().then((value) => Get.offAll(() => const Stock()));
+    addItemRepo.saveItemData().then((value) => Get.off(() => const Stock()));
   }
 }

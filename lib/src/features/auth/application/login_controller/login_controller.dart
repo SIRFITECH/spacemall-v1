@@ -35,7 +35,6 @@ class LoginController extends GetxController {
   void onSend() {
     phone.value =
         '+${country.value.phoneCode} ${phoneController.value.text.trim()}';
-    print(phone.value);
   }
 
   void signUserInWithPhone(String phoneNumber) {

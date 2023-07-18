@@ -5,16 +5,14 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/image_strings.dart';
 import '../../../../../../constants/text_strings.dart';
+import '../../../../../../repository/hive_boxes.dart';
 import '../../../../general/my_app_bar.dart';
+import '../../../../store/domain/store_model.dart';
+import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
 
-class DebtScreen extends StatefulWidget {
+class DebtScreen extends StatelessWidget {
   const DebtScreen({super.key});
 
-  @override
-  State<DebtScreen> createState() => _DebtState();
-}
-
-class _DebtState extends State<DebtScreen> {
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
@@ -22,10 +20,29 @@ class _DebtState extends State<DebtScreen> {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: kDebtAppBarText,
+        title: '$kDebtAppBarText for ${store.storeName}',
         automaticallyImplyLeading: false,
       ),
       body: Container(

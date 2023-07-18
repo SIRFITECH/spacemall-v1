@@ -9,11 +9,11 @@ class ReceiptsModel {
   @HiveField(0)
   File? logo;
   @HiveField(1)
-  String storeName;
+  String customerName;
   @HiveField(2)
   String businessEmail;
   @HiveField(3)
-  String businessPhone;
+  String cartTotal;
   @HiveField(4)
   DateTime date;
   @HiveField(5)
@@ -24,31 +24,39 @@ class ReceiptsModel {
   String receiptId;
   @HiveField(8)
   String cartId;
+  @HiveField(9)
+  String itemsInCart;
+  @HiveField(11)
+  String paymentMethod;
 
   ReceiptsModel({
     required this.logo,
-    required this.storeName,
+    required this.customerName,
     required this.businessEmail,
-    required this.businessPhone,
+    required this.cartTotal,
     required this.date,
     required this.receiptNo,
     required this.attendant,
     required this.receiptId,
     required this.cartId,
+    required this.itemsInCart,
+    required this.paymentMethod,
   });
 
   // populated from map, that is serializing the stock object from server
   factory ReceiptsModel.fromMap(Map<String, dynamic> map) {
     return ReceiptsModel(
       logo: File(map['logo'] ?? ''),
-      storeName: map['storeName'] ?? '',
+      customerName: map['customerName'] ?? '',
       businessEmail: map['businessEmail'] ?? '',
-      businessPhone: map['businessPhone'] ?? '',
+      cartTotal: map['cartTotal'] ?? '',
       date: map['date'] ?? '',
       receiptNo: map['receiptNo'] ?? '',
       attendant: map['attendant'] ?? '',
       receiptId: map['receiptId'] ?? '',
       cartId: map['cartId'] ?? '',
+      itemsInCart: map['itemsInCart'] ?? '',
+      paymentMethod: map['paymentMethod'] ?? '',
     );
   }
 
@@ -56,14 +64,16 @@ class ReceiptsModel {
   Map<String, dynamic> toMap() {
     return {
       "logo": logo?.path,
-      'storeName': storeName,
+      'customerName': customerName,
       "businessEmail": businessEmail,
-      "businessPhone": businessPhone,
+      "cartTotal": cartTotal,
       "date": date,
       'receiptNo': receiptNo,
       "attendant": attendant,
       "receiptId": receiptId,
       "cartId": cartId,
+      "itemsInCart": itemsInCart,
+      "paymentMethod": paymentMethod
     };
   }
 }

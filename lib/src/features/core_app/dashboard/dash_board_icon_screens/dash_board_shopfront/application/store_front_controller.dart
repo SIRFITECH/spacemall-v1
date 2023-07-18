@@ -50,7 +50,6 @@ simple add string sample
         backgroundColor: kWhiteLight,
         colorText: kBlack,
       );
-      print(stores);
     }
   }
 }

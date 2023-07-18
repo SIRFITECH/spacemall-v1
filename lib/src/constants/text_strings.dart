@@ -211,9 +211,10 @@ const String kReceiptsSettingsAppBarText = 'Receipts Settings';
 
 /// --- DEBTS SCREEN TEXT ---
 
-const String kDebtAppBarText = 'DebtScreen';
+const String kDebtAppBarText = 'Debts';
 const String kDebtSummaryAppBarText = 'Debt Summary';
 const String kAddDebtorText = 'Add debtor';
+const String kAddDebtToText = 'Add debtor to';
 
 /// --- SOCIALS SCREEN TEXT ---
 

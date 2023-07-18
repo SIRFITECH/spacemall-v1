@@ -112,7 +112,7 @@ class _DebtSummaryState extends State<DebtSummary> {
                   //     return 'This is a required';
                   //   }
                   // },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: kMainColorLight,
@@ -124,7 +124,7 @@ class _DebtSummaryState extends State<DebtSummary> {
                         borderSide:
                             BorderSide(color: kMainColorLight, width: 2.0)),
                     hintText: '',
-                    hintStyle: const TextStyle(fontSize: 12),
+                    hintStyle: TextStyle(fontSize: 12),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
                   ),
@@ -164,7 +164,7 @@ class _DebtSummaryState extends State<DebtSummary> {
                         borderSide:
                             BorderSide(color: kMainColorLight, width: 2.0)),
                     hintText: '29-01-2023',
-                    hintStyle: const TextStyle(fontSize: 12),
+                    hintStyle: TextStyle(fontSize: 12),
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
                   ),

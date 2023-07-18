@@ -193,10 +193,6 @@ class CartItemController extends GetxController {
       user!.cart.add(newItem);
       cart.add(newItem);
       cartItems.value = [...user.cart];
-      // print('user.cart: ${user.cart[0].itemName}');
-      // print('user.cart: ${user.cart[1].itemName}');
-      // print('cartItems: ${cartItems[0].itemName}');
-      // print('cartItems: ${cartItems[1].itemName}');
 
       Get.snackbar(
         'Operation Successful',

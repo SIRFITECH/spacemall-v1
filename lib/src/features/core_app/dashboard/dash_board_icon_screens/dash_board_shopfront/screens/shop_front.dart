@@ -195,10 +195,10 @@ class ShopFrontScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
-                        Text('https://sirfimunch.spacemall.io')
+                        const Text('https://sirfimunch.spacemall.io')
                       ],
                     )
                   ],
@@ -211,9 +211,7 @@ class ShopFrontScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          print('copy link');
-                        },
+                        onTap: () {},
                         child: Container(
                           width: screenSize.width * 0.45,
                           decoration: BoxDecoration(
@@ -240,9 +238,7 @@ class ShopFrontScreen extends StatelessWidget {
                         width: screenSize.width * 0.02,
                       ),
                       GestureDetector(
-                        onTap: () {
-                          print('share link');
-                        },
+                        onTap: () {},
                         child: Container(
                           width: screenSize.width * 0.45,
                           decoration: BoxDecoration(

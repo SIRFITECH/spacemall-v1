@@ -62,6 +62,7 @@ class AddStore extends StatelessWidget {
                                                   const EdgeInsets.all(34.0),
                                               child: SvgPicture.asset(
                                                 kMallIcon,
+                                                // ignore: deprecated_member_use
                                                 color: isDarkMood
                                                     ? kMainComplimemtColorLight
                                                     : kMainColorLight,

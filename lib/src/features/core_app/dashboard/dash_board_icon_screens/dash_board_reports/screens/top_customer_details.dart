@@ -91,9 +91,9 @@ class _TopCustomerReportDetailsState extends State<TopCustomerReportDetails> {
                           padding: EdgeInsets.only(
                             top: MediaQuery.of(context).size.height * 0.02,
                           ),
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               Text(
                                 'N100,000.00',
                                 style: TextStyle(

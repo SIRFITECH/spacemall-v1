@@ -59,9 +59,7 @@ class MallScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(top: 30.0),
                         child: GestureDetector(
-                          onTap: () {
-                            print('Print help');
-                          },
+                          onTap: () {},
                           child: Column(
                             children: [
                               Icon(

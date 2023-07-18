@@ -117,7 +117,6 @@ class Login extends StatelessWidget {
                         Get.off(
                           () => const OTPScreen(),
                         );
-                        print(ProfileRepo.instance.conttactNumber.value);
                       }
                     },
                     child: const Text(

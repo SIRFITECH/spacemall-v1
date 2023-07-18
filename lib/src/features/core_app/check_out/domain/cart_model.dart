@@ -4,6 +4,7 @@ class CartModel {
   String quantityInCart;
   String totalItemPrice; // total pruce for the item from checkOutItemModel
   String totalCartPrice;
+  String numOfItemsInCart;
   String subTotal; //
   String discount;
   String tax;
@@ -14,6 +15,7 @@ class CartModel {
     required this.quantityInCart,
     required this.totalItemPrice,
     required this.totalCartPrice,
+    required this.numOfItemsInCart,
     required this.subTotal,
     required this.discount,
     required this.tax,
@@ -27,6 +29,7 @@ class CartModel {
       quantityInCart: map['quantityInCart'] ?? '',
       totalItemPrice: map['totalItemPrice'] ?? '0',
       totalCartPrice: map['totalCartPrice'] ?? '0',
+      numOfItemsInCart: map['numOfItemsInCart'] ?? '0',
       subTotal: map['subTotal'] ?? '0',
       discount: map['discount'] ?? '0',
       tax: map['tax'] ?? '0',
@@ -41,6 +44,7 @@ class CartModel {
       "quantityInCart": quantityInCart,
       "totalItemPrice": totalItemPrice,
       "totalCartPrice": totalCartPrice,
+      "numOfItemsInCart": numOfItemsInCart,
       "subTotal": subTotal,
       "discount": discount,
       "tax": tax,

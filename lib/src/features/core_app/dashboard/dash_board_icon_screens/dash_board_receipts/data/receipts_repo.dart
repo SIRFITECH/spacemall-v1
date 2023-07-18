@@ -1,8 +1,11 @@
 import 'package:get/get.dart';
+import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
+import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../../../repository/hive_boxes.dart';
+import '../../../../../../constants/colors.dart';
+
 import '../../../../store/domain/store_model.dart';
 import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
 import '../application/reciepts_controller.dart';
@@ -15,9 +18,13 @@ class AddReceiptsRepo extends GetxController {
   ///PHONE OPERATIONS
 
   Future saveReceiptData() async {
-    // fetch store from storeBox
-    StoreModel storeList = storeBox.get(
-      addItemRepo.currentStore.value,
+    // final appDocumentDir = await getApplicationDocumentsDirectory();
+    // Hive.init(appDocumentDir.path);
+    // Box receiptsBox = await Hive.openBox<ReceiptsModel>('receipt');
+
+    // create an instance of a the current store
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
         logo: null,
         storeName: '',
@@ -37,27 +44,72 @@ class AddReceiptsRepo extends GetxController {
 
     // create a new receipt
     ReceiptsModel newReceipt = ReceiptsModel(
-        logo: null,
-        storeName: storeList.storeName,
-        businessEmail: storeList.contact,
-        businessPhone: '',
-        date: DateTime.now(),
-        receiptNo: ReceiptsController.instance.receiptNo.value.toString(),
-        attendant: '',
-        receiptId: const Uuid().v4(),
-        cartId: '');
+      logo: null,
+      customerName: 'New Customer',
+      businessEmail: 'storeList.contact',
+      cartTotal: receiptsController.cartTotal.value,
+      date: DateTime.now(),
+      receiptNo: ReceiptsController.instance.receiptNo.value.toString(),
+      attendant: '',
+      receiptId: const Uuid().v4(),
+      cartId: '',
+      itemsInCart: CartItemController.instance.cartItems.length.toString(),
+      paymentMethod: '',
+    );
 
-    // Add the new stock item to the store's stock list
-    storeList.receipts.add(newReceipt);
+    // Add the new receipt item to the store's receipts list
+    store.receipts.add(newReceipt);
 
-// update the storeBox
+    // update the storeBox
     await storeBox.put(
       addItemRepo.currentStore.value,
-      storeList,
+      store,
     );
-    receiptsController.receipts.add(newReceipt);
-    print(receiptsController.receipts.length);
+
     Get.back();
+    receiptsController.receipts.add(newReceipt);
+    Get.snackbar(
+      'Receipt created',
+      'Receipt added successfully',
+      backgroundColor: kWhiteLight,
+      colorText: kBlack,
+    );
+
+    Get.back();
+  }
+
+  // stores from phone
+  StoreModel store = storeBox.get(
+    AddItemRepo.instance.currentStore.value,
+    defaultValue: StoreModel(
+      logo: null,
+      storeName: '',
+      bankName: '',
+      accountNumber: '',
+      contact: '',
+      stock: [],
+      receipts: [],
+      debts: [],
+      staff: [],
+      sales: [],
+      customer: [],
+      storeId: '',
+      categories: [],
+    ),
+  );
+
+  // get receipts
+  List<ReceiptsModel> getStoresFromBox() {
+    List<ReceiptsModel> receipts = [];
+    for (var key in receiptsBox.keys) {
+      if (key.startsWith('store-')) {
+        ReceiptsModel? store = receiptsBox.get(key);
+        if (store != null) {
+          receipts.add(store);
+        }
+      }
+    }
+    return receipts;
   }
 
   // // clear the TextEditingControllers

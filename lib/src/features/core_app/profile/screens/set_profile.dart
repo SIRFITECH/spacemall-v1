@@ -66,6 +66,7 @@ class SetProfile extends StatelessWidget {
                                                     const EdgeInsets.all(34.0),
                                                 child: SvgPicture.asset(
                                                   kProfileIcon,
+                                                  // ignore: deprecated_member_use
                                                   color: isDarkMood
                                                       ? kMainComplimemtColorLight
                                                       : kMainColorLight,
@@ -267,37 +268,6 @@ class SetProfile extends StatelessWidget {
                     //       height: screenSize.width * 0.1,
                     //       hintText: '',
                     //       labelText: kCityText,
-                    //       maxLines: 1,
-                    //     )
-                    //   ],
-                    // ),
-
-                    // TODO: we we should be able to edit country later
-                    // Row(
-                    //   children: [
-                    //     TextFeildWidget(
-                    //       screenSize: screenSize,
-                    //       isDarkMood: isDarkMood,
-                    //       controller: profileController.tCountry,
-                    //       keyboardType: TextInputType.text,
-                    //       height: screenSize.width * 0.1,
-                    //       hintText: '',
-                    //       labelText: kCountryText,
-                    //       maxLines: 1,
-                    //       width: screenSize.width * 0.42,
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 5,
-                    //     ),
-                    //     TextFeildWidget(
-                    //       screenSize: screenSize,
-                    //       isDarkMood: isDarkMood,
-                    //       controller: profileController.tZipCode,
-                    //       keyboardType: TextInputType.phone,
-                    //       width: screenSize.width * 0.42,
-                    //       height: screenSize.width * 0.1,
-                    //       hintText: '',
-                    //       labelText: kZipCodeText,
                     //       maxLines: 1,
                     //     )
                     //   ],

@@ -7,6 +7,7 @@ import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 part 'user_model.g.dart';
 
 @HiveType(typeId: 3)
+//
 class UserModel {
   @HiveField(0)
   String profilePic;

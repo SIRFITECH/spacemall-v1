@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/screens/add_category_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
@@ -16,10 +17,10 @@ class AddCategoryController extends GetxController {
 
   final TextEditingController categoryName = TextEditingController();
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  // }
 
   RxBool noCategory = true.obs;
   // category dropdown
@@ -55,8 +56,29 @@ class AddCategoryController extends GetxController {
         colorText: kBlack,
       );
     } else {
-      // Fetch the current store from the storeBox
-      StoreModel store = storeBox.get(AddItemRepo.instance.currentStore.value);
+      storeBox = await Hive.openBox<StoreModel>('store');
+
+      // fetch store from storeBox
+      StoreModel store = storeBox.get(
+        AddItemRepo.instance.currentStore.value,
+        defaultValue: StoreModel(
+          logo: null,
+          storeName: '',
+          bankName: '',
+          accountNumber: '',
+          contact: '',
+          stock: [],
+          receipts: [],
+          debts: [],
+          staff: [],
+          sales: [],
+          customer: [],
+          storeId: '',
+          categories: [],
+        ),
+      );
+      // // Fetch the current store from the storeBox
+      // StoreModel store = storeBox.get(AddItemRepo.instance.currentStore.value);
 
       // Create a new category
       CategoryModel newCategory = CategoryModel(
@@ -75,6 +97,7 @@ class AddCategoryController extends GetxController {
 
       categories.add(newCategory);
       Get.back();
+      categoryName.clear();
       Get.snackbar(
         '${categoryName.text} added',
         '${categoryName.text} category added successfully',

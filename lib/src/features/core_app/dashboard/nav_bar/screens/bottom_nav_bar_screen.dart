@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
+import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/application/nav_bar_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/screens/bttom_bar_icon_widget.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
@@ -23,6 +24,9 @@ class BottomNavBar extends StatelessWidget {
 
     Get.put(
       ReceiptsController(),
+    );
+    Get.put(
+      CartItemController(),
     );
     Get.put(
       AddReceiptsRepo(),

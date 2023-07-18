@@ -1,4 +1,5 @@
 class StaffModel {
+  // // hive typeAdapter 12
   String staffId;
   String staffName;
   DateTime payDate;

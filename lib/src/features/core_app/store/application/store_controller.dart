@@ -59,10 +59,10 @@ class StoreController extends GetxController {
     null,
   );
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  // }
 
   RxList<StoreModel> stores = <StoreModel>[].obs;
 
@@ -97,37 +97,9 @@ class StoreController extends GetxController {
       Get.to(
         () => const AddStore(),
       );
-      print('new store');
     } else {
       AddItemRepo.instance.currentStore.value = 'store-${newValue.storeId}';
       selectedStore.value = newValue;
-      // StoreModel store = storeBox.get(
-      //   // 'store-${newValue.storeId}',
-      //   addItemRepo.currentStore.value,
-      //   defaultValue: StoreModel(
-      //     logo: null,
-      //     storeName: '',
-      //     bankName: '',
-      //     accountNumber: '',
-      //     contact: '',
-      //     stock: [],
-      //     receipts: [],
-      //     debts: [],
-      //     staff: [],
-      //     sales: [],
-      //     customer: [],
-      //     storeId: '',
-      //     categories: [],
-      //   ),
-      // );
-
-      // print('${newValue.storeName} stock list ${newValue.stock}');
-      // print(stores);
-      // print(
-      //   storeBox.get('store-${newValue.storeId}'),
-      // );
-
-      // print(store.storeName);
     }
   }
 

@@ -107,6 +107,7 @@ void main() async {
   userBox = await Hive.openBox<UserModel>('user');
   storeBox = await Hive.openBox<StoreModel>('store');
   receiptsBox = await Hive.openBox<ReceiptsModel>('receipt');
+  receiptsBox = await Hive.openBox<CategoryModel>('category');
 
   runApp(const SpacemallApp());
 }

@@ -18,6 +18,9 @@ import 'package:spacemall/src/features/core_app/general/custom_radio.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widget.dart';
 
+import '../../../../../../../repository/hive_boxes.dart';
+import '../../../../../store/domain/store_model.dart';
+
 class AddStock extends StatelessWidget {
   const AddStock({super.key});
 
@@ -31,6 +34,24 @@ class AddStock extends StatelessWidget {
 
     final AddItemController addItemController = Get.find();
     final AddCategoryController addCategoryController = Get.find();
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
 
     List<CategoryModel> categoriesFromBox =
         addCategoryController.getCategoriesFromBox();
@@ -39,7 +60,7 @@ class AddStock extends StatelessWidget {
     return Scaffold(
         appBar: MyAppBar(
           isDarkMood: isDarkMood,
-          title: '',
+          title: 'addstock in ${store.storeName}',
           automaticallyImplyLeading: true,
         ),
         drawer: const SpacemallDrawer(),
@@ -54,14 +75,14 @@ class AddStock extends StatelessWidget {
               height: screenSize.height * 0.85,
               child: Obx(
                 () {
-                  if (addCategoryController.getCategoriesFromBox().isEmpty &&
+                  if (store.categories.toList().isEmpty &&
                       addCategoryController.noCategory.value == true) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       Get.defaultDialog(
                         backgroundColor: !isDarkMood
                             ? kDarkModeBackgroundColor.withOpacity(0.1)
                             : kWhiteDark.withOpacity(0.1),
-                        title: kAddStoreAppBarText,
+                        title: kAddCategoryText,
                         titleStyle: const TextStyle(
                           color: kWhiteLight,
                         ),
@@ -108,6 +129,7 @@ class AddStock extends StatelessWidget {
                                                       20.0),
                                                   child: SvgPicture.asset(
                                                     kImageIcon,
+                                                    // ignore: deprecated_member_use
                                                     color: isDarkMood
                                                         ? kDarkModeIconColor
                                                         : kMainColorLight,
@@ -203,8 +225,11 @@ class AddStock extends StatelessWidget {
                                                     ? kDarkModeIconColor
                                                     : kMainColorDark,
                                               ),
-                                              value: addCategoryController
-                                                  .categoryValue.value,
+                                              value:
+                                                  // store.categories.first,
+
+                                                  addCategoryController
+                                                      .categoryValue.value,
                                               style: textTheme.labelSmall,
                                               elevation: 0,
                                               dropdownColor: MediaQuery.of(

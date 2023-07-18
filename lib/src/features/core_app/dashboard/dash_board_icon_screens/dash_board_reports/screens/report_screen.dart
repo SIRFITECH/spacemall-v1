@@ -201,7 +201,6 @@ class _ReportScreenState extends State<ReportScreen> {
                     // ShopfrontReport(),
                     // RemainingStock(),
                   );
-                  print('remaining reports');
                 },
                 child: Center(
                     child: Container(
@@ -263,7 +262,6 @@ class _ReportScreenState extends State<ReportScreen> {
                                   onDatePickerModeChange: (value) {
                                     setState(() {
                                       date = value.toString();
-                                      print('today\'s date');
                                     });
                                   },
                                 );

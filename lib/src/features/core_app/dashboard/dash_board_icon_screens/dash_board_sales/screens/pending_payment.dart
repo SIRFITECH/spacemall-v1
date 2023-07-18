@@ -93,7 +93,6 @@ class _PendingPaymentState extends State<PendingPayment> {
                       TextFeildWidget(
                         screenSize: screenSize,
                         isDarkMood: isDarkMood,
-                        //TODO: change controller
                         controller: controller,
                         keyboardType: TextInputType.text,
                         hintText: kSalesMEthodOfPaymentHintText,
@@ -108,7 +107,6 @@ class _PendingPaymentState extends State<PendingPayment> {
                       TextFeildWidget(
                         screenSize: screenSize,
                         isDarkMood: isDarkMood,
-                        //TODO: change controller
                         controller: controller,
                         keyboardType: TextInputType.number,
                         hintText: kSalesAmountHintText.toUpperCase(),
@@ -126,7 +124,6 @@ class _PendingPaymentState extends State<PendingPayment> {
                           TextFeildWidget(
                             screenSize: screenSize,
                             isDarkMood: isDarkMood,
-                            //TODO: change controller
                             controller: controller,
                             keyboardType: TextInputType.datetime,
                             hintText: kSalesDateHintText.toUpperCase(),
@@ -138,7 +135,6 @@ class _PendingPaymentState extends State<PendingPayment> {
                           TextFeildWidget(
                             screenSize: screenSize,
                             isDarkMood: isDarkMood,
-                            //TODO: change controller
                             controller: controller,
                             keyboardType: TextInputType.datetime,
                             hintText: kSalesTimeHintText.toUpperCase(),

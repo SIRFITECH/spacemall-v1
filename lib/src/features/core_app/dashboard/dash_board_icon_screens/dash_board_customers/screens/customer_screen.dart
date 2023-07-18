@@ -4,15 +4,13 @@ import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/image_strings.dart';
+import '../../../../../../repository/hive_boxes.dart';
+import '../../../../store/domain/store_model.dart';
+import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
 
-class CustomerScreen extends StatefulWidget {
+class CustomerScreen extends StatelessWidget {
   const CustomerScreen({super.key});
 
-  @override
-  State<CustomerScreen> createState() => _CustomerState();
-}
-
-class _CustomerState extends State<CustomerScreen> {
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
@@ -20,10 +18,29 @@ class _CustomerState extends State<CustomerScreen> {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: kCustomerAppBarText,
+        title: '$kCustomerAppBarText in ${store.storeName}',
         automaticallyImplyLeading: false,
       ),
       body: Container(

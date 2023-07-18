@@ -3,9 +3,13 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widget.dart';
+
+import '../../../../../../../repository/hive_boxes.dart';
+import '../../../../../store/domain/store_model.dart';
 
 class AddCategory extends StatelessWidget {
   const AddCategory({super.key});
@@ -19,11 +23,30 @@ class AddCategory extends StatelessWidget {
 
     final AddCategoryController addCategoryController = Get.find();
 
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
     return Scaffold(
       drawer: const SpacemallDrawer(),
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: kAddCategoryAppBarText,
+        title: '$kAddCategoryAppBarText to ${store.storeName}',
         automaticallyImplyLeading: false,
       ),
       body: SingleChildScrollView(
@@ -42,11 +65,10 @@ class AddCategory extends StatelessWidget {
                     //   () =>
                     ListView.builder(
                   shrinkWrap: true,
-                  itemCount:
-                      addCategoryController.getCategoriesFromBox().length,
+                  itemCount: store.categories.length,
                   itemBuilder: (context, index) {
-                    final category =
-                        addCategoryController.getCategoriesFromBox()[index];
+                    final category = store.categories.first;
+                    // [index];
                     return ListTile(
                       leading: IconButton(
                         onPressed: () {
@@ -89,7 +111,6 @@ class AddCategory extends StatelessWidget {
               ),
               ElevatedButton(
                   onPressed: () {
-                    // print(addCategoryController.categoryName.text.trim());
                     addCategoryController.addNewCategory();
                   },
                   child: const Text(kAddCategoryText))

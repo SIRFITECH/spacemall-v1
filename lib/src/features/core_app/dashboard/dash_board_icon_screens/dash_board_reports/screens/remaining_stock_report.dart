@@ -5,14 +5,9 @@ import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/image_strings.dart';
 
-class RemainingStock extends StatefulWidget {
+class RemainingStock extends StatelessWidget {
   const RemainingStock({super.key});
 
-  @override
-  State<RemainingStock> createState() => _RemainingStockState();
-}
-
-class _RemainingStockState extends State<RemainingStock> {
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
@@ -40,7 +35,6 @@ class _RemainingStockState extends State<RemainingStock> {
             SizedBox(
               height: 60,
               child: Card(
-                // margin: const EdgeInsets.all(10),
                 child: Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Row(
@@ -91,7 +85,7 @@ class _RemainingStockState extends State<RemainingStock> {
         onPressed: () {
           showModalBottomSheet(
               context: context,
-              builder: (context) => Container(
+              builder: (context) => SizedBox(
                     height: screenSize.height * 0.3,
                     child: Column(
                       children: [
