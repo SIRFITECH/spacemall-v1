@@ -25,9 +25,7 @@ class DashboardGrid extends StatelessWidget {
     final media = MediaQuery.of(context);
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
-    // final screenSize = media.size;
 
-    // final addItemRepo =
     Get.put(
       AddItemRepo(),
     );
@@ -80,7 +78,9 @@ class DashboardGrid extends StatelessWidget {
               // sales icon
               GestureDetector(
                 onTap: () {
-                  Get.to(() => const SalesScreen());
+                  Get.to(
+                    () => const SalesScreen(),
+                  );
                 },
                 child: DashBoardIcon(
                   title: kDashbaordSalesText,

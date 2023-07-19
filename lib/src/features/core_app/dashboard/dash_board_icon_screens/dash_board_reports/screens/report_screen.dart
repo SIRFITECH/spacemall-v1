@@ -133,7 +133,6 @@ const List storeFrontReport = [
   },
 ];
 
-// DateRangePickerDialog date = DateTime(2023) as DateRangePickerDialog;
 DateTime now = DateTime.now();
 String date = DateFormat('d MMM').format(now);
 String dateNow = getFormattedDate(now);
@@ -180,8 +179,10 @@ class _ReportScreenState extends State<ReportScreen> {
           color: isDarkMood
               ? kDarkModeBackgroundColor.withAlpha(2)
               : kWhiteLight.withAlpha(2),
-          image: const DecorationImage(
-            image: AssetImage(kBackGroundCart),
+          image: DecorationImage(
+            image: !isDarkMood
+                ? const AssetImage(kBackGroundCart)
+                : const AssetImage(kBackGroundCartDarkMood),
             fit: BoxFit.contain,
           ),
         ),
@@ -203,31 +204,40 @@ class _ReportScreenState extends State<ReportScreen> {
                   );
                 },
                 child: Center(
+                  child: Container(
+                    width: screenSize.width,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                        width: 1,
+                        color: !isDarkMood
+                            ? kTextFieldLightBorderColor.withOpacity(0.5)
+                            : kTextFieldDarkBorderColor.withOpacity(0.5),
+                      ),
+                    ),
                     child: Container(
-                        width: screenSize.width,
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: kMainColorLight),
-                        ),
-                        // color: kMainColorLight,
-                        child: Container(
-                          margin: EdgeInsets.all(
-                              MediaQuery.of(context).size.height * 0.01),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                kReportRemainingStockText.toUpperCase(),
-                                style: const TextStyle(
-                                  color: kBlack,
-                                ),
-                              ),
-                              const Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                color: kBlackDark,
-                              )
-                            ],
+                      margin: EdgeInsets.all(
+                          MediaQuery.of(context).size.height * 0.01),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            kReportRemainingStockText.toUpperCase(),
+                            style: TextStyle(
+                              color: !isDarkMood ? kBlack : kWhiteDark,
+                            ),
                           ),
-                        ))),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: !isDarkMood
+                                ? kBlackDark.withOpacity(0.5)
+                                : kTextFieldDarkBorderColor.withOpacity(0.5),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
             Padding(
@@ -236,58 +246,67 @@ class _ReportScreenState extends State<ReportScreen> {
                 vertical: 4.0,
               ),
               child: Center(
+                child: Container(
+                  width: screenSize.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: Border.all(
+                      width: 1,
+                      color: !isDarkMood
+                          ? kTextFieldLightBorderColor.withOpacity(0.5)
+                          : kTextFieldDarkBorderColor.withOpacity(0.5),
+                    ),
+                  ),
                   child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: kMainColorLight),
-                      ),
-                      // color: kMainColorLight,
-                      child: Container(
-                        margin: EdgeInsets.all(
-                            MediaQuery.of(context).size.height * 0.01),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Icon(
-                              Icons.arrow_back,
-                              color: kBlackDark,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2020),
-                                  lastDate: DateTime(2100),
-                                  onDatePickerModeChange: (value) {
-                                    setState(() {
-                                      date = value.toString();
-                                    });
-                                  },
-                                );
-                              },
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.calendar_month_sharp,
-                                    color: kMainColorLight,
-                                  ),
-                                  Text(
-                                    ' $kReportTodayText : $date ',
-                                    style: const TextStyle(
-                                      color: kBlackDark,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Icon(
-                              Icons.arrow_forward_outlined,
-                              color: kBlackDark,
-                            )
-                          ],
+                    margin: EdgeInsets.all(screenSize.height * 0.01),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(
+                          Icons.arrow_back,
+                          color: !isDarkMood
+                              ? kBlackDark.withOpacity(0.5)
+                              : kTextFieldDarkBorderColor.withOpacity(0.5),
                         ),
-                      ))),
+                        GestureDetector(
+                          onTap: () {
+                            showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2020),
+                                lastDate: DateTime(2100));
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.calendar_month_sharp,
+                                color: !isDarkMood
+                                    ? kTextFieldLightBorderColor
+                                    : kTextFieldDarkBorderColor
+                                        .withOpacity(0.5),
+                              ),
+                              Text(
+                                ' $kReportTodayText : $date ',
+                                style: const TextStyle(
+                                  color: kGreyColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_outlined,
+
+                          color: !isDarkMood
+                              ? kBlackDark.withOpacity(0.5)
+                              : kTextFieldDarkBorderColor.withOpacity(0.5),
+                          // kBlackDark,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(

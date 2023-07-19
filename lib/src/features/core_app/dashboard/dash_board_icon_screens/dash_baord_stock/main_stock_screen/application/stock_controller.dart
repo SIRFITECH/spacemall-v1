@@ -3,6 +3,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 
 class StockController extends GetxController {
   static StockController get instance => Get.find();
+  // SalesController salesController = Get.put(SalesController());
 
   final items = <String>[
     "ADD ITEM",

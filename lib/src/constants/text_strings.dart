@@ -215,6 +215,12 @@ const String kDebtAppBarText = 'Debts';
 const String kDebtSummaryAppBarText = 'Debt Summary';
 const String kAddDebtorText = 'Add debtor';
 const String kAddDebtToText = 'Add debtor to';
+const String kAddDebtNameText = 'Name';
+const String kAddDebtPhoneText = 'Phone';
+const String kAddDebtItemsText = 'Items';
+const String kAddDebtAmountText = 'Amount';
+const String kAddDebtDueDateText = 'Due Date';
+const String kAddDebtAddText = 'Add';
 
 /// --- SOCIALS SCREEN TEXT ---
 

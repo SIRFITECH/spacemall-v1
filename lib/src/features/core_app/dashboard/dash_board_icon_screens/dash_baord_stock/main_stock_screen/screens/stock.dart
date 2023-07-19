@@ -75,10 +75,10 @@ class Stock extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
-                      kStockManagentText,
+                      kStockManagentText.toUpperCase(),
                       style: TextStyle(
                         fontFamily: 'Arial Rounded',
-                        color: isDarkMood ? kWhiteDark : kBlackDark,
+                        color: isDarkMood ? kWhiteLight : kDarkComplementColor,
                         fontWeight: FontWeight.bold,
                         fontSize: 30,
                       ),
@@ -106,180 +106,187 @@ class Stock extends StatelessWidget {
               width: double.infinity,
               child: SizedBox(
                 height: 30,
-                child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14.0,
-                    ),
-                    itemCount: stocks.length,
-                    itemBuilder: (context, index) {
-                      AddItemModel stockItem = store.stock[index];
+                child: Scrollbar(
+                  child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14.0,
+                      ),
+                      itemCount: stocks.length,
+                      itemBuilder: (context, index) {
+                        AddItemModel stockItem = store.stock[index];
 
-                      return GestureDetector(
-                        onTap: () {
-                          var tapIndex = index;
-                          if (index == tapIndex) {
-                            debugPrint(stockItem.itemId);
-                          }
-                        },
-                        child: Column(
-                          children: [
-                            Card(
-                              color: kTransparentColor,
-                              elevation: 5,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 10.0, top: 6),
-                                        child: Row(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  bottom: 8.0),
-                                              child: CircleAvatar(
-                                                radius: 40,
-                                                backgroundColor:
-                                                    kMainComplimemtColorDark
-                                                        .withOpacity(0.2),
-                                                child: SizedBox(
-                                                    child: ClipOval(
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(
-                                                            1.0),
-                                                    child: stockItem.itemPic ==
-                                                            null
-                                                        ? SvgPicture.asset(
-                                                            kImageIcon,
-                                                            // ignore: deprecated_member_use
-                                                            color:
-                                                                kMainColorDark,
-                                                            width: 100,
-                                                            height: 100,
-                                                            fit: BoxFit
-                                                                .scaleDown,
-                                                          )
-                                                        : CircleAvatar(
-                                                            radius: 60,
-                                                            backgroundImage:
-                                                                FileImage(stockItem
-                                                                    .itemPic!),
-                                                          ),
-                                                  ),
-                                                )),
+                        return GestureDetector(
+                          onTap: () {
+                            var tapIndex = index;
+                            if (index == tapIndex) {
+                              debugPrint(stockItem.itemId);
+                            }
+                          },
+                          child: Column(
+                            children: [
+                              Card(
+                                color: kTransparentColor,
+                                elevation: 5,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 10.0, top: 6),
+                                          child: Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    bottom: 8.0),
+                                                child: CircleAvatar(
+                                                  radius: 40,
+                                                  backgroundColor:
+                                                      kMainComplimemtColorDark
+                                                          .withOpacity(0.2),
+                                                  child: SizedBox(
+                                                      child: ClipOval(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              1.0),
+                                                      child: stockItem
+                                                                  .itemPic ==
+                                                              null
+                                                          ? SvgPicture.asset(
+                                                              kImageIcon,
+                                                              // ignore: deprecated_member_use
+                                                              color:
+                                                                  kMainColorDark,
+                                                              width: 100,
+                                                              height: 100,
+                                                              fit: BoxFit
+                                                                  .scaleDown,
+                                                            )
+                                                          : CircleAvatar(
+                                                              radius: 60,
+                                                              backgroundImage:
+                                                                  FileImage(
+                                                                      stockItem
+                                                                          .itemPic!),
+                                                            ),
+                                                    ),
+                                                  )),
+                                                ),
                                               ),
-                                            ),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    stockItem.itemName,
-                                                    style: TextStyle(
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      stockItem.itemName,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: isDarkMood
+                                                              ? kWhiteLight
+                                                              : kBlackDark,
+                                                          fontSize: 19),
+                                                    ),
+                                                    Text(
+                                                      stockItem.itemCategory!,
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
                                                         color: isDarkMood
-                                                            ? kWhiteLight
+                                                            ? kGreyColor
                                                             : kBlackDark,
-                                                        fontSize: 19),
-                                                  ),
-                                                  Text(
-                                                    stockItem.itemCategory!,
-                                                    textAlign: TextAlign.left,
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: isDarkMood
-                                                          ? kGreyColor
-                                                          : kBlackDark,
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
+                                                  ],
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                nairaFormat.format(int.parse(
+                                                    stockItem
+                                                        .itemSellingPrice)),
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: kMainColorLight,
+                                                ),
                                               ),
+                                              Text(
+                                                "${stockItem.itemQuantity} in stock",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: isDarkMood
+                                                      ? kGreyColor
+                                                      : kBlackDark,
+                                                  fontSize: 15,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                        child: LoginDivider(
+                                            height: 0, thickness: 3)),
+                                    SizedBox(
+                                      height: 30,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 7, bottom: 5),
+                                        child: ListView(
+                                          scrollDirection: Axis.horizontal,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {},
+                                              style: ElevatedButton.styleFrom(
+                                                padding:
+                                                    const EdgeInsets.all(5),
+                                              ),
+                                              child: const Text('Small'),
+                                            ),
+                                            const SizedBox(
+                                              width: 10,
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {},
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    kLightModeInactiveButtonColor
+                                                        .withOpacity(0.3),
+                                                padding:
+                                                    const EdgeInsets.all(5),
+                                              ),
+                                              child: const Text('Meduim'),
                                             )
                                           ],
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              nairaFormat.format(int.parse(
-                                                  stockItem.itemSellingPrice)),
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: kMainColorLight,
-                                              ),
-                                            ),
-                                            Text(
-                                              "${stockItem.itemQuantity} in stock",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: isDarkMood
-                                                    ? kGreyColor
-                                                    : kBlackDark,
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                      child: LoginDivider(
-                                          height: 0, thickness: 3)),
-                                  SizedBox(
-                                    height: 30,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 7, bottom: 5),
-                                      child: ListView(
-                                        scrollDirection: Axis.horizontal,
-                                        children: [
-                                          ElevatedButton(
-                                            onPressed: () {},
-                                            style: ElevatedButton.styleFrom(
-                                              padding: const EdgeInsets.all(5),
-                                            ),
-                                            child: const Text('Small'),
-                                          ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          ElevatedButton(
-                                            onPressed: () {},
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  kLightModeInactiveButtonColor
-                                                      .withOpacity(0.3),
-                                              padding: const EdgeInsets.all(5),
-                                            ),
-                                            child: const Text('Meduim'),
-                                          )
-                                        ],
-                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    }),
+                            ],
+                          ),
+                        );
+                      }),
+                ),
               ),
             )
           ],

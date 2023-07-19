@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spacemall/src/common_widgets/common_widgets.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/screens/add_debts.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/screens/debt_summary.dart';
 
@@ -50,100 +51,420 @@ class DebtScreen extends StatelessWidget {
           color: isDarkMood
               ? kDarkModeBackgroundColor.withAlpha(2)
               : kWhiteLight.withAlpha(2),
-          image: const DecorationImage(
-            image: AssetImage(kBackGroundCart),
+          image: DecorationImage(
+            image: !isDarkMood
+                ? const AssetImage(kBackGroundCart)
+                : const AssetImage(kBackGroundCartDarkMood),
             fit: BoxFit.contain,
           ),
         ),
-        child: ListView(
-          children: [
-            SizedBox(
-              height: screenSize.height * 0.6,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                child: ListView(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const DebtSummary(),
-                            ));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 1, color: kMainColorLight),
-                        ),
-                        child: const ListTile(
-                          leading: Image(
-                            height: 35,
-                            image: AssetImage(kTrialImage1),
+        child: Scrollbar(
+          child: ListView(
+            children: [
+              SizedBox(
+                height: screenSize.height * 0.6,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 16.0),
+                  child: ListView(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const DebtSummary(),
+                              ));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              width: 1,
+                              color: !isDarkMood
+                                  ? kMainColorLight
+                                  : kMainComplimemtColorLight,
+                            ),
                           ),
-                          title: Text('LinkedIn'),
-                          subtitle: Text('Paid N 1,000'),
-                          trailing: Icon(
-                            Icons.arrow_forward,
-                            color: kMainColorLight,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          height: screenSize.height * 0.06,
+                                          width: screenSize.width * 0.12,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              width: 1,
+                                              color: !isDarkMood
+                                                  ? kMainColorLight
+                                                      .withOpacity(0.6)
+                                                  : kMainComplimemtColorLight
+                                                      .withOpacity(
+                                                          0.8), // Replace with your desired border color
+                                            ),
+                                            shape: BoxShape.circle,
+                                            color: Colors.transparent,
+                                          ),
+                                        ),
+                                        ClipOval(
+                                          child: Container(
+                                            height: screenSize.height * 0.06,
+                                            width: screenSize.width * 0.12,
+                                            color: Colors.transparent,
+                                            child: Center(
+                                              child: Text(
+                                                'N',
+                                                style: TextStyle(
+                                                  fontSize: 45,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: !isDarkMood
+                                                      ? kMainColorLight
+                                                          .withOpacity(0.6)
+                                                      : kMainComplimemtColorLight
+                                                          .withOpacity(0.8),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      width: 15,
+                                    ),
+                                    const Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'New Customer',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          '- N20,000',
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          '6 days remaining',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: !isDarkMood
+                                      ? kMainColorLight
+                                      : kMainComplimemtColorLight,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const DebtSummary(),
-                            ));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 1, color: kMainColorLight),
-                        ),
-                        child: const ListTile(
-                          leading: Image(
-                            height: 35,
-                            image: AssetImage(kTrailImage2),
+                      const SizedBox(
+                        height: 10,
+                      ),
+
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //         context,
+                      //         MaterialPageRoute(
+                      //           builder: (context) => const DebtSummary(),
+                      //         ));
+                      //   },
+                      //   child: Container(
+                      //     decoration: BoxDecoration(
+                      //       borderRadius: BorderRadius.circular(10),
+                      //       border: Border.all(
+                      //         width: 1,
+                      //         color: !isDarkMood
+                      //             ? kMainColorLight
+                      //             : kMainComplimemtColorLight,
+                      //       ),
+                      //     ),
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.symmetric(
+                      //           vertical: 10.0, horizontal: 16),
+                      //       child: Row(
+                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //         children: [
+                      //           Row(
+                      //             children: [
+                      //               Stack(
+                      //                 children: [
+                      //                   Container(
+                      //                     height: screenSize.height * 0.06,
+                      //                     width: screenSize.width * 0.12,
+                      //                     decoration: BoxDecoration(
+                      //                       shape: BoxShape.circle,
+                      //                       color: !isDarkMood
+                      //                           ? kMainColorLight
+                      //                               .withOpacity(0.6)
+                      //                           : kMainComplimemtColorLight
+                      //                               .withOpacity(0.8),
+                      //                     ),
+                      //                   ),
+                      //                   CustomPaint(
+                      //                     size: const Size(35, 35),
+                      //                     painter: ShapePainter(),
+                      //                     child: Container(
+                      //                       height: screenSize.height * 0.06,
+                      //                       width: screenSize.width * 0.12,
+                      //                       color: Colors.transparent,
+                      //                       child: const Center(
+                      //                         child: Text(
+                      //                           'N',
+                      //                           style: TextStyle(
+                      //                             fontSize: 45,
+                      //                             fontWeight: FontWeight.bold,
+                      //                             color: Colors.white,
+                      //                           ),
+                      //                         ),
+                      //                       ),
+                      //                     ), // CustomPainter class for your custom shape
+                      //                   ),
+                      //                   // ClipOval(
+                      //                   //   child:
+                      //                   // ),
+                      //                 ],
+                      //               ),
+                      //               // Stack(
+                      //               //   children: [
+                      //               //     Container(
+                      //               //       height: screenSize.height * 0.06,
+                      //               //       width: screenSize.width * 0.12,
+                      //               //       decoration: BoxDecoration(
+                      //               //         shape: BoxShape.circle,
+                      //               //         color: !isDarkMood
+                      //               //             ? kMainColorLight
+                      //               //                 .withOpacity(0.6)
+                      //               //             : kMainComplimemtColorLight
+                      //               //                 .withOpacity(0.8),
+                      //               //       ),
+                      //               //     ),
+                      //               //     ClipOval(
+                      //               //       child: Container(
+                      //               //         height: screenSize.height * 0.06,
+                      //               //         width: screenSize.width * 0.12,
+                      //               //         color: Colors.transparent,
+                      //               //         child: const Center(
+                      //               //           child: Text(
+                      //               //             'N',
+                      //               //             style: TextStyle(
+                      //               //               fontSize: 45,
+                      //               //               fontWeight: FontWeight.bold,
+                      //               //               color: Colors.white,
+                      //               //             ),
+                      //               //           ),
+                      //               //         ),
+                      //               //       ),
+                      //               //     ),
+                      //               //   ],
+                      //               // ),
+
+                      //               const SizedBox(
+                      //                 width: 15,
+                      //               ),
+                      //               const Column(
+                      //                 crossAxisAlignment:
+                      //                     CrossAxisAlignment.start,
+                      //                 children: [
+                      //                   Text(
+                      //                     'New Customer',
+                      //                     style: TextStyle(
+                      //                       fontSize: 20,
+                      //                       fontWeight: FontWeight.bold,
+                      //                     ),
+                      //                   ),
+                      //                   Text(
+                      //                     '- N20,000',
+                      //                     style: TextStyle(
+                      //                       fontSize: 17,
+                      //                       fontWeight: FontWeight.bold,
+                      //                     ),
+                      //                   ),
+                      //                   SizedBox(
+                      //                     height: 10,
+                      //                   ),
+                      //                   Text(
+                      //                     '6 days remaining',
+                      //                     style: TextStyle(fontSize: 12),
+                      //                   ),
+                      //                 ],
+                      //               ),
+                      //             ],
+                      //           ),
+                      //           Icon(
+                      //             Icons.arrow_forward,
+                      //             color: !isDarkMood
+                      //                 ? kMainColorLight
+                      //                 : kMainComplimemtColorLight,
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const DebtSummary(),
+                              ));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              width: 1,
+                              color: !isDarkMood
+                                  ? kMainColorLight
+                                  : kMainComplimemtColorLight,
+                            ),
                           ),
-                          title: Text('LinkedIn'),
-                          subtitle: Text('Pending N 1,000'),
-                          trailing: Icon(
-                            Icons.arrow_forward,
-                            color: kMainColorLight,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          height: screenSize.height * 0.06,
+                                          width: screenSize.width * 0.12,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              width: 1,
+                                              color: !isDarkMood
+                                                  ? kMainColorLight
+                                                      .withOpacity(0.6)
+                                                  : kMainComplimemtColorLight
+                                                      .withOpacity(
+                                                          0.8), // Replace with your desired border color
+                                            ),
+                                            shape: BoxShape.circle,
+                                            color: Colors.transparent,
+                                          ),
+                                        ),
+                                        ClipOval(
+                                          child: Container(
+                                            height: screenSize.height * 0.06,
+                                            width: screenSize.width * 0.12,
+                                            color: Colors.transparent,
+                                            child: Center(
+                                              child: Text(
+                                                'O',
+                                                style: TextStyle(
+                                                  fontSize: 45,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: !isDarkMood
+                                                      ? kMainColorLight
+                                                          .withOpacity(0.6)
+                                                      : kMainComplimemtColorLight
+                                                          .withOpacity(0.8),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      width: 15,
+                                    ),
+                                    const Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Osagie David',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          '- N50,000',
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          '6 days remaining',
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: !isDarkMood
+                                      ? kMainColorLight
+                                      : kMainComplimemtColorLight,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const AddToDebt(),
-                                ));
-                          },
-                          child: const Text(kAddDebtorText),
-                        ),
-                      ],
-                    )
-                  ],
+                      const SizedBox(
+                        height: 10,
+                      ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const AddToDebt(),
+                                  ));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: clickableText(
+                                  isDarkMood: isDarkMood, text: kAddDebtorText),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

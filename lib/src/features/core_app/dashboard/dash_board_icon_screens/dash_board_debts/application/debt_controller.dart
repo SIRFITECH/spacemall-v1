@@ -12,6 +12,15 @@ class DebtController extends GetxController {
   TextEditingController amountController = TextEditingController();
   TextEditingController dueDateController = TextEditingController();
 
+  RxList debtItems = [
+    'item 1',
+    'item 2',
+    'item 3',
+    'item 4',
+    'item 5',
+    'item 6',
+  ].obs;
+
   List<DebtsModel> convertDebts(List debtFromDb) {
     List<DebtsModel> result = [];
     for (var item in debtFromDb) {

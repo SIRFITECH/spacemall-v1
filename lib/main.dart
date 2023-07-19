@@ -44,6 +44,7 @@ void main() async {
       Get.put(
         StoreRepo(),
       );
+
       final StoreRepo storeRepo = StoreRepo();
       final StoreController storeController =
           StoreController(storeRepo: storeRepo);

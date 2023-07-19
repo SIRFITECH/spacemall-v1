@@ -14,6 +14,7 @@ import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/localizations/currency.dart';
 
+import '../../../../common_widgets/common_widgets.dart';
 import '../../../../repository/hive_boxes.dart';
 import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
@@ -383,13 +384,17 @@ class ConfirmPayment extends StatelessWidget {
                     onTap: () {
                       Get.to(() => const PayLater());
                     },
-                    child: const Text(kPayLaterText),
+                    child: clickableText(
+                        isDarkMood: isDarkMood, text: kPayLaterText),
                   ),
                   GestureDetector(
                     onTap: () {
                       Get.to(() => DashBoard());
                     },
-                    child: const Text(kAddItemText),
+                    child: clickableText(
+                      isDarkMood: isDarkMood,
+                      text: kAddItemText,
+                    ),
                   ),
                 ],
               ),
