@@ -23,9 +23,6 @@ class DashBoardCustomerWidget extends StatelessWidget {
   final dashBoardController = DashBoardController();
   final StoreRepo storeRepo = Get.find();
 
-  //   final storeRepo = StoreRepo();
-  // final storeController = StoreController(storeRepo: storeRepo);
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -119,40 +116,7 @@ class DashBoardCustomerWidget extends StatelessWidget {
                 onChanged: (StoreModel? newValue) =>
                     storeController.setStore(newValue),
               ),
-            )
-
-                // Obx(
-                //   () => DropdownButton<StoreModel>(
-                //     iconSize: 32,
-                //     icon: const Icon(
-                //       Icons.arrow_drop_down,
-                //       color: kBrighComplementColor,
-                //     ),
-                //     value:
-                //         // storesFromBox.isNotEmpty
-                //         //     ? storesFromBox.first = storeController.selectedStore.value!
-                //         //     :
-                //         storeController.selectedStore.value,
-                //     elevation: 0,
-                //     dropdownColor: !isDarkMood
-                //         ? kMainComplimemtColorLight.withOpacity(.4)
-                //         : kBlackDark,
-                //     borderRadius: const BorderRadius.all(Radius.circular(10)),
-                //     items: storesFromBox
-                //         .map<DropdownMenuItem<StoreModel>>((StoreModel value) {
-                //       return DropdownMenuItem<StoreModel>(
-                //         value: value,
-                //         child: Text(
-                //           value.storeName,
-                //           style: textTheme.titleSmall,
-                //         ),
-                //       );
-                //     }).toList(),
-                //     onChanged: (StoreModel? newValue) =>
-                //         storeController.setStore(newValue),
-                //   ),
-                // ),
-                ),
+            )),
           ),
         ),
       ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:spacemall/src/common_widgets/common_widgets.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/screens/add_debts.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/screens/debt_summary.dart';
@@ -43,7 +44,7 @@ class DebtScreen extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: '$kDebtAppBarText for ${store.storeName}',
+        title: ' ${store.storeName} $kDebtAppBarText',
         automaticallyImplyLeading: false,
       ),
       body: Container(
@@ -445,15 +446,11 @@ class DebtScreen extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const AddToDebt(),
-                                  ));
+                              Get.to(() => const AddToDebt());
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(right: 8.0),
-                              child: clickableText(
+                              child: ClickableText(
                                   isDarkMood: isDarkMood, text: kAddDebtorText),
                             ),
                           ),

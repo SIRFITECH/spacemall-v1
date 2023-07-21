@@ -10,6 +10,6 @@ class SplashController extends GetxController {
   ];
   List role = [
     'Own A Store',
-    'Customer',
+    'User',
   ];
 }

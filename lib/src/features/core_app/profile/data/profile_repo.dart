@@ -17,6 +17,12 @@ import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
+// enum ThemeMode {
+//   light,
+//   dark,
+//   system,
+// }
+
 class ProfileRepo extends GetxController {
   static ProfileRepo get instance => Get.find();
   final AuthRepo authRepo = Get.find();
@@ -180,5 +186,15 @@ class ProfileRepo extends GetxController {
         e.message.toString(),
       );
     }
+  }
+
+  Rx<ThemeMode> themeMood = ThemeMode.system.obs;
+  void toggleThemeMode() {
+    // themeMood.value == ThemeMode.dark
+    //     ? SAppTheme.darkTheme
+    //     : SAppTheme.lightTheme;
+    // update();
+    print('Theme mood is theme.system');
+    print(themeMood.value);
   }
 }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../constants/colors.dart';
 
-class clickableText extends StatelessWidget {
-  const clickableText({
+class ClickableText extends StatelessWidget {
+  const ClickableText({
     super.key,
     required this.isDarkMood,
     required this.text,
@@ -18,7 +18,7 @@ class clickableText extends StatelessWidget {
       text,
       style: TextStyle(
         decoration: TextDecoration.underline,
-        color: !isDarkMood ? kMainColorLight : kMainComplimemtColorLight,
+        color: !isDarkMood ? kMainComplimemtColorLight : kMainColorLight,
       ),
     );
   }

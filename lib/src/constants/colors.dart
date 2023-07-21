@@ -32,6 +32,7 @@ const kLightModeCheckOutBackground = Color(0xffCC5500);
 const kLightMoodButtonColor = Color(0xffCC5500);
 // DARK MOOD BUTTON
 const kDarkMoodButtonColor = Color(0xffffbd3f);
+const kCkeckButtonColor = Colors.green;
 
 // LIGHT THEME COLORS
 const kMainColorLight = Color(0xffCC5500);

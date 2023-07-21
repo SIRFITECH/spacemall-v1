@@ -5,6 +5,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../../../constants/image_strings.dart';
 import '../../../../../../constants/text_strings.dart';
+import '../../../../../../repository/hive_boxes.dart';
+import '../../../../store/domain/store_model.dart';
+import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
 
 class SalesReport extends StatefulWidget {
   const SalesReport({super.key});
@@ -85,12 +88,31 @@ class _ReportSalesState extends State<SalesReport> {
     final media = MediaQuery.of(context);
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
-    // final screenSize = media.size;
+    final screenSize = media.size;
+
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
 
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: kReportByTimeText,
+        title: '${store.storeName} $kReportByTimeText',
         automaticallyImplyLeading: false,
       ),
       body: Container(
@@ -115,8 +137,8 @@ class _ReportSalesState extends State<SalesReport> {
                 children: [
                   Center(
                       child: Container(
-                    width: MediaQuery.of(context).size.width * 0.313,
-                    height: MediaQuery.of(context).size.height * 0.062,
+                    width: screenSize.width * 0.313,
+                    height: screenSize.height * 0.062,
                     color: _showGrid ? kMainColorLight : kGreyColor,
                     child: TextButton(
                       onPressed: () {
@@ -138,7 +160,6 @@ class _ReportSalesState extends State<SalesReport> {
                     color: _showGrid ? kGreyColor : kMainColorLight,
                     child: TextButton(
                       onPressed: () {
-                        // print(reportValues[1]['title']);
                         setState(() {
                           _showGrid = false;
                           _selected = 1;

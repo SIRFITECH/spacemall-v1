@@ -40,7 +40,7 @@ class CustomerScreen extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: '$kCustomerAppBarText in ${store.storeName}',
+        title: '${store.storeName} $kCustomerAppBarText',
         automaticallyImplyLeading: false,
       ),
       body: Container(
@@ -48,8 +48,10 @@ class CustomerScreen extends StatelessWidget {
           color: isDarkMood
               ? kDarkModeBackgroundColor.withAlpha(2)
               : kWhiteLight.withAlpha(2),
-          image: const DecorationImage(
-            image: AssetImage(kBackGroundCart),
+          image: DecorationImage(
+            image: !isDarkMood
+                ? const AssetImage(kBackGroundCart)
+                : const AssetImage(kBackGroundCartDarkMood),
             fit: BoxFit.contain,
           ),
         ),
@@ -75,34 +77,81 @@ class CustomerScreen extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(width: 1, color: kMainColorLight),
+                            border: Border.all(
+                              width: 1,
+                              color: !isDarkMood
+                                  ? kMainColorLight.withOpacity(0.6)
+                                  : kMainComplimemtColorLight.withOpacity(0.8),
+                            ),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Row(
+                                Row(
                                   children: [
-                                    Image(
-                                      height: 35,
-                                      image: AssetImage(kTrialImage1),
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          height: screenSize.height * 0.06,
+                                          width: screenSize.width * 0.12,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              width: 1,
+                                              color: !isDarkMood
+                                                  ? kTextFieldLightBorderColor
+                                                      .withOpacity(0.5)
+                                                  : kTextFieldDarkBorderColor
+                                                      .withOpacity(0.5),
+                                            ),
+                                            shape: BoxShape.circle,
+                                            color: Colors.transparent,
+                                          ),
+                                        ),
+                                        ClipOval(
+                                          child: Container(
+                                            height: screenSize.height * 0.06,
+                                            width: screenSize.width * 0.12,
+                                            color: Colors.transparent,
+                                            child: Center(
+                                              child: Text(
+                                                'O',
+                                                style: TextStyle(
+                                                    fontSize: 45,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: !isDarkMood
+                                                        ? kTextFieldLightBorderColor
+                                                        : kTextFieldDarkBorderColor
+                                                            .withOpacity(0.5)),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
                                     ),
                                     Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 8.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
                                       child: Column(
                                         children: [
                                           Text(
-                                            'Osagie David',
+                                            'Osagie ',
                                             style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold,
-                                              color: kBlackDark,
+                                              color: isDarkMood
+                                                  ? kWhiteLight
+                                                  : kBlackDark,
                                             ),
                                           ),
-                                          Text(
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          const Text(
                                             '0812345678',
                                             style: TextStyle(
                                               fontSize: 11,
@@ -116,32 +165,39 @@ class CustomerScreen extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(
-                                  width: 30,
+                                  width: 20,
                                 ),
                                 Row(
                                   children: [
                                     Column(
                                       children: [
-                                        const Text(
+                                        Text(
                                           'TOTAL ORDER',
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
-                                            color: kBlackDark,
+                                            color: isDarkMood
+                                                ? kGreyColor
+                                                : kBlackDark,
                                           ),
                                         ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
                                         Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
+                                          width: screenSize.width * 0.2,
                                           decoration: BoxDecoration(
-                                            color: kMainColorLight,
+                                            color: !isDarkMood
+                                                ? kMainColorLight
+                                                : kTextFieldDarkBorderColor,
                                             borderRadius:
                                                 BorderRadius.circular(3),
                                             border: Border.all(
-                                                width: 1,
-                                                color: kMainColorLight),
+                                              width: 1,
+                                              color: !isDarkMood
+                                                  ? kMainColorLight
+                                                  : kTextFieldDarkBorderColor,
+                                            ),
                                           ),
                                           child: const Center(
                                             child: Padding(
@@ -164,13 +220,18 @@ class CustomerScreen extends StatelessWidget {
                                     ),
                                     Column(
                                       children: [
-                                        const Text(
+                                        Text(
                                           'LAST ORDER',
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
-                                            color: kBlackDark,
+                                            color: isDarkMood
+                                                ? kGreyColor
+                                                : kBlackDark,
                                           ),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
                                         ),
                                         Container(
                                           width: MediaQuery.of(context)
@@ -178,12 +239,17 @@ class CustomerScreen extends StatelessWidget {
                                                   .width *
                                               0.2,
                                           decoration: BoxDecoration(
-                                            color: kMainColorLight,
+                                            color: !isDarkMood
+                                                ? kMainColorLight
+                                                : kTextFieldDarkBorderColor,
                                             borderRadius:
                                                 BorderRadius.circular(3),
                                             border: Border.all(
-                                                width: 1,
-                                                color: kMainColorLight),
+                                              width: 1,
+                                              color: !isDarkMood
+                                                  ? kMainColorLight
+                                                  : kTextFieldDarkBorderColor,
+                                            ),
                                           ),
                                           child: const Padding(
                                             padding: EdgeInsets.all(2.0),
@@ -221,180 +287,81 @@ class CustomerScreen extends StatelessWidget {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(width: 1, color: kMainColorLight),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Row(
-                                  children: [
-                                    Image(
-                                      height: 35,
-                                      image: AssetImage(kTrailImage2),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Osagie David',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              color: kBlackDark,
-                                            ),
-                                          ),
-                                          Text(
-                                            '0812345678',
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.bold,
-                                              color: kGreyColor,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 30,
-                                ),
-                                Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        const Text(
-                                          'TOTAL ORDER',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: kBlackDark,
-                                          ),
-                                        ),
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          decoration: BoxDecoration(
-                                            color: kMainColorLight,
-                                            borderRadius:
-                                                BorderRadius.circular(3),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: kMainColorLight),
-                                          ),
-                                          child: const Center(
-                                            child: Padding(
-                                              padding: EdgeInsets.all(2.0),
-                                              child: Text(
-                                                '15',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: kWhiteLight,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Column(
-                                      children: [
-                                        const Text(
-                                          'LAST ORDER',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: kBlackDark,
-                                          ),
-                                        ),
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          decoration: BoxDecoration(
-                                            color: kMainColorLight,
-                                            borderRadius:
-                                                BorderRadius.circular(3),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: kMainColorLight),
-                                          ),
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(2.0),
-                                            child: Text(
-                                              '2 DAYS AGO',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                color: kWhiteLight,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
+                            border: Border.all(
+                              width: 1,
+                              color: !isDarkMood
+                                  ? kMainColorLight.withOpacity(0.6)
+                                  : kMainComplimemtColorLight.withOpacity(0.8),
                             ),
                           ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           const TopCustomerReportDetails(),
-                          //     ));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(width: 1, color: kMainColorLight),
-                          ),
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Row(
+                                Row(
                                   children: [
-                                    Image(
-                                      height: 35,
-                                      image: AssetImage(kTrialImage1),
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          height: screenSize.height * 0.06,
+                                          width: screenSize.width * 0.12,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              width: 1,
+                                              color: !isDarkMood
+                                                  ? kTextFieldLightBorderColor
+                                                      .withOpacity(0.5)
+                                                  : kTextFieldDarkBorderColor
+                                                      .withOpacity(0.5),
+                                            ),
+                                            shape: BoxShape.circle,
+                                            color: Colors.transparent,
+                                          ),
+                                        ),
+                                        ClipOval(
+                                          child: Container(
+                                            height: screenSize.height * 0.06,
+                                            width: screenSize.width * 0.12,
+                                            color: Colors.transparent,
+                                            child: Center(
+                                              child: Text(
+                                                'F',
+                                                style: TextStyle(
+                                                    fontSize: 45,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: !isDarkMood
+                                                        ? kTextFieldLightBorderColor
+                                                        : kTextFieldDarkBorderColor
+                                                            .withOpacity(0.5)),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
                                     ),
                                     Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 8.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0),
                                       child: Column(
                                         children: [
                                           Text(
-                                            'Osagie David',
+                                            'Femi ',
                                             style: TextStyle(
                                               fontSize: 15,
                                               fontWeight: FontWeight.bold,
-                                              color: kBlackDark,
+                                              color: isDarkMood
+                                                  ? kWhiteLight
+                                                  : kBlackDark,
                                             ),
                                           ),
-                                          Text(
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          const Text(
                                             '0812345678',
                                             style: TextStyle(
                                               fontSize: 11,
@@ -408,32 +375,39 @@ class CustomerScreen extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(
-                                  width: 30,
+                                  width: 20,
                                 ),
                                 Row(
                                   children: [
                                     Column(
                                       children: [
-                                        const Text(
+                                        Text(
                                           'TOTAL ORDER',
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
-                                            color: kBlackDark,
+                                            color: isDarkMood
+                                                ? kGreyColor
+                                                : kBlackDark,
                                           ),
                                         ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
                                         Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
+                                          width: screenSize.width * 0.2,
                                           decoration: BoxDecoration(
-                                            color: kMainColorLight,
+                                            color: !isDarkMood
+                                                ? kMainColorLight
+                                                : kTextFieldDarkBorderColor,
                                             borderRadius:
                                                 BorderRadius.circular(3),
                                             border: Border.all(
-                                                width: 1,
-                                                color: kMainColorLight),
+                                              width: 1,
+                                              color: !isDarkMood
+                                                  ? kMainColorLight
+                                                  : kTextFieldDarkBorderColor,
+                                            ),
                                           ),
                                           child: const Center(
                                             child: Padding(
@@ -456,13 +430,18 @@ class CustomerScreen extends StatelessWidget {
                                     ),
                                     Column(
                                       children: [
-                                        const Text(
+                                        Text(
                                           'LAST ORDER',
                                           style: TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.bold,
-                                            color: kBlackDark,
+                                            color: isDarkMood
+                                                ? kGreyColor
+                                                : kBlackDark,
                                           ),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
                                         ),
                                         Container(
                                           width: MediaQuery.of(context)
@@ -470,304 +449,17 @@ class CustomerScreen extends StatelessWidget {
                                                   .width *
                                               0.2,
                                           decoration: BoxDecoration(
-                                            color: kMainColorLight,
+                                            color: !isDarkMood
+                                                ? kMainColorLight
+                                                : kTextFieldDarkBorderColor,
                                             borderRadius:
                                                 BorderRadius.circular(3),
                                             border: Border.all(
-                                                width: 1,
-                                                color: kMainColorLight),
-                                          ),
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(2.0),
-                                            child: Text(
-                                              '2 DAYS AGO',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                color: kWhiteLight,
-                                              ),
+                                              width: 1,
+                                              color: !isDarkMood
+                                                  ? kMainColorLight
+                                                  : kTextFieldDarkBorderColor,
                                             ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           const TopCustomerReportDetails(),
-                          //     ));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(width: 1, color: kMainColorLight),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Row(
-                                  children: [
-                                    Image(
-                                      height: 35,
-                                      image: AssetImage(kTrailImage3),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Osagie David',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              color: kBlackDark,
-                                            ),
-                                          ),
-                                          Text(
-                                            '0812345678',
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.bold,
-                                              color: kGreyColor,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 30,
-                                ),
-                                Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        const Text(
-                                          'TOTAL ORDER',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: kBlackDark,
-                                          ),
-                                        ),
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          decoration: BoxDecoration(
-                                            color: kMainColorLight,
-                                            borderRadius:
-                                                BorderRadius.circular(3),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: kMainColorLight),
-                                          ),
-                                          child: const Center(
-                                            child: Padding(
-                                              padding: EdgeInsets.all(2.0),
-                                              child: Text(
-                                                '15',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: kWhiteLight,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Column(
-                                      children: [
-                                        const Text(
-                                          'LAST ORDER',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: kBlackDark,
-                                          ),
-                                        ),
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          decoration: BoxDecoration(
-                                            color: kMainColorLight,
-                                            borderRadius:
-                                                BorderRadius.circular(3),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: kMainColorLight),
-                                          ),
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(2.0),
-                                            child: Text(
-                                              '2 DAYS AGO',
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.bold,
-                                                color: kWhiteLight,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           const TopCustomerReportDetails(),
-                          //     ));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(width: 1, color: kMainColorLight),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Row(
-                                  children: [
-                                    Image(
-                                      height: 35,
-                                      image: AssetImage(kTrialImage1),
-                                    ),
-                                    Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 8.0),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            'Osagie David',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              color: kBlackDark,
-                                            ),
-                                          ),
-                                          Text(
-                                            '0812345678',
-                                            style: TextStyle(
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.bold,
-                                              color: kGreyColor,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 30,
-                                ),
-                                Row(
-                                  children: [
-                                    Column(
-                                      children: [
-                                        const Text(
-                                          'TOTAL ORDER',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: kBlackDark,
-                                          ),
-                                        ),
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          decoration: BoxDecoration(
-                                            color: kMainColorLight,
-                                            borderRadius:
-                                                BorderRadius.circular(3),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: kMainColorLight),
-                                          ),
-                                          child: const Center(
-                                            child: Padding(
-                                              padding: EdgeInsets.all(2.0),
-                                              child: Text(
-                                                '15',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: kWhiteLight,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      width: 5,
-                                    ),
-                                    Column(
-                                      children: [
-                                        const Text(
-                                          'LAST ORDER',
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.bold,
-                                            color: kBlackDark,
-                                          ),
-                                        ),
-                                        Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.2,
-                                          decoration: BoxDecoration(
-                                            color: kMainColorLight,
-                                            borderRadius:
-                                                BorderRadius.circular(3),
-                                            border: Border.all(
-                                                width: 1,
-                                                color: kMainColorLight),
                                           ),
                                           child: const Padding(
                                             padding: EdgeInsets.all(2.0),

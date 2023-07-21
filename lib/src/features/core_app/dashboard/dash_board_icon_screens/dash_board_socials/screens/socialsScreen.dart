@@ -4,6 +4,10 @@ import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 
+import '../../../../../../repository/hive_boxes.dart';
+import '../../../../store/domain/store_model.dart';
+import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
+
 class SocialsScreen extends StatefulWidget {
   const SocialsScreen({super.key});
 
@@ -19,10 +23,29 @@ class _SocialsState extends State<SocialsScreen> {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: kSocialsAppBarText,
+        title: '${store.storeName} $kSocialsAppBarText',
         automaticallyImplyLeading: false,
       ),
       body: Container(
@@ -30,8 +53,10 @@ class _SocialsState extends State<SocialsScreen> {
           color: isDarkMood
               ? kDarkModeBackgroundColor.withAlpha(2)
               : kWhiteLight.withAlpha(2),
-          image: const DecorationImage(
-            image: AssetImage(kBackGroundCart),
+          image: DecorationImage(
+            image: !isDarkMood
+                ? const AssetImage(kBackGroundCart)
+                : const AssetImage(kBackGroundCartDarkMood),
             fit: BoxFit.contain,
           ),
         ),
@@ -50,69 +75,25 @@ class _SocialsState extends State<SocialsScreen> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(width: 1, color: kMainColorLight),
+                            border: Border.all(
+                              width: 1,
+                              color: !isDarkMood
+                                  ? kMainColorLight.withOpacity(0.6)
+                                  : kMainComplimemtColorLight.withOpacity(0.8),
+                            ),
                           ),
-                          child: const ListTile(
-                            leading: Image(
+                          child: ListTile(
+                            leading: const Image(
                               height: 35,
                               image: AssetImage(kTwitterLogin),
                             ),
-                            title: Text('Twitter'),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           const TopCustomerReportDetails(),
-                          //     ));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(width: 1, color: kMainColorLight),
-                          ),
-                          child: const ListTile(
-                            leading: Image(
-                              height: 35,
-                              image: AssetImage(kTwitterLogin),
+                            title: Text(
+                              'Twitter',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: isDarkMood ? kWhiteLight : kBlackDark,
+                              ),
                             ),
-                            title: Text('twitter'),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          // Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: (context) =>
-                          //           const TopCustomerReportDetails(),
-                          //     ));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(width: 1, color: kMainColorLight),
-                          ),
-                          child: const ListTile(
-                            leading: Image(
-                              height: 35,
-                              image: AssetImage(kGmailLogin),
-                            ),
-                            title: Text('Google'),
                           ),
                         ),
                       ),
@@ -124,15 +105,25 @@ class _SocialsState extends State<SocialsScreen> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(width: 1, color: kMainColorLight),
+                            border: Border.all(
+                              width: 1,
+                              color: !isDarkMood
+                                  ? kMainColorLight.withOpacity(0.6)
+                                  : kMainComplimemtColorLight.withOpacity(0.8),
+                            ),
                           ),
-                          child: const ListTile(
-                            leading: Image(
+                          child: ListTile(
+                            leading: const Image(
                               height: 35,
                               image: AssetImage(kFaceBookLogin),
                             ),
-                            title: Text('Facebook'),
+                            title: Text(
+                              'Facebook',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: isDarkMood ? kWhiteLight : kBlackDark,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -151,15 +142,25 @@ class _SocialsState extends State<SocialsScreen> {
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border:
-                                Border.all(width: 1, color: kMainColorLight),
+                            border: Border.all(
+                              width: 1,
+                              color: !isDarkMood
+                                  ? kMainColorLight.withOpacity(0.6)
+                                  : kMainComplimemtColorLight.withOpacity(0.8),
+                            ),
                           ),
-                          child: const ListTile(
-                            leading: Image(
+                          child: ListTile(
+                            leading: const Image(
                               height: 35,
                               image: AssetImage(kInstagramLogin),
                             ),
-                            title: Text('Instagram'),
+                            title: Text(
+                              'Instagram',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: isDarkMood ? kWhiteLight : kBlackDark,
+                              ),
+                            ),
                           ),
                         ),
                       ),

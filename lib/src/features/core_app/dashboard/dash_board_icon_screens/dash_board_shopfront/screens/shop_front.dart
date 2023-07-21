@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_shopfront/screens/shop_front_setting.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
@@ -7,97 +9,9 @@ import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
 
 import '../../../../../../constants/image_strings.dart';
 import '../../../../../../constants/text_strings.dart';
-
-// class StoreFront extends StatelessWidget {
-//   const StoreFront({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final media = MediaQuery.of(context);
-//     final brightness = media.platformBrightness;
-//     final isDarkMood = brightness == Brightness.dark;
-//     final screenSize = media.size;
-
-//     final StoreRepo storeRepo = Get.find();
-
-//     final storeController = StoreController(storeRepo: storeRepo);
-
-//     return Scaffold(
-//       drawer: const SpacemallDrawer(),
-//       appBar: MyAppBar(
-//         isDarkMood: isDarkMood,
-//         title: "kStoreFrontAppBarText",
-//         automaticallyImplyLeading: false,
-//       ),
-//       body: SingleChildScrollView(
-//         child: Container(
-//           decoration: const BoxDecoration(
-//               image: DecorationImage(
-//             image: AssetImage(kBackGroundCart),
-//             fit: BoxFit.contain,
-//           )),
-//           child: Column(
-//             children: [
-//               SizedBox(
-//                 height: screenSize.height * 0.65,
-//                 child: Obx(
-//                   () => ListView.builder(
-//                     shrinkWrap: true,
-//                     itemCount: storeController.stores.length,
-//                     itemBuilder: (context, index) {
-//                       final store = storeController.stores[index];
-//                       return ListTile(
-//                         leading: IconButton(
-//                           onPressed: () {
-//                             // StoreFrontController.removeCategory(index);
-//                             print('Remove store');
-//                           },
-//                           icon: const Icon(Icons.remove_circle),
-//                           color: Colors.red,
-//                         ),
-//                         title: Text(
-//                           store.storeName,
-//                           style: Theme.of(context).textTheme.labelSmall,
-//                         ),
-//                       );
-//                     },
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(
-//                 height: 10,
-//               ),
-//               Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   TextFeildWidget(
-//                     screenSize: screenSize,
-//                     isDarkMood: isDarkMood,
-//                     controller: storeController.storeName,
-//                     keyboardType: TextInputType.text,
-//                     hintText: kHintText,
-//                     labelText: kCategoryLabelText,
-//                     maxLines: 1,
-//                     height: screenSize.width * 0.135,
-//                     width: screenSize.width * 0.90,
-//                   ),
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: screenSize.width * 0.1,
-//               ),
-//               ElevatedButton(
-//                   onPressed: () {
-//                     storeController.addNewStoreToPhone();
-//                   },
-//                   child: const Text("kStoreFrontText"))
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+import '../../../../../../repository/hive_boxes.dart';
+import '../../../../store/domain/store_model.dart';
+import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
 
 class ShopFrontScreen extends StatelessWidget {
   const ShopFrontScreen({super.key});
@@ -109,10 +23,32 @@ class ShopFrontScreen extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+    String urlString = 'https://spacemall.io/';
+
+    final copyText = ClipboardData(text: urlString);
+
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: kShopFrontAppBarText,
+        title: '${store.storeName} $kShopFrontAppBarText',
         automaticallyImplyLeading: false,
       ),
       body: Padding(
@@ -122,8 +58,10 @@ class ShopFrontScreen extends StatelessWidget {
             color: isDarkMood
                 ? kDarkModeBackgroundColor.withAlpha(2)
                 : kWhiteLight.withAlpha(2),
-            image: const DecorationImage(
-              image: AssetImage(kBackGroundCart),
+            image: DecorationImage(
+              image: !isDarkMood
+                  ? const AssetImage(kBackGroundCart)
+                  : const AssetImage(kBackGroundCartDarkMood),
               fit: BoxFit.contain,
             ),
           ),
@@ -135,8 +73,9 @@ class ShopFrontScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Divider(
-                  color: kMainColorLight,
+                Divider(
+                  color:
+                      !isDarkMood ? kMainColorLight : kMainComplimemtColorLight,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -168,7 +107,13 @@ class ShopFrontScreen extends StatelessWidget {
                                   () => const AddStore(),
                                 );
                               },
-                              icon: const Icon(Icons.mode_edit_outlined),
+                              icon: Icon(
+                                Icons.mode_edit_outlined,
+                                size: 25,
+                                color: !isDarkMood
+                                    ? kMainComplimemtColorLight.withOpacity(0.8)
+                                    : kMainColorLight.withOpacity(0.3),
+                              ),
                             )
                           ],
                         ),
@@ -196,22 +141,41 @@ class ShopFrontScreen extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(
-                          height: 40,
+                          height: 30,
                         ),
-                        const Text('https://sirfimunch.spacemall.io')
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: Text(
+                            'https://sirfimunch.spacemall.io',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                decoration: TextDecoration.underline,
+                                color: kWhiteLight
+                                // !isDarkMood
+                                //     ? kMainComplimemtColorLight.withOpacity(0.8)
+                                //     : kMainColorLight.withOpacity(0.3),
+                                ),
+                          ),
+                        )
                       ],
                     )
                   ],
                 ),
-                const Divider(
-                  color: kMainColorLight,
+                Divider(
+                  color:
+                      !isDarkMood ? kMainColorLight : kMainComplimemtColorLight,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
                   child: Row(
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          Clipboard.setData(copyText).then(
+                            (value) => Get.snackbar('Copy Successful',
+                                'Store Link copied to clipboard'),
+                          );
+                        },
                         child: Container(
                           width: screenSize.width * 0.45,
                           decoration: BoxDecoration(
@@ -219,8 +183,12 @@ class ShopFrontScreen extends StatelessWidget {
                               topRight: Radius.circular(5),
                               bottomRight: Radius.circular(5),
                             ),
-                            border:
-                                Border.all(width: 1, color: kMainColorLight),
+                            border: Border.all(
+                              width: 1,
+                              color: !isDarkMood
+                                  ? kMainColorLight
+                                  : kMainComplimemtColorLight,
+                            ),
                           ),
                           child: const Padding(
                             padding: EdgeInsets.all(8.0),
@@ -238,7 +206,9 @@ class ShopFrontScreen extends StatelessWidget {
                         width: screenSize.width * 0.02,
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          await Share.share(urlString);
+                        },
                         child: Container(
                           width: screenSize.width * 0.45,
                           decoration: BoxDecoration(
@@ -246,8 +216,12 @@ class ShopFrontScreen extends StatelessWidget {
                               topLeft: Radius.circular(5),
                               bottomLeft: Radius.circular(5),
                             ),
-                            border:
-                                Border.all(width: 1, color: kMainColorLight),
+                            border: Border.all(
+                              width: 1,
+                              color: !isDarkMood
+                                  ? kMainColorLight
+                                  : kMainComplimemtColorLight,
+                            ),
                           ),
                           child: const Padding(
                             padding: EdgeInsets.all(8.0),

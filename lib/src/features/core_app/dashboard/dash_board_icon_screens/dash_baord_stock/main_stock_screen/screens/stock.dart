@@ -52,7 +52,7 @@ class Stock extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: 'stock in ${store.storeName}',
+        title: '${store.storeName} stock',
         automaticallyImplyLeading: true,
       ),
       drawer: const SpacemallDrawer(),

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
-import 'package:spacemall/src/features/core_app/general/custom_radio.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
@@ -157,89 +156,90 @@ class SpacemallDrawer extends StatelessWidget {
                         SizedBox(height: screenSize.height * 0.25),
                         GestureDetector(
                           onTap: () {
-                            showModalBottomSheet(
-                              context: context,
-                              builder: (context) {
-                                return Container(
-                                  width: double.infinity,
-                                  height: screenSize.height * 0.3,
-                                  padding: EdgeInsets.all(
-                                    screenSize.height * 0.025,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      const Text(
-                                        kDarkMoodText,
-                                        style: TextStyle(
-                                          color: kBlackDark,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.normal,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Padding(
-                                            padding:
-                                                EdgeInsets.only(left: 10.0),
-                                            child: Text(kDarkMoodText),
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  CustomRadio(
-                                                      onChange: (value) {},
-                                                      color:
-                                                          kLightModeIconColor,
-                                                      value: true,
-                                                      groupValue: true),
-                                                  const Text(kOnText)
-                                                ],
-                                              ),
-                                              Column(
-                                                children: [
-                                                  CustomRadio(
-                                                      onChange: (value) {},
-                                                      color:
-                                                          kLightModeIconColor,
-                                                      value: true,
-                                                      groupValue: true),
-                                                  const Text(kOffText)
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 10.0),
-                                            child: Row(
-                                              children: [
-                                                const Text(
-                                                  kUseSystemSettingsText,
-                                                  // style: TextStyle(color: kBlack),
-                                                ),
-                                                CustomRadio(
-                                                    onChange: (value) {},
-                                                    color: kLightModeIconColor,
-                                                    value: false,
-                                                    groupValue: false)
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
+                            profileRepo.toggleThemeMode();
+                            // showModalBottomSheet(
+                            //   context: context,
+                            //   builder: (context) {
+                            //     return Container(
+                            //       width: double.infinity,
+                            //       height: screenSize.height * 0.3,
+                            //       padding: EdgeInsets.all(
+                            //         screenSize.height * 0.025,
+                            //       ),
+                            //       child: Column(
+                            //         children: [
+                            //           const Text(
+                            //             kDarkMoodText,
+                            //             style: TextStyle(
+                            //               color: kBlackDark,
+                            //               fontSize: 20,
+                            //               fontWeight: FontWeight.normal,
+                            //             ),
+                            //           ),
+                            //           const SizedBox(
+                            //             height: 10,
+                            //           ),
+                            //           Column(
+                            //             crossAxisAlignment:
+                            //                 CrossAxisAlignment.start,
+                            //             children: [
+                            //               const Padding(
+                            //                 padding:
+                            //                     EdgeInsets.only(left: 10.0),
+                            //                 child: Text(kDarkMoodText),
+                            //               ),
+                            //               Row(
+                            //                 mainAxisAlignment:
+                            //                     MainAxisAlignment.start,
+                            //                 children: [
+                            //                   Column(
+                            //                     children: [
+                            //                       CustomRadio(
+                            //                           onChange: (value) {},
+                            //                           color:
+                            //                               kLightModeIconColor,
+                            //                           value: true,
+                            //                           groupValue: true),
+                            //                       const Text(kOnText)
+                            //                     ],
+                            //                   ),
+                            //                   Column(
+                            //                     children: [
+                            //                       CustomRadio(
+                            //                           onChange: (value) {},
+                            //                           color:
+                            //                               kLightModeIconColor,
+                            //                           value: true,
+                            //                           groupValue: true),
+                            //                       const Text(kOffText)
+                            //                     ],
+                            //                   ),
+                            //                 ],
+                            //               ),
+                            //               Padding(
+                            //                 padding: const EdgeInsets.only(
+                            //                     left: 10.0),
+                            //                 child: Row(
+                            //                   children: [
+                            //                     const Text(
+                            //                       kUseSystemSettingsText,
+                            //                       // style: TextStyle(color: kBlack),
+                            //                     ),
+                            //                     CustomRadio(
+                            //                         onChange: (value) {},
+                            //                         color: kLightModeIconColor,
+                            //                         value: false,
+                            //                         groupValue: false)
+                            //                   ],
+                            //                 ),
+                            //               ),
+                            //             ],
+                            //           )
+                            //         ],
+                            //       ),
+                            //     );
+                            //   },
+                            // );
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),

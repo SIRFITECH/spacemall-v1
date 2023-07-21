@@ -114,6 +114,9 @@ void main() async {
 }
 
 class SpacemallApp extends StatelessWidget {
+  static final ValueNotifier<ThemeData> themeNotifier =
+      ValueNotifier(SAppTheme.lightTheme);
+
   const SpacemallApp({super.key});
 
   @override
@@ -145,3 +148,44 @@ class SpacemallApp extends StatelessWidget {
     );
   }
 }
+
+// class SpacemallApp extends StatelessWidget {
+//   static final ValueNotifier<ThemeData> themeNotifier =
+//       ValueNotifier(SAppTheme.lightTheme);
+
+//   const SpacemallApp({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return ValueListenableBuilder<ThemeData>(
+//       valueListenable: themeNotifier,
+//       builder: (_, ThemeData currentTheme, __) {
+//         return GetMaterialApp(
+//           debugShowCheckedModeBanner: false,
+//           theme: currentTheme,
+//           darkTheme: SAppTheme.darkTheme,
+//           themeMode: ThemeMode.system,
+//           defaultTransition: Transition.leftToRightWithFade,
+//           transitionDuration: const Duration(milliseconds: 50),
+//           home: FutureBuilder<bool>(
+//             future: AuthRepo.instance.checkExistingUser(),
+//             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+//               if (snapshot.hasData) {
+//                 if (snapshot.data!) {
+//                   return DashBoard();
+//                 } else {
+//                   return const Login();
+//                 }
+//               }
+//               return const Scaffold(
+//                 body: Center(
+//                   child: CircularProgressIndicator(),
+//                 ),
+//               );
+//             },
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }

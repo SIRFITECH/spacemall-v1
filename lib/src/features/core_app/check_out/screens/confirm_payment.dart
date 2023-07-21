@@ -384,14 +384,14 @@ class ConfirmPayment extends StatelessWidget {
                     onTap: () {
                       Get.to(() => const PayLater());
                     },
-                    child: clickableText(
+                    child: ClickableText(
                         isDarkMood: isDarkMood, text: kPayLaterText),
                   ),
                   GestureDetector(
                     onTap: () {
                       Get.to(() => DashBoard());
                     },
-                    child: clickableText(
+                    child: ClickableText(
                       isDarkMood: isDarkMood,
                       text: kAddItemText,
                     ),

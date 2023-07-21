@@ -23,6 +23,12 @@ class StoreController extends GetxController {
     storeRepo.storeController = this;
   }
 
+  @override
+  void onReady() {
+    // Get called after widget is rendered on the screen
+    super.onReady();
+  }
+
   final StoreRepo storeRepo;
   static StoreController get instance => Get.put(
         StoreController(storeRepo: StoreRepo.instance),
@@ -58,11 +64,6 @@ class StoreController extends GetxController {
   Rx<StoreModel?> selectedStore = Rx<StoreModel?>(
     null,
   );
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
 
   RxList<StoreModel> stores = <StoreModel>[].obs;
 

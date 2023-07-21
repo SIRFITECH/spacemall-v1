@@ -16,6 +16,18 @@ class StoreRepo extends GetxController {
 
 // phone operations
 
+  @override
+  void onReady() {
+    // Get called after widget is rendered on the screen
+    super.onReady();
+    getStoresFromBox().isNotEmpty
+        ? StoreController.instance.selectedStore.value =
+            getStoresFromBox().first
+        : [];
+
+    print('StoreRepo is ready');
+  }
+
   Future saveStoreData() async {
     final appDocumentDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);

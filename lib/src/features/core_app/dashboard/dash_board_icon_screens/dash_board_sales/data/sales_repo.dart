@@ -2,13 +2,10 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 
 class SalesRepo extends GetxController {
-  static SalesRepo get instance => Get.put(
-        SalesRepo(),
-      );
+  static SalesRepo get instance => Get.find();
 
-  SalesController salesController =
-      // Get.find();
-      Get.put(
-    SalesController(),
-  );
+  SalesController salesController = Get.find();
+  // Get.put(
+  //   SalesController(),
+  // );
 }

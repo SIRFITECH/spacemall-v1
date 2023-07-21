@@ -3,10 +3,13 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_reports/screens/top_customer_report.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_reports/screens/remaining_stock_report.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 
 import '../../../../../../constants/image_strings.dart';
+import '../../../../../../repository/hive_boxes.dart';
+import '../../../../store/domain/store_model.dart';
+import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
 
 class ReportScreen extends StatefulWidget {
   const ReportScreen({super.key});
@@ -19,49 +22,51 @@ bool _showGrid = true;
 
 const List posReport = [
   {
+    // finance summary - sales report
     "title": "TOTAL SALE",
-    "detail": "",
-    "value": "N 100,000.00",
+    "detail": "N 100,000.00",
+    "value": "",
   },
   {
     "title": "PROFITS",
-    "detail": "",
-    "value": "N 100,000.00",
+    "detail": "N 100,000.00",
+    "value": "",
   },
   {
+    // finance summary - category
     "title": "TOP STOCK",
-    "detail": "",
-    "value": "TOP STOCK: 25",
+    "detail": "TOP STOCK: 25",
+    "value": "",
   },
   {
     "title": "TOP CARTEGORY",
-    "detail": "",
-    "value": "DRINKS: 55",
+    "detail": "DRINKS: 55",
+    "value": "",
   },
   {
     "title": "SALES",
-    "detail": "",
-    "value": "N 100,000.00",
+    "detail": "N 100,000.00",
+    "value": "",
   },
   {
     "title": "TAX",
-    "detail": "",
-    "value": "N 100,000.00",
+    "detail": "N 100,000.00",
+    "value": "",
   },
   {
     "title": "DISCOUNT",
-    "detail": "",
-    "value": "N 100,000.00",
+    "detail": "N 100,000.00",
+    "value": "",
   },
   {
-    "title": "AVERAGE SALES VALUE",
-    "detail": "",
-    "value": "N 100,000.00",
+    "title": "AVERAGE\n SALES VALUE",
+    "detail": "N 100,000.00",
+    "value": "",
   },
   {
     "title": "TOP CUSTOMER",
-    "detail": "OSAGIE DAVID",
-    "value": "osagiedavid@gmail.com",
+    "detail": "OSAGIE\n DAVID",
+    "value": "osagiedav@gmail.com",
   },
   {
     "title": "PAYMENT MODES",
@@ -70,56 +75,56 @@ const List posReport = [
   },
   {
     "title": "SOLD BY",
-    "detail": "OSAGIE DAVID",
-    "value": "osagiedavid@gmail.com"
+    "detail": "OSAGIE\n DAVID",
+    "value": "osagiedav@gmail.com"
   },
 ];
 
 const List storeFrontReport = [
   {
     "title": "TOTAL SALE",
-    "detail": "",
-    "value": "N 100,000.00",
+    "detail": "N 100,000.00",
+    "value": "",
   },
   {
     "title": "PROFITS",
-    "detail": "",
-    "value": "N 150,000.00",
+    "detail": "N 150,000.00",
+    "value": "",
   },
   {
     "title": "TOP STOCK",
-    "detail": "",
-    "value": "TOP STOCK: 60",
+    "detail": "TOP STOCK: 60",
+    "value": "",
   },
   {
     "title": "TOP CARTEGORY",
-    "detail": "",
-    "value": "DRINKS: 55",
+    "detail": "DRINKS: 55",
+    "value": "",
   },
   {
     "title": "SALES",
-    "detail": "",
-    "value": "N 150,000.00",
+    "detail": "N 150,000.00",
+    "value": "",
   },
   {
     "title": "TAX",
-    "detail": "",
-    "value": "N 20,000.00",
+    "detail": "N 20,000.00",
+    "value": "",
   },
   {
     "title": "DISCOUNT",
-    "detail": "",
-    "value": "N 00.00",
+    "detail": "N 00.00",
+    "value": "",
   },
   {
-    "title": "AVERAGE SALES VALUE",
-    "detail": "",
-    "value": "N 100,000.00",
+    "title": "AVERAGE \n SALES VALUE",
+    "detail": "N 100,000.00",
+    "value": "",
   },
   {
     "title": "TOP CUSTOMER",
-    "detail": "OSAGIE DAVID",
-    "value": "osagiedavid@gmail.com",
+    "detail": "OSAGIE\n DAVID",
+    "value": "osagiedav@gmail.com",
   },
   {
     "title": "PAYMENT MODES",
@@ -128,8 +133,8 @@ const List storeFrontReport = [
   },
   {
     "title": "SOLD BY",
-    "detail": "OLUWAFEMI ADEYEMI",
-    "value": "femiadeyemi@gmail.com"
+    "detail": "OLUWAFEMI\n ADEYEMI",
+    "value": "femiade@gmail.com"
   },
 ];
 
@@ -169,10 +174,29 @@ class _ReportScreenState extends State<ReportScreen> {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
     return Scaffold(
       appBar: MyAppBar(
           isDarkMood: isDarkMood,
-          title: kReportAppBarText,
+          title: '${store.storeName} $kReportAppBarText',
           automaticallyImplyLeading: false),
       body: Container(
         decoration: BoxDecoration(
@@ -196,11 +220,12 @@ class _ReportScreenState extends State<ReportScreen> {
               child: GestureDetector(
                 onTap: () {
                   Get.to(
-                    () => const TopCustomerReport(),
-                    // CategoryReport(),
-                    // SalesReport(),
-                    // ShopfrontReport(),
-                    // RemainingStock(),
+                    () => const
+                        // TopCustomerReport(),
+                        // CategoryReport(),
+                        // SalesReport(),
+                        // ShopfrontReport(),
+                        RemainingStock(),
                   );
                 },
                 child: Center(
@@ -216,8 +241,7 @@ class _ReportScreenState extends State<ReportScreen> {
                       ),
                     ),
                     child: Container(
-                      margin: EdgeInsets.all(
-                          MediaQuery.of(context).size.height * 0.01),
+                      margin: EdgeInsets.all(screenSize.height * 0.01),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -317,34 +341,103 @@ class _ReportScreenState extends State<ReportScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Center(
-                      child: Container(
-                    width: MediaQuery.of(context).size.width * 0.47,
-                    color: _showGrid ? kMainColorLight : kGreyColor,
-                    child: TextButton(
-                      onPressed: () {
-                        setState(() {
-                          _showGrid = true;
-                        });
-                      },
-                      child: const Text(
-                        'POS Reports',
-                        style: TextStyle(fontSize: 15, color: kWhiteLight),
+                    child: Container(
+                      width: screenSize.width * 0.47,
+                      height: screenSize.height * 0.057,
+                      decoration: _showGrid
+                          ? BoxDecoration(
+                              color: _showGrid
+                                  ? isDarkMood
+                                      ? kTextFieldDarkBorderColor
+                                      : kLightModeDashboardAppbarColor
+                                  : isDarkMood
+                                      ? kTransparentColor
+                                      : kWhiteLight,
+                            )
+                          : BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(3),
+                                bottomLeft: Radius.circular(3),
+                              ),
+                              border: Border.all(
+                                color: _showGrid == false
+                                    ? isDarkMood
+                                        ? kTextFieldDarkBorderColor
+                                        : kLightModeDashboardAppbarColor
+                                    : isDarkMood
+                                        ? kTransparentColor
+                                        : kWhiteLight,
+                              ),
+                            ),
+                      child: TextButton(
+                        onPressed: () {
+                          setState(() {
+                            _showGrid = true;
+                          });
+                        },
+                        child: Text(
+                          'POS Reports',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: isDarkMood
+                                ? _showGrid
+                                    ? kWhiteLight
+                                    : kWhiteDark
+                                : _showGrid
+                                    ? kWhiteLight
+                                    : kBlack,
+                          ),
+                        ),
                       ),
                     ),
-                  )),
+                  ),
                   Center(
                       child: Container(
-                    width: MediaQuery.of(context).size.width * 0.47,
-                    color: _showGrid ? kGreyColor : kMainColorLight,
+                    width: screenSize.width * 0.47,
+                    height: screenSize.height * 0.057,
+                    decoration: _showGrid
+                        ? BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(3),
+                              bottomRight: Radius.circular(3),
+                            ),
+                            border: Border.all(
+                              color: _showGrid
+                                  ? isDarkMood
+                                      ? kTextFieldDarkBorderColor
+                                      : kLightModeDashboardAppbarColor
+                                  : isDarkMood
+                                      ? kTransparentColor
+                                      : kWhiteLight,
+                            ),
+                          )
+                        : BoxDecoration(
+                            color: _showGrid
+                                ? isDarkMood
+                                    ? kTransparentColor
+                                    : kWhiteLight
+                                : isDarkMood
+                                    ? kTextFieldDarkBorderColor
+                                    : kLightModeDashboardAppbarColor,
+                          ),
                     child: TextButton(
                       onPressed: () {
                         setState(() {
                           _showGrid = false;
                         });
                       },
-                      child: const Text(
+                      child: Text(
                         'Storefront Reports',
-                        style: TextStyle(fontSize: 15, color: kWhiteLight),
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: isDarkMood
+                              ? _showGrid
+                                  ? kWhiteDark
+                                  : kWhiteLight
+                              : _showGrid
+                                  ? kBlack
+                                  : kWhiteLight,
+                        ),
                       ),
                     ),
                   )),
@@ -352,55 +445,72 @@ class _ReportScreenState extends State<ReportScreen> {
               ),
             ),
             _showGrid
-                ? Center(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.height * 0.5,
-                      child: GridView.count(
-                        crossAxisCount: 3,
-                        children: List.generate(
-                          11,
-                          (index) => Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: Container(
-                                color: kMainColorLight,
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                          posReport[index]['title'].toString(),
-                                          style: const TextStyle(
-                                            color: kMainColorLight,
+                ? Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(
+                      child: SizedBox(
+                        height: screenSize.height,
+                        width: screenSize.height * 0.5,
+                        child: GridView.count(
+                          crossAxisCount: 3,
+                          children: List.generate(
+                            11,
+                            (index) => Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Container(
+                                  color: !isDarkMood
+                                      ? kLightModeActiveButtonColor
+                                      : kDarkComplementColor.withOpacity(0.25),
+                                  child: Center(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        print('POS Report no $index');
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              posReport[index]['title']
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                color:
+                                                    kTextFieldDarkBorderColor,
+                                                fontSize: 12,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
-                                        child: Text(
-                                          posReport[index]['detail'].toString(),
-                                          style: const TextStyle(
-                                            color: kWhiteLight,
-                                            fontWeight: FontWeight.bold,
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: Text(
+                                              posReport[index]['detail']
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                color: kWhiteLight,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
                                           ),
-                                        ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: Text(
+                                              posReport[index]['value']
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                color: kWhiteLight,
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
-                                        child: Text(
-                                          posReport[index]['value'].toString(),
-                                          style: const TextStyle(
-                                              color: kWhiteLight),
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ),
@@ -410,55 +520,68 @@ class _ReportScreenState extends State<ReportScreen> {
                       ),
                     ),
                   )
-                : Center(
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.height * 0.5,
-                      child: GridView.count(
-                        crossAxisCount: 3,
-                        children: List.generate(
-                          11,
-                          (index) => Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5),
-                              child: Container(
-                                color: kMainColorLight,
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                        storeFrontReport[index]['title']
-                                            .toString(),
-                                        style: const TextStyle(
-                                            color: kMainColorLight),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
-                                        child: Text(
-                                          storeFrontReport[index]['detail']
-                                              .toString(),
-                                          style: const TextStyle(
-                                            color: kWhiteLight,
-                                            fontWeight: FontWeight.bold,
+                : Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Center(
+                      child: SizedBox(
+                        height: screenSize.height,
+                        width: screenSize.height * 0.5,
+                        child: GridView.count(
+                          crossAxisCount: 3,
+                          children: List.generate(
+                            11,
+                            (index) => Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(5),
+                                child: Container(
+                                  color: !isDarkMood
+                                      ? kLightModeActiveButtonColor
+                                      : kDarkComplementColor.withOpacity(0.25),
+                                  child: Center(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        print('Storefront Report no $index');
+                                      },
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Text(
+                                            storeFrontReport[index]['title']
+                                                .toString(),
+                                            style: const TextStyle(
+                                              color: kTextFieldDarkBorderColor,
+                                              fontSize: 12,
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
-                                        child: Text(
-                                          storeFrontReport[index]['value']
-                                              .toString(),
-                                          style: const TextStyle(
-                                            color: kWhiteLight,
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: Text(
+                                              storeFrontReport[index]['detail']
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                color: kWhiteLight,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
                                           ),
-                                        ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8.0),
+                                            child: Text(
+                                              storeFrontReport[index]['value']
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                color: kWhiteLight,
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ),

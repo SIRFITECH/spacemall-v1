@@ -18,11 +18,6 @@ class AddReceiptsRepo extends GetxController {
   ///PHONE OPERATIONS
 
   Future saveReceiptData() async {
-    // final appDocumentDir = await getApplicationDocumentsDirectory();
-    // Hive.init(appDocumentDir.path);
-    // Box receiptsBox = await Hive.openBox<ReceiptsModel>('receipt');
-
-    // create an instance of a the current store
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(

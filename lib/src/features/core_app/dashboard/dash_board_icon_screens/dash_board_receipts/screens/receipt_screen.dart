@@ -49,7 +49,7 @@ class ReceiptListScreen extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: '$kReceiptsAppBarText for ${store.storeName}',
+        title: '${store.storeName} $kReceiptsAppBarText',
         automaticallyImplyLeading: false,
       ),
       body: Container(
