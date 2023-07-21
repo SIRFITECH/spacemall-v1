@@ -55,8 +55,10 @@ class CheckOut extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          image: const DecorationImage(
-            image: AssetImage(kBackGroundCart),
+          image: DecorationImage(
+            image: !isDarkMood
+                ? const AssetImage(kBackGroundCart)
+                : const AssetImage(kBackGroundCartDarkMood),
             fit: BoxFit.contain,
           ),
           color: isDarkMood ? kDarkModeBackgroundColor : kWhiteLight,
@@ -206,18 +208,6 @@ class CheckOut extends StatelessWidget {
                             ),
                           );
                         }),
-                    // Container(
-                    //     padding: EdgeInsets.only(
-                    //       top: screenSize.height * 0.23,
-                    //       left: screenSize.height * 0.02,
-                    //       right: screenSize.height * 0.02,
-                    //     ),
-                    //     width: double.infinity,
-                    //     child: ElevatedButton(
-                    //         onPressed: () {
-                    //           Get.to(() => const ConfirmPayment());
-                    //         },
-                    //         child: const Text(kCheckOutText)))
                   ],
                 )
               : SizedBox(

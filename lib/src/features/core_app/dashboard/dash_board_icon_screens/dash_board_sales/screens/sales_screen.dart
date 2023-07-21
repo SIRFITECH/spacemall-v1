@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/screens/payment_summary.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/screens/pending_payment.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 
 import '../../../../../../constants/colors.dart';
@@ -19,9 +18,12 @@ class SalesScreen extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    SalesController salesController = Get.put(
-      SalesController(),
-    );
+    // SalesController salesController = Get.put(
+    //   SalesController(),
+    // );
+
+    DateTime now = DateTime.now();
+    String date = DateFormat('d MMM').format(now);
 
     return Scaffold(
       appBar: MyAppBar(
@@ -89,7 +91,8 @@ class SalesScreen extends StatelessWidget {
                                         .withOpacity(0.5),
                               ),
                               Text(
-                                ' $kReportTodayText : ${salesController.date.value} ',
+                                date,
+                                // ' $kReportTodayText : ${salesController.date.value} ',
                                 style: const TextStyle(
                                   color: kGreyColor,
                                 ),
@@ -209,66 +212,6 @@ class SalesScreen extends StatelessWidget {
                                     : kMainComplimemtColorLight,
                               ),
                             ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const PaymentSummary(),
-                            ));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 1, color: kMainColorLight),
-                        ),
-                        child: const ListTile(
-                          leading: Image(
-                            height: 35,
-                            image: AssetImage(kTrialImage1),
-                          ),
-                          title: Text('LinkedIn'),
-                          subtitle: Text('Paid N 1,000'),
-                          trailing: Icon(
-                            Icons.arrow_forward,
-                            color: kMainColorLight,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const PendingPayment(),
-                            ));
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(width: 1, color: kMainColorLight),
-                        ),
-                        child: const ListTile(
-                          leading: Image(
-                            height: 35,
-                            image: AssetImage(kTrialImage1),
-                          ),
-                          title: Text('LinkedIn'),
-                          subtitle: Text('Pending N 1,000'),
-                          trailing: Icon(
-                            Icons.arrow_forward,
-                            color: kMainColorLight,
                           ),
                         ),
                       ),

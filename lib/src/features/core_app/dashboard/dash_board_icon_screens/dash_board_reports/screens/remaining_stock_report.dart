@@ -16,6 +16,7 @@ class RemainingStock extends StatefulWidget {
 }
 
 bool _showGrid = true;
+int _selected = 0;
 
 class _RemainingStockState extends State<RemainingStock> {
   @override
@@ -115,7 +116,7 @@ class _RemainingStockState extends State<RemainingStock> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 60,
               child: Card(
                 child: Padding(
@@ -176,7 +177,128 @@ class _RemainingStockState extends State<RemainingStock> {
                             horizontal: 4.0,
                             vertical: screenSize.width * 0.1,
                           ),
-                          child: Row(
+                          child:
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Center(
+                              //       child: Container(
+                              //         width: screenSize.width * 0.47,
+                              //         height: screenSize.height * 0.057,
+                              //         decoration: BoxDecoration(
+                              //           borderRadius: _showGrid
+                              //               ? BorderRadius.only(
+                              //                   topLeft: Radius.circular(35),
+                              //                   bottomLeft: Radius.circular(35),
+                              //                 )
+                              //               : BorderRadius.only(
+                              //                   topRight: Radius.circular(35),
+                              //                   bottomRight: Radius.circular(35),
+                              //                 ),
+                              //           color: _showGrid
+                              //               ? isDarkMood
+                              //                   ? kTextFieldDarkBorderColor
+                              //                   : kLightModeDashboardAppbarColor
+                              //               : _selected == 0
+                              //                   ? isDarkMood
+                              //                       ? kTransparentColor
+                              //                       : kWhiteLight
+                              //                   : isDarkMood
+                              //                       ? kTextFieldDarkBorderColor
+                              //                       : kLightModeDashboardAppbarColor,
+                              //           border: !_showGrid && _selected == 0
+                              //               ? Border.all(
+                              //                   color: isDarkMood
+                              //                       ? kTextFieldDarkBorderColor
+                              //                       : kLightModeDashboardAppbarColor,
+                              //                 )
+                              //               : null,
+                              //         ),
+                              //         child: TextButton(
+                              //           onPressed: () {
+                              //             print('Low to High');
+                              //             setState(() {
+                              //               _showGrid = true;
+                              //             });
+                              //           },
+                              //           child: Text(
+                              //             'Low to High',
+                              //             style: TextStyle(
+                              //               fontSize: 15,
+                              //               color: _showGrid
+                              //                   ? isDarkMood
+                              //                       ? kWhiteLight
+                              //                       : kWhiteDark
+                              //                   : _selected == 0
+                              //                       ? isDarkMood
+                              //                           ? kWhiteLight
+                              //                           : kBlack
+                              //                       : isDarkMood
+                              //                           ? kWhiteLight
+                              //                           : kWhiteLight,
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //     Center(
+                              //       child: Container(
+                              //         width: screenSize.width * 0.47,
+                              //         height: screenSize.height * 0.057,
+                              //         decoration: BoxDecoration(
+                              //           borderRadius: _showGrid
+                              //               ? BorderRadius.only(
+                              //                   topRight: Radius.circular(35),
+                              //                   bottomRight: Radius.circular(35),
+                              //                 )
+                              //               : BorderRadius.only(
+                              //                   topLeft: Radius.circular(35),
+                              //                   bottomLeft: Radius.circular(35),
+                              //                 ),
+                              //           color: _showGrid
+                              //               ? isDarkMood
+                              //                   ? kTransparentColor
+                              //                   : kWhiteLight
+                              //               : _selected == 1
+                              //                   ? isDarkMood
+                              //                       ? kTextFieldDarkBorderColor
+                              //                       : kLightModeDashboardAppbarColor
+                              //                   : isDarkMood
+                              //                       ? kTransparentColor
+                              //                       : kWhiteLight,
+                              //           border: !_showGrid && _selected == 1
+                              //               ? Border.all(
+                              //                   color: isDarkMood
+                              //                       ? kTextFieldDarkBorderColor
+                              //                       : kLightModeDashboardAppbarColor,
+                              //                 )
+                              //               : null,
+                              //         ),
+                              //         child: TextButton(
+                              //           onPressed: () {
+                              //             setState(() {
+                              //               _showGrid = false;
+                              //             });
+                              //             print('High to Low');
+                              //           },
+                              //           child: Text(
+                              //             'High to Low',
+                              //             style: TextStyle(
+                              //               fontSize: 15,
+                              //               color: _showGrid
+                              //                   ? kWhiteDark
+                              //                   : _selected == 1
+                              //                       ? kWhiteLight
+                              //                       : kWhiteLight,
+                              //             ),
+                              //           ),
+                              //         ),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
+
+                              Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Center(
@@ -210,6 +332,7 @@ class _RemainingStockState extends State<RemainingStock> {
                                         ),
                                   child: TextButton(
                                     onPressed: () {
+                                      print('Low to High');
                                       setState(() {
                                         _showGrid = true;
                                       });
@@ -264,6 +387,7 @@ class _RemainingStockState extends State<RemainingStock> {
                                     setState(() {
                                       _showGrid = false;
                                     });
+                                    print('High to Low');
                                   },
                                   child: Text(
                                     'High to Low',
@@ -283,86 +407,6 @@ class _RemainingStockState extends State<RemainingStock> {
                             ],
                           ),
                         ),
-
-                        // Padding(
-                        //   padding: EdgeInsets.symmetric(
-                        //     horizontal: 2.0,
-                        //     vertical: screenSize.width * 0.1,
-                        //   ),
-                        //   child: ClipRRect(
-                        //     borderRadius: BorderRadius.circular(10),
-                        //     child: Row(
-                        //       mainAxisAlignment: MainAxisAlignment.center,
-                        //       children: [
-                        //         Center(
-                        //             child: ClipRRect(
-                        //           borderRadius: const BorderRadius.only(
-                        //             bottomLeft: Radius.circular(35),
-                        //             topLeft: Radius.circular(35),
-                        //           ),
-                        //           child: Container(
-                        //             decoration: BoxDecoration(
-                        //               color: kWhiteLight,
-                        //               border: Border.all(
-                        //                 width: 2,
-                        //               ),
-                        //               borderRadius: BorderRadius.circular(12.0),
-                        //               boxShadow: const [
-                        //                 BoxShadow(
-                        //                     color: Colors.red,
-                        //                     offset: Offset(2.0, 2.0),
-                        //                     blurRadius: 100.0)
-                        //               ],
-                        //             ),
-                        //             width: MediaQuery.of(context).size.width *
-                        //                 0.47,
-                        //             // color: kWhiteLight,
-                        //             child: TextButton(
-                        //               onPressed: () {
-                        //                 // Navigator.push(
-                        //                 //     context,
-                        //                 //     MaterialPageRoute(
-                        //                 //       builder: (context) => const AddModifierSuccess(),
-                        //                 //     ));
-                        //               },
-                        //               child: const Text(
-                        //                 'Low to High',
-                        //                 style: TextStyle(
-                        //                     fontSize: 15, color: kBlackDark),
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         )),
-                        //         Center(
-                        //             child: ClipRRect(
-                        //           borderRadius: const BorderRadius.only(
-                        //             bottomRight: Radius.circular(35),
-                        //             topRight: Radius.circular(35),
-                        //           ),
-                        //           child: Container(
-                        //             width: MediaQuery.of(context).size.width *
-                        //                 0.47,
-                        //             color: kMainColorLight,
-                        //             child: TextButton(
-                        //               onPressed: () {
-                        //                 // Navigator.push(
-                        //                 //     context,
-                        //                 //     MaterialPageRoute(
-                        //                 //       builder: (context) => const AddModifierSuccess(),
-                        //                 //     ));
-                        //               },
-                        //               child: const Text(
-                        //                 'High to Low',
-                        //                 style: TextStyle(
-                        //                     fontSize: 15, color: kWhiteLight),
-                        //               ),
-                        //             ),
-                        //           ),
-                        //         )),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ));

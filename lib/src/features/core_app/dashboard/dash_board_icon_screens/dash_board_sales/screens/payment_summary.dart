@@ -34,8 +34,10 @@ class _PaymentSummaryState extends State<PaymentSummary> {
           color: isDarkMood
               ? kDarkModeBackgroundColor.withAlpha(2)
               : kWhiteLight.withAlpha(2),
-          image: const DecorationImage(
-            image: AssetImage(kBackGroundCart),
+          image: DecorationImage(
+            image: !isDarkMood
+                ? const AssetImage(kBackGroundCart)
+                : const AssetImage(kBackGroundCartDarkMood),
             fit: BoxFit.contain,
           ),
         ),
@@ -57,12 +59,15 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                   //     ));
                 },
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.9,
+                  width: screenSize.width * 0.9,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(5)),
-                    border: Border.all(width: 1, color: kMainColorLight
-                        // MediaQuery.of(context).size.height * 0.05,
-                        ),
+                    border: Border.all(
+                      width: 2,
+                      color: !isDarkMood
+                          ? kTextFieldLightBorderColor
+                          : kTextFieldDarkBorderColor.withOpacity(0.2),
+                    ),
                   ),
                   padding: EdgeInsets.all(screenSize.height * 0.03),
                   child: const Column(
@@ -73,7 +78,7 @@ class _PaymentSummaryState extends State<PaymentSummary> {
               Padding(
                 padding: const EdgeInsets.only(top: 32.0),
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.35,
+                  height: screenSize.height * 0.35,
                   child: ListView(
                     children: [
                       TextFeildWidget(

@@ -51,11 +51,14 @@ class AddCategory extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage(kBackGroundCart),
-            fit: BoxFit.contain,
-          )),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: !isDarkMood
+                  ? const AssetImage(kBackGroundCart)
+                  : const AssetImage(kBackGroundCartDarkMood),
+              fit: BoxFit.contain,
+            ),
+          ),
           child: Column(
             children: [
               SizedBox(

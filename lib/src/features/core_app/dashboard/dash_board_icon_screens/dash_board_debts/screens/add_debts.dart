@@ -99,7 +99,12 @@ class AddToDebt extends StatelessWidget {
                 height: screenSize.height * 0.2,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(5)),
-                  border: Border.all(width: 1, color: kMainColorLight),
+                  border: Border.all(
+                    width: 1,
+                    color: !isDarkMood
+                        ? kTextFieldLightBorderColor
+                        : kTextFieldDarkBorderColor.withOpacity(0.2),
+                  ),
                 ),
                 padding: EdgeInsets.all(screenSize.height * 0.01),
                 child: Scrollbar(
