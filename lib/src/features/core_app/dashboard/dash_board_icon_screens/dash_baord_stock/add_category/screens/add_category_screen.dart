@@ -70,8 +70,7 @@ class AddCategory extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: store.categories.length,
                   itemBuilder: (context, index) {
-                    final category = store.categories.first;
-                    // [index];
+                    final category = store.categories[index];
                     return ListTile(
                       leading: IconButton(
                         onPressed: () {

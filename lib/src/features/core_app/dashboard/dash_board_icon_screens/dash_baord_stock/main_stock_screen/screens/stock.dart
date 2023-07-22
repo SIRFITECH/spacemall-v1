@@ -47,7 +47,6 @@ class Stock extends StatelessWidget {
       ),
     );
     List<AddItemModel> stocks = store.stock.toList();
-    // storeRepo.getStoresFromBox();
 
     return Scaffold(
       appBar: MyAppBar(
@@ -58,12 +57,13 @@ class Stock extends StatelessWidget {
       drawer: const SpacemallDrawer(),
       body: Container(
         decoration: BoxDecoration(
-            image: DecorationImage(
-          image: !isDarkMood
-              ? const AssetImage(kBackGroundCart)
-              : const AssetImage(kBackGroundCartDarkMood),
-          fit: BoxFit.contain,
-        )),
+          image: DecorationImage(
+            image: !isDarkMood
+                ? const AssetImage(kBackGroundCart)
+                : const AssetImage(kBackGroundCartDarkMood),
+            fit: BoxFit.contain,
+          ),
+        ),
         child: ListView(
           children: [
             Padding(
@@ -125,7 +125,9 @@ class Stock extends StatelessWidget {
                           child: Column(
                             children: [
                               Card(
-                                color: kTransparentColor,
+                                color: !isDarkMood
+                                    ? kWhiteLight
+                                    : kDarkModeBackgroundColor.withOpacity(0.7),
                                 elevation: 5,
                                 child: Column(
                                   mainAxisAlignment:
@@ -144,38 +146,40 @@ class Stock extends StatelessWidget {
                                                 padding: const EdgeInsets.only(
                                                     bottom: 8.0),
                                                 child: CircleAvatar(
-                                                  radius: 40,
+                                                  radius: 25,
                                                   backgroundColor:
                                                       kMainComplimemtColorDark
                                                           .withOpacity(0.2),
                                                   child: SizedBox(
-                                                      child: ClipOval(
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              1.0),
-                                                      child: stockItem
-                                                                  .itemPic ==
-                                                              null
-                                                          ? SvgPicture.asset(
-                                                              kImageIcon,
-                                                              // ignore: deprecated_member_use
-                                                              color:
-                                                                  kMainColorDark,
-                                                              width: 100,
-                                                              height: 100,
-                                                              fit: BoxFit
-                                                                  .scaleDown,
-                                                            )
-                                                          : CircleAvatar(
-                                                              radius: 60,
-                                                              backgroundImage:
-                                                                  FileImage(
-                                                                      stockItem
-                                                                          .itemPic!),
-                                                            ),
+                                                    child: ClipOval(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(1.0),
+                                                        child: stockItem
+                                                                    .itemPic ==
+                                                                null
+                                                            ? SvgPicture.asset(
+                                                                kImageIcon,
+                                                                // ignore: deprecated_member_use
+                                                                color:
+                                                                    kMainColorDark,
+                                                                width: 100,
+                                                                height: 100,
+                                                                fit: BoxFit
+                                                                    .scaleDown,
+                                                              )
+                                                            : CircleAvatar(
+                                                                radius: 30,
+                                                                backgroundImage:
+                                                                    FileImage(
+                                                                  stockItem
+                                                                      .itemPic!,
+                                                                ),
+                                                              ),
+                                                      ),
                                                     ),
-                                                  )),
+                                                  ),
                                                 ),
                                               ),
                                               Padding(
@@ -293,16 +297,16 @@ class Stock extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: ()
-            // => addItemRepo.printHiveBox(stockBox),
-            //     {
-            //   print(
-            //       'there are ${stockBox.length} items saved in the phone storage ');
-            //   print(
-            //       'The observable list has ${addItemController.itemList.length} items, ');
-            // },
-            =>
-            addItemRepo.deleteLastItemFromPhone(),
+        onPressed: () {},
+        // => addItemRepo.printHiveBox(stockBox),
+        //     {
+        //   print(
+        //       'there are ${stockBox.length} items saved in the phone storage ');
+        //   print(
+        //       'The observable list has ${addItemController.itemList.length} items, ');
+        // },
+        // =>
+        // addItemRepo.deleteLastItemFromPhone(),
         child: const Icon(
           Icons.add,
           size: 45,

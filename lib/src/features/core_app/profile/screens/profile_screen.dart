@@ -32,8 +32,10 @@ class ProfileScreen extends StatelessWidget {
               UserModel? user = snapshot.data;
               return Container(
                   decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage(kBackGroundCart),
+                    image: DecorationImage(
+                      image: !isDarkMood
+                          ? const AssetImage(kBackGroundCart)
+                          : const AssetImage(kBackGroundCartDarkMood),
                       fit: BoxFit.contain,
                     ),
                     color: isDarkMood ? kDarkModeBackgroundColor : kWhiteLight,
@@ -44,7 +46,9 @@ class ProfileScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 3.0, horizontal: 15),
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Get.back();
+                          },
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -196,8 +200,6 @@ class ProfileScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       user.contactNumber,
-                                      // profileRepo.conttactNumber.value,
-                                      // '0123456789',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: isDarkMood
@@ -222,8 +224,6 @@ class ProfileScreen extends StatelessWidget {
                                 DataCell(
                                   Text(
                                     user.role,
-                                    // SplashController.instance.userRole.value
-                                    //     .toString(),
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: isDarkMood

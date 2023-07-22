@@ -291,7 +291,7 @@ class _ReportSalesState extends State<SalesReport> {
                       padding: EdgeInsets.all(
                         screenSize.height * 0.01,
                       ),
-                      height: screenSize.height * 0.4,
+                      height: screenSize.height * 0.45,
                       child: ListView(
                         children: [
                           GestureDetector(
@@ -591,7 +591,7 @@ class _ReportSalesState extends State<SalesReport> {
                       padding: EdgeInsets.all(
                         screenSize.height * 0.01,
                       ),
-                      height: screenSize.height * 0.4,
+                      height: screenSize.height * 0.45,
                       child: ListView(
                         children: [
                           GestureDetector(
@@ -1092,7 +1092,7 @@ class _ReportSalesState extends State<SalesReport> {
                       padding: EdgeInsets.all(
                         screenSize.height * 0.01,
                       ),
-                      height: screenSize.height * 0.4,
+                      height: screenSize.height * 0.45,
                       child: ListView(
                         children: [
                           GestureDetector(

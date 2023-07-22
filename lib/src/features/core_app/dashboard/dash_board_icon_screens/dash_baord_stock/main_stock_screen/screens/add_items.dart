@@ -38,7 +38,7 @@ class AddItemsCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Container(
-                    width: 84,
+                    width: screenSize.width * 0.21,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.0),
                       color: index == 0
@@ -56,8 +56,9 @@ class AddItemsCard extends StatelessWidget {
                     child: Stack(
                       children: [
                         Positioned(
-                          left: 56,
-                          bottom: 42,
+                          left: screenSize.width * 0.135,
+                          bottom: screenSize.height * 0.051,
+                          // 42,
                           child: GestureDetector(
                             onTap: () {
                               switch (index) {

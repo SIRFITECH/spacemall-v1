@@ -5,8 +5,11 @@ import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
+import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
 import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
 import 'package:spacemall/src/utils/themes/custom_text_styles.dart';
+
+import '../../settings/screens/settings_screen.dart';
 
 class SpacemallDrawer extends StatelessWidget {
   const SpacemallDrawer({super.key});
@@ -81,7 +84,7 @@ class SpacemallDrawer extends StatelessWidget {
                         ListTile(
                           horizontalTitleGap: 0,
                           onTap: () {
-                            Get.to(() => DashBoard());
+                            Get.to(() => const ProfileScreen());
                           },
                           leading: const Icon(
                             Icons.person,
@@ -95,7 +98,7 @@ class SpacemallDrawer extends StatelessWidget {
                         ListTile(
                           horizontalTitleGap: 0,
                           onTap: () {
-                            // Navigator.pushNamed(context, SettingsHome.id);
+                            Get.to(() => const SettingsScreen());
                           },
                           leading: const Icon(
                             Icons.settings,

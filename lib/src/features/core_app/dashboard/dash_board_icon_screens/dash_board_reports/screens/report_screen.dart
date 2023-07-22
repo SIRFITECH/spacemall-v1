@@ -603,7 +603,66 @@ class _ReportScreenState extends State<ReportScreen> {
                                   child: Center(
                                     child: GestureDetector(
                                       onTap: () {
-                                        print('Storefront Report no $index');
+                                        switch (index) {
+                                          case 0:
+                                            Get.to(
+                                              () => const SalesReport(),
+                                            );
+                                            break;
+                                          case 1:
+                                            Get.to(
+                                              () => const SalesReport(),
+                                            );
+                                            break;
+                                          case 2:
+                                            Get.to(
+                                              () => const CategoryReport(),
+                                            );
+                                            break;
+                                          case 3:
+                                            Get.to(
+                                              () => const CategoryReport(),
+                                            );
+                                            break;
+                                          case 4:
+                                            Get.to(
+                                              () => const SalesReport(),
+                                            );
+                                            break;
+                                          case 5:
+                                            Get.to(
+                                              () => const SalesReport(),
+                                            );
+                                            break;
+                                          case 6:
+                                            Get.to(
+                                              () => const SalesReport(),
+                                            );
+                                            break;
+                                          case 7:
+                                            Get.to(
+                                              () => const SalesReport(),
+                                            );
+                                            break;
+                                          case 8:
+                                            Get.to(
+                                              () => const TopCustomerReport(),
+                                            );
+                                            break;
+                                          case 9:
+                                            Get.to(
+                                              () => const CategoryReport(),
+                                            );
+                                            break;
+
+                                          case 10:
+                                            Get.to(
+                                              () => const TopCustomerReport(),
+                                            );
+                                            break;
+                                          default:
+                                            break;
+                                        }
                                       },
                                       child: Column(
                                         mainAxisAlignment:

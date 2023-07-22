@@ -5,55 +5,6 @@ import 'package:spacemall/src/features/core_app/settings/screens/printer_setting
 import '../../../../constants/colors.dart';
 import '../../../../constants/image_strings.dart';
 
-// class Settings extends StatelessWidget {
-//   const Settings({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // final userContr = UserController();
-//     return Scaffold(
-//       appBar: AppBar(
-//         centerTitle: true,
-//         title: const Text(
-//           'Settings',
-//         ),
-//       ),
-//       body: Center(
-//         child: Column(
-//           children: [
-//             const Column(
-//               children: [],
-//             ),
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 ElevatedButton(
-//                   onPressed: () async {
-//                     print(AuthRepo.instance.uid);
-//                   },
-//                   child: const Text('Print User Data'),
-//                 ),
-//                 const SizedBox(
-//                   width: 5,
-//                 ),
-//                 ElevatedButton(
-//                   onPressed: () async {
-//                     AuthRepo.instance
-//                         .setSignedOut()
-//                         .then((value) => AuthRepo.instance.signOut());
-//                     Get.to(() => const Login());
-//                   },
-//                   child: const Text('Clear Data'),
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -73,11 +24,11 @@ class _SetPrinterState extends State<SettingsScreen> {
       child: Scaffold(
         body: Container(
             decoration: BoxDecoration(
-              color: isDarkMood
-                  ? kDarkModeBackgroundColor.withAlpha(2)
-                  : kWhiteLight.withAlpha(2),
-              image: const DecorationImage(
-                image: AssetImage(kBackGroundCart),
+              color: isDarkMood ? kDarkModeBackgroundColor : kWhiteLight,
+              image: DecorationImage(
+                image: !isDarkMood
+                    ? const AssetImage(kBackGroundCart)
+                    : const AssetImage(kBackGroundCartDarkMood),
                 fit: BoxFit.contain,
               ),
             ),
@@ -91,9 +42,14 @@ class _SetPrinterState extends State<SettingsScreen> {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [Icon(Icons.arrow_back_ios), Text("Back")],
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [Icon(Icons.arrow_back_ios), Text("Back")],
+                        ),
                       ),
                     ),
                   ),
@@ -103,15 +59,18 @@ class _SetPrinterState extends State<SettingsScreen> {
                       const Text(
                         'Tax Setttings',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: kBlackDark),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
                               width: 8.0,
-                              color: kMainColorLight,
+                              color: !isDarkMood
+                                  ? kTextFieldLightBorderColor.withOpacity(0.5)
+                                  : kTextFieldDarkBorderColor.withOpacity(0.5),
                             ),
                           ),
                           // color: Colors.white,
@@ -121,12 +80,6 @@ class _SetPrinterState extends State<SettingsScreen> {
                           child: Text('12%'),
                         ),
                       )
-                      // TextFormField(
-                      //   decoration: const InputDecoration(
-                      //     border: UnderlineInputBorder(),
-                      //     labelText: '12%',
-                      //   ),
-                      // ),
                     ],
                   ),
                   const SizedBox(
@@ -138,16 +91,19 @@ class _SetPrinterState extends State<SettingsScreen> {
                       const Text(
                         'Discount Setttings',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, color: kBlackDark),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           border: Border(
-                            // top: BorderSide(
-                            //     width: 16.0, color: Colors.lightBlue.shade600),
-                            bottom:
-                                BorderSide(width: 8.0, color: kMainColorLight),
+                            bottom: BorderSide(
+                              width: 8.0,
+                              color: !isDarkMood
+                                  ? kTextFieldLightBorderColor.withOpacity(0.5)
+                                  : kTextFieldDarkBorderColor.withOpacity(0.5),
+                            ),
                           ),
                           // color: Colors.white,
                         ),
@@ -156,12 +112,6 @@ class _SetPrinterState extends State<SettingsScreen> {
                           child: Text('12%'),
                         ),
                       )
-                      // TextFormField(
-                      //   decoration: const InputDecoration(
-                      //     border: UnderlineInputBorder(),
-                      //     labelText: '12%',
-                      //   ),
-                      // ),
                     ],
                   ),
                   const SizedBox(
@@ -174,11 +124,10 @@ class _SetPrinterState extends State<SettingsScreen> {
                         'Payment Mode Setttings',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: kBlackDark,
                         ),
                       ),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width,
+                        width: screenSize.width,
                         child: const Padding(
                           padding: EdgeInsets.symmetric(vertical: 8.0),
                           child: Text('12%'),
@@ -199,17 +148,18 @@ class _SetPrinterState extends State<SettingsScreen> {
                         'Delivery Fee Setttings',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: kBlackDark,
                         ),
                       ),
                       Container(
                         width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           border: Border(
-                            // top: BorderSide(
-                            //     width: 16.0, color: Colors.lightBlue.shade600),
-                            bottom:
-                                BorderSide(width: 8.0, color: kMainColorLight),
+                            bottom: BorderSide(
+                              width: 8.0,
+                              color: !isDarkMood
+                                  ? kTextFieldLightBorderColor.withOpacity(0.5)
+                                  : kTextFieldDarkBorderColor.withOpacity(0.5),
+                            ),
                           ),
                           // color: Colors.white,
                         ),
@@ -218,12 +168,6 @@ class _SetPrinterState extends State<SettingsScreen> {
                           child: Text('12%'),
                         ),
                       )
-                      // TextFormField(
-                      //   decoration: const InputDecoration(
-                      //     border: UnderlineInputBorder(),
-                      //     labelText: '12%',
-                      //   ),
-                      // ),
                     ],
                   ),
                   const SizedBox(
@@ -236,17 +180,18 @@ class _SetPrinterState extends State<SettingsScreen> {
                         'Service Fees Setttings',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: kBlackDark,
                         ),
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(
+                        width: screenSize.width,
+                        decoration: BoxDecoration(
                           border: Border(
-                            // top: BorderSide(
-                            //     width: 16.0, color: Colors.lightBlue.shade600),
-                            bottom:
-                                BorderSide(width: 8.0, color: kMainColorLight),
+                            bottom: BorderSide(
+                              width: 8.0,
+                              color: !isDarkMood
+                                  ? kTextFieldLightBorderColor.withOpacity(0.5)
+                                  : kTextFieldDarkBorderColor.withOpacity(0.5),
+                            ),
                           ),
                           // color: Colors.white,
                         ),
@@ -255,12 +200,6 @@ class _SetPrinterState extends State<SettingsScreen> {
                           child: Text('12%'),
                         ),
                       )
-                      // TextFormField(
-                      //   decoration: const InputDecoration(
-                      //     border: UnderlineInputBorder(),
-                      //     labelText: '12%',
-                      //   ),
-                      // ),
                     ],
                   ),
                   const SizedBox(
@@ -273,17 +212,18 @@ class _SetPrinterState extends State<SettingsScreen> {
                         'Other Fees Setttings',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: kBlackDark,
                         ),
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: const BoxDecoration(
+                        width: screenSize.width,
+                        decoration: BoxDecoration(
                           border: Border(
-                            // top: BorderSide(
-                            //     width: 16.0, color: Colors.lightBlue.shade600),
-                            bottom:
-                                BorderSide(width: 8.0, color: kMainColorLight),
+                            bottom: BorderSide(
+                              width: 8.0,
+                              color: !isDarkMood
+                                  ? kTextFieldLightBorderColor.withOpacity(0.5)
+                                  : kTextFieldDarkBorderColor.withOpacity(0.5),
+                            ),
                           ),
                           // color: Colors.white,
                         ),
@@ -311,7 +251,6 @@ class _SetPrinterState extends State<SettingsScreen> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 22,
-                          color: kBlackDark,
                         ),
                       ),
                     ],
@@ -339,7 +278,6 @@ class _SetPrinterState extends State<SettingsScreen> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 22,
-                            color: kBlackDark,
                           ),
                         ),
                       ],
@@ -348,38 +286,42 @@ class _SetPrinterState extends State<SettingsScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: screenSize.height * 0.02),
-                        child: Center(
-                            child: ClipRRect(
-                          borderRadius: BorderRadius.circular(6),
-                          child: Container(
-                            height: 40,
-                            width: 130,
-                            color: kMainColorLight,
-                            child: TextButton(
-                              onPressed: () {
-                                // Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //       builder: (context) => const AddModifierSuccess(),
-                                //     ));
-                              },
-                              child: const Text(
-                                'SAVE',
-                                style:
-                                    TextStyle(fontSize: 13, color: kWhiteLight),
-                              ),
-                            ),
-                          ),
-                        )),
-                      ),
-                    ],
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: const Text('Save'),
                   ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.start,
+                  //   children: [
+                  //     Padding(
+                  //       padding: EdgeInsets.symmetric(
+                  //           vertical: screenSize.height * 0.02),
+                  //       child: Center(
+                  //           child: ClipRRect(
+                  //         borderRadius: BorderRadius.circular(6),
+                  //         child: Container(
+                  //           height: 40,
+                  //           width: 130,
+                  //           color: kMainColorLight,
+                  //           child: TextButton(
+                  //             onPressed: () {
+                  //               // Navigator.push(
+                  //               //     context,
+                  //               //     MaterialPageRoute(
+                  //               //       builder: (context) => const AddModifierSuccess(),
+                  //               //     ));
+                  //             },
+                  //             child: const Text(
+                  //               'SAVE',
+                  //               style:
+                  //                   TextStyle(fontSize: 13, color: kWhiteLight),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       )),
+                  //     ),
+                  //   ],
+                  // ),
                 ],
               ),
             )),
