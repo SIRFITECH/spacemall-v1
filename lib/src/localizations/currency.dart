@@ -11,6 +11,6 @@ import 'package:intl/intl.dart';
 NumberFormat nairaFormat = NumberFormat.simpleCurrency(
   locale: 'en_NG',
   // Platform.localeName, ₦
-  name: 'N',
+  name: 'NGN ',
   decimalDigits: 0,
 );

@@ -7,18 +7,18 @@ import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/screens/pay_later.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/data/receipts_repo.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/screens/receipt_screen.dart';
+// import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/data/receipts_repo.dart';
+// import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/screens/receipt_screen.dart';
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/localizations/currency.dart';
 
 import '../../../../common_widgets/common_widgets.dart';
-import '../../../../repository/hive_boxes.dart';
-import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
-import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
-import '../../store/domain/store_model.dart';
+// import '../../../../repository/hive_boxes.dart';
+// import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
+// import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
+// import '../../store/domain/store_model.dart';
 
 class ConfirmPayment extends StatelessWidget {
   const ConfirmPayment({super.key});
@@ -33,38 +33,40 @@ class ConfirmPayment extends StatelessWidget {
     final CartItemController cartItemController = Get.find();
     cartItemController.onInit();
 
-    StoreModel store = storeBox.get(
-      AddItemRepo.instance.currentStore.value,
-      defaultValue: StoreModel(
-        logo: null,
-        storeName: '',
-        bankName: '',
-        accountNumber: '',
-        contact: '',
-        stock: [],
-        receipts: [],
-        debts: [],
-        staff: [],
-        sales: [],
-        customer: [],
-        storeId: '',
-        categories: [],
-      ),
-    );
+    // StoreModel store = storeBox.get(
+    //   AddItemRepo.instance.currentStore.value,
+    //   defaultValue: StoreModel(
+    //     logo: null,
+    //     storeName: '',
+    //     bankName: '',
+    //     accountNumber: '',
+    //     contact: '',
+    //     stock: [],
+    //     receipts: [],
+    //     debts: [],
+    //     staff: [],
+    //     sales: [],
+    //     customer: [],
+    //     storeId: '',
+    //     categories: [],
+    //   ),
+    // );
 
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: 'Checkout from  ${store.storeName}',
+        title: 'Checkout ',
         automaticallyImplyLeading: true,
       ),
       drawer: const SpacemallDrawer(),
       body: Container(
         height: screenSize.height * 0.9,
         width: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(kBackGroundCart),
+            image: !isDarkMood
+                ? const AssetImage(kBackGroundCart)
+                : const AssetImage(kBackGroundCartDarkMood),
             fit: BoxFit.contain,
           ),
         ),
@@ -136,20 +138,37 @@ class ConfirmPayment extends StatelessWidget {
                                   },
                                   child: SizedBox(
                                     width: double.infinity,
-                                    height: screenSize.height * 0.1,
+                                    height: screenSize.height * 0.07,
                                     child: Card(
-                                      color: kTransparentColor,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(5),
+                                        ),
+                                        side: BorderSide(
+                                          color: !isDarkMood
+                                              ? kTextFieldLightBorderColor
+                                                  .withOpacity(0.5)
+                                              : kTextFieldDarkBorderColor
+                                                  .withOpacity(0.5),
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      // color: !isDarkMood
+                                      //     ? kWhiteLight
+                                      //     : kDarkModeBackgroundColor
+                                      //         .withOpacity(0.7),
+                                      // color: kTransparentColor,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Column(
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
+                                                  MainAxisAlignment.start,
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: [
@@ -157,29 +176,18 @@ class ConfirmPayment extends StatelessWidget {
                                                   cartItemController
                                                       .cartItems[index]
                                                       .itemName,
-                                                  // stockItem[index].itemName,
-                                                  // stockList.itemName,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineMedium,
                                                 ),
                                                 Text(
-                                                  // '${stockItem[index].quantityInCart} x ${stockItem[index].price}',
                                                   '${stockList.quantityInCart} x ${stockList.price}',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleMedium,
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
                                                 ),
                                               ],
                                             ),
                                             Text(
                                               nairaFormat.format(
-                                                // stockItem[index].subTotal
                                                 stockList.subTotal,
                                               ),
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headlineMedium,
                                             ),
                                           ],
                                         ),
@@ -187,12 +195,12 @@ class ConfirmPayment extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                              CustomDivider(
-                                height: screenSize.height * 0.0002,
-                                thickness: screenSize.height * 0.002,
-                                color: kWhiteLight,
-                                margin: const EdgeInsets.all(0),
-                              ),
+                              // CustomDivider(
+                              //   height: screenSize.height * 0.0002,
+                              //   thickness: screenSize.height * 0.002,
+                              //   color: kWhiteLight,
+                              //   margin: const EdgeInsets.all(0),
+                              // ),
                             ],
                           ),
                         );
@@ -403,13 +411,16 @@ class ConfirmPayment extends StatelessWidget {
               padding: EdgeInsets.all(screenSize.height * 0.05),
               child: ElevatedButton(
                 onPressed: () {
-                  ReceiptsController.instance.cartTotal.value =
-                      cartItemController.totalCartTotal.value.toString();
-                  AddReceiptsRepo.instance.saveReceiptData().then(
-                        (value) => Get.to(
-                          () => const ReceiptListScreen(),
-                        ),
-                      );
+                  cartItemController.showMoodOfPayment(
+                      context, screenSize, isDarkMood);
+
+                  // ReceiptsController.instance.cartTotal.value =
+                  //     cartItemController.totalCartTotal.value.toString();
+                  // AddReceiptsRepo.instance.saveReceiptData().then(
+                  //       (value) => Get.to(
+                  //         () => const ReceiptListScreen(),
+                  //       ),
+                  //     );
                 },
                 child: const Text(
                   kConfirmPaymentText,

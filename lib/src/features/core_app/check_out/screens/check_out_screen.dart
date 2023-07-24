@@ -136,8 +136,11 @@ class CheckOut extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       SizedBox(
-                                          width: 100,
-                                          height: 40,
+                                          width:
+                                              //  screenSize.width * 0.4,
+                                              100,
+                                          height: screenSize.height * 0.039,
+                                          // 40,
                                           child: stockItem.itemPic == null
                                               ? SvgPicture.asset(
                                                   kImageIcon,

@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/data/receipts_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 
 import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
+import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
+import '../../dashboard/dash_board_icon_screens/dash_board_receipts/screens/receipt_screen.dart';
 import '../data/check_out_repo.dart';
 
 class CartItemController extends GetxController {
@@ -16,6 +19,8 @@ class CartItemController extends GetxController {
       );
   final profileRepo = Get.put(ProfileRepo());
   final checkOutRepo = Get.put(CheckOutRepo());
+
+  // final CartItemController cartItemController = Get.put(CartItemController(),);
 
   int numberOfItemSelect = -1;
 
@@ -154,6 +159,199 @@ class CartItemController extends GetxController {
       backgroundColor: kWhiteLight,
       colorText: kBlack,
     );
+  }
+
+  Future<dynamic> showMoodOfPayment(
+      BuildContext context, Size screenSize, bool isDarkMood) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            decoration: const BoxDecoration(
+                // borderRadius: BorderRadius.circular(20),
+                // border: Border.all(
+                //   width: 1,
+                //   color: isDarkMood
+                //       ? kMainColorLight.withOpacity(0.9)
+                //       : kMainComplimemtColorLight.withOpacity(0.8),
+                // ),
+                // shape: BoxShape.circle,
+                // color: kLightModeActiveButtonColor,
+                ),
+            width: double.infinity,
+            height: screenSize.height * 0.4,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  const Text('SELECT PAYMENT MOOD'),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 32.0,
+                      right: 16.0,
+                      left: 16.0,
+                      bottom: 18.0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            AddReceiptsRepo.instance.paymentMood = 'Cash';
+                            ReceiptsController.instance.cartTotal.value =
+                                CartItemController.instance.totalCartTotal.value
+                                    .toString();
+                            AddReceiptsRepo.instance
+                                .saveReceiptData()
+                                .then(
+                                  (value) => Get.to(
+                                    () => const ReceiptListScreen(),
+                                  ),
+                                )
+                                .then((value) =>
+                                    AddReceiptsRepo.instance.paymentMood = '');
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                width: 1,
+                                color: !isDarkMood
+                                    ?
+                                    // kWhiteLight
+                                    kMainColorLight.withOpacity(0.6)
+                                    : kMainComplimemtColorLight
+                                        .withOpacity(0.8),
+                              ),
+                            ),
+                            height: screenSize.height * 0.1,
+                            width: screenSize.width * 0.35,
+                            child: const Center(child: Text('cash')),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            AddReceiptsRepo.instance.paymentMood = 'Card';
+                            ReceiptsController.instance.cartTotal.value =
+                                CartItemController.instance.totalCartTotal.value
+                                    .toString();
+                            AddReceiptsRepo.instance
+                                .saveReceiptData()
+                                .then(
+                                  (value) => Get.to(
+                                    () => const ReceiptListScreen(),
+                                  ),
+                                )
+                                .then((value) =>
+                                    AddReceiptsRepo.instance.paymentMood = '');
+                            print('card');
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                width: 1,
+                                color: !isDarkMood
+                                    ? kMainColorLight.withOpacity(0.6)
+                                    : kMainComplimemtColorLight
+                                        .withOpacity(0.8),
+                              ),
+                            ),
+                            height: screenSize.height * 0.1,
+                            width: screenSize.width * 0.35,
+                            // color: kTextFieldDarkBorderColor,
+                            child: const Center(child: Text('Card')),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 64.0,
+                      right: 16.0,
+                      left: 16.0,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            AddReceiptsRepo.instance.paymentMood =
+                                'Bank Transfer';
+                            ReceiptsController.instance.cartTotal.value =
+                                CartItemController.instance.totalCartTotal.value
+                                    .toString();
+                            AddReceiptsRepo.instance
+                                .saveReceiptData()
+                                .then(
+                                  (value) => Get.to(
+                                    () => const ReceiptListScreen(),
+                                  ),
+                                )
+                                .then((value) =>
+                                    AddReceiptsRepo.instance.paymentMood = '');
+                            print('Transfer');
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                width: 1,
+                                color: !isDarkMood
+                                    ? kMainColorLight.withOpacity(0.6)
+                                    : kMainComplimemtColorLight
+                                        .withOpacity(0.8),
+                              ),
+                            ),
+                            height: screenSize.height * 0.1,
+                            width: screenSize.width * 0.35,
+                            // color: kTextFieldDarkBorderColor,
+                            child: const Center(child: Text('Transfer')),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            AddReceiptsRepo.instance.paymentMood = 'POD';
+                            ReceiptsController.instance.cartTotal.value =
+                                CartItemController.instance.totalCartTotal.value
+                                    .toString();
+                            AddReceiptsRepo.instance
+                                .saveReceiptData()
+                                .then(
+                                  (value) => Get.to(
+                                    () => const ReceiptListScreen(),
+                                  ),
+                                )
+                                .then((value) =>
+                                    AddReceiptsRepo.instance.paymentMood = '');
+                            print('POD');
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                width: 1,
+                                color: !isDarkMood
+                                    ? kMainColorLight.withOpacity(0.6)
+                                    : kMainComplimemtColorLight
+                                        .withOpacity(0.8),
+                              ),
+                            ),
+                            height: screenSize.height * 0.1,
+                            width: screenSize.width * 0.35,
+                            // color: kTextFieldDarkBorderColor,
+                            child: const Center(child: Text('Pay On Delivery')),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 
   UserModel? _userModel;

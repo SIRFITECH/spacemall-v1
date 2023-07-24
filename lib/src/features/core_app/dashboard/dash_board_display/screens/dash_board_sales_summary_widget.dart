@@ -14,13 +14,21 @@ class DashBoardSalesSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final textTheme = Theme.of(context).textTheme;
+    final media = MediaQuery.of(context);
+    final brightness = media.platformBrightness;
+    final isDarkMood = brightness == Brightness.dark;
+    final screenSize = media.size;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 200.0, horizontal: 90),
+      padding: EdgeInsets.symmetric(
+        vertical: screenSize.height * 0.25,
+        horizontal: screenSize.width * 0.2,
+      ),
       child: Positioned(
         top: 2,
         child: Container(
-            height: 80,
-            width: 280,
+            height: screenSize.height * 0.085,
+            width: screenSize.width * 0.8,
             decoration: BoxDecoration(
               color: isDarkMood ? kLightThemeBgColor : kLightThemeBgColor,
               border: Border.all(
@@ -38,21 +46,25 @@ class DashBoardSalesSummary extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime(2100));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: Iconz(
-                      image: kCalenderIcon,
-                      color: isDarkMood ? kDarkModeIconColor : kMainColorLight,
-                      height: 40,
-                      isDarkMood: isDarkMood,
+                Padding(
+                  padding: EdgeInsets.only(left: screenSize.width * 0.013),
+                  child: GestureDetector(
+                    onTap: () {
+                      showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime(2100));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Iconz(
+                        image: kCalenderIcon,
+                        color:
+                            isDarkMood ? kDarkModeIconColor : kMainColorLight,
+                        height: 40,
+                        isDarkMood: isDarkMood,
+                      ),
                     ),
                   ),
                 ),

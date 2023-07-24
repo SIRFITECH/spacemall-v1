@@ -36,7 +36,7 @@ class DashBoardCustomerWidget extends StatelessWidget {
     List<StoreModel> storesFromBox = storeRepo.getStoresFromBox();
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         GestureDetector(
           onTap: () {
@@ -78,46 +78,89 @@ class DashBoardCustomerWidget extends StatelessWidget {
             ],
           ),
         ),
-        Container(
-          height: 40,
-          width: screenSize.width * 0.4,
-          decoration: BoxDecoration(
-            border: const Border(bottom: BorderSide.none),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.only(left: 4.0),
-            child: Center(
-                child: Obx(
-              () => DropdownButton<StoreModel>(
-                iconSize: 32,
-                icon: const Icon(
-                  Icons.arrow_drop_down,
-                  color: kBrighComplementColor,
-                ),
-                value: storeController.selectedStore.value,
-                elevation: 0,
-                dropdownColor: !isDarkMood
-                    ? kMainComplimemtColorLight.withOpacity(.4)
-                    : kBlackDark,
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                items: storesFromBox
-                    .map<DropdownMenuItem<StoreModel>>((StoreModel value) {
-                      return DropdownMenuItem<StoreModel>(
-                        value: value,
-                        child: Text(
-                          value.storeName,
-                          style: textTheme.titleSmall,
-                        ),
-                      );
-                    })
-                    .toSet()
-                    .toList(), // Ensure unique values
-                onChanged: (StoreModel? newValue) =>
-                    storeController.setStore(newValue),
+        SizedBox(
+          width: screenSize.width * 0.26,
+        ),
+        Center(
+          child: Obx(
+            () => DropdownButton<StoreModel>(
+              iconSize: 32,
+              icon: const Icon(
+                Icons.arrow_drop_down,
+                color: kBrighComplementColor,
               ),
-            )),
+              value: storeController.selectedStore.value,
+              elevation: 0,
+              dropdownColor: kTransparentColor,
+              // !isDarkMood
+              //     ? kMainComplimemtColorLight.withOpacity(.4)
+              //     : kBlackDark,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+              items: storesFromBox
+                  .map<DropdownMenuItem<StoreModel>>((StoreModel value) {
+                    return DropdownMenuItem<StoreModel>(
+                      value: value,
+                      child: Text(
+                        value.storeName,
+                        style: textTheme.titleSmall,
+                      ),
+                    );
+                  })
+                  .toSet()
+                  .toList(),
+              onChanged: (StoreModel? newValue) =>
+                  storeController.setStore(newValue),
+            ),
           ),
+        ),
+        // Container(
+        //   height: 40,
+        //   width: screenSize.width * 0.3,
+        //   decoration: BoxDecoration(
+        //     border: const Border(bottom: BorderSide.none),
+        //     borderRadius: BorderRadius.circular(5),
+        //   ),
+        //   child: Center(
+        //     child: Obx(
+        //       () => DropdownButton<StoreModel>(
+        //         iconSize: 32,
+        //         icon: const Icon(
+        //           Icons.arrow_drop_down,
+        //           color: kBrighComplementColor,
+        //         ),
+        //         value: storeController.selectedStore.value,
+        //         elevation: 0,
+        //         dropdownColor: !isDarkMood
+        //             ? kMainComplimemtColorLight.withOpacity(.4)
+        //             : kBlackDark,
+        //         borderRadius: const BorderRadius.all(Radius.circular(10)),
+        //         items: storesFromBox
+        //             .map<DropdownMenuItem<StoreModel>>((StoreModel value) {
+        //               return DropdownMenuItem<StoreModel>(
+        //                 value: value,
+        //                 child: Text(
+        //                   value.storeName,
+        //                   style: textTheme.titleSmall,
+        //                 ),
+        //               );
+        //             })
+        //             .toSet()
+        //             .toList(),
+        //         onChanged: (StoreModel? newValue) =>
+        //             storeController.setStore(newValue),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+
+        SizedBox(
+          width: screenSize.width * 0.005,
+        ),
+        Iconz(
+          isDarkMood: isDarkMood,
+          image: kMallIcon,
+          height: kMallIconzHeight,
+          color: isDarkMood ? kWhiteDark : kBrighComplementColor,
         ),
       ],
     );

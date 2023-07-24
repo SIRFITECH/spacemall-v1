@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/screens/payment_summary.dart';
@@ -7,6 +7,7 @@ import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/image_strings.dart';
+import '../application/sales_controller.dart';
 
 class SalesScreen extends StatelessWidget {
   const SalesScreen({super.key});
@@ -18,13 +19,10 @@ class SalesScreen extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    // SalesController salesController = Get.put(
-    //   SalesController(),
-    // );
-
-    DateTime now = DateTime.now();
-    String date = DateFormat('d MMM').format(now);
-
+    SalesController salesController = Get.put(
+      SalesController(),
+    );
+    salesController.date.value = DateFormat('d MMM').format(DateTime.now());
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
@@ -67,19 +65,30 @@ class SalesScreen extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(
-                          Icons.arrow_back,
+                        IconButton(
                           color: !isDarkMood
                               ? kBlackDark.withOpacity(0.5)
                               : kTextFieldDarkBorderColor.withOpacity(0.5),
+                          icon: const Icon(
+                            Icons.arrow_back,
+                          ),
+                          onPressed: () {
+                            salesController.pickYesterday(context);
+                          },
                         ),
                         GestureDetector(
-                          onTap: () {
-                            showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2020),
-                                lastDate: DateTime(2100));
+                          onTap: () async {
+                            DateTime selectedDate =
+                                await salesController.pickDate(context);
+
+                            // ignore: unnecessary_null_comparison
+                            if (selectedDate != null) {
+                              salesController.date.value =
+                                  DateFormat('d MMM').format(selectedDate);
+                            } else {
+                              salesController.date.value =
+                                  DateFormat('d MMM').format(DateTime.now());
+                            }
                           },
                           child: Row(
                             children: [
@@ -90,21 +99,27 @@ class SalesScreen extends StatelessWidget {
                                     : kTextFieldDarkBorderColor
                                         .withOpacity(0.5),
                               ),
-                              Text(
-                                date,
-                                // ' $kReportTodayText : ${salesController.date.value} ',
-                                style: const TextStyle(
-                                  color: kGreyColor,
+                              Obx(
+                                () => Text(
+                                  ' $kReportTodayText : ${salesController.date.value} ',
+                                  style: const TextStyle(
+                                    color: kGreyColor,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
                         ),
-                        Icon(
-                          Icons.arrow_forward_outlined,
+                        IconButton(
                           color: !isDarkMood
                               ? kBlackDark.withOpacity(0.5)
                               : kTextFieldDarkBorderColor.withOpacity(0.5),
+                          icon: const Icon(
+                            Icons.arrow_forward_outlined,
+                          ),
+                          onPressed: () {
+                            salesController.pickTommorow(context);
+                          },
                         )
                       ],
                     ),
@@ -157,8 +172,7 @@ class SalesScreen extends StatelessWidget {
                                                 ? kMainColorLight
                                                     .withOpacity(0.6)
                                                 : kMainComplimemtColorLight
-                                                    .withOpacity(
-                                                        0.8), // Replace with your desired border color
+                                                    .withOpacity(0.8),
                                           ),
                                           shape: BoxShape.circle,
                                           color: Colors.transparent,

@@ -8,6 +8,7 @@ class ReceiptsController extends GetxController {
   static ReceiptsController get instance => Get.put(ReceiptsController());
 
   RxString cartTotal = '0'.obs;
+  // RxString paymentMood = ''.obs;
   RxList<ReceiptsModel> receipts = <ReceiptsModel>[].obs;
 
   void addReceipt(ReceiptsModel newReceipt) {

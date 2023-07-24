@@ -14,6 +14,7 @@ class AddReceiptsRepo extends GetxController {
   static AddReceiptsRepo get instance => Get.find();
   final AddItemRepo addItemRepo = Get.put(AddItemRepo());
   final ReceiptsController receiptsController = Get.find();
+  String paymentMood = '';
 
   ///PHONE OPERATIONS
 
@@ -49,7 +50,7 @@ class AddReceiptsRepo extends GetxController {
       receiptId: const Uuid().v4(),
       cartId: '',
       itemsInCart: CartItemController.instance.cartItems.length.toString(),
-      paymentMethod: '',
+      paymentMethod: paymentMood,
     );
 
     // Add the new receipt item to the store's receipts list

@@ -6,6 +6,7 @@ import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_customer_widget.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_low_stock_widget.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_sales_summary_widget.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/application/nav_bar_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/screens/bottom_nav_bar_screen.dart';
 import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
@@ -27,6 +28,9 @@ class DashBoard extends StatelessWidget {
     final screenSize = media.size;
     Get.put(
       StoreRepo(),
+    );
+    Get.put(
+      SalesController(),
     );
 
     final StoreRepo storeRepo = StoreRepo();

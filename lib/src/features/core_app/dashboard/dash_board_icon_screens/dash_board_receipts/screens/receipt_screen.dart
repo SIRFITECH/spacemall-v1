@@ -147,24 +147,35 @@ class ReceiptListScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: Container(
-                    color: isDarkMood
-                        ? kMainComplimemtColorLight.withOpacity(0.2)
-                        : kLightModeBackgroundColor.withOpacity(0.2),
-                    height: MediaQuery.of(context).size.height * 0.55,
-                    child: Scrollbar(
-                      child: ListView.builder(
-                          itemCount: receipstList.length,
-                          itemBuilder: (context, index) {
-                            ReceiptsModel receipts = store.receipts[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 16.0, bottom: 8, right: 16, top: 4),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: Container(
+                  color: isDarkMood
+                      ? kMainComplimemtColorLight.withOpacity(0.2)
+                      : kLightModeBackgroundColor.withOpacity(0.2),
+                  height: screenSize.height * 0.55,
+                  child: Scrollbar(
+                    child: ListView.builder(
+                        itemCount: receipstList.length,
+                        itemBuilder: (context, index) {
+                          ReceiptsModel receipts = store.receipts[index];
+                          return Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(5),
+                              ),
+                              side: BorderSide(
+                                color: !isDarkMood
+                                    ? kTextFieldLightBorderColor
+                                        .withOpacity(0.5)
+                                    : kTextFieldDarkBorderColor
+                                        .withOpacity(0.5),
+                                width: 1.0,
+                              ),
+                            ),
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -174,64 +185,62 @@ class ReceiptListScreen extends StatelessWidget {
                                     children: [
                                       Text(
                                         receipts.customerName,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineMedium,
                                       ),
-                                      Text(
-                                        nairaFormat.format(
-                                          double.parse(
-                                            receipts.cartTotal,
-                                          ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
+                                          children: [
+                                            Text(
+                                              nairaFormat.format(
+                                                double.parse(
+                                                  receipts.cartTotal,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0, bottom: 8),
+                                              child: Text(
+                                                'by ${receipts.paymentMethod}',
+                                                style: TextStyle(fontSize: 12),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineMedium,
                                       ),
                                     ],
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8.0, bottom: 8),
-                                    child: Text(
-                                      'by cash',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '${receipts.itemsInCart} items',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium,
-                                      ),
-                                      const SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text(
-                                        DateFormat('d MMM, yyyy').format(
-                                          receipts.date,
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${receipts.itemsInCart} items',
+                                          style: TextStyle(fontSize: 12),
                                         ),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium,
-                                      ),
-                                    ],
-                                  ),
-                                  Divider(
-                                    color: isDarkMood ? kBlack : kWhiteDark,
-                                    height: 0.02,
-                                    thickness: 0.7,
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          DateFormat('d MMM, yyyy').format(
+                                            receipts.date,
+                                          ),
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
-                            );
-                          }),
-                    )),
-              ),
+                            ),
+                          );
+                        }),
+                  )),
             ),
             Padding(
               padding:

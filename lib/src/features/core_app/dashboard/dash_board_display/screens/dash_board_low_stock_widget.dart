@@ -19,8 +19,12 @@ class DashBaordLowStockWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.of(context);
+    final brightness = media.platformBrightness;
+    final isDarkMood = brightness == Brightness.dark;
+    final screenSize = media.size;
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         GestureDetector(
           onTap: () {
@@ -62,24 +66,27 @@ class DashBaordLowStockWidget extends StatelessWidget {
             ],
           ),
         ),
+        SizedBox(
+          width: screenSize.width * 0.42,
+        ),
         GestureDetector(
           onTap: () {
             Get.to(() => const MallScreen());
           },
-          child: Column(
+          child: Row(
             children: [
+              Text(
+                kMallText,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(
+                width: 4,
+              ),
               Iconz(
                 isDarkMood: isDarkMood,
                 image: kMallIcon,
                 height: kMallIconzHeight,
                 color: isDarkMood ? kWhiteDark : kBrighComplementColor,
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Text(
-                kMallText,
-                style: Theme.of(context).textTheme.titleLarge,
               ),
             ],
           ),
