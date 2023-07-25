@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
 import 'package:spacemall/src/features/auth/application/otp_controller/otp_controller.dart';
-import 'package:spacemall/src/features/auth/screens/login/login.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
+import 'package:spacemall/src/features/auth/screens/splash_screen/splash_screen.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
@@ -109,6 +109,9 @@ void main() async {
   storeBox = await Hive.openBox<StoreModel>('store');
   receiptsBox = await Hive.openBox<ReceiptsModel>('receipt');
   receiptsBox = await Hive.openBox<CategoryModel>('category');
+  customersBox = await Hive.openBox<CustomerModel>('customers');
+  salesBox = await Hive.openBox<SalesModel>('sales');
+  debtsBox = await Hive.openBox<CustomerModel>('debts');
 
   runApp(const SpacemallApp());
 }
@@ -135,7 +138,7 @@ class SpacemallApp extends StatelessWidget {
             if (snapshot.data!) {
               return DashBoard();
             } else {
-              return const Login();
+              return const ChooseUserType();
             }
           }
           return const Scaffold(

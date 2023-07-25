@@ -8,6 +8,7 @@ import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 
+import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_receipts/screens/receipt_screen.dart';
@@ -31,8 +32,9 @@ class CartItemController extends GetxController {
   RxDouble totalCartDiscount = 0.0.obs;
   RxDouble totalCartTax = 0.0.obs;
   RxInt tapedIndex = (-1).obs;
-  RxInt items = RxInt(0);
+  RxInt items = 0.obs;
   RxBool isFirstTime = true.obs;
+  int indexValue = 0;
 
   double discountRate = 0.1;
   double taxRate = 0.075;
@@ -161,8 +163,51 @@ class CartItemController extends GetxController {
     );
   }
 
+  updateItemState(index) {
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
+    // int quantity = cartItems[index].quantityInCart + 1;
+    // cartItems[index].quantityInCart = quantity;
+    // String priceString = cartItems[index].price.toString();
+    // String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
+    // String quantityInCartString = cartItems[index].quantityInCart.toString();
+    // String numQuantityInCartString =
+    //     quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
+    // double initCost =
+    //     double.parse(numQuantityInCartString) * int.parse(numPriceString);
+    // double cost = initCost;
+    // CartItemController.instance.items.value++;
+
+    // cartItems[index].subTotal = cost;
+    String itemQuantityString = (int.parse(store.stock[index].itemQuantity) -
+            cartItems[index].quantityInCart)
+        .toString();
+
+    store.stock[index].itemQuantity = itemQuantityString;
+    items.value = 0;
+
+    print(itemQuantityString);
+  }
+
   Future<dynamic> showMoodOfPayment(
-      BuildContext context, Size screenSize, bool isDarkMood) {
+      BuildContext context, Size screenSize, bool isDarkMood, int index) {
     return showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -208,8 +253,10 @@ class CartItemController extends GetxController {
                                     () => const ReceiptListScreen(),
                                   ),
                                 )
-                                .then((value) =>
-                                    AddReceiptsRepo.instance.paymentMood = '');
+                                .then((value) {
+                              updateItemState(index);
+                              AddReceiptsRepo.instance.paymentMood = '';
+                            });
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -217,9 +264,7 @@ class CartItemController extends GetxController {
                               border: Border.all(
                                 width: 1,
                                 color: !isDarkMood
-                                    ?
-                                    // kWhiteLight
-                                    kMainColorLight.withOpacity(0.6)
+                                    ? kMainColorLight.withOpacity(0.6)
                                     : kMainComplimemtColorLight
                                         .withOpacity(0.8),
                               ),
@@ -242,9 +287,10 @@ class CartItemController extends GetxController {
                                     () => const ReceiptListScreen(),
                                   ),
                                 )
-                                .then((value) =>
-                                    AddReceiptsRepo.instance.paymentMood = '');
-                            print('card');
+                                .then((value) {
+                              updateItemState(index);
+                              AddReceiptsRepo.instance.paymentMood = '';
+                            });
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -289,9 +335,10 @@ class CartItemController extends GetxController {
                                     () => const ReceiptListScreen(),
                                   ),
                                 )
-                                .then((value) =>
-                                    AddReceiptsRepo.instance.paymentMood = '');
-                            print('Transfer');
+                                .then((value) {
+                              updateItemState(index);
+                              AddReceiptsRepo.instance.paymentMood = '';
+                            });
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -306,7 +353,6 @@ class CartItemController extends GetxController {
                             ),
                             height: screenSize.height * 0.1,
                             width: screenSize.width * 0.35,
-                            // color: kTextFieldDarkBorderColor,
                             child: const Center(child: Text('Transfer')),
                           ),
                         ),
@@ -323,9 +369,10 @@ class CartItemController extends GetxController {
                                     () => const ReceiptListScreen(),
                                   ),
                                 )
-                                .then((value) =>
-                                    AddReceiptsRepo.instance.paymentMood = '');
-                            print('POD');
+                                .then((value) {
+                              updateItemState(index);
+                              AddReceiptsRepo.instance.paymentMood = '';
+                            });
                           },
                           child: Container(
                             decoration: BoxDecoration(

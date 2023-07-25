@@ -5,8 +5,8 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
-import 'package:spacemall/src/features/core_app/check_out/screens/pay_later.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/screens/add_debts.dart';
 // import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/data/receipts_repo.dart';
 // import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/screens/receipt_screen.dart';
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
@@ -32,6 +32,8 @@ class ConfirmPayment extends StatelessWidget {
 
     final CartItemController cartItemController = Get.find();
     cartItemController.onInit();
+
+    // int indexValue;
 
     // StoreModel store = storeBox.get(
     //   AddItemRepo.instance.currentStore.value,
@@ -116,9 +118,10 @@ class ConfirmPayment extends StatelessWidget {
                       itemCount: cartItemController.cartItems.length,
                       itemBuilder: (context, index) {
                         var stockList = cartItemController.cartItems[index];
+                        cartItemController.indexValue = index;
 
                         return SizedBox(
-                          height: screenSize.height * 0.1,
+                          height: screenSize.height * 0.07,
                           child: Column(
                             children: [
                               if (index < cartItemController.cartItems.length)
@@ -153,11 +156,6 @@ class ConfirmPayment extends StatelessWidget {
                                           width: 1.0,
                                         ),
                                       ),
-                                      // color: !isDarkMood
-                                      //     ? kWhiteLight
-                                      //     : kDarkModeBackgroundColor
-                                      //         .withOpacity(0.7),
-                                      // color: kTransparentColor,
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
@@ -390,7 +388,7 @@ class ConfirmPayment extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      Get.to(() => const PayLater());
+                      Get.to(() => const AddToDebt());
                     },
                     child: ClickableText(
                         isDarkMood: isDarkMood, text: kPayLaterText),
@@ -412,7 +410,11 @@ class ConfirmPayment extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   cartItemController.showMoodOfPayment(
-                      context, screenSize, isDarkMood);
+                    context,
+                    screenSize,
+                    isDarkMood,
+                    cartItemController.indexValue,
+                  );
 
                   // ReceiptsController.instance.cartTotal.value =
                   //     cartItemController.totalCartTotal.value.toString();

@@ -17,10 +17,7 @@ class AddCategoryController extends GetxController {
 
   final TextEditingController categoryName = TextEditingController();
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  // }
+  int selectedIndex = 0;
 
   RxBool noCategory = true.obs;
   // category dropdown

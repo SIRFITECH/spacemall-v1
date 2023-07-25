@@ -205,7 +205,8 @@ class ReceiptListScreen extends StatelessWidget {
                                                   left: 8.0, bottom: 8),
                                               child: Text(
                                                 'by ${receipts.paymentMethod}',
-                                                style: TextStyle(fontSize: 12),
+                                                style: const TextStyle(
+                                                    fontSize: 12),
                                               ),
                                             ),
                                           ],
@@ -221,7 +222,7 @@ class ReceiptListScreen extends StatelessWidget {
                                       children: [
                                         Text(
                                           '${receipts.itemsInCart} items',
-                                          style: TextStyle(fontSize: 12),
+                                          style: const TextStyle(fontSize: 12),
                                         ),
                                         const SizedBox(
                                           width: 5,
@@ -230,7 +231,7 @@ class ReceiptListScreen extends StatelessWidget {
                                           DateFormat('d MMM, yyyy').format(
                                             receipts.date,
                                           ),
-                                          style: TextStyle(fontSize: 12),
+                                          style: const TextStyle(fontSize: 12),
                                         ),
                                       ],
                                     ),

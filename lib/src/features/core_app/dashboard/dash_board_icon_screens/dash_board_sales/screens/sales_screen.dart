@@ -215,6 +215,26 @@ class SalesScreen extends StatelessWidget {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'N20,000',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            'Sold on 25 Jul, 2023',
+                                            style: TextStyle(
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   ),
                                 ],

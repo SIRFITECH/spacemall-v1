@@ -226,7 +226,10 @@ class AddStock extends StatelessWidget {
                                                     : kMainColorDark,
                                               ),
                                               value:
-                                                  // store.categories.first,
+                                                  // store.categories[
+                                                  //     AddCategoryController
+                                                  //         .instance.selectedIndex
+                                                  //     ],
 
                                                   addCategoryController
                                                       .categoryValue.value,

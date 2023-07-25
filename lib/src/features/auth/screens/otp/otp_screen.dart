@@ -16,7 +16,6 @@ class OTPScreen extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    // final otpController = Get.put(OtpController());
     final OtpController otpController = Get.find();
 
     return Scaffold(
@@ -27,10 +26,8 @@ class OTPScreen extends StatelessWidget {
           ListView(
             children: [
               OTPHeader(screenSize: screenSize),
-              // Pinput feild
               PinputWidget(
                   otpController: otpController, isDarkMood: isDarkMood),
-              // verify button
               OTPFooter(otpController: otpController)
             ],
           ),

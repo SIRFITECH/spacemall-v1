@@ -7,7 +7,6 @@ import 'package:spacemall/src/features/auth/application/on_boarding_controller/o
 
 class OnBoarding extends StatelessWidget {
   const OnBoarding({super.key});
-  static String id = 'on_boarding_screen';
 
   @override
   Widget build(BuildContext context) {

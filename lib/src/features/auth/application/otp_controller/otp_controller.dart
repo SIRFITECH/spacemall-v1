@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:spacemall/src/features/auth/application/splash_controller/splash_controller.dart';
-import 'package:spacemall/src/features/auth/screens/splash_screen/splash_screen.dart';
+import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
 
@@ -21,7 +21,7 @@ class OtpController extends GetxController {
     AuthRepo.instance.setSignedIn();
     isVerified && exists
         ? Get.offAll(() => DashBoard())
-        : Get.offAll(() => const ChooseUserType());
+        : Get.offAll(() => const OnBoarding());
     isLoading.value = false;
   }
 }
