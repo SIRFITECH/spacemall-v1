@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/application/date_widget_controller.dart';
 
 class TextFeildWidget extends StatelessWidget {
@@ -122,7 +124,10 @@ class DateFeildWidget extends StatelessWidget {
                   dateFieldController.toggleDate();
 
                   DateTime selectedDate =
-                      await dateFieldController.pickDate(context);
+                      defaultTargetPlatform == TargetPlatform.iOS
+                          ? await SalesController.instance
+                              .pickiOSDate(context, screenSize)
+                          : await SalesController.instance.pickDate(context);
 
                   // ignore: unnecessary_null_comparison
                   if (selectedDate != null) {

@@ -8,7 +8,7 @@ part of 'receipts_model.dart';
 
 class ReceiptsModelAdapter extends TypeAdapter<ReceiptsModel> {
   @override
-  final int typeId = 17;
+  final int typeId = 2;
 
   @override
   ReceiptsModel read(BinaryReader reader) {
@@ -27,7 +27,7 @@ class ReceiptsModelAdapter extends TypeAdapter<ReceiptsModel> {
       receiptId: fields[7] as String,
       cartId: fields[8] as String,
       itemsInCart: fields[9] as String,
-      paymentMethod: fields[10] as String,
+      paymentMethod: fields[11] as String,
     );
   }
 
@@ -55,7 +55,7 @@ class ReceiptsModelAdapter extends TypeAdapter<ReceiptsModel> {
       ..write(obj.cartId)
       ..writeByte(9)
       ..write(obj.itemsInCart)
-      ..writeByte(10)
+      ..writeByte(11)
       ..write(obj.paymentMethod);
   }
 

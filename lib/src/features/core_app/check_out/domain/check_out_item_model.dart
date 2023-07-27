@@ -1,12 +1,24 @@
+import 'package:hive/hive.dart';
+
+part 'check_out_item_model.g.dart';
+
+@HiveType(typeId: 9)
 class CartItemModel {
+  @HiveField(0)
   String itemId;
+  @HiveField(1)
   String itemName;
+  @HiveField(2)
   int quantityInCart;
+  @HiveField(3)
   String price;
-  String totalItemPrice; // total item price after deductions - tax & discount
-  double
-      subTotal; // total price before deductions - tax & discount = price * qauntityInCart
+  @HiveField(4)
+  String totalItemPrice;
+  @HiveField(5)
+  double subTotal;
+  @HiveField(6)
   double discount;
+  @HiveField(7)
   double tax;
 
   CartItemModel({

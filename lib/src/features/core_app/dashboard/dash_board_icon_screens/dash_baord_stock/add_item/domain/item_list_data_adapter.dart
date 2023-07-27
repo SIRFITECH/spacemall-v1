@@ -2,7 +2,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class ItemListDataAdapter extends TypeAdapter<List<Map<String, dynamic>>> {
   @override
-  final typeId = 2; // Assign a unique ID for the adapter
+  final typeId = 1;
 
   @override
   List<Map<String, dynamic>> read(BinaryReader reader) {

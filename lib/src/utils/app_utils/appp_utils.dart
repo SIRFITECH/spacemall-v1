@@ -84,37 +84,3 @@ void dialogBox(
     );
   });
 }
-
-// Widget showComingSoonAlert(BuildContext context) {
-//   return AlertDialog(
-//       title: Text('Coming Soon'),
-//       content: Text('This page is coming soon.'),
-//       actions: [
-//         ElevatedButton(
-//           onPressed: () {
-//             Get.back(); // Close the dialog
-//             addTagController.isAlertShown.value = false; // Reset the flag
-//           },
-//           child: Text('OK'),
-//         ),
-//       ]);
-
-//   // showDialog(
-//   //   context: context,
-//   //   builder: (BuildContext context) {
-//   //     return AlertDialog(
-//   //       title: Text('Coming Soon'),
-//   //       content: Text('This page is coming soon.'),
-//   //       actions: [
-//   //         ElevatedButton(
-//   //           onPressed: () {
-//   //             addTagController.isAlertShown.value = false;
-//   //             Get.back(); // Close the dialog
-//   //           },
-//   //           child: Text('OK'),
-//   //         ),
-//   //       ],
-//   //     );
-//   //   },
-//   // );
-// }

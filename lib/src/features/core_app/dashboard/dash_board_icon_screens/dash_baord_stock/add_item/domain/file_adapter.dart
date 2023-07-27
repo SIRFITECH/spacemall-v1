@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class FileAdapter extends TypeAdapter<File> {
   @override
-  final typeId = 0; // Assign a unique ID for the adapter
+  final typeId = 0;
 
   @override
   File read(BinaryReader reader) {

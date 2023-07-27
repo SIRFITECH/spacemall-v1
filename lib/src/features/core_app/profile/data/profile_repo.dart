@@ -189,6 +189,17 @@ class ProfileRepo extends GetxController {
   }
 
   Rx<ThemeMode> themeMood = ThemeMode.system.obs;
+  // IconButton(
+  //          onPressed: () {
+  //            if (Get.isDarkMode) {
+  //              themeController.changeTheme(Themes.lightTheme);
+  //              themeController.saveTheme(false);
+  //            } else {
+  //              themeController.changeTheme(Themes.darkTheme);
+  //              themeController.saveTheme(true); }},
+  //          icon: Get.isDarkMode
+  //              ? const Icon(Icons.light_mode_outlined)
+  //              : const Icon(Icons.dark_mode_outlined),)
   void toggleThemeMode() {
     // themeMood.value == ThemeMode.dark
     //     ? SAppTheme.darkTheme

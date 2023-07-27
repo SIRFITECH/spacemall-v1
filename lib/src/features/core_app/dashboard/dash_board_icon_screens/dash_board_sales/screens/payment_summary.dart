@@ -5,6 +5,11 @@ import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widge
 
 import '../../../../../../constants/image_strings.dart';
 import '../../../../../../constants/text_strings.dart';
+import '../../../../../../repository/hive_boxes.dart';
+import '../../../../store/domain/store_model.dart';
+import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
+import '../application/sales_controller.dart';
+import '../domain/sales_model.dart';
 
 class PaymentSummary extends StatefulWidget {
   const PaymentSummary({super.key});
@@ -21,7 +26,24 @@ class _PaymentSummaryState extends State<PaymentSummary> {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    TextEditingController controller = TextEditingController();
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
 
     return Scaffold(
       appBar: MyAppBar(
@@ -84,7 +106,7 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                       TextFeildWidget(
                         screenSize: screenSize,
                         isDarkMood: isDarkMood,
-                        controller: controller,
+                        controller: SalesController.instance.paymentMethod,
                         keyboardType: TextInputType.text,
                         hintText: kSalesMEthodOfPaymentHintText,
                         labelText: kSalesMEthodOfPaymentText,
@@ -98,7 +120,7 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                       TextFeildWidget(
                         screenSize: screenSize,
                         isDarkMood: isDarkMood,
-                        controller: controller,
+                        controller: SalesController.instance.amount,
                         keyboardType: TextInputType.number,
                         hintText: kSalesAmountHintText.toUpperCase(),
                         labelText: kSalesAmountText.toUpperCase(),
@@ -115,7 +137,7 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                           TextFeildWidget(
                             screenSize: screenSize,
                             isDarkMood: isDarkMood,
-                            controller: controller,
+                            controller: SalesController.instance.dueDate,
                             keyboardType: TextInputType.datetime,
                             hintText: kSalesDateHintText.toUpperCase(),
                             labelText: kSalesDateText.toUpperCase(),
@@ -126,7 +148,7 @@ class _PaymentSummaryState extends State<PaymentSummary> {
                           TextFeildWidget(
                             screenSize: screenSize,
                             isDarkMood: isDarkMood,
-                            controller: controller,
+                            controller: SalesController.instance.dueTime,
                             keyboardType: TextInputType.datetime,
                             hintText: kSalesTimeHintText.toUpperCase(),
                             labelText: kSalesTimeText.toUpperCase(),

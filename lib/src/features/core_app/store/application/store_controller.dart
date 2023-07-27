@@ -121,4 +121,11 @@ class StoreController extends GetxController {
     }
     return result;
   }
+
+// shows if the store is open or not
+
+  final storeStatus = true.obs;
+  void storeStatusOpen(bool isOpen) {
+    storeStatus(isOpen);
+  }
 }

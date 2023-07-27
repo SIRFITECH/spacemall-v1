@@ -7,8 +7,10 @@ import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
 import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
+import 'package:spacemall/src/utils/themes/app_theme_mood.dart';
 import 'package:spacemall/src/utils/themes/custom_text_styles.dart';
 
+import '../../../../utils/themes/themes.dart';
 import '../../settings/screens/settings_screen.dart';
 
 class SpacemallDrawer extends StatelessWidget {
@@ -21,6 +23,8 @@ class SpacemallDrawer extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
     final profileRepo = Get.put(ProfileRepo());
+    final themeController = Get.put(ThemeController());
+
     return FutureBuilder<UserModel?>(
         future: profileRepo.getUserDataFromPhone(),
         builder: (context, snapshot) {
@@ -159,6 +163,13 @@ class SpacemallDrawer extends StatelessWidget {
                         SizedBox(height: screenSize.height * 0.25),
                         GestureDetector(
                           onTap: () {
+                            if (Get.isDarkMode) {
+                              themeController.changeTheme(SAppTheme.lightTheme);
+                              themeController.saveTheme(false);
+                            } else {
+                              themeController.changeTheme(SAppTheme.darkTheme);
+                              themeController.saveTheme(true);
+                            }
                             profileRepo.toggleThemeMode();
                             // showModalBottomSheet(
                             //   context: context,

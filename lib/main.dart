@@ -7,6 +7,7 @@ import 'package:spacemall/src/features/auth/application/otp_controller/otp_contr
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:spacemall/src/features/auth/screens/splash_screen/splash_screen.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/application/dash_baord_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/domain/category_model.dart';
@@ -19,6 +20,8 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_customers/domain/customer_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/domain/debts_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_reports/application/report_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_shopfront/application/store_front_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
@@ -53,6 +56,12 @@ void main() async {
         StoreController(storeRepo: storeRepo),
       );
       Get.put(
+        SalesController(),
+      );
+      Get.put(
+        ReportsController(),
+      );
+      Get.put(
         AddItemController(),
       );
       Get.put(
@@ -71,12 +80,14 @@ void main() async {
         ProfileRepo(),
       );
       Get.put(
+        DashBoardController(),
+      );
+      Get.put(
         DateFieldController(),
       );
       Get.put(
         OtpController(),
       );
-
       Get.put(
         ShopFrontController(),
       );
@@ -94,8 +105,8 @@ void main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(FileAdapter());
-  Hive.registerAdapter(ItemListDataAdapter());
   Hive.registerAdapter(AddItemModelAdapter());
+  Hive.registerAdapter(ItemListDataAdapter());
   Hive.registerAdapter(UserModelAdapter());
   Hive.registerAdapter(StoreModelAdapter());
   Hive.registerAdapter(CategoryModelAdapter());
@@ -103,15 +114,17 @@ void main() async {
   Hive.registerAdapter(DebtsModelAdapter());
   Hive.registerAdapter(ReceiptsModelAdapter());
   Hive.registerAdapter(SalesModelAdapter());
+  Hive.registerAdapter(CartItemModelAdapter());
   stockBox = await Hive.openBox<AddItemModel>('item_list');
-  cartBox = await Hive.openBox<CartItemModel>('cart');
+  receiptsBox = await Hive.openBox<ReceiptsModel>('receipt');
   userBox = await Hive.openBox<UserModel>('user');
   storeBox = await Hive.openBox<StoreModel>('store');
-  receiptsBox = await Hive.openBox<ReceiptsModel>('receipt');
   receiptsBox = await Hive.openBox<CategoryModel>('category');
   customersBox = await Hive.openBox<CustomerModel>('customers');
   salesBox = await Hive.openBox<SalesModel>('sales');
   debtsBox = await Hive.openBox<CustomerModel>('debts');
+  cartBox = await Hive.openBox<CartItemModel>('cart');
+  appBox = await Hive.openBox('spacemall');
 
   runApp(const SpacemallApp());
 }
@@ -124,13 +137,17 @@ class SpacemallApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final themeController = Get.put(ThemeController());
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      themeMode: ThemeMode.system,
+      themeMode:
+          // themeController.theme,
+          ThemeMode.system,
       theme: SAppTheme.lightTheme,
       darkTheme: SAppTheme.darkTheme,
       defaultTransition: Transition.leftToRightWithFade,
       transitionDuration: const Duration(milliseconds: 50),
+      // initialBinding: SpaceMallBinding(),
       home: FutureBuilder<bool>(
         future: AuthRepo.instance.checkExistingUser(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {

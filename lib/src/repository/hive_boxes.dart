@@ -11,6 +11,7 @@ late Box receiptsBox;
 late Box debtsBox;
 late Box socialsBox;
 late Box storeBox;
+late Box appBox;
 
 
 /**

@@ -64,6 +64,7 @@ class AuthRepo extends GetxController {
           Get.snackbar('Error', 'The provided phone number is not valid');
         } else {
           Get.snackbar('Error', 'Something went wrong');
+          print(e.message.toString());
         }
       },
     );

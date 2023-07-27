@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 
 part 'receipts_model.g.dart';
 
-@HiveType(typeId: 10)
+@HiveType(typeId: 2)
 class ReceiptsModel {
   @HiveField(0)
   File? logo;

@@ -102,4 +102,19 @@ class AddItemController extends GetxController {
   Future<void> addItemToPhone() async {
     addItemRepo.saveItemData().then((value) => Get.off(() => const Stock()));
   }
+
+  RxList images = [].obs;
+
+  // // Getter to get the list of images
+  // List<String> get images => _images;
+
+  // Method to add images
+  void addImage() {
+    // Add your logic to add images here
+    // For example, you can use an ImagePicker to select images from the gallery
+    // and then add the selected image to the _images list
+    // Once the image is added, it will automatically be updated in the UI
+    // as the _images list is an Observable list
+    print('add image files');
+  }
 }

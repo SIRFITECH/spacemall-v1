@@ -57,7 +57,7 @@ class AddItemsCard extends StatelessWidget {
                       children: [
                         Positioned(
                           left: screenSize.width * 0.135,
-                          bottom: screenSize.height * 0.051,
+                          bottom: screenSize.height * 0.0475,
                           // 42,
                           child: GestureDetector(
                             onTap: () {

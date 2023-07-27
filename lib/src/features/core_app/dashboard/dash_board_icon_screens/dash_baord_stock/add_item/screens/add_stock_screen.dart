@@ -10,7 +10,6 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/screens/add_category_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/add_items.dart';
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/general/custom_button.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
@@ -441,12 +440,97 @@ class AddStock extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(kAddMoreImagesText),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: AddItemsCard(
-                                  items: addItemController.moreImages),
-                            ),
+                            addItemController.images.isNotEmpty
+                                ? Row(children: [
+                                    ...addItemController.images.map((image) {
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.network(image,
+                                            height: 50, width: 50),
+                                      );
+                                    }).toList(),
+                                    GestureDetector(
+                                      onTap: () {
+                                        addItemController.addImage();
+                                      },
+                                      child: Container(
+                                        height: screenSize.height * 0.07,
+                                        width: screenSize.width * 0.15,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                            style: BorderStyle.solid,
+                                            color: kGreyColor.withOpacity(0.3),
+                                          ),
+                                        ),
+                                        child: Icon(
+                                          Icons.add,
+                                          size: 30,
+                                          color: kGreyColor.withOpacity(0.3),
+                                        ),
+                                      ),
+                                    ),
+                                  ])
+                                : GestureDetector(
+                                    onTap: () {
+                                      addItemController.addImage();
+                                    },
+                                    child: Container(
+                                      height: screenSize.height * 0.07,
+                                      width: screenSize.width * 0.15,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          style: BorderStyle.solid,
+                                          color: kGreyColor.withOpacity(0.3),
+                                        ),
+                                      ),
+                                      child: Icon(
+                                        Icons.add,
+                                        size: 30,
+                                        color: kGreyColor.withOpacity(0.3),
+                                      ),
+                                    ),
+                                  ),
+
+                            // Show the plus sign icon
+
+                            // ],)
+                            //                       Row(
+                            //                         children:
+                            //                          [
+
+                            //                           GestureDetector(
+                            //                             onTap: () {
+                            //                               addItemController.addImage();
+                            //                             },
+                            //                             child: Container(
+                            //                               height: screenSize.height * 0.07,
+                            //                               width: screenSize.width * 0.15,
+                            //                               decoration: BoxDecoration(
+                            //                                 borderRadius: BorderRadius.circular(10),
+                            //                                 border: Border.all(
+                            //                                   style: BorderStyle.solid,
+                            //                                   color: kGreyColor.withOpacity(0.3),
+                            //                                 ),
+                            //                               ),
+                            //                               child: Icon(
+                            //                                 Icons.add,
+                            //                                 size: 30,
+                            //                                 color: kGreyColor.withOpacity(0.3),
+                            //                               ),
+                            //                             ),
+                            //                           ),
+                            //                         ],
+                            //                       ),
+
+                            // Padding(
+                            //   padding:
+                            //       const EdgeInsets.symmetric(vertical: 8.0),
+                            //   child: AddItemsCard(
+                            //       items: addItemController.moreImages),
+                            // ),
                           ],
                         ),
 

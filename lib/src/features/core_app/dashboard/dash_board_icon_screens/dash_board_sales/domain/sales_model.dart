@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 
 part 'sales_model.g.dart';
 
-@HiveType(typeId: 8)
+@HiveType(typeId: 11)
 class SalesModel {
   @HiveField(0)
   String saleId;
@@ -13,12 +13,15 @@ class SalesModel {
   DateTime date;
   @HiveField(3)
   CartItemModel cart;
+  @HiveField(4)
+  String customerName;
 
   SalesModel({
     required this.saleId,
     required this.attendant,
     required this.date,
     required this.cart,
+    required this.customerName,
   });
 
   // populated from map, that is serializing the stock object from server
@@ -28,6 +31,7 @@ class SalesModel {
       attendant: map['attendant'] ?? '',
       date: map['date'] ?? '',
       cart: map['cart'] ?? '',
+      customerName: map['customerName'] ?? '',
     );
   }
 
@@ -38,6 +42,7 @@ class SalesModel {
       "saleId": saleId,
       "date": date,
       "cart": cart,
+      "customerName": customerName,
     };
   }
 }

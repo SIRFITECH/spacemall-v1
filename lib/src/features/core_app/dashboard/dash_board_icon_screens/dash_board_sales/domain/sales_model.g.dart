@@ -8,7 +8,7 @@ part of 'sales_model.dart';
 
 class SalesModelAdapter extends TypeAdapter<SalesModel> {
   @override
-  final int typeId = 10;
+  final int typeId = 11;
 
   @override
   SalesModel read(BinaryReader reader) {
@@ -21,13 +21,14 @@ class SalesModelAdapter extends TypeAdapter<SalesModel> {
       attendant: fields[1] as String,
       date: fields[2] as DateTime,
       cart: fields[3] as CartItemModel,
+      customerName: fields[4] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, SalesModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.saleId)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class SalesModelAdapter extends TypeAdapter<SalesModel> {
       ..writeByte(2)
       ..write(obj.date)
       ..writeByte(3)
-      ..write(obj.cart);
+      ..write(obj.cart)
+      ..writeByte(4)
+      ..write(obj.customerName);
   }
 
   @override

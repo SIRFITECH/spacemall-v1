@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/data/receipts_repo.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
@@ -243,6 +244,7 @@ class CartItemController extends GetxController {
                         GestureDetector(
                           onTap: () {
                             AddReceiptsRepo.instance.paymentMood = 'Cash';
+                            // SalesController.instance.payment = 'Cash';
                             ReceiptsController.instance.cartTotal.value =
                                 CartItemController.instance.totalCartTotal.value
                                     .toString();
@@ -255,6 +257,7 @@ class CartItemController extends GetxController {
                                 )
                                 .then((value) {
                               updateItemState(index);
+                              SalesController.instance.addNewSales();
                               AddReceiptsRepo.instance.paymentMood = '';
                             });
                           },
@@ -277,6 +280,7 @@ class CartItemController extends GetxController {
                         GestureDetector(
                           onTap: () {
                             AddReceiptsRepo.instance.paymentMood = 'Card';
+                            // SalesController.instance.payment = 'Card';
                             ReceiptsController.instance.cartTotal.value =
                                 CartItemController.instance.totalCartTotal.value
                                     .toString();
@@ -325,6 +329,7 @@ class CartItemController extends GetxController {
                           onTap: () {
                             AddReceiptsRepo.instance.paymentMood =
                                 'Bank Transfer';
+                            // SalesController.instance.payment = 'Bank Transfer';
                             ReceiptsController.instance.cartTotal.value =
                                 CartItemController.instance.totalCartTotal.value
                                     .toString();
@@ -359,6 +364,7 @@ class CartItemController extends GetxController {
                         GestureDetector(
                           onTap: () {
                             AddReceiptsRepo.instance.paymentMood = 'POD';
+                            // SalesController.instance.payment = 'POD';
                             ReceiptsController.instance.cartTotal.value =
                                 CartItemController.instance.totalCartTotal.value
                                     .toString();

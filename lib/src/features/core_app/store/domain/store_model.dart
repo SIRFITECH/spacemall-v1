@@ -46,6 +46,8 @@ class StoreModel {
   String accountNumber;
   @HiveField(12)
   List<CategoryModel> categories;
+  // @HiveField(13)
+  // bool storeStatus;
 
   // store constructor
   StoreModel({
@@ -62,6 +64,7 @@ class StoreModel {
     required this.customer,
     required this.storeId,
     required this.categories,
+    // required this.storeStatus
   });
 
   // populated from map, that is serializing the store object to string for server use

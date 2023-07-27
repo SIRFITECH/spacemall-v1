@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_reports/application/report_controller.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 
 import '../../../../../../constants/colors.dart';
@@ -8,17 +10,17 @@ import '../../../../../../repository/hive_boxes.dart';
 import '../../../../store/domain/store_model.dart';
 import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
 
-class RemainingStock extends StatefulWidget {
+class RemainingStock extends StatelessWidget {
   const RemainingStock({super.key});
 
-  @override
-  State<RemainingStock> createState() => _RemainingStockState();
-}
+//   @override
+//   State<RemainingStock> createState() => _RemainingStockState();
+// }
 
-bool _showGrid = true;
-int _selected = 0;
+// bool _showGrid = true;
+// int _selected = 0;
 
-class _RemainingStockState extends State<RemainingStock> {
+// class _RemainingStockState extends State<RemainingStock> {
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
@@ -173,240 +175,141 @@ class _RemainingStockState extends State<RemainingStock> {
                           )),
                         ),
                         Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 4.0,
-                            vertical: screenSize.width * 0.1,
-                          ),
-                          child:
-                              // Row(
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Center(
-                              //       child: Container(
-                              //         width: screenSize.width * 0.47,
-                              //         height: screenSize.height * 0.057,
-                              //         decoration: BoxDecoration(
-                              //           borderRadius: _showGrid
-                              //               ? BorderRadius.only(
-                              //                   topLeft: Radius.circular(35),
-                              //                   bottomLeft: Radius.circular(35),
-                              //                 )
-                              //               : BorderRadius.only(
-                              //                   topRight: Radius.circular(35),
-                              //                   bottomRight: Radius.circular(35),
-                              //                 ),
-                              //           color: _showGrid
-                              //               ? isDarkMood
-                              //                   ? kTextFieldDarkBorderColor
-                              //                   : kLightModeDashboardAppbarColor
-                              //               : _selected == 0
-                              //                   ? isDarkMood
-                              //                       ? kTransparentColor
-                              //                       : kWhiteLight
-                              //                   : isDarkMood
-                              //                       ? kTextFieldDarkBorderColor
-                              //                       : kLightModeDashboardAppbarColor,
-                              //           border: !_showGrid && _selected == 0
-                              //               ? Border.all(
-                              //                   color: isDarkMood
-                              //                       ? kTextFieldDarkBorderColor
-                              //                       : kLightModeDashboardAppbarColor,
-                              //                 )
-                              //               : null,
-                              //         ),
-                              //         child: TextButton(
-                              //           onPressed: () {
-                              //             print('Low to High');
-                              //             setState(() {
-                              //               _showGrid = true;
-                              //             });
-                              //           },
-                              //           child: Text(
-                              //             'Low to High',
-                              //             style: TextStyle(
-                              //               fontSize: 15,
-                              //               color: _showGrid
-                              //                   ? isDarkMood
-                              //                       ? kWhiteLight
-                              //                       : kWhiteDark
-                              //                   : _selected == 0
-                              //                       ? isDarkMood
-                              //                           ? kWhiteLight
-                              //                           : kBlack
-                              //                       : isDarkMood
-                              //                           ? kWhiteLight
-                              //                           : kWhiteLight,
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //     Center(
-                              //       child: Container(
-                              //         width: screenSize.width * 0.47,
-                              //         height: screenSize.height * 0.057,
-                              //         decoration: BoxDecoration(
-                              //           borderRadius: _showGrid
-                              //               ? BorderRadius.only(
-                              //                   topRight: Radius.circular(35),
-                              //                   bottomRight: Radius.circular(35),
-                              //                 )
-                              //               : BorderRadius.only(
-                              //                   topLeft: Radius.circular(35),
-                              //                   bottomLeft: Radius.circular(35),
-                              //                 ),
-                              //           color: _showGrid
-                              //               ? isDarkMood
-                              //                   ? kTransparentColor
-                              //                   : kWhiteLight
-                              //               : _selected == 1
-                              //                   ? isDarkMood
-                              //                       ? kTextFieldDarkBorderColor
-                              //                       : kLightModeDashboardAppbarColor
-                              //                   : isDarkMood
-                              //                       ? kTransparentColor
-                              //                       : kWhiteLight,
-                              //           border: !_showGrid && _selected == 1
-                              //               ? Border.all(
-                              //                   color: isDarkMood
-                              //                       ? kTextFieldDarkBorderColor
-                              //                       : kLightModeDashboardAppbarColor,
-                              //                 )
-                              //               : null,
-                              //         ),
-                              //         child: TextButton(
-                              //           onPressed: () {
-                              //             setState(() {
-                              //               _showGrid = false;
-                              //             });
-                              //             print('High to Low');
-                              //           },
-                              //           child: Text(
-                              //             'High to Low',
-                              //             style: TextStyle(
-                              //               fontSize: 15,
-                              //               color: _showGrid
-                              //                   ? kWhiteDark
-                              //                   : _selected == 1
-                              //                       ? kWhiteLight
-                              //                       : kWhiteLight,
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
-
-                              Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Center(
-                                child: Container(
-                                  width: screenSize.width * 0.47,
-                                  height: screenSize.height * 0.057,
-                                  decoration: _showGrid
-                                      ? BoxDecoration(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(35),
-                                            bottomLeft: Radius.circular(35),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 4.0,
+                              vertical: screenSize.width * 0.1,
+                            ),
+                            child: Obx(
+                              () => Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Center(
+                                    child: Container(
+                                      width: screenSize.width * 0.47,
+                                      height: screenSize.height * 0.057,
+                                      decoration: ReportsController
+                                              .instance.showLowToHigh.value
+                                          ? BoxDecoration(
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(35),
+                                                bottomLeft: Radius.circular(35),
+                                              ),
+                                              color: ReportsController.instance
+                                                      .showLowToHigh.value
+                                                  ? isDarkMood
+                                                      ? kTextFieldDarkBorderColor
+                                                      : kLightModeDashboardAppbarColor
+                                                  : isDarkMood
+                                                      ? kTransparentColor
+                                                      : kWhiteLight,
+                                            )
+                                          : BoxDecoration(
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                topLeft: Radius.circular(35),
+                                                bottomLeft: Radius.circular(35),
+                                              ),
+                                              border: Border.all(
+                                                color: ReportsController
+                                                            .instance
+                                                            .showLowToHigh
+                                                            .value ==
+                                                        false
+                                                    ? isDarkMood
+                                                        ? kTextFieldDarkBorderColor
+                                                        : kLightModeDashboardAppbarColor
+                                                    : isDarkMood
+                                                        ? kTransparentColor
+                                                        : kWhiteLight,
+                                              ),
+                                            ),
+                                      child: TextButton(
+                                        onPressed: () {
+                                          ReportsController.instance
+                                              .showLowToHigh.value = true;
+                                        },
+                                        child: Text(
+                                          'Low to High',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: isDarkMood
+                                                ? ReportsController.instance
+                                                        .showLowToHigh.value
+                                                    ? kWhiteLight
+                                                    : kWhiteDark
+                                                : ReportsController.instance
+                                                        .showLowToHigh.value
+                                                    ? kWhiteLight
+                                                    : kBlack,
                                           ),
-                                          color: _showGrid
-                                              ? isDarkMood
-                                                  ? kTextFieldDarkBorderColor
-                                                  : kLightModeDashboardAppbarColor
-                                              : isDarkMood
-                                                  ? kTransparentColor
-                                                  : kWhiteLight,
-                                        )
-                                      : BoxDecoration(
-                                          border: Border.all(
-                                            color: _showGrid == false
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Center(
+                                      child: Container(
+                                    width: screenSize.width * 0.47,
+                                    height: screenSize.height * 0.057,
+                                    decoration: ReportsController
+                                            .instance.showLowToHigh.value
+                                        ? BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topRight: Radius.circular(35),
+                                              bottomRight: Radius.circular(35),
+                                            ),
+                                            border: Border.all(
+                                              color: ReportsController.instance
+                                                      .showLowToHigh.value
+                                                  ? isDarkMood
+                                                      ? kTextFieldDarkBorderColor
+                                                      : kLightModeDashboardAppbarColor
+                                                  : isDarkMood
+                                                      ? kTransparentColor
+                                                      : kWhiteLight,
+                                            ),
+                                          )
+                                        : BoxDecoration(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                              topRight: Radius.circular(35),
+                                              bottomRight: Radius.circular(35),
+                                            ),
+                                            color: ReportsController.instance
+                                                    .showLowToHigh.value
                                                 ? isDarkMood
-                                                    ? kTextFieldDarkBorderColor
-                                                    : kLightModeDashboardAppbarColor
-                                                : isDarkMood
                                                     ? kTransparentColor
-                                                    : kWhiteLight,
+                                                    : kWhiteLight
+                                                : isDarkMood
+                                                    ? kTextFieldDarkBorderColor
+                                                    : kLightModeDashboardAppbarColor,
                                           ),
-                                        ),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      print('Low to High');
-                                      setState(() {
-                                        _showGrid = true;
-                                      });
-                                    },
-                                    child: Text(
-                                      'Low to High',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: isDarkMood
-                                            ? _showGrid
-                                                ? kWhiteLight
-                                                : kWhiteDark
-                                            : _showGrid
-                                                ? kWhiteLight
-                                                : kBlack,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Center(
-                                  child: Container(
-                                width: screenSize.width * 0.47,
-                                height: screenSize.height * 0.057,
-                                decoration: _showGrid
-                                    ? BoxDecoration(
-                                        borderRadius: const BorderRadius.only(
-                                          topRight: Radius.circular(35),
-                                          bottomRight: Radius.circular(35),
-                                        ),
-                                        border: Border.all(
-                                          color: _showGrid
-                                              ? isDarkMood
-                                                  ? kTextFieldDarkBorderColor
-                                                  : kLightModeDashboardAppbarColor
-                                              : isDarkMood
-                                                  ? kTransparentColor
+                                    child: TextButton(
+                                      onPressed: () {
+                                        ReportsController.instance.showLowToHigh
+                                            .value = false;
+                                      },
+                                      child: Text(
+                                        'High to Low',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: isDarkMood
+                                              ? ReportsController.instance
+                                                      .showLowToHigh.value
+                                                  ? kWhiteDark
+                                                  : kWhiteLight
+                                              : ReportsController.instance
+                                                      .showLowToHigh.value
+                                                  ? kBlack
                                                   : kWhiteLight,
                                         ),
-                                      )
-                                    : BoxDecoration(
-                                        color: _showGrid
-                                            ? isDarkMood
-                                                ? kTransparentColor
-                                                : kWhiteLight
-                                            : isDarkMood
-                                                ? kTextFieldDarkBorderColor
-                                                : kLightModeDashboardAppbarColor,
                                       ),
-                                child: TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _showGrid = false;
-                                    });
-                                    print('High to Low');
-                                  },
-                                  child: Text(
-                                    'High to Low',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: isDarkMood
-                                          ? _showGrid
-                                              ? kWhiteDark
-                                              : kWhiteLight
-                                          : _showGrid
-                                              ? kBlack
-                                              : kWhiteLight,
                                     ),
-                                  ),
-                                ),
-                              )),
-                            ],
-                          ),
-                        ),
+                                  )),
+                                ],
+                              ),
+                            )),
                       ],
                     ),
                   ));
