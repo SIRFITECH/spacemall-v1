@@ -13,14 +13,6 @@ import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
 class RemainingStock extends StatelessWidget {
   const RemainingStock({super.key});
 
-//   @override
-//   State<RemainingStock> createState() => _RemainingStockState();
-// }
-
-// bool _showGrid = true;
-// int _selected = 0;
-
-// class _RemainingStockState extends State<RemainingStock> {
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
@@ -53,89 +45,110 @@ class RemainingStock extends StatelessWidget {
           title: '$kReportRemainingStockText in ${store.storeName}',
           automaticallyImplyLeading: false),
       body: Container(
-        decoration: BoxDecoration(
-          color: isDarkMood
-              ? kDarkModeBackgroundColor.withAlpha(2)
-              : kWhiteLight.withAlpha(2),
-          image: DecorationImage(
-            image: !isDarkMood
-                ? const AssetImage(kBackGroundCart)
-                : const AssetImage(kBackGroundCartDarkMood),
-            fit: BoxFit.contain,
+          decoration: BoxDecoration(
+            color: isDarkMood
+                ? kDarkModeBackgroundColor.withAlpha(2)
+                : kWhiteLight.withAlpha(2),
+            image: DecorationImage(
+              image: !isDarkMood
+                  ? const AssetImage(kBackGroundCart)
+                  : const AssetImage(kBackGroundCartDarkMood),
+              fit: BoxFit.contain,
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 60,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                  side: BorderSide(
-                    color: !isDarkMood
-                        ? kTextFieldLightBorderColor.withOpacity(0.5)
-                        : kTextFieldDarkBorderColor.withOpacity(0.5),
-                    width: 1.0,
-                  ),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('5alive(Medium)'),
-                      Text('20'),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 60,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                  side: BorderSide(
-                    color: !isDarkMood
-                        ? kTextFieldLightBorderColor.withOpacity(0.5)
-                        : kTextFieldDarkBorderColor.withOpacity(0.5),
-                    width: 1.0,
-                  ),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('5alive(Medium)'),
-                      Text('35'),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 60,
-              child: Card(
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('5alive(Medium)'),
-                      Text('45'),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+          child: store.stock.isNotEmpty
+              ? ListView.builder(
+                  itemCount: store.stock.length,
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                      height: 60,
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(5),
+                          ),
+                          side: BorderSide(
+                            color: !isDarkMood
+                                ? kTextFieldLightBorderColor.withOpacity(0.5)
+                                : kTextFieldDarkBorderColor.withOpacity(0.5),
+                            width: 1.0,
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(store.stock[index].itemName),
+                              Text(
+                                store.stock[index].itemQuantity,
+                                style: TextStyle(
+                                  color: int.parse(
+                                              store.stock[index].itemQuantity) <
+                                          20
+                                      ? Colors.red
+                                      : null,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  })
+              : const Center(
+                  child: Text('No stock in the store yet'),
+                )
+
+          // Column(
+          //   children: [
+
+          //     SizedBox(
+          //       height: 60,
+          //       child: Card(
+          //         shape: RoundedRectangleBorder(
+          //           borderRadius: const BorderRadius.all(
+          //             Radius.circular(5),
+          //           ),
+          //           side: BorderSide(
+          //             color: !isDarkMood
+          //                 ? kTextFieldLightBorderColor.withOpacity(0.5)
+          //                 : kTextFieldDarkBorderColor.withOpacity(0.5),
+          //             width: 1.0,
+          //           ),
+          //         ),
+          //         child: const Padding(
+          //           padding: EdgeInsets.all(16.0),
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: [
+          //               Text('5alive(Medium)'),
+          //               Text('35'),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+          //     const SizedBox(
+          //       height: 60,
+          //       child: Card(
+          //         child: Padding(
+          //           padding: EdgeInsets.all(16.0),
+          //           child: Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: [
+          //               Text('5alive(Medium)'),
+          //               Text('45'),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //     ),
+
+          //   ],
+          // ),
+
+          ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showModalBottomSheet(

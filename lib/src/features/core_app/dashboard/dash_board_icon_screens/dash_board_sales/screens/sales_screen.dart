@@ -6,7 +6,6 @@ import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/screens/payment_summary.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
-
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/image_strings.dart';
 import '../../../../../../repository/hive_boxes.dart';
@@ -285,7 +284,13 @@ class SalesScreen extends StatelessWidget {
                                                       salesList[index]
                                                           .cart
                                                           .totalItemPrice,
-                                                      // 'N20,000',
+                                                      // nairaFormat.format(
+                                                      //   int.parse(
+                                                      //     salesList[index]
+                                                      //         .cart
+                                                      //         .totalItemPrice,
+                                                      //   ),
+                                                      // ),
                                                       style: const TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:

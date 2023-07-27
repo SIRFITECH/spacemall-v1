@@ -4,7 +4,7 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_reports/screens/remaining_stock_report.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_reports/screens/low_stock_report.dart';
 import 'package:spacemall/src/features/core_app/generic_dash_board_screens/linear_bar_indicator_widget.dart';
 import 'package:spacemall/src/features/core_app/generic_dash_board_screens/svg_icons_widget.dart';
 import 'package:spacemall/src/features/core_app/mall/screens/mall_screen.dart';
@@ -29,7 +29,7 @@ class DashBaordLowStockWidget extends StatelessWidget {
         GestureDetector(
           onTap: () {
             Get.to(
-              () => const RemainingStock(),
+              () => const LowStock(),
             );
           },
           child: Column(

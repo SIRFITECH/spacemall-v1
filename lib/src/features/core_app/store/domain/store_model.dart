@@ -48,6 +48,8 @@ class StoreModel {
   List<CategoryModel> categories;
   // @HiveField(13)
   // bool storeStatus;
+  // @HiveField(14)
+  // List<AddItemModel> lowStock;
 
   // store constructor
   StoreModel({
@@ -65,6 +67,7 @@ class StoreModel {
     required this.storeId,
     required this.categories,
     // required this.storeStatus
+    // required this.lowStock
   });
 
   // populated from map, that is serializing the store object to string for server use
