@@ -95,10 +95,14 @@ class CheckOut extends StatelessWidget {
                                   tapedIndex,
                                 );
                                 (() {
-                                  CartItemController.instance.items.value =
-                                      stockItem.itemCount++;
-                                  CartItemController.instance.items.value++;
+                                  // Check if the number of items in store is greater than the number of items in cart
 
+                                  if (stockItem.itemCount <
+                                      int.parse(stockItem.itemQuantity)) {
+                                    CartItemController.instance.items.value =
+                                        stockItem.itemCount++;
+                                    CartItemController.instance.items.value++;
+                                  }
                                   nairaFormat.format(
                                       int.parse(stockItem.itemSellingPrice));
 

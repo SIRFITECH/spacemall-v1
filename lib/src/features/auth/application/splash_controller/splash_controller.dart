@@ -9,7 +9,7 @@ class SplashController extends GetxController {
     kMallIcon,
   ];
   List role = [
-    'Own A Store',
-    'User',
+    'Your Store',
+    'Mall',
   ];
 }

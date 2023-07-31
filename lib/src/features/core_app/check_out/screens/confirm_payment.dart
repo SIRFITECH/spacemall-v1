@@ -193,12 +193,6 @@ class ConfirmPayment extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                              // CustomDivider(
-                              //   height: screenSize.height * 0.0002,
-                              //   thickness: screenSize.height * 0.002,
-                              //   color: kWhiteLight,
-                              //   margin: const EdgeInsets.all(0),
-                              // ),
                             ],
                           ),
                         );

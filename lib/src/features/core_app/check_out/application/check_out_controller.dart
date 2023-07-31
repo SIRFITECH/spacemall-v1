@@ -239,15 +239,64 @@ class CartItemController extends GetxController {
           AddItemRepo.instance.currentStore.value,
           store,
         );
-
-        print('quantity bought $itemQuantityBought of ${cartItem.itemName}');
-        print('quantity in store is $itemQuantityinStore');
-        print('new quantity in store is $newItemQuantityinStore');
       } else {
         // Handle the case where the item is not found in the store
         print('Item not found in store');
       }
     }
+  }
+
+  void completeSale(String paymentMood) async {
+    AddReceiptsRepo.instance.paymentMood = paymentMood;
+    ReceiptsController.instance.cartTotal.value =
+        CartItemController.instance.totalCartTotal.value.toString();
+    AddReceiptsRepo.instance.saveReceiptData().then((value) {
+      updateItemQuantities();
+      updateCartState();
+      Get.to(
+        () => const ReceiptListScreen(),
+      );
+    }).then(
+      (value) {
+        SalesController.instance.addNewSales();
+        AddReceiptsRepo.instance.paymentMood = '';
+        // CartItemController.instance.cartItems.clear();
+      },
+    );
+  }
+
+  void updateCartState() async {
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
+    for (var cartItem in CartItemController.instance.cartItems) {
+      int index =
+          store.stock.indexWhere((item) => item.itemId == cartItem.itemId);
+
+      if (index >= 0) {
+        store.stock[index].itemCount = 0;
+        CartItemController.instance.items.value = 0;
+      } else {
+        print('Item not found in store');
+      }
+    }
+    print(CartItemController.instance.cartItems.length);
   }
 
   Future<dynamic> showMoodOfPayment(
@@ -286,24 +335,7 @@ class CartItemController extends GetxController {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            AddReceiptsRepo.instance.paymentMood = 'Cash';
-                            // SalesController.instance.payment = 'Cash';
-                            ReceiptsController.instance.cartTotal.value =
-                                CartItemController.instance.totalCartTotal.value
-                                    .toString();
-                            AddReceiptsRepo.instance
-                                .saveReceiptData()
-                                .then((value) {
-                              updateItemQuantities();
-                              // updateItemQuantities(
-                              //     index, cartItems[index].quantityInCart);
-                              Get.to(
-                                () => const ReceiptListScreen(),
-                              );
-                            }).then((value) {
-                              SalesController.instance.addNewSales();
-                              AddReceiptsRepo.instance.paymentMood = '';
-                            });
+                            completeSale('Cash');
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -323,24 +355,7 @@ class CartItemController extends GetxController {
                         ),
                         GestureDetector(
                           onTap: () {
-                            AddReceiptsRepo.instance.paymentMood = 'Card';
-                            // SalesController.instance.payment = 'Card';
-                            ReceiptsController.instance.cartTotal.value =
-                                CartItemController.instance.totalCartTotal.value
-                                    .toString();
-                            AddReceiptsRepo.instance
-                                .saveReceiptData()
-                                .then((value) {
-                              updateItemQuantities();
-                              // updateItemQuantities(
-                              //     index, cartItems[index].quantityInCart);
-                              Get.to(
-                                () => const ReceiptListScreen(),
-                              );
-                            }).then((value) {
-                              SalesController.instance.addNewSales();
-                              AddReceiptsRepo.instance.paymentMood = '';
-                            });
+                            completeSale('Card');
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -355,7 +370,6 @@ class CartItemController extends GetxController {
                             ),
                             height: screenSize.height * 0.1,
                             width: screenSize.width * 0.35,
-                            // color: kTextFieldDarkBorderColor,
                             child: const Center(child: Text('Card')),
                           ),
                         ),
@@ -373,27 +387,7 @@ class CartItemController extends GetxController {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            AddReceiptsRepo.instance.paymentMood =
-                                'Bank Transfer';
-                            // SalesController.instance.payment = 'Bank Transfer';
-                            ReceiptsController.instance.cartTotal.value =
-                                CartItemController.instance.totalCartTotal.value
-                                    .toString();
-                            AddReceiptsRepo.instance
-                                .saveReceiptData()
-                                .then((value) {
-                              SalesController.instance.addNewSales();
-                              AddReceiptsRepo.instance.paymentMood = '';
-                            }).then((value) {
-                              SalesController.instance.addNewSales();
-                              AddReceiptsRepo.instance.paymentMood = '';
-                            }).then((value) {
-                              updateItemQuantities();
-                              // updateItemQuantities(
-                              //     index, cartItems[index].quantityInCart);
-                              SalesController.instance.addNewSales();
-                              AddReceiptsRepo.instance.paymentMood = '';
-                            });
+                            completeSale('Bank Transfer');
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -413,23 +407,7 @@ class CartItemController extends GetxController {
                         ),
                         GestureDetector(
                           onTap: () {
-                            AddReceiptsRepo.instance.paymentMood = 'POD';
-                            // SalesController.instance.payment = 'POD';
-                            ReceiptsController.instance.cartTotal.value =
-                                CartItemController.instance.totalCartTotal.value
-                                    .toString();
-                            AddReceiptsRepo.instance
-                                .saveReceiptData()
-                                .then((value) {
-                              SalesController.instance.addNewSales();
-                              AddReceiptsRepo.instance.paymentMood = '';
-                            }).then((value) {
-                              updateItemQuantities();
-                              // updateItemQuantities(
-                              //     index, cartItems[index].quantityInCart);
-                              SalesController.instance.addNewSales();
-                              AddReceiptsRepo.instance.paymentMood = '';
-                            });
+                            completeSale('POD');
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -444,7 +422,6 @@ class CartItemController extends GetxController {
                             ),
                             height: screenSize.height * 0.1,
                             width: screenSize.width * 0.35,
-                            // color: kTextFieldDarkBorderColor,
                             child: const Center(
                               child: Text('Pay On Delivery'),
                             ),
@@ -483,61 +460,114 @@ class CartItemController extends GetxController {
     CartItemModel newItem,
     BuildContext context,
   ) async {
-    if (!itemExistInCart(newItem)) {
-      // Item does not exist in cart, add it
-      UserModel? user;
-      if (_userModel == null) {
-        user = await profileRepo.getUserDataFromPhone();
+    // Get the item quantity in the store
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
+    int itemQuantityInStore = int.parse(store.stock
+        .firstWhere(
+          (item) => item.itemId == newItem.itemId,
+          orElse: () => AddItemModel(
+            itemPic: null,
+            itemName: '',
+            itemSellingPrice: '',
+            itemCategory: '',
+            itemQuantity: '0',
+            itemCostPrice: '',
+            trackProfit: false,
+            trackLowStock: false,
+            preventItemSalesWhenOutOfStock: false,
+            trackExpiry: '',
+            expiryAlert: '',
+            itemCount: 0,
+            itemId: '',
+          ),
+          // StockModel(itemName: '', itemQuantity: '0'), // Return 0 if item not found in store
+        )
+        .itemQuantity);
+
+    int quantityToAdd = newItem.quantityInCart;
+
+    // Check if item quantity is enough
+    if (itemQuantityInStore >= quantityToAdd) {
+      if (!itemExistInCart(newItem)) {
+        UserModel? user;
+        if (_userModel == null) {
+          user = await profileRepo.getUserDataFromPhone();
+        } else {
+          user = _userModel;
+        }
+
+        var cart = checkOutRepo.getCheckOutCartFromBox();
+
+        user!.cart.add(newItem);
+        cart.add(newItem);
+        cartItems.value = [...user.cart];
+
+        Get.snackbar(
+          'Operation Successful',
+          'Item added to cart successfully',
+          backgroundColor: kWhiteLight,
+          colorText: kBlack,
+        );
       } else {
-        user = _userModel;
+        // Item already exists in cart, update quantity and subtotal
+        CartItemModel existingItem = cartItems.firstWhere(
+          (item) => item.itemId == newItem.itemId,
+        );
+
+        if (existingItem.itemId.isNotEmpty) {
+          int quantity = quantityToAdd;
+          existingItem.quantityInCart = quantity;
+          String priceString = existingItem.price.toString();
+          String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
+          String quantityInCartString = existingItem.quantityInCart.toString();
+          String numQuantityInCartString =
+              quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
+          double initCost =
+              double.parse(numQuantityInCartString) * int.parse(numPriceString);
+          double cost = initCost;
+
+          existingItem.subTotal = cost;
+          Get.snackbar(
+            '$quantityToAdd ${existingItem.itemName}s added to cart',
+            'If you want to delete ${existingItem.itemName} from cart just press and hold',
+            backgroundColor: kWhiteLight,
+            colorText: kBlack,
+          );
+        } else {
+          Get.snackbar(
+            'An Error Occured',
+            'Item not found in cart',
+            backgroundColor: Colors.red,
+            colorText: kWhiteLight,
+          );
+        }
       }
-      var cart = checkOutRepo.getCheckOutCartFromBox();
-      // cartItems.value = ;
-
-      user!.cart.add(newItem);
-      cart.add(newItem);
-      cartItems.value = [...user.cart];
-
-      Get.snackbar(
-        'Operation Successful',
-        'Item added to cart successfully',
-        backgroundColor: kWhiteLight,
-        colorText: kBlack,
-      );
     } else {
-      // Item already exists in cart, update quantity and subtotal
-      CartItemModel existingItem = cartItems.firstWhere(
-        (item) => item.itemId == newItem.itemId,
+      // Item quantity is not enough, print error message
+      Get.snackbar(
+        'Error',
+        'Not enough quantity in store. Maximum quantity available: $itemQuantityInStore',
+        backgroundColor: Colors.red,
+        colorText: kWhiteLight,
       );
-
-      if (existingItem.itemId.isNotEmpty) {
-        int quantity = existingItem.quantityInCart + 1;
-        existingItem.quantityInCart = quantity;
-        String priceString = existingItem.price.toString();
-        String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
-        String quantityInCartString = existingItem.quantityInCart.toString();
-        String numQuantityInCartString =
-            quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
-        double initCost =
-            double.parse(numQuantityInCartString) * int.parse(numPriceString);
-        double cost = initCost;
-
-        existingItem.subTotal = cost;
-        Get.snackbar(
-          '1 more ${existingItem.itemName} add to cart',
-          'If you want to delete ${existingItem.itemName} from cart just press and hold',
-          backgroundColor: kWhiteLight,
-          colorText: kBlack,
-        );
-      } else {
-        Get.snackbar(
-          'An Error Occured',
-          'Item not found in cart',
-          backgroundColor: kWhiteLight,
-          colorText: kBlack,
-        );
-        // print('Item not found in cart');
-      }
     }
   }
 
