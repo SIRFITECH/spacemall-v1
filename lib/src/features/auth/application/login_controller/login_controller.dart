@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
 
 class LoginController extends GetxController {
+  static LoginController get instance => Get.find();
   RxString phone = ''.obs;
   TextEditingController phoneController = TextEditingController();
 

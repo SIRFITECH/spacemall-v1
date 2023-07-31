@@ -1,5 +1,3 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +21,9 @@ class AuthRepo extends GetxController {
 
   String? _profilePic;
   String get profilePic => _profilePic?.toString() ?? '';
+
+  String? _phoneNumber;
+  String get phoneNumber => _phoneNumber?.toString() ?? '';
 
   @override
   void onReady() {
@@ -63,6 +64,7 @@ class AuthRepo extends GetxController {
           Get.snackbar('Error', 'The provided phone number is not valid');
         } else {
           Get.snackbar('Error', 'Something went wrong');
+          print(e.message.toString());
         }
       },
     );
@@ -75,7 +77,10 @@ class AuthRepo extends GetxController {
           verificationId: verificationId.value, smsCode: otp),
     );
     if (credentials.user != null) {
+      credentials.user!.uid;
       _uid = credentials.user!.uid;
+
+      print('user is assigned the id  $_uid');
     }
     return credentials.user != null ? true : false;
   }
@@ -88,9 +93,11 @@ class AuthRepo extends GetxController {
 
     String user = access.getString('uid') ?? '';
 
+    // print(snapshot.data());
+
     if (user.isNotEmpty) {
       // && snapshot.exists
-      print('Existing User');
+
       print('Existing User id $_uid');
       print('Existing User on the phone is $user');
 

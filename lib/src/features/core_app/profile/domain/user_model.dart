@@ -1,73 +1,77 @@
+import 'package:hive_flutter/adapters.dart';
+import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
+import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
+import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
+import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
+
+part 'user_model.g.dart';
+
+@HiveType(typeId: 3)
+//
 class UserModel {
+  @HiveField(0)
   String profilePic;
-  String firstName;
-  String lastName;
+  @HiveField(1)
+  String userName;
+  @HiveField(2)
   String email;
-  String gender;
+  @HiveField(3)
   String contactNumber;
-  String whatsappNumber;
-  String homeAddress;
-  String state;
-  String city;
-  String country;
-  String zipCode;
-  String bio;
+  @HiveField(4)
+  String role;
+  @HiveField(5)
   String uid;
+  @HiveField(6)
+  String country;
+  @HiveField(7)
+  String bio;
+  @HiveField(8)
+  List<CartItemModel> cart;
+  @HiveField(9)
+  List<StoreModel> stores;
 
   UserModel({
     required this.profilePic,
-    required this.firstName,
-    required this.lastName,
+    required this.userName,
     required this.email,
-    required this.gender,
     required this.contactNumber,
-    required this.whatsappNumber,
-    required this.homeAddress,
-    required this.zipCode,
-    required this.state,
-    required this.city,
-    required this.country,
-    required this.bio,
     required this.uid,
+    required this.role,
+    required this.bio,
+    required this.cart,
+    required this.stores,
+    required this.country,
   });
 
   // populated from map, that is serializing the user object from server
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
+      cart: CartItemController.instance.convertCartItems(map['cart'] ?? []),
+      stores: StoreController.instance.convertStores(map['stores'] ?? []),
       profilePic: map['profilePic'] ?? '',
-      firstName: map['firstName'] ?? '',
-      lastName: map['lastName'] ?? '',
+      userName: map['userName'] ?? '',
       email: map['email'] ?? '',
-      gender: map['gender'] ?? '',
       contactNumber: map['contactNumber'] ?? '',
-      whatsappNumber: map['whatsappNumber'] ?? '',
-      homeAddress: map['homeAddress'] ?? '',
-      state: map['state'] ?? '',
-      city: map['city'] ?? '',
       country: map['country'] ?? '',
-      zipCode: map['zipCode'] ?? '',
-      bio: map['bio'] ?? '',
+      role: map['role'] ?? '',
       uid: map['uid'] ?? '',
+      bio: map['bio'] ?? '',
     );
   }
 
   // populated to map, that is serializing the user object to string for server use
   Map<String, dynamic> toMap() {
     return {
+      "cart": cart,
+      'stores': stores,
       "profilePic": profilePic,
-      "firstName": firstName,
-      "lastName": lastName,
+      "userName": userName,
       "email": email,
-      "gender": gender,
       "contactNumber": contactNumber,
-      "whatsappNumber": whatsappNumber,
-      "homeAddress": homeAddress,
-      "state": state,
-      "city": city,
       "country": country,
-      "zipCode": zipCode,
-      "bio": bio,
+      "role": role,
       "uid": uid,
+      "bio": bio,
     };
   }
 }

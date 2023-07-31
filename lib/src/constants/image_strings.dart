@@ -1,15 +1,21 @@
 /// --- APP IMAGE TEXT STRING ---
 
+const String kTrialImage1 = 'assets/images/welcome_image/mosnyik.jpeg';
+const String kTrailImage2 = 'assets/images/welcome_image/mos.jpg';
+const String kTrailImage3 = 'assets/images/welcome_image/logo.png';
+
 /// --- GENERIC SCREEN IMAGE STRINGS ---
 const String kBackGroundCart =
     'assets/images/backgroung_images/bckgrd-cart.png';
+const String kBackGroundCartDarkMood =
+    'assets/images/backgroung_images/bckgrd-cart-darkmood.png';
 const String kBackGroundAfrica = 'assets/images/backgroung_images/bckgrd.png';
 const String kDashboardBackGround =
     'assets/images/backgroung_images/dashboard.png';
 
 // ONBOARDING IMAGE STRINGS
-const String kOnBoardingImage1 = 'assets/images/on_boarding_images/login.png';
-const String kOnBoardingImage2 = 'assets/images/on_boarding_images/verify.png';
+const String kOnBoardingImage1 = 'assets/images/on_boarding_images/open.png';
+const String kOnBoardingImage2 = 'assets/images/on_boarding_images/bns.png';
 const String kOnBoardingImage3 = 'assets/images/on_boarding_images/welcome.png';
 
 /// --- WELCOME SCREEN IMAGE STRINGS ---
@@ -43,6 +49,7 @@ const String kDashBoardIcon = 'assets/images/navbar_images/dashboard.svg';
 const String kCheckOutIcon = 'assets/images/navbar_images/mall.svg';
 const String kProfileIcon = 'assets/images/navbar_images/profile.svg';
 const String kSettingsIcon = 'assets/images/navbar_images/settings.svg';
+const String kWalletIcon = 'assets/images/navbar_images/wallet.svg';
 
 /// --- NAVBAR IMAGE STRINGS ---
 

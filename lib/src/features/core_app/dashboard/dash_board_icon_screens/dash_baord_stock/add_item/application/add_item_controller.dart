@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_itme_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
@@ -11,22 +11,39 @@ class AddItemController extends GetxController {
   static AddItemController get instance => Get.put(
         AddItemController(),
       );
+
   static AddItemRepo addItemRepo = Get.put(
     AddItemRepo(),
   );
 
-  RxString categoryValue = 'Category'.obs;
-  final selectedIndex = 0.obs;
+  var isItemAdded = false.obs;
 
-  void setCategory(newValue) => categoryValue.value = newValue;
+  var selectedIndex = 0.obs;
 
-  final categoryItems = <String>[
-    'Category',
-    'Drinks',
-    'Protein',
-    'Snacks',
-    'Electronics',
-  ];
+  RxBool isPressed = false.obs;
+  RxInt numSelectedItems = 0.obs;
+
+  // my initial variable
+  RxList<AddItemModel> itemList = <AddItemModel>[].obs;
+
+  void setPressed() {
+    isPressed.value = true;
+    update();
+  }
+
+  void increaementSelectedItem(int tapedIndex, int index) {
+    if (tapedIndex == index
+        // && isPressed.isTrue
+        ) {
+      AddItemController.instance.numSelectedItems.value++;
+    }
+  }
+
+  void decreaementSelectedItem(int tapedIndex) {
+    if (tapedIndex >= 0) {
+      selectedIndex--;
+    }
+  }
 
   final moreImages = <String>[
     "Image 1",
@@ -35,20 +52,11 @@ class AddItemController extends GetxController {
     "Image 4",
   ];
 
-  RxList<AddItemModel> itemList = <AddItemModel>[].obs;
-
-  void addItem(AddItemModel item) {
-    itemList.add(item);
-    update();
-  }
-
   printItemList() {
-    print(itemList.length);
+    // print(itemList.length);
   }
 
   Rx<File?> itemPic = Rx(null);
-
-  // final String category = '';
   final RxBool trackProfit = false.obs;
   final RxBool trackLowStock = false.obs;
   final RxBool preventItemSalesWhenOutOfStock = false.obs;
@@ -61,49 +69,52 @@ class AddItemController extends GetxController {
 
   void setProfitTracking() {
     trackProfit.value = !trackProfit.value;
-    print('track profit is ${trackProfit.value}');
     update();
   }
 
   void setLowStockTracking() {
     trackLowStock.value = !trackLowStock.value;
-    print('Track low stock is ${trackLowStock.value}');
+
     update();
   }
 
   void setPreventItemSalesWhenOutOfStockTracking() {
     preventItemSalesWhenOutOfStock.value =
         !preventItemSalesWhenOutOfStock.value;
-    print(
-        'prevent item sale on low stock is ${preventItemSalesWhenOutOfStock.value}');
     update();
   }
 
   void selectItemImage(BuildContext context) async {
-    itemPic = (await pickImage(context));
+    itemPic.value = (await pickImage(context));
     update();
+  }
+
+  List<AddItemModel> convertStockItems(List stockFromDb) {
+    List<AddItemModel> result = [];
+    for (var item in stockFromDb) {
+      AddItemModel.fromMap(item);
+    }
+    return result;
   }
 
   getItemPic() {}
 
-  addItemToPhone() {
-    addItemRepo
-        .addItemToPhone()
-        .then((value) => Get.offAll(() => const Stock()));
-    print('itemPic is: ${AddItemController.instance.itemPic.value}');
-    print('category is: ${AddItemController.instance.categoryValue}');
-    print('Track profit is: ${AddItemController.instance.trackProfit}');
-    print('Track Low Stock is: ${AddItemController.instance.trackLowStock}');
-    print(
-        'Prevent sale is:${AddItemController.instance.preventItemSalesWhenOutOfStock}');
-    print('item name is: ${AddItemController.instance.itemName.text.trim()}');
-    print('cost price is: ${AddItemController.instance.costPrice.text.trim()}');
-    print(
-        'selling price is: ${AddItemController.instance.sellingPrice.text.trim()}');
-    print(
-        'stock available is:${AddItemController.instance.stockAvailable.text.trim()}');
-    print(
-        'track expiry is: ${AddItemController.instance.trackExpiry.text.trim()}');
-    print('Expiery is: ${AddItemController.instance.expiryAlert.text.trim()}');
+  Future<void> addItemToPhone() async {
+    addItemRepo.saveItemData().then((value) => Get.off(() => const Stock()));
+  }
+
+  RxList images = [].obs;
+
+  // // Getter to get the list of images
+  // List<String> get images => _images;
+
+  // Method to add images
+  void addImage() {
+    // Add your logic to add images here
+    // For example, you can use an ImagePicker to select images from the gallery
+    // and then add the selected image to the _images list
+    // Once the image is added, it will automatically be updated in the UI
+    // as the _images list is an Observable list
+    print('add image files');
   }
 }

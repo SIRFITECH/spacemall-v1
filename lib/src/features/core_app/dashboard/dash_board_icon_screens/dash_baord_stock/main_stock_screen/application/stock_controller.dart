@@ -3,6 +3,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 
 class StockController extends GetxController {
   static StockController get instance => Get.find();
+  // SalesController salesController = Get.put(SalesController());
 
   final items = <String>[
     "ADD ITEM",
@@ -18,5 +19,13 @@ class StockController extends GetxController {
 
   void removeStock(StockModel object) {
     stockList.remove(object);
+  }
+
+  List<StockModel> convertStockItems(List stockFromDb) {
+    List<StockModel> result = [];
+    for (var item in stockFromDb) {
+      StockModel.fromMap(item);
+    }
+    return result;
   }
 }

@@ -1,183 +1,278 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/text_strings.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
+import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
+import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
+import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
+import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
+import 'package:spacemall/src/utils/themes/app_theme_mood.dart';
+import 'package:spacemall/src/utils/themes/custom_text_styles.dart';
 
-class SpacenallDrawer extends StatelessWidget {
-  const SpacenallDrawer({super.key});
+import '../../../../utils/themes/themes.dart';
+import '../../settings/screens/settings_screen.dart';
+
+class SpacemallDrawer extends StatelessWidget {
+  const SpacemallDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Text('drawer widget');
-    //  Drawer(
-    //   backgroundColor: kMainColor,
-    //   child: ListView(children: [
-    //     Column(
-    //       children: <Widget>[
-    //         UserAccountsDrawerHeader(
-    //           accountName:
-    //               // Text('Name Of Owner'),
-    //               Text(
-    //             '${ap.userModel.firstName.toUpperCase()} ${ap.userModel.lastName.toUpperCase()}',
-    //           ),
-    //           accountEmail:
-    //               // Text("emailofowner@gmail.com"),
-    //               Text(ap.userModel.email),
-    //           currentAccountPicture: CircleAvatar(
-    //             radius: 100,
-    //             backgroundColor: Colors.transparent,
-    //             child: SizedBox(
-    //                 child: ClipOval(
-    //               child: CircleAvatar(
-    //                 radius: 100,
-    //                 backgroundColor: kMainColor.withOpacity(.01),
-    //                 backgroundImage: NetworkImage(
-    //                   ap.userModel.profilePic,
-    //                 ),
-    //               ),
-    //               // Image.asset('images/mosnyik.jpeg'),
-    //             )),
-    //           ),
-    //           otherAccountsPictures: [
-    //             CircleAvatar(
-    //               radius: 100,
-    //               backgroundColor: Colors.transparent,
-    //               child: SizedBox(
-    //                   child: ClipOval(
-    //                 child: Image.asset('images/insta.png'),
-    //               )),
-    //             ),
-    //             CircleAvatar(
-    //               radius: 100,
-    //               backgroundColor: Colors.transparent,
-    //               child: SizedBox(
-    //                   child: ClipOval(
-    //                 child: Image.asset('images/linkedin.png'),
-    //               )),
-    //             ),
-    //             CircleAvatar(
-    //               radius: 100,
-    //               backgroundColor: Colors.transparent,
-    //               child: SizedBox(
-    //                   child: ClipOval(
-    //                 child: Image.asset('images/insta.png'),
-    //               )),
-    //             ),
-    //             CircleAvatar(
-    //               radius: 100,
-    //               backgroundColor: Colors.transparent,
-    //               child: SizedBox(
-    //                   child: ClipOval(
-    //                 child: Image.asset('images/linkedin.png'),
-    //               )),
-    //             ),
-    //           ],
-    //         ),
-    //         Column(
-    //           crossAxisAlignment: CrossAxisAlignment.start,
-    //           children: [
-    //             ListTile(
-    //               onTap: () {
-    //                 Navigator.pushNamed(context, Home.id);
-    //               },
-    //               leading: const Icon(
-    //                 Icons.home_filled,
-    //                 color: kWhite,
-    //               ),
-    //               title: const Text('Home', style: kDrawerTextStyle),
-    //             ),
-    //             const Divider(
-    //               color: kWhite,
-    //               indent: 16,
-    //               endIndent: 16,
-    //             ),
-    //             ListTile(
-    //               onTap: () {
-    //                 Navigator.pushNamed(context, Profile.id);
-    //               },
-    //               leading: const Icon(
-    //                 Icons.person,
-    //                 color: kWhite,
-    //               ),
-    //               title: const Text('Profile', style: kDrawerTextStyle),
-    //             ),
-    //             const Divider(
-    //               color: kWhite,
-    //               indent: 16,
-    //               endIndent: 16,
-    //             ),
-    //             ListTile(
-    //               onTap: () {
-    //                 Navigator.pushNamed(context, SettingsHome.id);
-    //               },
-    //               leading: const Icon(
-    //                 Icons.settings,
-    //                 color: kWhite,
-    //               ),
-    //               title: const Text('Settings', style: kDrawerTextStyle),
-    //             ),
-    //             const Divider(
-    //               color: kWhite,
-    //               indent: 16,
-    //               endIndent: 16,
-    //             ),
-    //             ListTile(
-    //               onTap: () {
-    //                 Navigator.pushNamed(context, AddNewStore.id);
-    //               },
-    //               leading: const Icon(
-    //                 Icons.storefront_rounded,
-    //                 color: kWhite,
-    //               ),
-    //               title: const Text('Add New Store', style: kDrawerTextStyle),
-    //             ),
-    //             const Divider(
-    //               color: kWhite,
-    //               indent: 16,
-    //               endIndent: 16,
-    //             ),
-    //             ListTile(
-    //               onTap: () {
-    //                 Navigator.pushNamed(context, Help.id);
-    //               },
-    //               leading: const Icon(
-    //                 Icons.info,
-    //                 color: kWhite,
-    //               ),
-    //               title: const Text('Help', style: kDrawerTextStyle),
-    //             ),
-    //             const Divider(
-    //               color: kWhite,
-    //               indent: 16,
-    //               endIndent: 16,
-    //             ),
-    //             ListTile(
-    //               onTap: () {
-    //                 ap.signOut();
-    //                 Navigator.pushReplacement(
-    //                   context,
-    //                   MaterialPageRoute(
-    //                     builder: (context) => const SignIn(),
-    //                   ),
-    //                 );
-    //                 // print('Signed out');
-    //               },
-    //               leading: const Icon(
-    //                 Icons.logout_outlined,
-    //                 color: kWhite,
-    //               ),
-    //               title: const Text('Sign Out', style: kDrawerTextStyle),
-    //             ),
-    //             const SizedBox(height: 200),
-    //             const Padding(
-    //               padding: EdgeInsets.all(16.0),
-    //               child: Icon(
-    //                 Icons.lightbulb_outline_sharp,
-    //                 color: kWhite,
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //       ],
-    //     )
-    //   ]),
-    // );
+    final media = MediaQuery.of(context);
+    final brightness = media.platformBrightness;
+    final isDarkMood = brightness == Brightness.dark;
+    final screenSize = media.size;
+    final profileRepo = Get.put(ProfileRepo());
+    final themeController = Get.put(ThemeController());
+
+    return FutureBuilder<UserModel?>(
+        future: profileRepo.getUserDataFromPhone(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            UserModel? user = snapshot.data;
+            return Drawer(
+              backgroundColor: isDarkMood
+                  ? kDarkModeIconColor.withOpacity(0.7)
+                  : kLightModeBackgroundColor.withOpacity(0.7),
+              child: ListView(children: [
+                Column(
+                  children: <Widget>[
+                    UserAccountsDrawerHeader(
+                      decoration: BoxDecoration(
+                        color: isDarkMood
+                            ? kDarkModeIconColor.withOpacity(0.7)
+                            : kLightModeBackgroundColor.withOpacity(0.7),
+                      ),
+                      accountName: Text(
+                        user!.userName,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                        ),
+                      ),
+                      accountEmail: Text(user.email),
+                      currentAccountPicture: CircleAvatar(
+                        radius: 100,
+                        backgroundColor: Colors.transparent,
+                        child: SizedBox(
+                            child: ClipOval(
+                          child: CircleAvatar(
+                            radius: 100,
+                            backgroundImage: NetworkImage(
+                              user.profilePic,
+                            ),
+                          ),
+                        )),
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListTile(
+                          horizontalTitleGap: 0,
+                          onTap: () {
+                            Get.to(() => DashBoard());
+                          },
+                          leading: const Icon(
+                            Icons.home_sharp,
+                            color: kWhiteLight,
+                            size: 27,
+                          ),
+                          title: const Text(
+                            kDashBoardIconText,
+                            style: kDrawerTextStyle,
+                          ),
+                        ),
+                        ListTile(
+                          horizontalTitleGap: 0,
+                          onTap: () {
+                            Get.to(() => const ProfileScreen());
+                          },
+                          leading: const Icon(
+                            Icons.person,
+                            color: kWhiteLight,
+                          ),
+                          title: const Text(
+                            kProfileIconText,
+                            style: kDrawerTextStyle,
+                          ),
+                        ),
+                        ListTile(
+                          horizontalTitleGap: 0,
+                          onTap: () {
+                            Get.to(() => const SettingsScreen());
+                          },
+                          leading: const Icon(
+                            Icons.settings,
+                            color: kWhiteLight,
+                          ),
+                          title: const Text(
+                            kSettingIconText,
+                            style: kDrawerTextStyle,
+                          ),
+                        ),
+                        ListTile(
+                          horizontalTitleGap: 0,
+                          onTap: () {
+                            Get.to(() => const AddStore());
+                          },
+                          leading: const Icon(
+                            Icons.storefront_rounded,
+                            color: kWhiteLight,
+                          ),
+                          title: const Text(
+                            kAddNewStoreText,
+                            style: kDrawerTextStyle,
+                          ),
+                        ),
+                        ListTile(
+                          horizontalTitleGap: 0,
+                          onTap: () {},
+                          leading: const Icon(
+                            Icons.contact_support_rounded,
+                            color: kWhiteLight,
+                          ),
+                          title: const Text(
+                            kHelpText,
+                            style: kDrawerTextStyle,
+                          ),
+                        ),
+                        ListTile(
+                          horizontalTitleGap: 0,
+                          onTap: () {
+                            // ap.signOut();
+                            // Navigator.pushReplacement(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => const SignIn(),
+                            //   ),
+                            // );
+                            // // print('Signed out');
+                          },
+                          leading: const Icon(
+                            Icons.logout_sharp,
+                            color: kWhiteLight,
+                          ),
+                          title: const Text(
+                            kSignOutText,
+                            style: kDrawerTextStyle,
+                          ),
+                        ),
+                        SizedBox(height: screenSize.height * 0.25),
+                        GestureDetector(
+                          onTap: () {
+                            if (Get.isDarkMode) {
+                              themeController.changeTheme(SAppTheme.lightTheme);
+                              themeController.saveTheme(false);
+                            } else {
+                              themeController.changeTheme(SAppTheme.darkTheme);
+                              themeController.saveTheme(true);
+                            }
+                            profileRepo.toggleThemeMode();
+                            // showModalBottomSheet(
+                            //   context: context,
+                            //   builder: (context) {
+                            //     return Container(
+                            //       width: double.infinity,
+                            //       height: screenSize.height * 0.3,
+                            //       padding: EdgeInsets.all(
+                            //         screenSize.height * 0.025,
+                            //       ),
+                            //       child: Column(
+                            //         children: [
+                            //           const Text(
+                            //             kDarkMoodText,
+                            //             style: TextStyle(
+                            //               color: kBlackDark,
+                            //               fontSize: 20,
+                            //               fontWeight: FontWeight.normal,
+                            //             ),
+                            //           ),
+                            //           const SizedBox(
+                            //             height: 10,
+                            //           ),
+                            //           Column(
+                            //             crossAxisAlignment:
+                            //                 CrossAxisAlignment.start,
+                            //             children: [
+                            //               const Padding(
+                            //                 padding:
+                            //                     EdgeInsets.only(left: 10.0),
+                            //                 child: Text(kDarkMoodText),
+                            //               ),
+                            //               Row(
+                            //                 mainAxisAlignment:
+                            //                     MainAxisAlignment.start,
+                            //                 children: [
+                            //                   Column(
+                            //                     children: [
+                            //                       CustomRadio(
+                            //                           onChange: (value) {},
+                            //                           color:
+                            //                               kLightModeIconColor,
+                            //                           value: true,
+                            //                           groupValue: true),
+                            //                       const Text(kOnText)
+                            //                     ],
+                            //                   ),
+                            //                   Column(
+                            //                     children: [
+                            //                       CustomRadio(
+                            //                           onChange: (value) {},
+                            //                           color:
+                            //                               kLightModeIconColor,
+                            //                           value: true,
+                            //                           groupValue: true),
+                            //                       const Text(kOffText)
+                            //                     ],
+                            //                   ),
+                            //                 ],
+                            //               ),
+                            //               Padding(
+                            //                 padding: const EdgeInsets.only(
+                            //                     left: 10.0),
+                            //                 child: Row(
+                            //                   children: [
+                            //                     const Text(
+                            //                       kUseSystemSettingsText,
+                            //                       // style: TextStyle(color: kBlack),
+                            //                     ),
+                            //                     CustomRadio(
+                            //                         onChange: (value) {},
+                            //                         color: kLightModeIconColor,
+                            //                         value: false,
+                            //                         groupValue: false)
+                            //                   ],
+                            //                 ),
+                            //               ),
+                            //             ],
+                            //           )
+                            //         ],
+                            //       ),
+                            //     );
+                            //   },
+                            // );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Icon(
+                              isDarkMood
+                                  ? Icons.dark_mode_outlined
+                                  : Icons.light_mode_outlined,
+                              color: kWhiteLight,
+                              size: 30,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              ]),
+            );
+          }
+        });
   }
 }

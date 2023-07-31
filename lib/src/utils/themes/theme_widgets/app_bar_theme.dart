@@ -5,11 +5,11 @@ class SAppBarTheme {
   SAppBarTheme._();
   // light divider theme
   static const lightAppBarTheme = AppBarTheme(
-    backgroundColor: kMainColorLight,
-    foregroundColor: kWhiteLight,
-  );
+      backgroundColor: kLightModeBackgroundColor,
+      foregroundColor: kWhiteLight,
+      iconTheme: IconThemeData(color: kLightModeBackgroundColor));
   // dark divider theme
   static const darkAppBarTheme = AppBarTheme(
-    backgroundColor: kMainComplimemtColorDark,
-  );
+      backgroundColor: kDarkModeDashboardAppbarColor,
+      iconTheme: IconThemeData(color: kDarkModeDashboardAppbarColor));
 }

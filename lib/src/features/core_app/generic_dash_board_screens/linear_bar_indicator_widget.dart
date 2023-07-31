@@ -31,10 +31,10 @@ class LinearBarIndicator extends StatelessWidget {
         animateFromLastPercent: true,
         percent: percentage,
         progressColor: isDarkMood
-            ? kMainComplimemtColorLight.withOpacity(.7)
+            ? kDarkModeIconColor.withOpacity(.7)
             : kMainColorLight.withOpacity(.7),
         backgroundColor: isDarkMood
-            ? kMainComplimemtColorLight.withOpacity(.4)
+            ? kWhiteLight.withOpacity(.4)
             : kMainColorLight.withOpacity(.4),
         lineHeight: 12,
         barRadius: const Radius.circular(10),

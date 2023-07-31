@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spacemall/src/utils/themes/theme_widgets/app_bar_theme.dart';
 import 'package:spacemall/src/utils/themes/theme_widgets/divider_theme.dart';
 import 'package:spacemall/src/utils/themes/theme_widgets/elevated_button_theme.dart';
+import 'package:spacemall/src/utils/themes/theme_widgets/floating_action_button.dart';
 import 'package:spacemall/src/utils/themes/theme_widgets/icon_theme.dart';
 import 'package:spacemall/src/utils/themes/theme_widgets/input_decoration_theme.dart';
 import 'package:spacemall/src/utils/themes/theme_widgets/text_theme.dart';
@@ -21,6 +22,8 @@ class SAppTheme {
     appBarTheme: SAppBarTheme.lightAppBarTheme,
     dividerTheme: SDividerTheme.lightDividerTheme,
     iconTheme: SIconTheme.lightIconTheme,
+    floatingActionButtonTheme:
+        SFloatingActionButtonTheme.lightFloatingActionButtonTheme,
   );
 
 // app dark theme
@@ -33,5 +36,7 @@ class SAppTheme {
     inputDecorationTheme: SInputDecorationTheme.darkInputDecorationTheme,
     appBarTheme: SAppBarTheme.darkAppBarTheme,
     iconTheme: SIconTheme.darkIconTheme,
+    floatingActionButtonTheme:
+        SFloatingActionButtonTheme.darkFloatingActionButtonTheme,
   );
 }

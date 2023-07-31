@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/text_strings.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_tag/application/add_tag_controller.dart';
 
 bool _isLoading = false;
 bool get isLoading => _isLoading;
 
+final AddTagController addTagController = Get.find();
 void showSnackBar(BuildContext context, String content) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     padding: EdgeInsets.only(
@@ -21,20 +24,17 @@ void showSnackBar(BuildContext context, String content) {
   ));
 }
 
-Future<Rx<File?>> pickImage(BuildContext context) async {
-  Rx<File?> dp = Rx(null);
-
+Future<File?> pickImage(BuildContext context) async {
   try {
     final selectedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (selectedImage != null) {
-      dp.value = File(selectedImage.path);
+      return File(selectedImage.path);
     }
   } catch (e) {
-    // show a snachbar with the error message
     showSnackBar(context, e.toString());
   }
-  return dp;
+  return null;
 }
 
 // // using the string type
@@ -49,3 +49,38 @@ Future<Rx<File?>> pickImage(BuildContext context) async {
 //     return null;
 //   }
 // }
+void dialogBox(
+  bool isDarkMood,
+  String title,
+  String content,
+  dynamic page,
+) {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    Get.defaultDialog(
+      backgroundColor: !isDarkMood
+          ? kDarkModeBackgroundColor.withOpacity(0.1)
+          : kWhiteDark.withOpacity(0.1),
+      title: title,
+      titleStyle: const TextStyle(
+        color: kWhiteLight,
+      ),
+      content: Text(
+        content,
+        style: const TextStyle(
+          color: kWhiteLight,
+        ),
+      ),
+      confirm: ElevatedButton(
+        onPressed: () {
+          if (page == null) {
+            Get.back();
+          }
+          Get.offAll(
+            page,
+          );
+        },
+        child: const Text(kOkayText),
+      ),
+    );
+  });
+}

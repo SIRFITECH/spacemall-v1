@@ -21,7 +21,8 @@ class DashBoardIcon extends StatelessWidget {
         SvgPicture.asset(
           image,
           height: 50,
-          color: isDarkMood ? kMainComplimemtColorLight : kMainColorLight,
+          // ignore: deprecated_member_use
+          color: isDarkMood ? kDarkModeIconColor : kLightModeIconColor,
         ),
         Text(
           title,

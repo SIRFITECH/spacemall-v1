@@ -24,7 +24,7 @@ dependencies:
   get: ^4.6.5
   country_picker: ^2.0.20
   pinput: ^2.2.31
-  flutter_svg: ^2.0.5
+  flutter_svg: ^2.0.6
   percent_indicator: ^4.2.3
   firebase_core: ^2.10.0
   firebase_auth: ^4.5.0
@@ -34,6 +34,13 @@ dependencies:
   firebase_storage: ^11.2.0
   hive: ^2.2.3
   hive_flutter: 
+  path_provider: ^2.0.15
+  uuid: ^3.0.7
+  intl: ^0.18.1
+  syncfusion_flutter_charts: ^22.1.38
+  pie_chart: ^5.3.2
+  share_plus: ^7.0.2
+
 
 dev_dependencies:
   flutter_test:
@@ -45,8 +52,8 @@ dev_dependencies:
 
 
 flutter_native_splash:
-  color: '#cc5500'
-  color_dark: '#ffb317'
+  color: '#cc6601'
+  color_dark: '#0d0d0d' 
   image: assets/logos/sMallLogoWhite.png
   image_dark: assets/logos/sMallLogoWhite.png
 

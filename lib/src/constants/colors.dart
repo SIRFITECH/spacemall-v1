@@ -9,12 +9,30 @@ const kDarkComplementColor = Colors.black;
 const kDarkThemeBgColor = Color(0xb3faede6);
 const kLightThemeBgColor = Color(0xffffffff);
 const kGreyColor = Colors.grey;
+const kTransparentColor = Colors.transparent;
+
+const kDarkModeBackgroundColor = Color(0xff000000);
+const kDarkModeIconColor = Color(0xff665229);
+const kDarkModeBrightIconColor = Color(0xffffb317);
+const kDarkModeInactiveButtonColor = Color(0xff876013);
+const kDarkModeDashboardAppbarColor = Color(0xff876013);
+
+const kLightModeBackgroundColor = Color(0xffCC5500);
+const kLightModeIconColor = Color(0xffcc5400);
+const kLightModeActiveButtonColor = Color(0xffcc5400);
+const kLightModeInactiveButtonColor = Color(0xffe4a579);
+const kLightModeDashboardAppbarColor = Color(0xffCC5500);
+const kLightModeCheckOutBackground = Color(0xffCC5500);
+
+// Color.fromRGBO(255, 255, 255, 0.0);
+// Color(0xffffff);
 
 // BUTTON COLORS
 // LIGHT MOOD BUTTON
 const kLightMoodButtonColor = Color(0xffCC5500);
 // DARK MOOD BUTTON
-const kDarkMoodButtonColor = Color(0xffd9814f);
+const kDarkMoodButtonColor = Color(0xffffbd3f);
+const kCkeckButtonColor = Colors.green;
 
 // LIGHT THEME COLORS
 const kMainColorLight = Color(0xffCC5500);

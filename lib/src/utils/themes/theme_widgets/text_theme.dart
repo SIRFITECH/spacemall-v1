@@ -127,13 +127,13 @@ class STextTheme {
         fontSize: 13),
     bodyLarge: TextStyle(
       fontFamily: 'Arial Rounded',
-      color: kMainComplimemtColorLight,
+      color: kDarkModeIconColor,
       fontSize: 25,
       fontWeight: FontWeight.bold,
     ),
     bodyMedium: TextStyle(
       fontFamily: 'Arial Rounded',
-      color: kBlackDark,
+      color: kWhiteLight,
       fontSize: 17,
     ),
     bodySmall: TextStyle(

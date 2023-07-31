@@ -16,21 +16,37 @@ class OTPScreen extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    final otpController = Get.put(OtpController());
+    final OtpController otpController = Get.find();
 
     return Scaffold(
       backgroundColor: isDarkMood ? kDarkThemeBgColor : kLightThemeBgColor,
       body: SafeArea(
-        child: ListView(
-          children: [
-            OTPHeader(screenSize: screenSize),
-            // Pinput feild
-            PinputWidget(otpController: otpController, isDarkMood: isDarkMood),
-            // verify button
-            OTPFooter(otpController: otpController)
-          ],
-        ),
-      ),
+          child: Stack(
+        children: [
+          ListView(
+            children: [
+              OTPHeader(screenSize: screenSize),
+              PinputWidget(
+                  otpController: otpController, isDarkMood: isDarkMood),
+              OTPFooter(otpController: otpController)
+            ],
+          ),
+          otpController.isLoading.value
+              ? Positioned(
+                  child: Container(
+                      height: screenSize.height,
+                      width: screenSize.width,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.5),
+                      ),
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      )),
+                )
+              : Container(),
+        ],
+      )),
     );
   }
 }

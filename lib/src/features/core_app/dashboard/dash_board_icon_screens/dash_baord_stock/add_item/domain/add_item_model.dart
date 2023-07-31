@@ -1,17 +1,37 @@
 import 'dart:io';
+import 'package:hive/hive.dart';
 
+part 'add_item_model.g.dart';
+
+@HiveType(typeId: 10)
 class AddItemModel {
+  @HiveField(0)
   File? itemPic;
+  @HiveField(1)
   String itemName;
+  @HiveField(2)
   String itemCostPrice;
+  @HiveField(3)
   String itemSellingPrice;
-  String itemCategory;
+  @HiveField(4)
+  // List<CategoryModel> itemCategory;
+  String? itemCategory;
+  @HiveField(5)
   String itemQuantity;
+  @HiveField(6)
   bool trackProfit;
+  @HiveField(7)
   bool trackLowStock;
+  @HiveField(8)
   bool preventItemSalesWhenOutOfStock;
+  @HiveField(9)
   String trackExpiry;
+  @HiveField(10)
   String expiryAlert;
+  @HiveField(11)
+  int itemCount;
+  @HiveField(12)
+  String itemId;
 
   AddItemModel({
     required this.itemPic,
@@ -25,7 +45,10 @@ class AddItemModel {
     required this.preventItemSalesWhenOutOfStock,
     required this.trackExpiry,
     required this.expiryAlert,
+    required this.itemCount,
+    required this.itemId,
   });
+
   // populated from map, that is serializing the stock object from server
   factory AddItemModel.fromMap(Map<String, dynamic> map) {
     return AddItemModel(
@@ -41,6 +64,8 @@ class AddItemModel {
           map['preventItemSalesWhenOutOfStock'] ?? '',
       trackExpiry: map['trackExpiry'] ?? '',
       expiryAlert: map['expiryAlert'] ?? '',
+      itemCount: map['itemCount'] ?? 1,
+      itemId: map['itemId'] ?? '',
     );
   }
 
@@ -58,6 +83,8 @@ class AddItemModel {
       "preventItemSalesWhenOutOfStock": preventItemSalesWhenOutOfStock,
       "trackExpiry": trackExpiry,
       "expiryAlert": expiryAlert,
+      "itemCount": itemCount,
+      "itemId": itemId,
     };
   }
 }
