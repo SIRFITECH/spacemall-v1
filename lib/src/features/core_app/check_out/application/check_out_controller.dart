@@ -142,10 +142,47 @@ class CartItemController extends GetxController {
   }
 
   increaseItemQuantityInCart(index) {
-    int quantity = cartItems[index].quantityInCart + 1;
-    cartItems[index].quantityInCart = quantity;
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+    int quantity = 0;
+    int itemQuantity = int.parse(store.stock[index].itemQuantity);
+    if (itemQuantity > 0) {
+      quantity = cartItems[index].quantityInCart++;
+
+      cartItems[index].quantityInCart = quantity;
+    } else {
+      Get.snackbar(
+        'Error adding ${cartItems[index].itemName} to cart',
+        'You can not add more than ${cartItems[index].quantityInCart} ${cartItems[index].itemName} to cart',
+        backgroundColor: kWhiteLight,
+        colorText: kBlack,
+      );
+      print(quantity);
+    }
+
+// item price in cart
+    // convert the new item price in cart to string
     String priceString = cartItems[index].price.toString();
+    // convert the string to a format that can be parsed to the naira.form method to format it
     String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
+
+//
     String quantityInCartString = cartItems[index].quantityInCart.toString();
     String numQuantityInCartString =
         quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
@@ -164,7 +201,7 @@ class CartItemController extends GetxController {
     );
   }
 
-  updateItemState(index) {
+  void updateItemQuantities() async {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
@@ -184,27 +221,33 @@ class CartItemController extends GetxController {
       ),
     );
 
-    // int quantity = cartItems[index].quantityInCart + 1;
-    // cartItems[index].quantityInCart = quantity;
-    // String priceString = cartItems[index].price.toString();
-    // String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
-    // String quantityInCartString = cartItems[index].quantityInCart.toString();
-    // String numQuantityInCartString =
-    //     quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
-    // double initCost =
-    //     double.parse(numQuantityInCartString) * int.parse(numPriceString);
-    // double cost = initCost;
-    // CartItemController.instance.items.value++;
+    for (var cartItem in CartItemController.instance.cartItems) {
+      int index =
+          store.stock.indexWhere((item) => item.itemId == cartItem.itemId);
 
-    // cartItems[index].subTotal = cost;
-    String itemQuantityString = (int.parse(store.stock[index].itemQuantity) -
-            cartItems[index].quantityInCart)
-        .toString();
+      if (index >= 0) {
+        int itemQuantityBought = cartItem.quantityInCart;
+        String itemQuantityinStore = store.stock[index].itemQuantity;
+        int newItemQuantityinStore =
+            int.parse(itemQuantityinStore) - itemQuantityBought;
 
-    store.stock[index].itemQuantity = itemQuantityString;
-    items.value = 0;
+        // Update the item quantity in the store
+        store.stock[index].itemQuantity = newItemQuantityinStore.toString();
 
-    print(itemQuantityString);
+        // Update the storeBox
+        await storeBox.put(
+          AddItemRepo.instance.currentStore.value,
+          store,
+        );
+
+        print('quantity bought $itemQuantityBought of ${cartItem.itemName}');
+        print('quantity in store is $itemQuantityinStore');
+        print('new quantity in store is $newItemQuantityinStore');
+      } else {
+        // Handle the case where the item is not found in the store
+        print('Item not found in store');
+      }
+    }
   }
 
   Future<dynamic> showMoodOfPayment(
@@ -250,13 +293,14 @@ class CartItemController extends GetxController {
                                     .toString();
                             AddReceiptsRepo.instance
                                 .saveReceiptData()
-                                .then(
-                                  (value) => Get.to(
-                                    () => const ReceiptListScreen(),
-                                  ),
-                                )
                                 .then((value) {
-                              updateItemState(index);
+                              updateItemQuantities();
+                              // updateItemQuantities(
+                              //     index, cartItems[index].quantityInCart);
+                              Get.to(
+                                () => const ReceiptListScreen(),
+                              );
+                            }).then((value) {
                               SalesController.instance.addNewSales();
                               AddReceiptsRepo.instance.paymentMood = '';
                             });
@@ -286,13 +330,15 @@ class CartItemController extends GetxController {
                                     .toString();
                             AddReceiptsRepo.instance
                                 .saveReceiptData()
-                                .then(
-                                  (value) => Get.to(
-                                    () => const ReceiptListScreen(),
-                                  ),
-                                )
                                 .then((value) {
-                              updateItemState(index);
+                              updateItemQuantities();
+                              // updateItemQuantities(
+                              //     index, cartItems[index].quantityInCart);
+                              Get.to(
+                                () => const ReceiptListScreen(),
+                              );
+                            }).then((value) {
+                              SalesController.instance.addNewSales();
                               AddReceiptsRepo.instance.paymentMood = '';
                             });
                           },
@@ -335,13 +381,17 @@ class CartItemController extends GetxController {
                                     .toString();
                             AddReceiptsRepo.instance
                                 .saveReceiptData()
-                                .then(
-                                  (value) => Get.to(
-                                    () => const ReceiptListScreen(),
-                                  ),
-                                )
                                 .then((value) {
-                              updateItemState(index);
+                              SalesController.instance.addNewSales();
+                              AddReceiptsRepo.instance.paymentMood = '';
+                            }).then((value) {
+                              SalesController.instance.addNewSales();
+                              AddReceiptsRepo.instance.paymentMood = '';
+                            }).then((value) {
+                              updateItemQuantities();
+                              // updateItemQuantities(
+                              //     index, cartItems[index].quantityInCart);
+                              SalesController.instance.addNewSales();
                               AddReceiptsRepo.instance.paymentMood = '';
                             });
                           },
@@ -370,13 +420,14 @@ class CartItemController extends GetxController {
                                     .toString();
                             AddReceiptsRepo.instance
                                 .saveReceiptData()
-                                .then(
-                                  (value) => Get.to(
-                                    () => const ReceiptListScreen(),
-                                  ),
-                                )
                                 .then((value) {
-                              updateItemState(index);
+                              SalesController.instance.addNewSales();
+                              AddReceiptsRepo.instance.paymentMood = '';
+                            }).then((value) {
+                              updateItemQuantities();
+                              // updateItemQuantities(
+                              //     index, cartItems[index].quantityInCart);
+                              SalesController.instance.addNewSales();
                               AddReceiptsRepo.instance.paymentMood = '';
                             });
                           },
@@ -394,7 +445,9 @@ class CartItemController extends GetxController {
                             height: screenSize.height * 0.1,
                             width: screenSize.width * 0.35,
                             // color: kTextFieldDarkBorderColor,
-                            child: const Center(child: Text('Pay On Delivery')),
+                            child: const Center(
+                              child: Text('Pay On Delivery'),
+                            ),
                           ),
                         ),
                       ],

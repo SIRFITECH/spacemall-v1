@@ -7,7 +7,6 @@ class ReportsController extends GetxController {
 
   Rx<DateTime> today = Rx<DateTime>(DateTime.now());
   DateTime now = DateTime.now();
-  // RxString date = ''.obs;
 
   RxString todayReport = ''.obs;
   RxBool showPOSGrid = true.obs;

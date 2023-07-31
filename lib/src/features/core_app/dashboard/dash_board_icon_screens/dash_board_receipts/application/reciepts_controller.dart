@@ -8,12 +8,13 @@ class ReceiptsController extends GetxController {
   static ReceiptsController get instance => Get.put(ReceiptsController());
 
   RxString cartTotal = '0'.obs;
-  // RxString paymentMood = ''.obs;
   RxList<ReceiptsModel> receipts = <ReceiptsModel>[].obs;
 
-  void addReceipt(ReceiptsModel newReceipt) {
-    receipts.add(newReceipt);
-  }
+  Rx<DateTime> today = Rx<DateTime>(DateTime.now());
+  DateTime now = DateTime.now();
+
+  RxString fromSelectedDate = ''.obs;
+  RxString toSelectedDate = ''.obs;
 
   RxInt receiptNo = 0.obs;
   RxBool receiptStatus = false.obs; // false = unsuccessful, true = successful
@@ -46,18 +47,18 @@ class ReceiptsController extends GetxController {
     }
   }
 
-  void showCalendarAndSetFromDate(BuildContext context) async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2022, 1, 1),
-      lastDate: DateTime(2023, 12, 31),
-    );
+  // void showCalendarAndSetFromDate(BuildContext context) async {
+  //   DateTime? pickedDate = await showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime(2022, 1, 1),
+  //     lastDate: DateTime(2023, 12, 31),
+  //   );
 
-    if (pickedDate != null) {
-      fromDate.value = pickedDate;
-    }
-  }
+  //   if (pickedDate != null) {
+  //     fromDate.value = pickedDate;
+  //   }
+  // }
 
   // get stores
   List<ReceiptsModel> getStoresFromBox() {

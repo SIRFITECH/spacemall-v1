@@ -181,7 +181,7 @@ class CheckOut extends StatelessWidget {
                                           cartItemController.items.value > 0 &&
                                           tapedIndex == index
                                       ? Positioned(
-                                          left: 6.5,
+                                          left: 4.3,
                                           top: 4.5,
                                           child: Container(
                                             height: 60,

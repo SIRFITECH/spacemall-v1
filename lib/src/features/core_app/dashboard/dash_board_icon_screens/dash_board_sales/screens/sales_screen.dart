@@ -8,6 +8,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/image_strings.dart';
+import '../../../../../../localizations/currency.dart';
 import '../../../../../../repository/hive_boxes.dart';
 import '../../../../store/domain/store_model.dart';
 import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
@@ -178,6 +179,10 @@ class SalesScreen extends StatelessWidget {
                     ? ListView.builder(
                         itemCount: salesList.length,
                         itemBuilder: (context, index) {
+                          String totalItemPrice = salesList[index]
+                              .cart
+                              .totalItemPrice
+                              .replaceAll(RegExp(r'[^0-9]'), '');
                           return GestureDetector(
                             onTap: () {
                               Get.to(
@@ -281,16 +286,10 @@ class SalesScreen extends StatelessWidget {
                                                 Row(
                                                   children: [
                                                     Text(
-                                                      salesList[index]
-                                                          .cart
-                                                          .totalItemPrice,
-                                                      // nairaFormat.format(
-                                                      //   int.parse(
-                                                      //     salesList[index]
-                                                      //         .cart
-                                                      //         .totalItemPrice,
-                                                      //   ),
-                                                      // ),
+                                                      nairaFormat.format(
+                                                        int.parse(
+                                                            totalItemPrice),
+                                                      ),
                                                       style: const TextStyle(
                                                         fontSize: 15,
                                                         fontWeight:
@@ -329,143 +328,6 @@ class SalesScreen extends StatelessWidget {
                             ),
                           );
                         })
-                    //  ListView(
-                    //     children: [
-                    //       GestureDetector(
-                    //         onTap: () {
-                    //           Get.to(
-                    //             () => const PaymentSummary(),
-                    //           );
-                    //           if (salesList.isNotEmpty) {
-                    //             print(
-                    //                 salesList[0].customerName.substring(0, 1));
-                    //           } else {
-                    //             print('No item');
-                    //           }
-                    //         },
-                    //         child: Container(
-                    //           decoration: BoxDecoration(
-                    //             borderRadius: BorderRadius.circular(10),
-                    //             border: Border.all(
-                    //               width: 1,
-                    //               color: !isDarkMood
-                    //                   ? kMainColorLight
-                    //                   : kMainComplimemtColorLight,
-                    //             ),
-                    //           ),
-                    //           child: Padding(
-                    //             padding: const EdgeInsets.symmetric(
-                    //                 vertical: 10.0, horizontal: 16),
-                    //             child: Row(
-                    //               mainAxisAlignment:
-                    //                   MainAxisAlignment.spaceBetween,
-                    //               children: [
-                    //                 Row(
-                    //                   children: [
-                    //                     Stack(
-                    //                       children: [
-                    //                         Container(
-                    //                           height: screenSize.height * 0.06,
-                    //                           width: screenSize.width * 0.12,
-                    //                           decoration: BoxDecoration(
-                    //                             border: Border.all(
-                    //                               width: 1,
-                    //                               color: !isDarkMood
-                    //                                   ? kMainColorLight
-                    //                                       .withOpacity(0.6)
-                    //                                   : kMainComplimemtColorLight
-                    //                                       .withOpacity(0.8),
-                    //                             ),
-                    //                             shape: BoxShape.circle,
-                    //                             color: Colors.transparent,
-                    //                           ),
-                    //                         ),
-                    //                         ClipOval(
-                    //                           child: Container(
-                    //                             height:
-                    //                                 screenSize.height * 0.06,
-                    //                             width: screenSize.width * 0.12,
-                    //                             color: Colors.transparent,
-                    //                             child: Center(
-                    //                               child: Text(
-                    //                                 salesList[0]
-                    //                                     .customerName
-                    //                                     .substring(0, 1),
-                    //                                 // 'N',
-                    //                                 style: TextStyle(
-                    //                                   fontSize: 45,
-                    //                                   fontWeight:
-                    //                                       FontWeight.bold,
-                    //                                   color: !isDarkMood
-                    //                                       ? kMainColorLight
-                    //                                           .withOpacity(0.6)
-                    //                                       : kMainComplimemtColorLight
-                    //                                           .withOpacity(0.8),
-                    //                                 ),
-                    //                               ),
-                    //                             ),
-                    //                           ),
-                    //                         ),
-                    //                       ],
-                    //                     ),
-                    //                     const SizedBox(
-                    //                       width: 15,
-                    //                     ),
-                    //                     Column(
-                    //                       crossAxisAlignment:
-                    //                           CrossAxisAlignment.start,
-                    //                       children: [
-                    //                         Text(
-                    //                           salesList[1].customerName,
-                    //                           // 'New Customer',
-                    //                           style: const TextStyle(
-                    //                             fontSize: 20,
-                    //                             fontWeight: FontWeight.bold,
-                    //                           ),
-                    //                         ),
-                    //                         Row(
-                    //                           children: [
-                    //                             Text(
-                    //                               salesList[1]
-                    //                                   .cart
-                    //                                   .totalItemPrice,
-                    //                               // 'N20,000',
-                    //                               style: const TextStyle(
-                    //                                 fontSize: 15,
-                    //                                 fontWeight: FontWeight.bold,
-                    //                               ),
-                    //                             ),
-                    //                             const SizedBox(
-                    //                               width: 5,
-                    //                             ),
-                    //                             Text(
-                    //                               'Sold on ${DateFormat('d MMM, yyyy').format(salesList[0].date)}',
-                    //                               style: const TextStyle(
-                    //                                 fontSize: 13,
-                    //                               ),
-                    //                             ),
-                    //                           ],
-                    //                         ),
-                    //                       ],
-                    //                     ),
-                    //                   ],
-                    //                 ),
-                    //                 Icon(
-                    //                   Icons.arrow_forward,
-                    //                   color: !isDarkMood
-                    //                       ? kMainColorLight
-                    //                       : kMainComplimemtColorLight,
-                    //                 ),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ),
-                    //       const SizedBox(
-                    //         height: 10,
-                    //       ),
-                    //     ],
-                    //   )
                     : const Center(
                         child: Text('You have not made a Sale today'),
                       ),

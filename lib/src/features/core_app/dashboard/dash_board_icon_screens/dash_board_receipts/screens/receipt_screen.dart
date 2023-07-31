@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:spacemall/src/constants/colors.dart';
@@ -12,6 +13,7 @@ import '../../../../../../localizations/currency.dart';
 import '../../../../../../repository/hive_boxes.dart';
 import '../../../../store/domain/store_model.dart';
 import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
+import '../../dash_board_sales/application/sales_controller.dart';
 
 class ReceiptListScreen extends StatelessWidget {
   const ReceiptListScreen({super.key});
@@ -45,6 +47,9 @@ class ReceiptListScreen extends StatelessWidget {
     );
 
     List<ReceiptsModel> receipstList = store.receipts.toList();
+
+    receiptController.fromSelectedDate.value =
+        DateFormat('d MMM').format(receiptController.fromDate.value);
 
     return Scaffold(
       appBar: MyAppBar(
@@ -81,8 +86,36 @@ class ReceiptListScreen extends StatelessWidget {
                         ? kMainComplimemtColorLight
                         : kLightModeBackgroundColor,
                     child: TextButton(
-                      onPressed: () {
-                        receiptController.showCalendarAndSetFromDate(context);
+                      onPressed:
+                          //() {
+
+                          //   receiptController.showCalendarAndSetFromDate(context);
+                          // },
+                          () async {
+                        if (defaultTargetPlatform == TargetPlatform.iOS) {
+                          DateTime selectedDate = await SalesController.instance
+                              .pickiOSDate(context, screenSize);
+                          // ignore: unnecessary_null_comparison
+                          if (selectedDate != null) {
+                            receiptController.fromSelectedDate.value =
+                                DateFormat('d MMM').format(selectedDate);
+                          } else {
+                            receiptController.fromSelectedDate.value =
+                                DateFormat('d MMM').format(DateTime.now());
+                          }
+                        } else {
+                          DateTime selectedDate =
+                              await SalesController.instance.pickDate(context);
+                          // ignore: unnecessary_null_comparison
+                          if (selectedDate != null) {
+                            receiptController.fromSelectedDate.value =
+                                DateFormat('d MMM').format(selectedDate);
+                            print(receiptController.fromSelectedDate.value);
+                          } else {
+                            receiptController.fromSelectedDate.value =
+                                DateFormat('d MMM').format(DateTime.now());
+                          }
+                        }
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,6 +128,7 @@ class ReceiptListScreen extends StatelessWidget {
                             height: 10,
                           ),
                           Obx(() => Text(
+                                // ReportsController.instance.todayReport.value
                                 receiptController.fromDate.value ==
                                         DateTime.now()
                                             .subtract(const Duration(days: 7))
@@ -102,6 +136,13 @@ class ReceiptListScreen extends StatelessWidget {
                                         .format(receiptController.lastWeekDate)
                                     : DateFormat('dd-MM-yyyy').format(
                                         receiptController.fromDate.value),
+                                // receiptController.fromDate.value ==
+                                //         DateTime.now()
+                                //             .subtract(const Duration(days: 7))
+                                //     ? DateFormat('dd-MM-yyyy')
+                                //         .format(receiptController.lastWeekDate)
+                                //     : DateFormat('dd-MM-yyyy').format(
+                                //         receiptController.fromDate.value),
                                 style: const TextStyle(
                                     fontSize: 15, color: kWhiteLight),
                               )),
@@ -250,6 +291,8 @@ class ReceiptListScreen extends StatelessWidget {
                 width: screenSize.width * 0.4,
                 child: ElevatedButton(
                   onPressed: () {
+                    // print(CartItemController.instance.updateItemState(1));
+                    // print('Print to test');
                     // Get.to(
                     //   () => const ReceiptSettings(),
                     // );

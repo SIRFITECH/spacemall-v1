@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:spacemall/src/features/auth/application/splash_controller/splash_controller.dart';
-import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
+import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
 
 class OtpController extends GetxController {
   static OtpController get instance => Get.find();
@@ -20,8 +20,12 @@ class OtpController extends GetxController {
     var exists = AuthRepo.instance.profilePic.isNotEmpty;
     AuthRepo.instance.setSignedIn();
     isVerified && exists
-        ? Get.offAll(() => DashBoard())
-        : Get.offAll(() => const OnBoarding());
+        ? Get.offAll(
+            () => DashBoard(),
+          )
+        : Get.offAll(
+            () => const SetProfile(),
+          );
     isLoading.value = false;
   }
 }
