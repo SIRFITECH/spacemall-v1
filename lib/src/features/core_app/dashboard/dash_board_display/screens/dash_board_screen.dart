@@ -9,13 +9,15 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/scr
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/application/nav_bar_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/screens/bottom_nav_bar_screen.dart';
+import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
 import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
 
 import '../../../../../constants/text_strings.dart';
-// import '../../dash_board_icon_screens/dash_board_sales/data/sales_repo.dart';
+import '../application/dash_baord_controller.dart';
 
 class DashBoard extends StatelessWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   DashBoard({super.key});
 
   final navBarController = NavBarController();
@@ -32,10 +34,14 @@ class DashBoard extends StatelessWidget {
     Get.put(
       SalesController(),
     );
+    Get.put(
+      DashBoardController(context),
+    );
 
     final StoreRepo storeRepo = StoreRepo();
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: isDarkMood ? kDarkModeBackgroundColor : kWhiteLight,
       body: SafeArea(
         child: Stack(
@@ -91,7 +97,7 @@ class DashBoard extends StatelessWidget {
                       color: isDarkMood
                           ? kDarkModeBackgroundColor.withOpacity(0.1)
                           : kLightModeBackgroundColor.withOpacity(0.1),
-                      height: screenSize.height * 0.5,
+                      height: screenSize.height * 0.75,
                       child: Obx(() {
                         if (storeRepo.getStoresFromBox().isEmpty &&
                             navBarController.selectedIndex.value !=
@@ -121,8 +127,10 @@ class DashBoard extends StatelessWidget {
                           });
                         }
 
-                        return navBarController
-                            .screens[navBarController.selectedIndex.value];
+                        return navBarController.selectedIndex.value <= 2
+                            ? navBarController
+                                .screens[navBarController.selectedIndex.value]
+                            : const SpacemallDrawer();
                       }),
                     ),
                   ),

@@ -11,6 +11,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_reports/screens/top_customer_report.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
+import 'package:spacemall/src/utils/helpers/helper.dart';
 
 import '../../../../../../constants/image_strings.dart';
 import '../../../../../../repository/hive_boxes.dart';
@@ -35,7 +36,7 @@ class ReportScreen extends StatelessWidget {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -76,12 +77,7 @@ class ReportScreen extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   Get.to(
-                    () => const
-                        // TopCustomerReport(),
-                        // CategoryReport(),
-                        // SalesReport(),
-                        // ShopfrontReport(),
-                        RemainingStock(),
+                    () => const RemainingStock(),
                   );
                 },
                 child: Center(
@@ -320,10 +316,6 @@ class ReportScreen extends StatelessWidget {
                         child: TextButton(
                           onPressed: () {
                             ReportsController.instance.setStoreFrontGrid();
-                            // setState(() {
-                            //   _showGrid = false;
-                            // });
-                            print('showPOSGrid == false');
                           },
                           child: Text(
                             'Storefront Reports',
@@ -451,9 +443,13 @@ class ReportScreen extends StatelessWidget {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 8.0),
                                               child: Text(
-                                                ReportsController.instance
-                                                    .posReport[index]['detail']
-                                                    .toString(),
+                                                truncateString(
+                                                    ReportsController
+                                                        .instance
+                                                        .posReport[index]
+                                                            ['detail']
+                                                        .toString(),
+                                                    16),
                                                 style: const TextStyle(
                                                   color: kWhiteLight,
                                                   fontWeight: FontWeight.bold,
@@ -590,11 +586,13 @@ class ReportScreen extends StatelessWidget {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 8.0),
                                               child: Text(
-                                                ReportsController
-                                                    .instance
-                                                    .storeFrontReport[index]
-                                                        ['detail']
-                                                    .toString(),
+                                                truncateString(
+                                                    ReportsController
+                                                        .instance
+                                                        .storeFrontReport[index]
+                                                            ['detail']
+                                                        .toString(),
+                                                    16),
                                                 style: const TextStyle(
                                                   color: kWhiteLight,
                                                   fontWeight: FontWeight.bold,
@@ -606,11 +604,13 @@ class ReportScreen extends StatelessWidget {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 8.0),
                                               child: Text(
-                                                ReportsController
-                                                    .instance
-                                                    .storeFrontReport[index]
-                                                        ['value']
-                                                    .toString(),
+                                                truncateString(
+                                                    ReportsController
+                                                        .instance
+                                                        .storeFrontReport[index]
+                                                            ['value']
+                                                        .toString(),
+                                                    20),
                                                 style: const TextStyle(
                                                   color: kWhiteLight,
                                                   fontSize: 10,

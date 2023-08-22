@@ -25,15 +25,18 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       role: fields[4] as String,
       bio: fields[7] as String,
       cart: (fields[8] as List).cast<CartItemModel>(),
-      stores: (fields[9] as List).cast<StoreModel>(),
+      stores: RxList<StoreModel>.from((fields[9] as List<dynamic>)
+          .map((store) => StoreModel.fromMap(store))
+          .toList()),
       country: fields[6] as String,
+      createdAt: fields[10] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.profilePic)
       ..writeByte(1)
@@ -53,7 +56,9 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       ..writeByte(8)
       ..write(obj.cart)
       ..writeByte(9)
-      ..write(obj.stores);
+      ..write(obj.stores)
+      ..writeByte(10)
+      ..write(obj.createdAt);
   }
 
   @override

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/domain/stock_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_customers/domain/customer_model.dart';
@@ -23,17 +22,16 @@ class StoreController extends GetxController {
     storeRepo.storeController = this;
   }
 
-  @override
-  void onReady() {
-    // Get called after widget is rendered on the screen
-    super.onReady();
-  }
-
   final StoreRepo storeRepo;
   static StoreController get instance => Get.put(
         StoreController(storeRepo: StoreRepo.instance),
       );
-  // final AddItemRepo addItemRepo = AddItemRepo();
+
+  @override
+  void onInit() {
+    super.onInit();
+    setInitialSelectedStore();
+  }
 
   // bool to indicate loading
   RxBool isLoading = false.obs;
@@ -62,7 +60,44 @@ class StoreController extends GetxController {
   }
 
   Rx<StoreModel?> selectedStore = Rx<StoreModel?>(
-    null,
+    // StoreRepo.instance.getStoresFromBox().isEmpty
+    //     ?
+    null
+    // : StoreRepo.instance.getStoresFromBox().last
+    ,
+  );
+
+  // List<StoreModel> storesFromBox = StoreRepo.instance.getStoresFromBox();
+  // Rx<StoreModel?> selectedStore = Rx<StoreModel?>(
+  //   null,
+  // );
+  // Rx<StoreModel?> lastStore = Rx<StoreModel?>(
+  //   StoreRepo.instance.getStoresFromBox().last,
+  // );
+// set the first store if there is a store in the phone
+  void setInitialSelectedStore() {
+    List<StoreModel> storesFromBox = StoreRepo.instance.getStoresFromBox();
+    storesFromBox.isEmpty
+        ? setStore(selectedStore.value)
+        : setStore(storesFromBox.last);
+  }
+
+  Rx<StoreModel> selectedStoreValue = Rx<StoreModel>(
+    StoreModel(
+      logo: null,
+      storeName: '',
+      bankName: '',
+      accountNumber: '',
+      contact: '',
+      stock: [],
+      receipts: [],
+      debts: [],
+      staff: [],
+      sales: [],
+      customer: [],
+      storeId: '',
+      categories: [],
+    ),
   );
 
   RxList<StoreModel> stores = <StoreModel>[].obs;
@@ -70,12 +105,11 @@ class StoreController extends GetxController {
 // create a new store
   Future<void> addNewStoreToPhone() async {
     isLoading.value = true;
-    storeRepo
-        .saveStoreData()
-        .then((value) => storeRepo.clearControllers())
-        .then(
-          (value) => Get.off(() => DashBoard()),
-        );
+    storeRepo.saveStoreData().then((value) => storeRepo.clearControllers())
+        // .then(
+        //   (value) => Get.off(() => DashBoard()),
+        // )
+        ;
     Get.snackbar(
       '${storeName.text.trim()} created',
       '${storeName.text.trim()} store created successfully',
@@ -89,7 +123,9 @@ class StoreController extends GetxController {
 
   // List myStores = storeBox.values.toList();
 
-  void setStore(StoreModel? newValue) {
+  setStore(
+    StoreModel? newValue,
+  ) {
     if (newValue == null) {
       return;
     }

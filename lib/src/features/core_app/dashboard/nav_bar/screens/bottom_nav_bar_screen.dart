@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
-import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
+import 'package:spacemall/src/features/core_app/check_out/application/cart_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/application/nav_bar_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/screens/bttom_bar_icon_widget.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
@@ -21,6 +21,7 @@ class BottomNavBar extends StatelessWidget {
     final media = MediaQuery.of(context);
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
+    final screenSize = MediaQuery.of(context).size;
 
     Get.put(
       ReceiptsController(),
@@ -36,8 +37,8 @@ class BottomNavBar extends StatelessWidget {
       color: isDarkMood ? kDarkModeBackgroundColor : kLightModeBackgroundColor,
       elevation: 0,
       child: SizedBox(
-        height: 67,
-        width: MediaQuery.of(context).size.width,
+        height: screenSize.height * 0.08,
+        width: screenSize.width,
         child: Column(
           children: [
             CustomDivider(
@@ -51,8 +52,21 @@ class BottomNavBar extends StatelessWidget {
               child: Row(
                 children: [
                   SizedBox(
-                    width: media.size.width * 0.05,
+                    width: media.size.width * 0.1,
                   ),
+                  // Icon and text for setting
+                  Obx(
+                    () => BottomBarIcon(
+                      text: kSettingIconText,
+                      icon: kSettingsIcon,
+                      selected: navBarController.selectedIndex.value == 3,
+                      onPress: () {
+                        navBarController.setIndex(3);
+                        navBarController.increamentIndex();
+                      },
+                    ),
+                  ),
+                  // Icon and text for dashboard
                   Obx(
                     () => BottomBarIcon(
                       text: kDashBoardIconText,
@@ -77,30 +91,18 @@ class BottomNavBar extends StatelessWidget {
                       },
                     ),
                   ),
-                  // Icon and text for profile
-                  Obx(
-                    () => BottomBarIcon(
-                      text: kProfileIconText,
-                      icon: kProfileIcon,
-                      selected: navBarController.selectedIndex.value == 2,
-                      onPress: () {
-                        navBarController.setIndex(2);
-                        navBarController.increamentIndex();
-                      },
-                    ),
-                  ),
-                  // Icon and text for setting
-                  Obx(
-                    () => BottomBarIcon(
-                      text: kSettingIconText,
-                      icon: kSettingsIcon,
-                      selected: navBarController.selectedIndex.value == 3,
-                      onPress: () {
-                        navBarController.setIndex(3);
-                        navBarController.increamentIndex();
-                      },
-                    ),
-                  ),
+                  // // Icon and text for profile
+                  // Obx(
+                  //   () => BottomBarIcon(
+                  //     text: kProfileIconText,
+                  //     icon: kProfileIcon,
+                  //     selected: navBarController.selectedIndex.value == 2,
+                  //     onPress: () {
+                  //       navBarController.setIndex(2);
+                  //       navBarController.increamentIndex();
+                  //     },
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -137,7 +139,10 @@ class MallBottomNavBar extends StatelessWidget {
               margin: const EdgeInsets.all(0),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 0, left: 0),
+              padding: const EdgeInsets.only(
+                right: 0,
+                left: 0,
+              ),
               child: Row(
                 children: [
                   SizedBox(

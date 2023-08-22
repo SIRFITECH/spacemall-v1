@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
@@ -10,15 +11,17 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_reports/screens/report_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/screens/sales_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_shopfront/screens/shop_front.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_socials/screens/socialsScreen.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_socials/screens/socials_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_staff/screens/staff_screen.dart';
 import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
 
+import '../../../../../utils/helpers/global_keys.dart';
 import '../../dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
 import '../../dash_board_icon_screens/dash_board_debts/screens/debts_screen.dart';
 
 class DashboardGrid extends StatelessWidget {
-  const DashboardGrid({super.key});
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  DashboardGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +37,7 @@ class DashboardGrid extends StatelessWidget {
     );
 
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: isDarkMood ? kDarkModeBackgroundColor : kWhiteLight,
       body: Container(
         decoration: BoxDecoration(
@@ -44,26 +48,39 @@ class DashboardGrid extends StatelessWidget {
             fit: BoxFit.contain,
             scale: 10.0,
           ),
-          borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(20),
-            bottomRight: Radius.circular(20),
-          ),
+          // borderRadius: const BorderRadius.only(
+          //   bottomLeft: Radius.circular(20),
+          //   bottomRight: Radius.circular(20),
+          // ),
         ),
         child: GridView.count(
             crossAxisCount: 3,
             padding: const EdgeInsets.only(top: 80),
             children: [
-              // stocks icon
-              GestureDetector(
-                onTap: () {
-                  Get.to(() => const Stock());
+              Showcase(
+                tooltipPadding: const EdgeInsets.symmetric(vertical: 4),
+                onTargetClick: () {
+                  Get.to(() => Stock());
                 },
-                child: DashBoardIcon(
-                  isDarkMood: isDarkMood,
-                  image: kStockIcon,
-                  title: kDashbaordStockText,
+                onBarrierClick: () {
+                  Get.to(() => Stock());
+                },
+                disposeOnTap: true,
+                key: keyOne,
+                description: 'Click here to add your store',
+                child: GestureDetector(
+                  onTap: () {
+                    // _scaffoldKey.currentState.
+                    Get.to(() => Stock());
+                  },
+                  child: DashBoardIcon(
+                    isDarkMood: isDarkMood,
+                    image: kStockIcon,
+                    title: kDashbaordStockText,
+                  ),
                 ),
               ),
+
               // Reports icon
               GestureDetector(
                 onTap: () {

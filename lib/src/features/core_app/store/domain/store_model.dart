@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/domain/category_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
@@ -82,8 +83,9 @@ class StoreModel {
       storeId: '',
       categories:
           StoreController.instance.convertCategories(map['categories'] ?? []),
-      stock:
-          AddItemController.instance.convertStockItems(map['stock-item'] ?? []),
+      stock: RxList(
+        AddItemController.instance.convertStockItems(map['stock-item'] ?? []),
+      ),
       receipts:
           ReceiptsController.instance.convertReceipts(map['reciept'] ?? []),
       debts: DebtController.instance.convertDebts(map['debt'] ?? []),
@@ -102,7 +104,7 @@ class StoreModel {
       "bankName": bankName,
       "contact": contact,
       "accountNumber": accountNumber,
-      "stock": stock,
+      "stock": stock.toList(),
       "receipts": receipts,
       "debts": debts,
       'staff': staff,

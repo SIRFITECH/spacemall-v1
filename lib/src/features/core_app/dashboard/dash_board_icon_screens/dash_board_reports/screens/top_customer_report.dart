@@ -34,7 +34,7 @@ class _TopCustomerReportState extends State<TopCustomerReport> {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],

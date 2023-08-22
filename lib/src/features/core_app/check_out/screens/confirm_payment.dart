@@ -4,21 +4,15 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
-import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
+import 'package:spacemall/src/features/core_app/check_out/application/cart_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/screens/add_debts.dart';
-// import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/data/receipts_repo.dart';
-// import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/screens/receipt_screen.dart';
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/localizations/currency.dart';
 
 import '../../../../common_widgets/common_widgets.dart';
-// import '../../../../repository/hive_boxes.dart';
-// import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
-// import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
-// import '../../store/domain/store_model.dart';
 
 class ConfirmPayment extends StatelessWidget {
   const ConfirmPayment({super.key});
@@ -32,8 +26,6 @@ class ConfirmPayment extends StatelessWidget {
 
     final CartItemController cartItemController = Get.find();
     cartItemController.onInit();
-
-    // int indexValue;
 
     // StoreModel store = storeBox.get(
     //   AddItemRepo.instance.currentStore.value,
@@ -74,6 +66,7 @@ class ConfirmPayment extends StatelessWidget {
         ),
         child: ListView(
           children: [
+            // list of items in the cart
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10),
@@ -137,7 +130,7 @@ class ConfirmPayment extends StatelessWidget {
                                   },
                                   onLongPress: () {
                                     cartItemController
-                                        .deleteItemFromCart(index);
+                                        .removeItemFromCart(index);
                                   },
                                   child: SizedBox(
                                     width: double.infinity,
@@ -175,16 +168,20 @@ class ConfirmPayment extends StatelessWidget {
                                                       .cartItems[index]
                                                       .itemName,
                                                 ),
-                                                Text(
-                                                  '${stockList.quantityInCart} x ${stockList.price}',
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
+                                                Obx(
+                                                  () => Text(
+                                                    '${stockList.quantityInCart.value} x ${stockList.price}',
+                                                    style: const TextStyle(
+                                                        fontSize: 12),
+                                                  ),
                                                 ),
                                               ],
                                             ),
-                                            Text(
-                                              nairaFormat.format(
-                                                stockList.subTotal,
+                                            Obx(
+                                              () => Text(
+                                                nairaFormat.format(
+                                                  stockList.subTotal.value,
+                                                ),
                                               ),
                                             ),
                                           ],
@@ -202,176 +199,173 @@ class ConfirmPayment extends StatelessWidget {
                 ),
               ),
             ),
+            // payment subtotal and total
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 1.0, horizontal: 10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(6),
                 child: Container(
-                    color: isDarkMood
-                        ? kDarkModeIconColor
-                        : kLightModeBackgroundColor,
-                    height: screenSize.height * 0.23,
-                    child: Obx(
-                      () => Column(
-                        children: [
-                          Card(
-                            elevation: 0,
-                            color: isDarkMood
-                                ? kDarkModeIconColor
-                                : kLightModeBackgroundColor,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 8,
-                                left: 8,
-                                right: 8,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    kSubTotalText,
+                  color: isDarkMood
+                      ? kDarkModeIconColor
+                      : kLightModeBackgroundColor,
+                  height: screenSize.height * 0.23,
+                  child: Obx(
+                    () => Column(
+                      children: [
+                        Card(
+                          elevation: 0,
+                          color: isDarkMood
+                              ? kDarkModeIconColor
+                              : kLightModeBackgroundColor,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 8,
+                              left: 8,
+                              right: 8,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  kSubTotalText,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: kWhiteLight,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  nairaFormat.format(
+                                    cartItemController.totalCartSubTotal.value,
+                                  ),
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: kWhiteLight,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Card(
+                          elevation: 0,
+                          color: isDarkMood
+                              ? kDarkModeIconColor
+                              : kLightModeBackgroundColor,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 4.0,
+                              left: 8,
+                              right: 8,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  kDiscountText,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    color: kWhiteLight,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  nairaFormat.format(
+                                    cartItemController.totalCartDiscount.value,
+                                  ),
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: kWhiteLight,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Card(
+                          elevation: 0,
+                          color: isDarkMood
+                              ? kDarkModeIconColor
+                              : kLightModeBackgroundColor,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              top: 4.0,
+                              left: 8,
+                              right: 8,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(kTaxText,
                                     style: TextStyle(
                                       fontSize: 20,
                                       color: kWhiteLight,
                                       fontWeight: FontWeight.bold,
-                                    ),
+                                    )),
+                                Text(
+                                  nairaFormat.format(
+                                    cartItemController.totalCartTax.value,
                                   ),
-                                  Text(
-                                    nairaFormat.format(
-                                      cartItemController
-                                          .totalCartSubTotal.value,
-                                    ),
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: kWhiteLight,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: kWhiteLight,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                          Card(
-                            elevation: 0,
-                            color: isDarkMood
-                                ? kDarkModeIconColor
-                                : kLightModeBackgroundColor,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 4.0,
-                                left: 8,
-                                right: 8,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(
-                                    kDiscountText,
+                        ),
+                        CustomDivider(
+                          height: screenSize.height * 0.001,
+                          thickness: screenSize.height * 0.0005,
+                          color: kWhiteLight,
+                          margin: const EdgeInsets.all(0),
+                        ),
+                        Card(
+                          elevation: 0,
+                          color: isDarkMood
+                              ? kDarkModeIconColor
+                              : kLightModeBackgroundColor,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                              left: 8,
+                              right: 8,
+                              bottom: 16,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(kTotalText,
                                     style: TextStyle(
                                       fontSize: 20,
                                       color: kWhiteLight,
                                       fontWeight: FontWeight.bold,
-                                    ),
+                                    )),
+                                Text(
+                                  nairaFormat.format(
+                                    cartItemController.totalCartTotal.value,
                                   ),
-                                  Text(
-                                    nairaFormat.format(
-                                      cartItemController
-                                          .totalCartDiscount.value,
-                                    ),
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: kWhiteLight,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    color: kWhiteLight,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                          Card(
-                            elevation: 0,
-                            color: isDarkMood
-                                ? kDarkModeIconColor
-                                : kLightModeBackgroundColor,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                top: 4.0,
-                                left: 8,
-                                right: 8,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(kTaxText,
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: kWhiteLight,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                  Text(
-                                    nairaFormat.format(
-                                      cartItemController.totalCartTax.value,
-                                    ),
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: kWhiteLight,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          CustomDivider(
-                            height: screenSize.height * 0.001,
-                            thickness: screenSize.height * 0.0005,
-                            color: kWhiteLight,
-                            margin: const EdgeInsets.all(0),
-                          ),
-                          Card(
-                            elevation: 0,
-                            color: isDarkMood
-                                ? kDarkModeIconColor
-                                : kLightModeBackgroundColor,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: 8,
-                                right: 8,
-                                bottom: 16,
-                              ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  const Text(kTotalText,
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        color: kWhiteLight,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                  Text(
-                                    nairaFormat.format(
-                                      cartItemController.totalCartTotal.value,
-                                    ),
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      color: kWhiteLight,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
+            // paylater or add to debts
             Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: 8.0,
@@ -399,6 +393,7 @@ class ConfirmPayment extends StatelessWidget {
                 ],
               ),
             ),
+            // confirm payment button
             Padding(
               padding: EdgeInsets.all(screenSize.height * 0.05),
               child: ElevatedButton(
@@ -409,15 +404,24 @@ class ConfirmPayment extends StatelessWidget {
                     isDarkMood,
                     cartItemController.indexValue,
                   );
-
-                  // ReceiptsController.instance.cartTotal.value =
-                  //     cartItemController.totalCartTotal.value.toString();
-                  // AddReceiptsRepo.instance.saveReceiptData().then(
-                  //       (value) => Get.to(
-                  //         () => const ReceiptListScreen(),
-                  //       ),
-                  //     );
                 },
+                //     () {
+                //   print('confirm payment');
+                //   cartItemController.showMoodOfPayment(
+                //     context,
+                //     screenSize,
+                //     isDarkMood,
+                //     cartItemController.indexValue,
+                //   );
+
+                //   // ReceiptsController.instance.cartTotal.value =
+                //   //     cartItemController.totalCartTotal.value.toString();
+                //   // AddReceiptsRepo.instance.saveReceiptData().then(
+                //   //       (value) => Get.to(
+                //   //         () => const ReceiptListScreen(),
+                //   //       ),
+                //   //     );
+                // },
                 child: const Text(
                   kConfirmPaymentText,
                   style: TextStyle(fontSize: 15, color: kWhiteLight),

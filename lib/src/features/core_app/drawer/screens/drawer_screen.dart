@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
@@ -57,14 +56,36 @@ class SpacemallDrawer extends StatelessWidget {
                         radius: 100,
                         backgroundColor: Colors.transparent,
                         child: SizedBox(
-                            child: ClipOval(
-                          child: CircleAvatar(
-                            radius: 100,
-                            backgroundImage: NetworkImage(
-                              user.profilePic,
+                          child: ClipOval(
+                            child: FutureBuilder<void>(
+                              future: precacheImage(
+                                NetworkImage(user.profilePic),
+                                context,
+                              ),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<void> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return CircleAvatar(
+                                    backgroundColor: kWhiteDark,
+                                    radius: 100,
+                                    backgroundImage:
+                                        NetworkImage(user.profilePic),
+                                  );
+                                } else {
+                                  return const CircularProgressIndicator(
+                                    backgroundColor: kWhiteLight,
+                                  );
+                                }
+                              },
                             ),
+
+                            //  CircleAvatar(
+                            //   radius: 100,
+                            //   backgroundImage: NetworkImage(user.profilePic),
+                            // ),
                           ),
-                        )),
+                        ),
                       ),
                     ),
                     Column(
@@ -73,7 +94,7 @@ class SpacemallDrawer extends StatelessWidget {
                         ListTile(
                           horizontalTitleGap: 0,
                           onTap: () {
-                            Get.to(() => DashBoard());
+                            // Get.off(() => DashBoard());
                           },
                           leading: const Icon(
                             Icons.home_sharp,
@@ -88,7 +109,7 @@ class SpacemallDrawer extends StatelessWidget {
                         ListTile(
                           horizontalTitleGap: 0,
                           onTap: () {
-                            Get.to(() => const ProfileScreen());
+                            Get.off(() => const ProfileScreen());
                           },
                           leading: const Icon(
                             Icons.person,
@@ -102,7 +123,7 @@ class SpacemallDrawer extends StatelessWidget {
                         ListTile(
                           horizontalTitleGap: 0,
                           onTap: () {
-                            Get.to(() => const SettingsScreen());
+                            Get.off(() => const SettingsScreen());
                           },
                           leading: const Icon(
                             Icons.settings,
@@ -116,7 +137,7 @@ class SpacemallDrawer extends StatelessWidget {
                         ListTile(
                           horizontalTitleGap: 0,
                           onTap: () {
-                            Get.to(() => const AddStore());
+                            Get.off(() => const AddStore());
                           },
                           leading: const Icon(
                             Icons.storefront_rounded,

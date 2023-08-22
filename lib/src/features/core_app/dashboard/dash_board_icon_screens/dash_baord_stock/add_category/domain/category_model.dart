@@ -1,4 +1,6 @@
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 
 part 'category_model.g.dart';
 
@@ -7,29 +9,25 @@ class CategoryModel {
   @HiveField(0)
   String categoryName;
   @HiveField(1)
-  String itemName;
+  RxList<AddItemModel> items;
   @HiveField(2)
-  String itemQuantity;
+  RxInt itemsInCategory;
   @HiveField(3)
-  String itemId;
-  @HiveField(4)
   String categoryId;
 
   CategoryModel({
     required this.categoryName,
-    required this.itemId,
     required this.categoryId,
-    required this.itemName,
-    required this.itemQuantity,
+    required this.items,
+    required this.itemsInCategory,
   });
 
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
     return CategoryModel(
       categoryName: map['categoryName'] ?? '',
-      itemId: map['itemId'] ?? '',
       categoryId: map['categoryId'] ?? '',
-      itemName: map['itemName'] ?? '',
-      itemQuantity: map['itemQuantity'] ?? '',
+      items: map['items'] ?? '',
+      itemsInCategory: map['itemsInCategory'] ?? '',
     );
   }
 
@@ -37,10 +35,9 @@ class CategoryModel {
   Map<String, dynamic> toMap() {
     return {
       "categoryName": categoryName,
-      "itemId": itemId,
       "categoryId": categoryId,
-      "itemName": itemName,
-      "itemQuantity": itemQuantity,
+      "items": items,
+      "itemsInCategory": itemsInCategory,
     };
   }
 }

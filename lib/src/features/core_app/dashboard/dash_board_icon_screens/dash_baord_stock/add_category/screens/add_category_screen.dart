@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
@@ -31,7 +32,7 @@ class AddCategory extends StatelessWidget {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -78,7 +79,7 @@ class AddCategory extends StatelessWidget {
                           // addCategoryController.removeCategory(index);
                         },
                         icon: const Icon(Icons.remove_circle),
-                        color: Colors.red,
+                        color: kRedColor,
                       ),
                       title: Text(
                         category.categoryName,

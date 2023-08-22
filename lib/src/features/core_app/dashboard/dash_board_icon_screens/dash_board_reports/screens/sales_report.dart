@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -22,7 +23,7 @@ late List<HourlySalesData> _hourlyChartData;
 late List<WeeklySalesData> _weeklyChartData;
 
 late List<MonthlySalesData> _monthlyChartData;
-bool _showGrid = true;
+bool showGrid = true;
 int _selected = 0;
 const List reportValues = [
   {
@@ -101,7 +102,7 @@ class _ReportSalesState extends State<SalesReport> {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -172,7 +173,7 @@ class _ReportSalesState extends State<SalesReport> {
                       child: TextButton(
                         onPressed: () {
                           setState(() {
-                            _showGrid = true;
+                            showGrid = true;
                             _selected = 0;
                           });
                         },
@@ -205,7 +206,7 @@ class _ReportSalesState extends State<SalesReport> {
                       child: TextButton(
                         onPressed: () {
                           setState(() {
-                            _showGrid = false;
+                            showGrid = false;
                             _selected = 1;
                           });
                         },
@@ -244,7 +245,7 @@ class _ReportSalesState extends State<SalesReport> {
                       child: TextButton(
                         onPressed: () {
                           setState(() {
-                            _showGrid = false;
+                            showGrid = false;
                             _selected = 2;
                           });
                         },

@@ -28,7 +28,7 @@ class RemainingStock extends StatelessWidget {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -86,7 +86,7 @@ class RemainingStock extends StatelessWidget {
                                   color: int.parse(
                                               store.stock[index].itemQuantity) <
                                           20
-                                      ? Colors.red
+                                      ? kRedColor
                                       : null,
                                 ),
                               ),

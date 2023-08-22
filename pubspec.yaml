@@ -40,6 +40,12 @@ dependencies:
   syncfusion_flutter_charts: ^22.1.38
   pie_chart: ^5.3.2
   share_plus: ^7.0.2
+  pdf: ^3.10.4
+  open_file: ^3.3.2
+  printing: ^5.11.0
+  expandable: ^5.0.1
+  showcaseview: ^2.0.3
+  connectivity_plus: ^4.0.2
 
 
 dev_dependencies:

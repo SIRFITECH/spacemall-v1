@@ -1,5 +1,9 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
+import 'package:spacemall/src/utils/helpers/helper.dart';
 
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/image_strings.dart';
@@ -32,7 +36,7 @@ class _TopCustomerReportDetailsState extends State<TopCustomerReportDetails> {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -97,7 +101,12 @@ class _TopCustomerReportDetailsState extends State<TopCustomerReportDetails> {
                                 ),
                               ),
                               Text(
-                                '01 Jan 2023',
+                                // ProfileController.instance.user!.createdAt,
+                                DateFormat('d MMM, yyyy').format(
+                                  DateTime.now().subtract(
+                                    const Duration(days: 180),
+                                  ),
+                                ),
                                 style: TextStyle(
                                   color: isDarkMood
                                       ? kGreyColor.shade600
@@ -117,7 +126,9 @@ class _TopCustomerReportDetailsState extends State<TopCustomerReportDetails> {
                                 ),
                               ),
                               Text(
-                                '24 Jan 2023',
+                                DateFormat('d MMM, yyyy').format(
+                                  DateTime.now(),
+                                ),
                                 style: TextStyle(
                                   color: isDarkMood
                                       ? kGreyColor.shade600
@@ -158,6 +169,7 @@ class _TopCustomerReportDetailsState extends State<TopCustomerReportDetails> {
               const SizedBox(
                 height: 5,
               ),
+              // expandible container for more details about customer
               Container(
                 width: screenSize.width * 0.9,
                 decoration: BoxDecoration(
@@ -173,32 +185,117 @@ class _TopCustomerReportDetailsState extends State<TopCustomerReportDetails> {
                     EdgeInsets.all(MediaQuery.of(context).size.height * 0.01),
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'More Details',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color:
-                                isDarkMood ? kGreyColor.shade600 : kBlackDark,
-                          ),
+                    ExpandablePanel(
+                      theme: ExpandableThemeData(
+                        iconColor: !isDarkMood
+                            ? kMainColorLight
+                            : kTextFieldDarkBorderColor.withOpacity(0.8),
+                      ),
+                      header: Text(
+                        'More Details',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: isDarkMood ? kGreyColor.shade600 : kBlackDark,
                         ),
-                        Icon(
-                          Icons.arrow_drop_down_rounded,
-                          size: 50,
-                          color: !isDarkMood
-                              ? kMainColorLight
-                              : kTextFieldDarkBorderColor.withOpacity(0.8),
-                        )
-                      ],
-                    )
+                      ),
+                      expanded: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Email',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: isDarkMood
+                                          ? kGreyColor.shade700
+                                          : kGreyColor.shade400,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 1,
+                                  ),
+                                  Text(
+                                    truncateString(
+                                        'adeoyefemi23@gmail.com', 15),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: isDarkMood
+                                          ? kGreyColor.shade600
+                                          : kBlackDark,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'Number',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: isDarkMood
+                                          ? kGreyColor.shade700
+                                          : kGreyColor.shade400,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 1,
+                                  ),
+                                  Text(
+                                    '+2340123456789',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: isDarkMood
+                                          ? kGreyColor.shade600
+                                          : kBlackDark,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Text(
+                            'Gender',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: isDarkMood
+                                  ? kGreyColor.shade700
+                                  : kGreyColor.shade400,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 1,
+                          ),
+                          Text(
+                            'Male',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  isDarkMood ? kGreyColor.shade600 : kBlackDark,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                      collapsed: const Text(''),
+                    ),
                   ],
                 ),
               ),
               const SizedBox(
                 height: 20,
               ),
+              // expandible container for orders
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
                 decoration: BoxDecoration(
@@ -211,55 +308,198 @@ class _TopCustomerReportDetailsState extends State<TopCustomerReportDetails> {
                   ),
                 ),
                 padding: EdgeInsets.all(screenSize.height * 0.01),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: ExpandablePanel(
+                  theme: ExpandableThemeData(
+                    iconColor: !isDarkMood
+                        ? kMainColorLight
+                        : kTextFieldDarkBorderColor.withOpacity(0.8),
+                  ),
+                  header: RichText(
+                    text: TextSpan(
                       children: [
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Orders(',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: isDarkMood
-                                      ? kGreyColor.shade600
-                                      : kBlackDark,
-                                ),
-                              ),
-                              TextSpan(
-                                text: '2',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: !isDarkMood
-                                      ? kMainColorLight
-                                      : kTextFieldDarkBorderColor
-                                          .withOpacity(0.8),
-                                ),
-                              ),
-                              TextSpan(
-                                text: ')',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: isDarkMood
-                                      ? kGreyColor.shade600
-                                      : kBlackDark,
-                                ),
-                              ),
-                            ],
+                        TextSpan(
+                          text: 'Orders(',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color:
+                                isDarkMood ? kGreyColor.shade600 : kBlackDark,
                           ),
                         ),
-                        Icon(
-                          Icons.arrow_drop_down_rounded,
-                          size: 50,
-                          color: !isDarkMood
-                              ? kMainColorLight
-                              : kTextFieldDarkBorderColor.withOpacity(0.8),
-                        )
+                        TextSpan(
+                          text: '2',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: !isDarkMood
+                                ? kMainColorLight
+                                : kTextFieldDarkBorderColor.withOpacity(0.8),
+                          ),
+                        ),
+                        TextSpan(
+                          text: ')',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color:
+                                isDarkMood ? kGreyColor.shade600 : kBlackDark,
+                          ),
+                        ),
                       ],
-                    )
-                  ],
+                    ),
+                  ),
+                  expanded: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: SizedBox(
+                          width: double.infinity,
+                          // screenSize.width * 0.5,
+                          child: ListTile(
+                            leading: Image.asset(
+                              kTrialImage1,
+                              width: 40,
+                              height: 40,
+                            ),
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '2settle',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: isDarkMood
+                                        ? kGreyColor.shade700
+                                        : kGreyColor.shade400,
+                                  ),
+                                  // style: TextStyle(
+                                  //   fontSize: 12,
+                                  // ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  '14 Items',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isDarkMood
+                                        ? kGreyColor.shade600
+                                        : kBlackDark,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                              ],
+                            ),
+                            subtitle: Text(
+                              DateFormat('d MMM, yyyy').format(
+                                DateTime.now(),
+                              ),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: isDarkMood
+                                    ? kGreyColor.shade700
+                                    : kGreyColor.shade400,
+                              ),
+                            ),
+                            trailing: Text(
+                              'N 55,000',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: isDarkMood
+                                    ? kGreyColor.shade600
+                                    : kBlackDark,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        height: 0.1,
+                        indent: screenSize.width * 0.18,
+                        thickness: 0.7,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: SizedBox(
+                          width: double.infinity,
+                          // screenSize.width * 0.5,
+                          child: ListTile(
+                            leading: Image.asset(
+                              kTrialImage1,
+                              width: 40,
+                              height: 40,
+                            ),
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Bank Transfer',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                    color: isDarkMood
+                                        ? kGreyColor.shade700
+                                        : kGreyColor.shade400,
+                                  ),
+                                  // style: TextStyle(
+                                  //   fontSize: 12,
+                                  // ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  '3 Items',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: isDarkMood
+                                        ? kGreyColor.shade600
+                                        : kBlackDark,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                              ],
+                            ),
+                            subtitle: Text(
+                              DateFormat('d MMM, yyyy').format(
+                                DateTime.now(),
+                              ),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                color: isDarkMood
+                                    ? kGreyColor.shade700
+                                    : kGreyColor.shade400,
+                              ),
+                            ),
+                            trailing: Text(
+                              'N 300,000,000',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: isDarkMood
+                                    ? kGreyColor.shade600
+                                    : kBlackDark,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        height: 0.1,
+                        indent: screenSize.width * 0.18,
+                        thickness: 0.7,
+                      ),
+                    ],
+                  ),
+                  collapsed: const Text(''),
                 ),
               ),
             ],

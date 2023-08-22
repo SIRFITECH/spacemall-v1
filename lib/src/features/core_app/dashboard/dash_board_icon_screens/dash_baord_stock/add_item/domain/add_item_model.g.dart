@@ -28,15 +28,16 @@ class AddItemModelAdapter extends TypeAdapter<AddItemModel> {
       preventItemSalesWhenOutOfStock: fields[8] as bool,
       trackExpiry: fields[9] as String,
       expiryAlert: fields[10] as String,
-      itemCount: fields[11] as int,
+      itemCount: fields[11] as RxInt,
       itemId: fields[12] as String,
+      morePics: RxList.from(fields[13] as List),
     );
   }
 
   @override
   void write(BinaryWriter writer, AddItemModel obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.itemPic)
       ..writeByte(1)
@@ -62,7 +63,9 @@ class AddItemModelAdapter extends TypeAdapter<AddItemModel> {
       ..writeByte(11)
       ..write(obj.itemCount)
       ..writeByte(12)
-      ..write(obj.itemId);
+      ..write(obj.itemId)
+      ..writeByte(13)
+      ..write(obj.morePics);
   }
 
   @override

@@ -33,7 +33,7 @@ class _StaffState extends State<StaffScreen> {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],

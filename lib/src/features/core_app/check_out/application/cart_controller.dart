@@ -24,7 +24,8 @@ class CartController extends GetxController {
       uid: '',
       role: '',
       cart: <CartItemModel>[],
-      stores: <StoreModel>[],
+      stores: RxList<StoreModel>([]),
+      createdAt: '',
     );
 
     user.cart.add(newCartItem);

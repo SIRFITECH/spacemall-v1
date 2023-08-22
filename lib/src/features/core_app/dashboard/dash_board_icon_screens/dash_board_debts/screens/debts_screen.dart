@@ -30,7 +30,7 @@ class DebtScreen extends StatelessWidget {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],

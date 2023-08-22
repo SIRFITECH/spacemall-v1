@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spacemall/src/constants/colors.dart';
 
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
@@ -31,7 +33,7 @@ class AddItemRepo extends GetxController {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -56,9 +58,12 @@ class AddItemRepo extends GetxController {
           addItemController.preventItemSalesWhenOutOfStock.value,
       trackExpiry: addItemController.trackExpiry.text.trim(),
       expiryAlert: addItemController.expiryAlert.text.trim(),
-      itemCount: 0,
+      itemCount: RxInt(0),
       itemId: const Uuid().v4(),
+      morePics: addItemController.moreImages,
     );
+    addCategoryController.categoryValue.value?.itemsInCategory++;
+    addCategoryController.categoryValue.value?.items.add(newItem);
 
     // Add the new stock item to the store's stock list
     storeList.stock.add(newItem);
@@ -71,6 +76,46 @@ class AddItemRepo extends GetxController {
 
     Get.back();
     addItemController.isItemAdded.value = true;
+    AddItemController.instance.clearImages();
+  }
+  // edit an itemin the stock list
+
+  Future editItemData(AddItemModel editedItem) async {
+    StoreModel storeList = storeBox.get(
+      currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: RxList([]),
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
+    int itemIndex =
+        storeList.stock.indexWhere((item) => item.itemId == editedItem.itemId);
+    storeList.stock[itemIndex] = editedItem;
+    await storeBox.put(
+      currentStore.value,
+      storeList,
+    );
+
+    Get.snackbar(
+      'Edited',
+      '${editedItem.itemName} edited',
+      backgroundColor: Colors.green,
+      colorText: kWhiteLight,
+    );
+
+    Get.back();
   }
 
   // clear the TextEditingControllers

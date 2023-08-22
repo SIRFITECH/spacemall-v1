@@ -5,6 +5,7 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/screens/receipt_view.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 
 import '../../../../../../constants/image_strings.dart';
@@ -35,7 +36,7 @@ class ReceiptListScreen extends StatelessWidget {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -86,12 +87,7 @@ class ReceiptListScreen extends StatelessWidget {
                         ? kMainComplimemtColorLight
                         : kLightModeBackgroundColor,
                     child: TextButton(
-                      onPressed:
-                          //() {
-
-                          //   receiptController.showCalendarAndSetFromDate(context);
-                          // },
-                          () async {
+                      onPressed: () async {
                         if (defaultTargetPlatform == TargetPlatform.iOS) {
                           DateTime selectedDate = await SalesController.instance
                               .pickiOSDate(context, screenSize);
@@ -110,7 +106,6 @@ class ReceiptListScreen extends StatelessWidget {
                           if (selectedDate != null) {
                             receiptController.fromSelectedDate.value =
                                 DateFormat('d MMM').format(selectedDate);
-                            print(receiptController.fromSelectedDate.value);
                           } else {
                             receiptController.fromSelectedDate.value =
                                 DateFormat('d MMM').format(DateTime.now());
@@ -128,7 +123,6 @@ class ReceiptListScreen extends StatelessWidget {
                             height: 10,
                           ),
                           Obx(() => Text(
-                                // ReportsController.instance.todayReport.value
                                 receiptController.fromDate.value ==
                                         DateTime.now()
                                             .subtract(const Duration(days: 7))
@@ -136,13 +130,6 @@ class ReceiptListScreen extends StatelessWidget {
                                         .format(receiptController.lastWeekDate)
                                     : DateFormat('dd-MM-yyyy').format(
                                         receiptController.fromDate.value),
-                                // receiptController.fromDate.value ==
-                                //         DateTime.now()
-                                //             .subtract(const Duration(days: 7))
-                                //     ? DateFormat('dd-MM-yyyy')
-                                //         .format(receiptController.lastWeekDate)
-                                //     : DateFormat('dd-MM-yyyy').format(
-                                //         receiptController.fromDate.value),
                                 style: const TextStyle(
                                     fontSize: 15, color: kWhiteLight),
                               )),
@@ -194,90 +181,98 @@ class ReceiptListScreen extends StatelessWidget {
                   color: isDarkMood
                       ? kMainComplimemtColorLight.withOpacity(0.2)
                       : kLightModeBackgroundColor.withOpacity(0.2),
-                  height: screenSize.height * 0.55,
+                  height: screenSize.height * 0.6,
                   child: Scrollbar(
                     child: ListView.builder(
                         itemCount: receipstList.length,
                         itemBuilder: (context, index) {
                           ReceiptsModel receipts = store.receipts[index];
-                          return Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(5),
+                          return GestureDetector(
+                            onTap: () {
+                              Get.to(() => ReceiptView(receipt: receipts));
+                            },
+                            child: Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(5),
+                                ),
+                                side: BorderSide(
+                                  color: !isDarkMood
+                                      ? kTextFieldLightBorderColor
+                                          .withOpacity(0.5)
+                                      : kTextFieldDarkBorderColor
+                                          .withOpacity(0.5),
+                                  width: 1.0,
+                                ),
                               ),
-                              side: BorderSide(
-                                color: !isDarkMood
-                                    ? kTextFieldLightBorderColor
-                                        .withOpacity(0.5)
-                                    : kTextFieldDarkBorderColor
-                                        .withOpacity(0.5),
-                                width: 1.0,
-                              ),
-                            ),
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        receipts.customerName,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              nairaFormat.format(
-                                                double.parse(
-                                                  receipts.cartTotal,
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 8.0, bottom: 8),
-                                              child: Text(
-                                                'by ${receipts.paymentMethod}',
-                                                style: const TextStyle(
-                                                    fontSize: 12),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          '${receipts.itemsInCart} items',
-                                          style: const TextStyle(fontSize: 12),
+                                          receipts.customerName,
                                         ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          DateFormat('d MMM, yyyy').format(
-                                            receipts.date,
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.only(top: 8.0),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Text(
+                                                nairaFormat.format(
+                                                  double.parse(
+                                                    receipts.cartTotal,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 8.0, bottom: 8),
+                                                child: Text(
+                                                  'by ${receipts.paymentMethod}',
+                                                  style: const TextStyle(
+                                                      fontSize: 12),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          style: const TextStyle(fontSize: 12),
                                         ),
                                       ],
                                     ),
-                                  ),
-                                ],
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 8.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${receipts.itemsInCart} items',
+                                            style:
+                                                const TextStyle(fontSize: 12),
+                                          ),
+                                          const SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            DateFormat('d MMM, yyyy').format(
+                                              receipts.date,
+                                            ),
+                                            style:
+                                                const TextStyle(fontSize: 12),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           );

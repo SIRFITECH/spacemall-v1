@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
@@ -16,6 +17,8 @@ import 'package:spacemall/src/features/core_app/profile/application/profile_cont
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
+
+import '../../store/domain/store_model.dart';
 
 // enum ThemeMode {
 //   light,
@@ -38,9 +41,7 @@ class ProfileRepo extends GetxController {
   final FirebaseStorage _firestorage = FirebaseStorage.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
-  var dp =
-      // profileController
-      ProfileController.instance.profilePic.value;
+  var dp = ProfileController.instance.profilePic.value;
   String? get currentUserId => _auth.currentUser?.uid;
 
   // bool isLoading = false;
@@ -53,15 +54,16 @@ class ProfileRepo extends GetxController {
     return _userModel ??
         UserModel(
           cart: [],
-          stores: [],
+          stores: RxList([]),
           profilePic: '',
-          userName: profileController.tUserName.text.trim(),
-          email: profileController.tEmail.text.trim(),
-          contactNumber: '',
-          country: loginController.country.value.flagEmoji,
-          role: splashController.userRole.value,
-          uid: AuthRepo.instance.uid,
           bio: profileController.tBio.text.trim(),
+          createdAt: '',
+          email: '',
+          contactNumber: '',
+          country: '',
+          role: '',
+          uid: '',
+          userName: profileController.tUserName.text.trim(),
         );
   }
 
@@ -69,25 +71,27 @@ class ProfileRepo extends GetxController {
   saveData(BuildContext context) async {
     dp = profileController.profilePic.value;
     UserModel user = UserModel(
+      // change the profilePic to a file instead of a string
       profilePic: '',
-      contactNumber: conttactNumber.value,
+      contactNumber: AuthRepo.instance.userPhone!,
       role: splashController.userRole.value,
       cart: [],
-      stores: [],
-      uid: '',
+      stores: RxList<StoreModel>()..addAll([]),
+      uid: AuthRepo.instance.uid,
       country: loginController.country.value.name,
       userName: profileController.tUserName.text.trim(),
       email: profileController.tEmail.text.trim(),
       bio: profileController.tBio.text.trim(),
+      createdAt: DateFormat('d MMM, yyyy').format(DateTime.now()),
     );
 
-    if (profileController.profilePic.value!.path.isNotEmpty) {
+    if (dp != null) {
       const Center(
         child: CircularProgressIndicator(),
       );
       ProfileRepo.instance.saveUserDataToFireBase(
         context: context,
-        userModel: userModel,
+        userModel: user,
         dp: profileController.profilePic.value!,
         onSucess: () {
           // save to phone memory
@@ -105,8 +109,9 @@ class ProfileRepo extends GetxController {
     } else {
       Get.snackbar(
         'Error',
-        'You need to pick a profile photo',
-        backgroundColor: kWhiteLight,
+        'You have to add a profile photo',
+        backgroundColor: kRedColor,
+        colorText: kWhiteLight,
       );
     }
   }
@@ -164,10 +169,15 @@ class ProfileRepo extends GetxController {
   }) async {
     try {
       profileController.isLoading.value = true;
-      await saveImageToStorage('profilePic/${authRepo.uid}', dp).then((value) {
-        userModel.profilePic = value;
-        userModel.uid = AuthRepo.instance.uid;
-      });
+      await saveImageToStorage('profilePic/${authRepo.uid}', dp).then(
+        (value) {
+          userModel.profilePic = value;
+          userModel.createdAt =
+              DateFormat('d MMM, yyyy').format(DateTime.now());
+          userModel.contactNumber = AuthRepo.instance.userPhone!;
+          userModel.uid = AuthRepo.instance.uid;
+        },
+      );
 
       _userModel = userModel;
 
@@ -205,7 +215,7 @@ class ProfileRepo extends GetxController {
     //     ? SAppTheme.darkTheme
     //     : SAppTheme.lightTheme;
     // update();
-    print('Theme mood is theme.system');
-    print(themeMood.value);
+    // print('Theme mood is theme.system');
+    // print(themeMood.value);
   }
 }

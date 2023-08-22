@@ -37,7 +37,7 @@ class SalesScreen extends StatelessWidget {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -189,11 +189,11 @@ class SalesScreen extends StatelessWidget {
                                 () => const PaymentSummary(),
                               );
                               if (salesList.isNotEmpty) {
-                                print(salesList[index]
-                                    .customerName
-                                    .substring(0, 1));
+                                // print(salesList[index]
+                                //     .customerName
+                                //     .substring(0, 1));
                               } else {
-                                print('No item');
+                                // print('No item');
                               }
                             },
                             child: Column(
@@ -249,7 +249,6 @@ class SalesScreen extends StatelessWidget {
                                                         salesList[index]
                                                             .customerName
                                                             .substring(0, 1),
-                                                        // 'N',
                                                         style: TextStyle(
                                                           fontSize: 45,
                                                           fontWeight:
@@ -277,7 +276,6 @@ class SalesScreen extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   salesList[index].customerName,
-                                                  // 'New Customer',
                                                   style: const TextStyle(
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.bold,
@@ -287,7 +285,7 @@ class SalesScreen extends StatelessWidget {
                                                   children: [
                                                     Text(
                                                       nairaFormat.format(
-                                                        int.parse(
+                                                        double.parse(
                                                             totalItemPrice),
                                                       ),
                                                       style: const TextStyle(

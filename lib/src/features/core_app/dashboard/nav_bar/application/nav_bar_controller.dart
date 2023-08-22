@@ -2,28 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/check_out/screens/check_out_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_main_display.dart';
+import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
-import 'package:spacemall/src/features/core_app/settings/screens/settings_screen.dart';
 
 class NavBarController extends GetxController {
   final selectedIndex = 0.obs;
   final selectedMallIndex = 0.obs;
 
-  final List<Widget> screens = const [
+  final List<Widget> screens = [
     Center(
       child: DashboardGrid(),
     ),
-    Center(
+    const Center(
       child: CheckOut(),
     ),
-    Center(
+    const Center(
       child: ProfileScreen(),
     ),
-    Center(
-      child:
-          // AddStore(),
-          SettingsScreen(),
-    ),
+
+    const SpacemallDrawer(),
+    // Center(child:
+    //     // AddStore(),
+    //     SettingsScreen(),
+    //     ),
   ];
 
   final List<Widget> mallScreens = const [

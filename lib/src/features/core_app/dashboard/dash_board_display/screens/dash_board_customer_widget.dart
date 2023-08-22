@@ -4,13 +4,15 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/application/dash_baord_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_reports/screens/top_customer_report.dart';
 import 'package:spacemall/src/features/core_app/generic_dash_board_screens/linear_bar_indicator_widget.dart';
 import 'package:spacemall/src/features/core_app/generic_dash_board_screens/svg_icons_widget.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
+import 'package:spacemall/src/repository/hive_boxes.dart';
+
+import '../../../../../utils/helpers/helper.dart';
 
 class DashBoardCustomerWidget extends StatelessWidget {
   DashBoardCustomerWidget({
@@ -20,7 +22,6 @@ class DashBoardCustomerWidget extends StatelessWidget {
 
   final bool isDarkMood;
 
-  final dashBoardController = DashBoardController();
   final StoreRepo storeRepo = Get.find();
 
   @override
@@ -30,10 +31,20 @@ class DashBoardCustomerWidget extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
+    // ignore: unused_local_variable
+    // final dashBoardController = DashBoardController(context);
 
     final storeController = StoreController(storeRepo: storeRepo);
 
-    List<StoreModel> storesFromBox = storeRepo.getStoresFromBox();
+    if (storeBox.isNotEmpty && storeController.selectedStore.value == null) {
+      storeController.setStore(
+        StoreRepo.instance.getStoresFromBox().first,
+      );
+    } else {
+      storeController.setStore(
+        StoreController.instance.selectedStore.value,
+      );
+    }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -79,80 +90,49 @@ class DashBoardCustomerWidget extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: screenSize.width * 0.26,
+          width: screenSize.width * 0.24,
         ),
         Center(
-          child: Obx(
-            () => DropdownButton<StoreModel>(
-              iconSize: 32,
-              icon: const Icon(
-                Icons.arrow_drop_down,
-                color: kBrighComplementColor,
+            child: Obx(
+          () => DropdownButton<StoreModel>(
+            iconSize: 32,
+            icon: const Icon(
+              Icons.arrow_drop_down,
+              color: kBrighComplementColor,
+            ),
+            value: storeController.selectedStore.value,
+            hint: Text(
+              'Add a Store',
+              style: TextStyle(
+                color: isDarkMood ? kWhiteDark : kWhiteLight,
               ),
-              value: storeController.selectedStore.value,
-              elevation: 0,
-              dropdownColor: kTransparentColor,
-              // !isDarkMood
-              //     ? kMainComplimemtColorLight.withOpacity(.4)
-              //     : kBlackDark,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              items: storesFromBox
-                  .map<DropdownMenuItem<StoreModel>>((StoreModel value) {
-                    return DropdownMenuItem<StoreModel>(
-                      value: value,
-                      child: Text(
+            ),
+            elevation: 0,
+            dropdownColor: !isDarkMood
+                ? kMainComplimemtColorLight.withOpacity(.4)
+                : kBlackDark,
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            items: StoreRepo.instance
+                .getStoresFromBox()
+                .map<DropdownMenuItem<StoreModel>>((StoreModel value) {
+                  return DropdownMenuItem<StoreModel>(
+                    value: value,
+                    child: Text(
+                      truncateString(
                         value.storeName,
-                        style: textTheme.titleSmall,
+                        14,
                       ),
-                    );
-                  })
-                  .toSet()
-                  .toList(),
-              onChanged: (StoreModel? newValue) =>
-                  storeController.setStore(newValue),
+                      style: textTheme.titleSmall,
+                    ),
+                  );
+                })
+                .toSet()
+                .toList(),
+            onChanged: (StoreModel? newValue) => storeController.setStore(
+              newValue,
             ),
           ),
-        ),
-        // Container(
-        //   height: 40,
-        //   width: screenSize.width * 0.3,
-        //   decoration: BoxDecoration(
-        //     border: const Border(bottom: BorderSide.none),
-        //     borderRadius: BorderRadius.circular(5),
-        //   ),
-        //   child: Center(
-        //     child: Obx(
-        //       () => DropdownButton<StoreModel>(
-        //         iconSize: 32,
-        //         icon: const Icon(
-        //           Icons.arrow_drop_down,
-        //           color: kBrighComplementColor,
-        //         ),
-        //         value: storeController.selectedStore.value,
-        //         elevation: 0,
-        //         dropdownColor: !isDarkMood
-        //             ? kMainComplimemtColorLight.withOpacity(.4)
-        //             : kBlackDark,
-        //         borderRadius: const BorderRadius.all(Radius.circular(10)),
-        //         items: storesFromBox
-        //             .map<DropdownMenuItem<StoreModel>>((StoreModel value) {
-        //               return DropdownMenuItem<StoreModel>(
-        //                 value: value,
-        //                 child: Text(
-        //                   value.storeName,
-        //                   style: textTheme.titleSmall,
-        //                 ),
-        //               );
-        //             })
-        //             .toSet()
-        //             .toList(),
-        //         onChanged: (StoreModel? newValue) =>
-        //             storeController.setStore(newValue),
-        //       ),
-        //     ),
-        //   ),
-        // ),
-
+        )),
         SizedBox(
           width: screenSize.width * 0.005,
         ),

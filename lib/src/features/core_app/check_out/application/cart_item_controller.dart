@@ -7,13 +7,18 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
+import 'package:spacemall/src/localizations/currency.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 
 import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
+import '../../dashboard/dash_board_icon_screens/dash_board_customers/domain/customer_model.dart';
+import '../../dashboard/dash_board_icon_screens/dash_board_debts/domain/debts_model.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
-import '../../dashboard/dash_board_icon_screens/dash_board_receipts/screens/receipt_screen.dart';
+import '../../dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipt_pdf.dart';
+import '../../dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
 import '../data/check_out_repo.dart';
+import '../domain/cart_model.dart';
 
 class CartItemController extends GetxController {
   static CartItemController get instance => Get.put(
@@ -22,18 +27,19 @@ class CartItemController extends GetxController {
   final profileRepo = Get.put(ProfileRepo());
   final checkOutRepo = Get.put(CheckOutRepo());
 
-  // final CartItemController cartItemController = Get.put(CartItemController(),);
-
   int numberOfItemSelect = -1;
 
   RxBool isSelected = false.obs;
+  // RxBool isInCart = false.obs;
 
   RxDouble totalCartTotal = 0.0.obs;
   RxDouble totalCartSubTotal = 0.0.obs;
   RxDouble totalCartDiscount = 0.0.obs;
   RxDouble totalCartTax = 0.0.obs;
+
   RxInt tapedIndex = (-1).obs;
   RxInt items = 0.obs;
+  RxInt cartQuantity = 0.obs;
   RxBool isFirstTime = true.obs;
   int indexValue = 0;
 
@@ -46,19 +52,10 @@ class CartItemController extends GetxController {
 
   RxList<CartItemModel> cartItems = <CartItemModel>[].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    setCartSubTotal();
-    setCartTotal();
-    setCartDiscount(totalCartDiscount.value);
-    setCartTax(totalCartTax.value);
-  }
-
   setCartSubTotal() {
     double subTotal = 0;
     for (var item in cartItems) {
-      subTotal += item.subTotal;
+      subTotal += item.subTotal.value;
     }
     totalCartSubTotal.value = subTotal;
   }
@@ -66,16 +63,18 @@ class CartItemController extends GetxController {
   setCartTotal() {
     double total =
         totalCartSubTotal.value - totalCartDiscount.value + totalCartTax.value;
+
     totalCartTotal.value = total;
+    update();
   }
 
   setCartDiscount(double discount) {
-    double discountedAmount = totalCartSubTotal.value * discount;
+    double discountedAmount = totalCartSubTotal.value * (discount / 100);
     totalCartDiscount.value = discountedAmount;
   }
 
   setCartTax(double tax) {
-    double taxAmount = totalCartSubTotal.value * tax;
+    double taxAmount = totalCartSubTotal.value * (tax / 100);
     totalCartTax.value = taxAmount;
   }
 
@@ -83,89 +82,191 @@ class CartItemController extends GetxController {
     int index,
   ) {
     cartItems.removeAt(index);
-
+    updateItemQuantities();
+    updateCartState();
     if (cartItems.isEmpty) {
       isFirstTime.value = true;
     }
   }
 
   deleteItemFromCart(index) {
-    AddItemModel stockItem = stockBox.getAt(index);
     Get.snackbar(
       '${cartItems[index].itemName}  Deleted ',
       '${cartItems[index].itemName} deleted successfully from cart',
       backgroundColor: kWhiteLight,
       colorText: kBlack,
     );
-    int quantity =
-        cartItems[index].quantityInCart - cartItems[index].quantityInCart;
 
-    cartItems[index].quantityInCart = quantity;
+    // existingItem.quantityInCart.value = 0;
 
-    stockItem.itemCount = cartItems[index].quantityInCart;
-    items.value = 0;
     removeItemFromCart(index);
+    updateItemQuantities();
+    updateCartState();
+    setCartSubTotal();
+    setCartDiscount(10);
+    setCartTax(7.5);
+    setCartTotal();
   }
 
-  decreaseItemQuantityInCart(index) {
-    int quantity = cartItems[index].quantityInCart - 1;
-    cartItems[index].quantityInCart = quantity;
+  void decreaseItemQuantityInCart(index) async {
+    /// it want to reverse what was don in addItem
+    /// - remove the item from cart
+    /// - set the itemCount to 0 globally
+    /// - clear the cartList
+    /// - reset total prices
+    ///
 
-    // Recalculate the subtotal
-    String priceString = cartItems[index].price.toString();
-    String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
-    String quantityInCartString = cartItems[index].quantityInCart.toString();
-    String numQuantityInCartString =
-        quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
-    double initCost =
-        double.parse(numQuantityInCartString) * int.parse(numPriceString);
-    double cost = initCost;
-    cartItems[index].subTotal = cost;
-    items.value--;
+    CartItemModel existingItem = cartItems[index];
+    int quantity = existingItem.quantityInCart.value;
 
-    if (int.parse(numQuantityInCartString) < 1) {
-      removeItemFromCart(index);
-      Get.snackbar(
-        '${cartItems[index].itemName}  Deleted ',
-        '${cartItems[index].itemName} deleted successfully from cart',
-        backgroundColor: kWhiteLight,
-        colorText: kBlack,
-      );
+    if (quantity > 1) {
+      existingItem.quantityInCart.value--;
+      String priceString = existingItem.price.toString();
+      String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
+      String quantityInCartString = existingItem.quantityInCart.toString();
+      String numQuantityInCartString =
+          quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
+      double initCost =
+          double.parse(numQuantityInCartString) * int.parse(numPriceString);
+      double cost = initCost;
+      existingItem.subTotal.value = cost;
+
+      setCartSubTotal();
+      setCartDiscount(10);
+      setCartTax(7.5);
+      setCartTotal();
     } else {
-      Get.snackbar(
-        '1 ${cartItems[index].itemName}  Deleted ',
-        '1 ${cartItems[index].itemName} has been removed from cart',
-        backgroundColor: kWhiteLight,
-        colorText: kBlack,
+      /// -get the item we are dealing with
+      /// -get the item in the phone memory
+      /// -modify the itemCount of the item
+      /// -remove the item from cart
+      ///
+      var cart = checkOutRepo.getCheckOutCartFromBox();
+      StoreModel store = storeBox.get(
+        AddItemRepo.instance.currentStore.value,
+        defaultValue: StoreModel(
+          logo: null,
+          storeName: '',
+          bankName: '',
+          accountNumber: '',
+          contact: '',
+          stock: RxList([]),
+          receipts: [],
+          debts: [],
+          staff: [],
+          sales: [],
+          customer: [],
+          storeId: '',
+          categories: [],
+        ),
       );
+      existingItem.quantityInCart.value = 0;
+      String id = store.stock
+          .firstWhere(
+            (item) => item.itemId == existingItem.itemId,
+            orElse: () => AddItemModel(
+                itemPic: null,
+                itemName: '',
+                itemSellingPrice: '',
+                itemCategory: '',
+                itemQuantity: '0',
+                itemCostPrice: '',
+                trackProfit: false,
+                trackLowStock: false,
+                preventItemSalesWhenOutOfStock: false,
+                trackExpiry: '',
+                expiryAlert: '',
+                itemCount: RxInt(0),
+                itemId: '',
+                morePics: RxList([])),
+          )
+          .itemId;
+
+      cartItems.removeWhere(
+        (item) => item.itemId == id,
+      );
+
+      UserModel? user;
+      if (_userModel == null) {
+        user = await profileRepo.getUserDataFromPhone();
+      } else {
+        user = _userModel;
+      }
+
+      user!.cart.remove(existingItem);
+      cart.remove(existingItem);
+      cartItems.value = [...user.cart];
+
+      setCartSubTotal();
+      setCartDiscount(10);
+      setCartTax(7.5);
+      setCartTotal();
     }
   }
 
-  increaseItemQuantityInCart(index) {
+  void increaseItemQuantityInCart(index) {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
-      defaultValue: StoreModel(
-        logo: null,
-        storeName: '',
-        bankName: '',
-        accountNumber: '',
-        contact: '',
-        stock: [],
-        receipts: [],
-        debts: [],
-        staff: [],
-        sales: [],
-        customer: [],
-        storeId: '',
-        categories: [],
-      ),
     );
-    int quantity = 0;
-    int itemQuantity = int.parse(store.stock[index].itemQuantity);
-    if (itemQuantity > 0) {
-      quantity = cartItems[index].quantityInCart++;
+    int itemQuantityInStore = int.parse(store.stock
+        .firstWhere(
+          (item) => item.itemId == cartItems[index].itemId,
+          orElse: () => AddItemModel(
+              itemPic: null,
+              itemName: '',
+              itemSellingPrice: '',
+              itemCategory: '',
+              itemQuantity: '0',
+              itemCostPrice: '',
+              trackProfit: false,
+              trackLowStock: false,
+              preventItemSalesWhenOutOfStock: false,
+              trackExpiry: '',
+              expiryAlert: '',
+              itemCount: RxInt(0),
+              itemId: '',
+              morePics: RxList([])),
+        )
+        .itemQuantity);
 
-      cartItems[index].quantityInCart = quantity;
+    int quantityToAdd = cartItems[index].quantityInCart.value;
+
+    if (itemQuantityInStore > 0) {
+      if (itemQuantityInStore > quantityToAdd) {
+        CartItemModel existingItem = cartItems.firstWhere(
+          (item) => item.itemId == cartItems[index].itemId,
+        );
+        if (existingItem.itemId.isNotEmpty) {
+          existingItem.quantityInCart.value++;
+          String priceString = existingItem.price.toString();
+          String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
+          String quantityInCartString = existingItem.quantityInCart.toString();
+          String numQuantityInCartString =
+              quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
+          double initCost =
+              double.parse(numQuantityInCartString) * int.parse(numPriceString);
+          double cost = initCost;
+          existingItem.subTotal.value = cost;
+          setCartSubTotal();
+          setCartDiscount(10);
+          setCartTax(7.5);
+          setCartTotal();
+        } else {
+          Get.snackbar(
+            'An Error Occured',
+            'Item not found in cart',
+            backgroundColor: kRedColor,
+            colorText: kWhiteLight,
+          );
+        }
+      } else {
+        Get.snackbar(
+          'Limit Warning',
+          'You have reach the item limit,\n You can only add $itemQuantityInStore units of ${cartItems[index].itemName} to cart',
+          backgroundColor: kRedColor,
+          colorText: kWhiteLight,
+        );
+      }
     } else {
       Get.snackbar(
         'Error adding ${cartItems[index].itemName} to cart',
@@ -173,32 +274,7 @@ class CartItemController extends GetxController {
         backgroundColor: kWhiteLight,
         colorText: kBlack,
       );
-      print(quantity);
     }
-
-// item price in cart
-    // convert the new item price in cart to string
-    String priceString = cartItems[index].price.toString();
-    // convert the string to a format that can be parsed to the naira.form method to format it
-    String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
-
-//
-    String quantityInCartString = cartItems[index].quantityInCart.toString();
-    String numQuantityInCartString =
-        quantityInCartString.replaceAll(RegExp(r'[^0-9]'), '');
-    double initCost =
-        double.parse(numQuantityInCartString) * int.parse(numPriceString);
-    double cost = initCost;
-    CartItemController.instance.items.value++;
-
-    cartItems[index].subTotal = cost;
-
-    Get.snackbar(
-      '1 more ${cartItems[index].itemName} add to cart',
-      'If you want to delete ${cartItems[index].itemName} from cart just press and hold',
-      backgroundColor: kWhiteLight,
-      colorText: kBlack,
-    );
   }
 
   void updateItemQuantities() async {
@@ -210,7 +286,7 @@ class CartItemController extends GetxController {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -226,7 +302,7 @@ class CartItemController extends GetxController {
           store.stock.indexWhere((item) => item.itemId == cartItem.itemId);
 
       if (index >= 0) {
-        int itemQuantityBought = cartItem.quantityInCart;
+        int itemQuantityBought = cartItem.quantityInCart.value;
         String itemQuantityinStore = store.stock[index].itemQuantity;
         int newItemQuantityinStore =
             int.parse(itemQuantityinStore) - itemQuantityBought;
@@ -240,32 +316,108 @@ class CartItemController extends GetxController {
           store,
         );
       } else {
-        // Handle the case where the item is not found in the store
-        print('Item not found in store');
+        Get.snackbar(
+          'Error',
+          'Item not found in store',
+          backgroundColor: kRedColor,
+          colorText: kWhiteLight,
+        );
       }
     }
+  }
+
+  void setSale(String saleAmount) {
+    SalesController.instance.salesForTheDay.value = saleAmount;
   }
 
   void completeSale(String paymentMood) async {
     AddReceiptsRepo.instance.paymentMood = paymentMood;
     ReceiptsController.instance.cartTotal.value =
         CartItemController.instance.totalCartTotal.value.toString();
-    AddReceiptsRepo.instance.saveReceiptData().then((value) {
-      updateItemQuantities();
-      updateCartState();
-      Get.to(
-        () => const ReceiptListScreen(),
-      );
-    }).then(
-      (value) {
-        SalesController.instance.addNewSales();
-        AddReceiptsRepo.instance.paymentMood = '';
-        // CartItemController.instance.cartItems.clear();
-      },
-    );
+
+    CartItemController.instance.cartItems.isNotEmpty
+        ? (AddReceiptsRepo.instance.saveReceiptData().then((value) {
+            setSale(
+                CartItemController.instance.totalCartTotal.value.toString());
+            updateItemQuantities();
+            updateCartState();
+
+            previewReceipt();
+          }).then(
+            (value) {
+              SalesController.instance.addNewSales();
+              AddReceiptsRepo.instance.paymentMood = '';
+              clearCart();
+            },
+          ))
+        : Get.snackbar(
+            'Error',
+            'You can not checkout an empty cart',
+            backgroundColor: kRedColor,
+            colorText: kWhiteLight,
+          );
   }
 
   void updateCartState() async {
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: RxList([]),
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
+    for (var cartItem in CartItemController.instance.cartItems) {
+      int index =
+          store.stock.indexWhere((item) => item.itemId == cartItem.itemId);
+
+      if (index >= 0) {
+        store.stock[index].itemCount = RxInt(0);
+        CartItemController.instance.items.value = 0;
+      } else {
+        Get.snackbar(
+          'Error',
+          'Item not found in store',
+          backgroundColor: kRedColor,
+          colorText: kWhiteLight,
+        );
+      }
+    }
+  }
+
+  void clearCart() async {
+    UserModel? user = _userModel ?? await profileRepo.getUserDataFromPhone();
+
+    // ignore: unnecessary_null_comparison
+    if (user != null) {
+      user.cart.clear();
+      cartItems.value = [];
+      totalCartSubTotal.value = 0.0;
+      totalCartTotal.value = 0.0;
+      totalCartDiscount.value = 0.0;
+      totalCartTax.value = 0.0;
+    } else {
+      Get.snackbar(
+        'Error',
+        'Unable to clear cart',
+        backgroundColor: kRedColor,
+        colorText: kWhiteLight,
+      );
+    }
+  }
+
+  Future previewReceipt() async {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
@@ -285,18 +437,77 @@ class CartItemController extends GetxController {
       ),
     );
 
-    for (var cartItem in CartItemController.instance.cartItems) {
-      int index =
-          store.stock.indexWhere((item) => item.itemId == cartItem.itemId);
+    final receipt = ReceiptPDFModel(
+      seller: store,
+      customer: CustomerModel(
+        customerId: '',
+        customerName: '',
+        phone: '',
+        totalOrder: '',
+        lastOrder: DateTime.now(),
+        debts: DebtsModel(
+          debtId: '',
+          customerName: '',
+          payDate: DateTime.now(),
+          phone: '',
+          isPaid: true,
+          cart: CartItemModel(
+            itemId: '',
+            itemName: '',
+            quantityInCart: RxInt(0),
+            price: '',
+            totalItemPrice: '',
+            subTotal: RxDouble(0),
+            discount: 0.0,
+            tax: 0.0,
+          ),
+          amountPayable: 0.0,
+        ),
+        receipts: ReceiptsModel(
+          logo: null,
+          customerName: '',
+          businessEmail: '',
+          cartTotal: '',
+          date: DateTime.now(),
+          receiptNo: '',
+          attendant: '',
+          receiptId: '',
+          cartId: '',
+          itemsInCart: '',
+          paymentMethod: '',
+        ),
+      ),
+      recieptInfo: ReceiptsModel(
+        logo: null,
+        customerName: '',
+        businessEmail: '',
+        cartTotal: '',
+        date: DateTime.now(),
+        receiptNo: '',
+        attendant: '',
+        receiptId: '',
+        cartId: '',
+        itemsInCart: '',
+        paymentMethod: '',
+      ),
+      cartItem: CartItemModel(
+        itemId: '',
+        itemName: '',
+        quantityInCart: RxInt(0),
+        price: '',
+        totalItemPrice: '',
+        subTotal: RxDouble(0.0),
+        discount: 0.0,
+        tax: 0.0,
+      ),
+      totalCartPrice: '',
+      cartId: '',
+      subTotal: '',
+      discount: '',
+      tax: '',
+    );
 
-      if (index >= 0) {
-        store.stock[index].itemCount = 0;
-        CartItemController.instance.items.value = 0;
-      } else {
-        print('Item not found in store');
-      }
-    }
-    print(CartItemController.instance.cartItems.length);
+    CheckOutRepo.instance.generatePDFReceipt(receipt, indexValue);
   }
 
   Future<dynamic> showMoodOfPayment(
@@ -304,6 +515,7 @@ class CartItemController extends GetxController {
     return showModalBottomSheet(
         context: context,
         builder: (context) {
+          var cartIsEmpty = CartItemController.instance.cartItems;
           return Container(
             decoration: const BoxDecoration(
                 // borderRadius: BorderRadius.circular(20),
@@ -323,6 +535,28 @@ class CartItemController extends GetxController {
               child: Column(
                 children: [
                   const Text('SELECT PAYMENT MOOD'),
+                  cartIsEmpty.isNotEmpty
+                      ? RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'The cart total is ',
+                                style: TextStyle(
+                                  color: isDarkMood ? kWhiteLight : kBlackDark,
+                                ),
+                              ),
+                              TextSpan(
+                                text: nairaFormat.format(CartItemController
+                                    .instance.totalCartTotal.value),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: isDarkMood ? kWhiteLight : kBlackDark,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const Text('The cart is empty'),
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 32.0,
@@ -334,7 +568,7 @@ class CartItemController extends GetxController {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         GestureDetector(
-                          onTap: () {
+                          onTap: () async {
                             completeSale('Cash');
                           },
                           child: Container(
@@ -450,7 +684,8 @@ class CartItemController extends GetxController {
           uid: '',
           role: '',
           cart: <CartItemModel>[],
-          stores: <StoreModel>[],
+          stores: RxList<StoreModel>([]),
+          createdAt: '',
         );
   }
 
@@ -469,7 +704,7 @@ class CartItemController extends GetxController {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -484,28 +719,27 @@ class CartItemController extends GetxController {
         .firstWhere(
           (item) => item.itemId == newItem.itemId,
           orElse: () => AddItemModel(
-            itemPic: null,
-            itemName: '',
-            itemSellingPrice: '',
-            itemCategory: '',
-            itemQuantity: '0',
-            itemCostPrice: '',
-            trackProfit: false,
-            trackLowStock: false,
-            preventItemSalesWhenOutOfStock: false,
-            trackExpiry: '',
-            expiryAlert: '',
-            itemCount: 0,
-            itemId: '',
-          ),
-          // StockModel(itemName: '', itemQuantity: '0'), // Return 0 if item not found in store
+              itemPic: null,
+              itemName: '',
+              itemSellingPrice: '',
+              itemCategory: '',
+              itemQuantity: '0',
+              itemCostPrice: '',
+              trackProfit: false,
+              trackLowStock: false,
+              preventItemSalesWhenOutOfStock: false,
+              trackExpiry: '',
+              expiryAlert: '',
+              itemCount: RxInt(0),
+              itemId: '',
+              morePics: RxList([])),
         )
         .itemQuantity);
 
-    int quantityToAdd = newItem.quantityInCart;
+    int quantityToAdd = newItem.quantityInCart.value;
 
     // Check if item quantity is enough
-    if (itemQuantityInStore >= quantityToAdd) {
+    if (itemQuantityInStore > quantityToAdd) {
       if (!itemExistInCart(newItem)) {
         UserModel? user;
         if (_userModel == null) {
@@ -532,9 +766,13 @@ class CartItemController extends GetxController {
           (item) => item.itemId == newItem.itemId,
         );
 
+        // print('${existingItem.itemName} already in cart');
+
         if (existingItem.itemId.isNotEmpty) {
           int quantity = quantityToAdd;
-          existingItem.quantityInCart = quantity;
+
+          existingItem.quantityInCart.value = quantity;
+
           String priceString = existingItem.price.toString();
           String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
           String quantityInCartString = existingItem.quantityInCart.toString();
@@ -544,18 +782,16 @@ class CartItemController extends GetxController {
               double.parse(numQuantityInCartString) * int.parse(numPriceString);
           double cost = initCost;
 
-          existingItem.subTotal = cost;
-          Get.snackbar(
-            '$quantityToAdd ${existingItem.itemName}s added to cart',
-            'If you want to delete ${existingItem.itemName} from cart just press and hold',
-            backgroundColor: kWhiteLight,
-            colorText: kBlack,
-          );
+          existingItem.subTotal.value = cost;
+          setCartSubTotal();
+          setCartDiscount(10);
+          setCartTax(7.5);
+          setCartTotal();
         } else {
           Get.snackbar(
             'An Error Occured',
             'Item not found in cart',
-            backgroundColor: Colors.red,
+            backgroundColor: kRedColor,
             colorText: kWhiteLight,
           );
         }
@@ -563,12 +799,29 @@ class CartItemController extends GetxController {
     } else {
       // Item quantity is not enough, print error message
       Get.snackbar(
-        'Error',
-        'Not enough quantity in store. Maximum quantity available: $itemQuantityInStore',
-        backgroundColor: Colors.red,
+        'Limit Warning',
+        'You have reach the item limit, you can only add $itemQuantityInStore units to cart',
+        backgroundColor: kRedColor,
         colorText: kWhiteLight,
       );
     }
+  }
+
+  CartModel? getCartById(List<CartModel> carts, String cartId) {
+    return carts.firstWhere(
+      (cart) => cart.cartId == cartId,
+      orElse: () => CartModel(
+        cartId: cartId,
+        itemName: '',
+        quantityInCart: '',
+        totalItemPrice: '',
+        totalCartPrice: '',
+        numOfItemsInCart: '',
+        subTotal: '',
+        discount: '',
+        tax: '',
+      ),
+    );
   }
 
   bool itemExistInCart(CartItemModel newItem) {
@@ -601,4 +854,9 @@ class CartItemController extends GetxController {
       update();
     }
   }
+
+  // RxList<CategoryModel> categoriesInStore = <CategoryModel>[].obs;
+
+  ScrollController categoryScrollController = ScrollController();
+  ScrollController gridScrollController = ScrollController();
 }

@@ -4,6 +4,7 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
+// import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
@@ -30,6 +31,7 @@ class ProfileScreen extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else {
               UserModel? user = snapshot.data;
+
               return Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
@@ -96,6 +98,41 @@ class ProfileScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+
+                      // CircleAvatar(
+                      //   radius: 60,
+                      //   backgroundColor:
+                      //       kMainComplimemtColorDark.withOpacity(0.2),
+                      //   child: SizedBox(
+                      //     child: ClipOval(
+                      //       child: Padding(
+                      //         padding: const EdgeInsets.all(2.0),
+                      //         child: FutureBuilder<void>(
+                      //           future: ProfileController.instance
+                      //               .loadProfilePicture(),
+                      //           builder: (context, snapshot) {
+                      //             if (snapshot.connectionState ==
+                      //                 ConnectionState.waiting) {
+                      //               return CircularProgressIndicator(); // Show loading indicator
+                      //             } else if (snapshot.hasError) {
+                      //               return Center(
+                      //                 child: Text(
+                      //                     'Error loading profile picture'), // Show error message
+                      //               );
+                      //             } else {
+                      //               return CircleAvatar(
+                      //                 radius: 60,
+                      //                 backgroundImage:
+                      //                     NetworkImage(user!.profilePic),
+                      //               );
+                      //             }
+                      //           },
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+
                       CircleAvatar(
                         radius: 60,
                         backgroundColor:
@@ -106,13 +143,26 @@ class ProfileScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(2.0),
                             child: CircleAvatar(
                               radius: 60,
-                              backgroundImage:
-                                  // FileImage(File(user!.profilePic)),
-                                  NetworkImage(user!.profilePic),
+                              backgroundImage: NetworkImage(user!.profilePic),
                             ),
                           ),
                         )),
                       ),
+
+                      // // I want to display the image as a file
+                      // SizedBox(
+                      //   child: ClipOval(
+                      //     child: Padding(
+                      //       padding: const EdgeInsets.all(1.0),
+                      //       child: CircleAvatar(
+                      //         radius: 30,
+                      //         backgroundImage: FileImage(
+                      //           File(user.profilePic),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(

@@ -64,7 +64,7 @@ class AddCategoryController extends GetxController {
           bankName: '',
           accountNumber: '',
           contact: '',
-          stock: [],
+          stock: RxList([]),
           receipts: [],
           debts: [],
           staff: [],
@@ -74,18 +74,14 @@ class AddCategoryController extends GetxController {
           categories: [],
         ),
       );
-      // // Fetch the current store from the storeBox
-      // StoreModel store = storeBox.get(AddItemRepo.instance.currentStore.value);
 
       // Create a new category
       CategoryModel newCategory = CategoryModel(
         categoryName: categoryName.text.trim(),
-        itemId: '',
         categoryId: const Uuid().v4(),
-        itemName: '',
-        itemQuantity: '',
+        items: RxList(),
+        itemsInCategory: RxInt(0),
       );
-
       // Add the new category to the store's categories list
       store.categories.add(newCategory);
 
@@ -106,15 +102,35 @@ class AddCategoryController extends GetxController {
 
 // get categories
   List<CategoryModel> getCategoriesFromBox() {
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: RxList([]),
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
     List<CategoryModel> categoryList = [];
-    for (var key in storeBox.keys) {
-      if (key.startsWith('store-')) {
-        StoreModel? store = storeBox.get(key);
-        if (store != null) {
-          categoryList.addAll(store.categories);
-        }
-      }
-    }
+
+    // for (var key in storeBox.keys) {
+    //   if (key.startsWith('store-')) {
+    //     StoreModel? store = storeBox.get(key);
+    //     if (store != null) {
+    //       categoryList.addAll(store.categories);
+    //     }
+    //   }
+    // }
+    categoryList.addAll(store.categories);
     return categoryList;
   }
 }

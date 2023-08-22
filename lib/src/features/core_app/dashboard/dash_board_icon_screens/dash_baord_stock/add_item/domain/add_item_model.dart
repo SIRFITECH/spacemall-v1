@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 part 'add_item_model.g.dart';
@@ -14,7 +15,6 @@ class AddItemModel {
   @HiveField(3)
   String itemSellingPrice;
   @HiveField(4)
-  // List<CategoryModel> itemCategory;
   String? itemCategory;
   @HiveField(5)
   String itemQuantity;
@@ -29,9 +29,11 @@ class AddItemModel {
   @HiveField(10)
   String expiryAlert;
   @HiveField(11)
-  int itemCount;
+  RxInt itemCount;
   @HiveField(12)
   String itemId;
+  @HiveField(13)
+  RxList<File> morePics;
 
   AddItemModel({
     required this.itemPic,
@@ -47,6 +49,7 @@ class AddItemModel {
     required this.expiryAlert,
     required this.itemCount,
     required this.itemId,
+    required this.morePics,
   });
 
   // populated from map, that is serializing the stock object from server
@@ -66,6 +69,7 @@ class AddItemModel {
       expiryAlert: map['expiryAlert'] ?? '',
       itemCount: map['itemCount'] ?? 1,
       itemId: map['itemId'] ?? '',
+      morePics: (map['morePics'] ?? []),
     );
   }
 
@@ -85,6 +89,7 @@ class AddItemModel {
       "expiryAlert": expiryAlert,
       "itemCount": itemCount,
       "itemId": itemId,
+      "morePics": morePics,
     };
   }
 }

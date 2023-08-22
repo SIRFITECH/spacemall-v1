@@ -35,7 +35,7 @@ class AddTag extends StatelessWidget {
               isDarkMood,
               kComingSoonTitleText,
               kComingSoonBodyText,
-              () => const Stock(),
+              () => Stock(),
             );
             addTagController.isAlertShown.value = true;
           }
@@ -200,7 +200,7 @@ class AddTag extends StatelessWidget {
                               isDarkMood,
                               kComingSoonTitleText,
                               kComingSoonBodyText,
-                              () => const Stock(),
+                              () => Stock(),
                             );
                             addTagController.isAlertShown.value = true;
                           },
@@ -232,7 +232,7 @@ class AddTag extends StatelessWidget {
                           isDarkMood,
                           kComingSoonTitleText,
                           kComingSoonBodyText,
-                          () => const Stock(),
+                          () => Stock(),
                         );
                         addTagController.isAlertShown.value = true;
                       },

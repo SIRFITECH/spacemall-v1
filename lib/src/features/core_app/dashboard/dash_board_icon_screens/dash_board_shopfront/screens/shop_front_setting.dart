@@ -32,7 +32,7 @@ class _ShopFrontSettingsState extends State<ShopFrontSettings> {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],

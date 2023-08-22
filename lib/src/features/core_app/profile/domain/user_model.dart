@@ -1,5 +1,6 @@
+import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
+import 'package:spacemall/src/features/core_app/check_out/application/cart_item_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
@@ -7,7 +8,6 @@ import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 part 'user_model.g.dart';
 
 @HiveType(typeId: 3)
-//
 class UserModel {
   @HiveField(0)
   String profilePic;
@@ -28,7 +28,9 @@ class UserModel {
   @HiveField(8)
   List<CartItemModel> cart;
   @HiveField(9)
-  List<StoreModel> stores;
+  RxList<StoreModel> stores;
+  @HiveField(10)
+  String createdAt;
 
   UserModel({
     required this.profilePic,
@@ -41,13 +43,15 @@ class UserModel {
     required this.cart,
     required this.stores,
     required this.country,
+    required this.createdAt,
   });
 
   // populated from map, that is serializing the user object from server
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       cart: CartItemController.instance.convertCartItems(map['cart'] ?? []),
-      stores: StoreController.instance.convertStores(map['stores'] ?? []),
+      stores:
+          RxList(StoreController.instance.convertStores(map['stores'] ?? [])),
       profilePic: map['profilePic'] ?? '',
       userName: map['userName'] ?? '',
       email: map['email'] ?? '',
@@ -56,6 +60,7 @@ class UserModel {
       role: map['role'] ?? '',
       uid: map['uid'] ?? '',
       bio: map['bio'] ?? '',
+      createdAt: map['createdAt'] ?? '',
     );
   }
 
@@ -72,6 +77,7 @@ class UserModel {
       "role": role,
       "uid": uid,
       "bio": bio,
+      "createdAt": createdAt,
     };
   }
 }

@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 part 'check_out_item_model.g.dart';
@@ -9,13 +10,13 @@ class CartItemModel {
   @HiveField(1)
   String itemName;
   @HiveField(2)
-  int quantityInCart;
+  RxInt quantityInCart;
   @HiveField(3)
   String price;
   @HiveField(4)
   String totalItemPrice;
   @HiveField(5)
-  double subTotal;
+  RxDouble subTotal;
   @HiveField(6)
   double discount;
   @HiveField(7)

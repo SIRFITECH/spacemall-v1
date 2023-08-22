@@ -35,7 +35,8 @@ class BottomBarIcon extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
               child: GestureDetector(
                 onTap: onPress,
                 child: Iconz(
@@ -49,13 +50,16 @@ class BottomBarIcon extends StatelessWidget {
             const SizedBox(
               height: 5,
             ),
-            Text(
-              text,
-              style: TextStyle(
-                  fontSize: 12,
-                  height: 0.1,
-                  color: selected ? lightMood : darkMood,
-                  fontWeight: FontWeight.bold),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Text(
+                text,
+                style: TextStyle(
+                    fontSize: 12,
+                    height: 0.1,
+                    color: selected ? lightMood : darkMood,
+                    fontWeight: FontWeight.bold),
+              ),
             )
           ],
         ),

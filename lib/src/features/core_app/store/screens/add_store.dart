@@ -1,3 +1,4 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,8 @@ import 'package:spacemall/src/features/core_app/general/custom_button.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widget.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
+
+import '../../profile/application/profile_controller.dart';
 
 class AddStore extends StatelessWidget {
   const AddStore({super.key});
@@ -22,6 +25,7 @@ class AddStore extends StatelessWidget {
     final StoreController storeController = Get.find();
 
     var logo = storeController.logo;
+    final ProfileController profileController = Get.find();
     return Scaffold(
         appBar: MyAppBar(
           isDarkMood: isDarkMood,
@@ -136,6 +140,87 @@ class AddStore extends StatelessWidget {
                       width: screenSize.width * 0.84,
                       height: screenSize.width * 0.1,
                     ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 8,
+                        right: 14.0,
+                      ),
+                      child: ExpandablePanel(
+                        theme: ExpandableThemeData(
+                          iconColor: !isDarkMood
+                              ? kMainColorLight
+                              : kTextFieldDarkBorderColor.withOpacity(0.8),
+                        ),
+                        header: Text(
+                          'Advanced Details',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color:
+                                isDarkMood ? kGreyColor.shade600 : kBlackDark,
+                          ),
+                        ),
+                        expanded: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextFeildWidget(
+                                  screenSize: screenSize,
+                                  isDarkMood: isDarkMood,
+                                  controller: profileController.tTrial,
+                                  keyboardType: TextInputType.text,
+                                  hintText: '',
+                                  labelText: 'Just for test',
+                                  maxLines: 1,
+                                  width: screenSize.width * 0.84,
+                                  height: screenSize.width * 0.1,
+                                ),
+                                TextFeildWidget(
+                                  screenSize: screenSize,
+                                  isDarkMood: isDarkMood,
+                                  controller: profileController.tTrial,
+                                  keyboardType: TextInputType.emailAddress,
+                                  hintText: '',
+                                  labelText: 'Just for test',
+                                  maxLines: 1,
+                                  width: screenSize.width * 0.84,
+                                  height: screenSize.width * 0.1,
+                                ),
+                                TextFeildWidget(
+                                  screenSize: screenSize,
+                                  isDarkMood: isDarkMood,
+                                  controller: profileController.tTrial,
+                                  keyboardType: TextInputType.text,
+                                  hintText: '',
+                                  labelText: 'Just for trial',
+                                  maxLines: 1,
+                                  width: screenSize.width * 0.84,
+                                  height: screenSize.width * 0.1,
+                                ),
+                                TextFeildWidget(
+                                  screenSize: screenSize,
+                                  isDarkMood: isDarkMood,
+                                  controller: profileController.tTrial,
+                                  keyboardType: TextInputType.emailAddress,
+                                  hintText: '',
+                                  labelText: 'Just for trial',
+                                  maxLines: 1,
+                                  width: screenSize.width * 0.84,
+                                  height: screenSize.width * 0.1,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        collapsed: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text('...'),
+                        ),
+                      ),
+                    ),
+
                     CustomButton(
                       screenSize: screenSize,
                       onPress: () {

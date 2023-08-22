@@ -37,6 +37,25 @@ Future<File?> pickImage(BuildContext context) async {
   return null;
 }
 
+Future<List<File>> pickMultipleImages(BuildContext context) async {
+  List<File> selectedImages = [];
+
+  try {
+    final pickedImages = await ImagePicker().pickMultiImage();
+
+    // ignore: unnecessary_null_comparison
+    if (pickedImages != null) {
+      selectedImages = pickedImages.map((pickedImage) {
+        return File(pickedImage.path);
+      }).toList();
+    }
+  } catch (e) {
+    showSnackBar(context, e.toString());
+  }
+
+  return selectedImages;
+}
+
 // // using the string type
 // Future<String?> downloadImage(String imageUrl) async {
 //   try {

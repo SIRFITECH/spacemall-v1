@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/image_strings.dart';
@@ -25,7 +26,7 @@ class LowStock extends StatelessWidget {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -62,6 +63,21 @@ class LowStock extends StatelessWidget {
               ? ListView.builder(
                   itemCount: store.stock.length,
                   itemBuilder: (context, index) {
+                    // List<AddItemModel> stock = store.stock;
+
+                    // int low = 0;
+                    // List<AddItemModel> toOrder = [];
+
+                    // for (var lowStock in stock) {
+                    //   if (int.parse(store.stock[index].itemQuantity) < 20) {
+                    //     low++;
+                    //     toOrder.length++;
+                    //     ReportsController.instance.lowStock.value =
+                    //         low.toString();
+                    //   }
+                    //   ;
+                    // }
+
                     return SizedBox(
                       height: 60,
                       child: Card(
@@ -88,7 +104,7 @@ class LowStock extends StatelessWidget {
                                   color: int.parse(
                                               store.stock[index].itemQuantity) <
                                           20
-                                      ? Colors.red
+                                      ? kRedColor
                                       : null,
                                 ),
                               ),

@@ -1,3 +1,4 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -314,28 +315,86 @@ class SetProfile extends StatelessWidget {
                       labelText: kBioText,
                       maxLines: 5,
                     ),
-                    // TextFeildWidget(
-                    //   screenSize: screenSize,
-                    //   isDarkMood: isDarkMood,
-                    //   controller: profileController.tJobTitle,
-                    //   keyboardType: TextInputType.text,
-                    //   hintText: '',
-                    //   labelText: kJobTitleText,
-                    //   maxLines: 1,
-                    //   width: screenSize.width * 0.84,
-                    //   height: screenSize.width * 0.1,
-                    // ),
-                    // TextFeildWidget(
-                    //   screenSize: screenSize,
-                    //   isDarkMood: isDarkMood,
-                    //   controller: profileController.tAlternativeEmail,
-                    //   keyboardType: TextInputType.emailAddress,
-                    //   hintText: '',
-                    //   labelText: kAlternativeEmailText,
-                    //   maxLines: 1,
-                    //   width: screenSize.width * 0.84,
-                    //   height: screenSize.width * 0.1,
-                    // ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(right: 14.0),
+                      child: ExpandablePanel(
+                        theme: ExpandableThemeData(
+                          iconColor: !isDarkMood
+                              ? kMainColorLight
+                              : kTextFieldDarkBorderColor.withOpacity(0.8),
+                        ),
+                        header: Text(
+                          'Advanced Details',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color:
+                                isDarkMood ? kGreyColor.shade600 : kBlackDark,
+                          ),
+                        ),
+                        expanded: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextFeildWidget(
+                                  screenSize: screenSize,
+                                  isDarkMood: isDarkMood,
+                                  controller: profileController.tTrial,
+                                  keyboardType: TextInputType.text,
+                                  hintText: '',
+                                  labelText: 'Just for test',
+                                  maxLines: 1,
+                                  width: screenSize.width * 0.84,
+                                  height: screenSize.width * 0.1,
+                                ),
+                                TextFeildWidget(
+                                  screenSize: screenSize,
+                                  isDarkMood: isDarkMood,
+                                  controller: profileController.tTrial,
+                                  keyboardType: TextInputType.emailAddress,
+                                  hintText: '',
+                                  labelText: 'Just for test',
+                                  maxLines: 1,
+                                  width: screenSize.width * 0.84,
+                                  height: screenSize.width * 0.1,
+                                ),
+                                TextFeildWidget(
+                                  screenSize: screenSize,
+                                  isDarkMood: isDarkMood,
+                                  controller: profileController.tTrial,
+                                  keyboardType: TextInputType.text,
+                                  hintText: '',
+                                  labelText: 'Just for trial',
+                                  maxLines: 1,
+                                  width: screenSize.width * 0.84,
+                                  height: screenSize.width * 0.1,
+                                ),
+                                TextFeildWidget(
+                                  screenSize: screenSize,
+                                  isDarkMood: isDarkMood,
+                                  controller: profileController.tTrial,
+                                  keyboardType: TextInputType.emailAddress,
+                                  hintText: '',
+                                  labelText: 'Just for trial',
+                                  maxLines: 1,
+                                  width: screenSize.width * 0.84,
+                                  height: screenSize.width * 0.1,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        collapsed: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text('...'),
+                        ),
+                      ),
+                    ),
 
                     CustomButton(
                       screenSize: screenSize,

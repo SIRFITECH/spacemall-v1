@@ -1,6 +1,8 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_screen.dart';
 import 'package:spacemall/src/features/auth/screens/welcome/welcome.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
@@ -8,8 +10,6 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/scr
 class AuthRepo extends GetxController {
   static AuthRepo get instance => Get.find();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  // final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  // final FirebaseStorage _firestorage = FirebaseStorage.instance;
   late final Rx<User?> firebaseUser;
   var verificationId = ''.obs;
 
@@ -19,11 +19,16 @@ class AuthRepo extends GetxController {
   String? _uid;
   String get uid => _uid ?? '';
 
+  String? userPhone = FirebaseAuth.instance.currentUser != null
+      ? FirebaseAuth.instance.currentUser!.phoneNumber
+      : '';
+
   String? _profilePic;
   String get profilePic => _profilePic?.toString() ?? '';
 
   String? _phoneNumber;
-  String get phoneNumber => _phoneNumber?.toString() ?? '';
+  String? get phoneNumber =>
+      _phoneNumber?.toString() ?? _auth.currentUser?.phoneNumber;
 
   @override
   void onReady() {
@@ -31,6 +36,7 @@ class AuthRepo extends GetxController {
 
     firebaseUser.bindStream(_auth.userChanges());
     ever(firebaseUser, (callback) => _setInitialScreen);
+    checkInternetConnection();
   }
 
   _setInitialScreen(User? user) {
@@ -64,7 +70,6 @@ class AuthRepo extends GetxController {
           Get.snackbar('Error', 'The provided phone number is not valid');
         } else {
           Get.snackbar('Error', 'Something went wrong');
-          print(e.message.toString());
         }
       },
     );
@@ -79,8 +84,6 @@ class AuthRepo extends GetxController {
     if (credentials.user != null) {
       credentials.user!.uid;
       _uid = credentials.user!.uid;
-
-      print('user is assigned the id  $_uid');
     }
     return credentials.user != null ? true : false;
   }
@@ -96,14 +99,22 @@ class AuthRepo extends GetxController {
     // print(snapshot.data());
 
     if (user.isNotEmpty) {
-      // && snapshot.exists
-
-      print('Existing User id $_uid');
-      print('Existing User on the phone is $user');
+      Get.snackbar(
+        'Login successful',
+        'Loged in as $user ',
+        backgroundColor: kWhiteDark,
+        colorText: kBlackDark,
+      );
 
       return true;
     } else {
-      print('New User ');
+      Get.snackbar(
+        'Welcome',
+        'Welcom to spacemall ',
+        backgroundColor: kWhiteDark,
+        colorText: kBlackDark,
+      );
+
       return false;
     }
   }
@@ -131,4 +142,15 @@ class AuthRepo extends GetxController {
   }
 
   Future<void> signOut() async => await _auth.signOut();
+
+  Future<void> checkInternetConnection() async {
+    var connectivityStatus = await (Connectivity().checkConnectivity());
+    if (connectivityStatus != ConnectivityResult.mobile ||
+        connectivityStatus != ConnectivityResult.wifi ||
+        connectivityStatus != ConnectivityResult.ethernet) {
+    } else {
+      Get.snackbar('No internet connection',
+          'Please make sufe you are connected to internet');
+    }
+  }
 }

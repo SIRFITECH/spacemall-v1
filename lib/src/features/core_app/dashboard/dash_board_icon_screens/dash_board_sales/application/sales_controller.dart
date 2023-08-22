@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/application/dash_baord_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
 
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_model.dart';
@@ -21,7 +22,7 @@ class SalesController extends GetxController {
   RxString date = ''.obs;
   String payment = '';
 
-  RxString todaySale = '30,000'.obs;
+  RxString salesForTheDay = '0'.obs;
 
   TextEditingController paymentMethod = TextEditingController();
   TextEditingController amount = TextEditingController();
@@ -112,7 +113,6 @@ class SalesController extends GetxController {
     salesBox = await Hive.openBox<SalesModel>('sales');
     String paymentMood = payment;
 
-    // fetch store from storeBox
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
@@ -121,7 +121,7 @@ class SalesController extends GetxController {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -139,12 +139,12 @@ class SalesController extends GetxController {
       attendant: '',
       date: DateTime.now(),
       cart: CartItemModel(
-        itemId: 'itemId',
-        itemName: 'ItemName',
-        quantityInCart: 2,
+        itemId: 'stockItem.itemId',
+        itemName: 'stockItem.itemName',
+        quantityInCart: RxInt(0),
         price: 'N 20,000',
         totalItemPrice: ReceiptsController.instance.cartTotal.value,
-        subTotal: 0,
+        subTotal: RxDouble(0),
         discount: 0,
         tax: 0,
       ),
@@ -162,31 +162,90 @@ class SalesController extends GetxController {
     dueTime.text = DateFormat('hh:mm:ss a').format(newSale.date);
   }
 
-  List<SalesModel> _sales = [];
+// get sales for a given date
+  double getTotalSalesForToday(DateTime date) {
+    // fetch store from storeBox
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: RxList([]),
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
 
-  List<SalesModel> getAllSales() {
-    return _sales;
-  }
+    DateTime startOfDay = DateTime(date.year, date.month, date.day, 0, 0, 0);
+    DateTime endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
 
-  List<SalesModel> getSalesForDate(DateTime date) {
-    return _sales.where((sale) => sale.date == date).toList();
-  }
+    List<SalesModel> sales = store.sales.toList();
 
-  String getTotalSalesForToday(DateTime date) {
-    String totalSales = '';
-    List<SalesModel> salesForDate =
-        _sales.where((sale) => sale.date == date).toList();
-    // _sales.where((sale) => sale.date == date).toList();
-    for (var sale in salesForDate) {
-      totalSales += sale.cart.totalItemPrice;
+    RxDouble totalPrice = 0.0.obs;
+    List<SalesModel> salesForDate = sales
+        .where((sale) =>
+            sale.date.isAfter(startOfDay) && sale.date.isBefore(endOfDay))
+        .toList();
+    if (salesForDate.isNotEmpty) {
+      for (var sale in salesForDate) {
+        totalPrice.value += double.parse(sale.cart.totalItemPrice);
+        update();
+      }
+      DashBoardController.instance.todaySales.value = totalPrice.toString();
+      update();
+    } else {
+      totalPrice.value = 0;
+      update();
     }
-    return totalSales;
+
+    return totalPrice.value;
   }
 
-  // List<SalesModel> salesForDate =
-  //     SalesController.instance.getSalesForDate(DateTime.now());
-  // double totalSalesForDate = SalesController.instance.salesForDate.fold(
-  //   0,
-  //   (sum, sale) => sum + double.parse(sale.cart.totalItemPrice),
-  // );
+  void setDatedSale(
+    DateTime date,
+  ) {
+    // fetch store from storeBox
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+    );
+
+    DateTime startOfDay = DateTime(date.year, date.month, date.day, 0, 0, 0);
+    DateTime endOfDay = DateTime(date.year, date.month, date.day, 23, 59, 59);
+
+    List<SalesModel> sales = store.sales.toList();
+    RxDouble totalPrice = 0.0.obs;
+
+    List<SalesModel> salesForDate = sales
+        .where((sale) =>
+            sale.date.isAfter(startOfDay) && sale.date.isBefore(endOfDay))
+        .toList();
+
+    if (date == DateTime.now()) {
+      return;
+    }
+
+    if (salesForDate.isEmpty) {
+      getTotalSalesForToday(DateTime.now());
+    } else {
+      if (salesForDate.isNotEmpty) {
+        for (var sale in salesForDate) {
+          totalPrice.value += double.parse(sale.cart.totalItemPrice);
+          update();
+        }
+        DashBoardController.instance.todaySales.value = totalPrice.toString();
+        update();
+      } else {
+        totalPrice.value = 0;
+        update();
+      }
+    }
+  }
 }

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_shopfront/screens/shop_front_setting.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
+import 'package:spacemall/src/utils/helpers/helper.dart';
 
 import '../../../../../../constants/image_strings.dart';
 import '../../../../../../constants/text_strings.dart';
@@ -31,7 +33,7 @@ class ShopFrontScreen extends StatelessWidget {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -87,7 +89,30 @@ class ShopFrontScreen extends StatelessWidget {
                         backgroundColor: Colors.transparent,
                         child: SizedBox(
                             child: ClipOval(
-                          child: Image.asset(kTrailImage3),
+                          child: SizedBox(
+                            child: ClipOval(
+                              child: Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: store.logo == null
+                                    ? SvgPicture.asset(
+                                        kImageIcon,
+                                        // ignore: deprecated_member_use
+                                        color: kMainColorDark,
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.scaleDown,
+                                      )
+                                    : CircleAvatar(
+                                        radius: 50,
+                                        backgroundImage: FileImage(
+                                          store.logo!,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ),
+
+                          // Image.asset(kTrailImage3),
                         )),
                       ),
                     ),
@@ -97,7 +122,12 @@ class ShopFrontScreen extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            const Text('SIRFIMUNCH'),
+                            Text(
+                              truncateString(
+                                store.storeName,
+                                14,
+                              ),
+                            ),
                             const SizedBox(
                               width: 20,
                             ),
@@ -117,21 +147,15 @@ class ShopFrontScreen extends StatelessWidget {
                             )
                           ],
                         ),
-                        const Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'share your website link with your customer and',
-                              style: TextStyle(
-                                fontSize: 10,
+                              truncateString(
+                                'share your website link with your customer and get online orders!',
+                                45,
                               ),
-                              softWrap: false,
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              'get online orders!',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 10,
                               ),
                               softWrap: false,

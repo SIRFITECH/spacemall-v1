@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
-import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
+import 'package:spacemall/src/features/core_app/check_out/application/cart_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../../constants/colors.dart';
 
+import '../../../../profile/data/profile_repo.dart';
+import '../../../../profile/domain/user_model.dart';
 import '../../../../store/domain/store_model.dart';
 import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
 import '../application/reciepts_controller.dart';
@@ -19,6 +21,24 @@ class AddReceiptsRepo extends GetxController {
   ///PHONE OPERATIONS
 
   Future saveReceiptData() async {
+    UserModel? user;
+    // ignore: unnecessary_null_comparison
+    if (CartItemController.instance.userModel == null) {
+      user = await ProfileRepo.instance.getUserDataFromPhone();
+    } else {
+      user = CartItemController.instance.userModel;
+    }
+
+    // user!.cart.add(newItem);
+    // cart.add(newItem);
+    // cartItems.value = [...user.cart];
+
+    // Get.snackbar(
+    //   'Operation Successful',
+    //   'Item added to cart successfully',
+    //   backgroundColor: kWhiteLight,
+    //   colorText: kBlack,
+    // );
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
@@ -27,7 +47,7 @@ class AddReceiptsRepo extends GetxController {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -46,7 +66,7 @@ class AddReceiptsRepo extends GetxController {
       cartTotal: receiptsController.cartTotal.value,
       date: DateTime.now(),
       receiptNo: ReceiptsController.instance.receiptNo.value.toString(),
-      attendant: '',
+      attendant: user.userName,
       receiptId: const Uuid().v4(),
       cartId: '',
       itemsInCart: CartItemController.instance.cartItems.length.toString(),
@@ -83,7 +103,7 @@ class AddReceiptsRepo extends GetxController {
       bankName: '',
       accountNumber: '',
       contact: '',
-      stock: [],
+      stock: RxList([]),
       receipts: [],
       debts: [],
       staff: [],

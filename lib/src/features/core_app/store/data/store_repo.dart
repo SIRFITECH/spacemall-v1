@@ -12,21 +12,29 @@ class StoreRepo extends GetxController {
   static StoreRepo get instance => Get.put(StoreRepo());
   late StoreController storeController;
 
-  var logo;
+  // var logo;
+
+  //  StoreController.instance.setInitialSelectedStore();
 
 // phone operations
 
-  @override
-  void onReady() {
-    // Get called after widget is rendered on the screen
-    super.onReady();
-    getStoresFromBox().isNotEmpty
-        ? StoreController.instance.selectedStore.value =
-            getStoresFromBox().first
-        : [];
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //       StoreController.instance.setInitialSelectedStore();
+  // }
 
-    print('StoreRepo is ready');
-  }
+  // @override
+  // void onReady() {
+  //   // Get called after widget is rendered on the screen
+  //   super.onReady();
+  //   // getStoresFromBox().isNotEmpty
+  //   //     ? StoreController.instance.selectedStore.value =
+  //   //         getStoresFromBox().first
+  //   //     : [];
+
+  //   StoreController.instance.setInitialSelectedStore();
+  // }
 
   Future saveStoreData() async {
     final appDocumentDir = await getApplicationDocumentsDirectory();
@@ -39,7 +47,7 @@ class StoreRepo extends GetxController {
       bankName: storeController.bankName.text.trim(),
       accountNumber: storeController.accountNumber.text.trim(),
       contact: storeController.contact.text.trim(),
-      stock: [],
+      stock: RxList([]),
       receipts: [],
       debts: [],
       staff: [],

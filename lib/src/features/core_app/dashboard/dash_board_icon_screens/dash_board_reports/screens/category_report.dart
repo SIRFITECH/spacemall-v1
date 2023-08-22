@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -46,7 +47,7 @@ class _CategoryReportState extends State<CategoryReport> {
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],

@@ -19,6 +19,7 @@ class ProfileController extends GetxController {
   final TextEditingController tUserName = TextEditingController();
   final TextEditingController tEmail = TextEditingController();
   final TextEditingController tBio = TextEditingController();
+  final TextEditingController tTrial = TextEditingController();
 
   UserModel? user;
 
@@ -49,6 +50,39 @@ class ProfileController extends GetxController {
     //     .doc(firebaseUser.value.uid)
     //     .update(data);
   }
+// first one, throws error that is corrected in second one
+// Future<void> loadProfilePicture() async {
+//   try {
+//     // Fetch and load the user's profile picture
+//     await user!.fetchProfilePicture();
+//   } on HttpException catch (e) {
+//     // Handle HttpException (Connection reset by peer)
+//     print('HttpException caught: $e');
+//     // You can show an error message or retry the request here
+//   } catch (e) {
+//     // Handle other exceptions
+//     print('Exception caught: $e');
+//   }
+// }
+// second one, throws error that is yet to be corrected
+// Future<void> loadProfilePicture() async {
+//   try {
+//     // Fetch and load the user's profile picture
+//     await NetworkImage(user!.profilePic).resolve( const ImageConfiguration()).addListener(
+//       ImageStreamListener((info, call) {
+//         // Image loaded successfully
+//         // You can perform any necessary actions here
+//       }),
+//     );
+//   } on HttpException catch (e) {
+//     // Handle HttpException (Connection reset by peer)
+//     print('HttpException caught: $e');
+//     // You can show an error message or retry the request here
+//   } catch (e) {
+//     // Handle other exceptions
+//     print('Exception caught: $e');
+//   }
+// }
 
   // Stream<UserModel> listenToUser() => firebaseFirestore
   //     .collection(usersCollection)
