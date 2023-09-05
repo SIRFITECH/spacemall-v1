@@ -4,7 +4,7 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
-// import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
+import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
@@ -24,6 +24,11 @@ class ProfileScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+        appBar: MyAppBar(
+          isDarkMood: isDarkMood,
+          title: 'Profile',
+          automaticallyImplyLeading: false,
+        ),
         body: FutureBuilder<UserModel?>(
           future: profileRepo.getUserDataFromPhone(),
           builder: (context, snapshot) {
@@ -44,22 +49,6 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   child: ListView(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 3.0, horizontal: 15),
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Icon(Icons.arrow_back_ios),
-                              Text(kBackText),
-                            ],
-                          ),
-                        ),
-                      ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Row(
@@ -98,55 +87,40 @@ class ProfileScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-
-                      // CircleAvatar(
-                      //   radius: 60,
-                      //   backgroundColor:
-                      //       kMainComplimemtColorDark.withOpacity(0.2),
-                      //   child: SizedBox(
-                      //     child: ClipOval(
-                      //       child: Padding(
-                      //         padding: const EdgeInsets.all(2.0),
-                      //         child: FutureBuilder<void>(
-                      //           future: ProfileController.instance
-                      //               .loadProfilePicture(),
-                      //           builder: (context, snapshot) {
-                      //             if (snapshot.connectionState ==
-                      //                 ConnectionState.waiting) {
-                      //               return CircularProgressIndicator(); // Show loading indicator
-                      //             } else if (snapshot.hasError) {
-                      //               return Center(
-                      //                 child: Text(
-                      //                     'Error loading profile picture'), // Show error message
-                      //               );
-                      //             } else {
-                      //               return CircleAvatar(
-                      //                 radius: 60,
-                      //                 backgroundImage:
-                      //                     NetworkImage(user!.profilePic),
-                      //               );
-                      //             }
-                      //           },
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
-
                       CircleAvatar(
-                        radius: 60,
-                        backgroundColor:
-                            kMainComplimemtColorDark.withOpacity(0.2),
+                        radius: 100,
+                        backgroundColor: Colors.transparent,
                         child: SizedBox(
-                            child: ClipOval(
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: CircleAvatar(
-                              radius: 60,
-                              backgroundImage: NetworkImage(user!.profilePic),
+                          child: ClipOval(
+                            child: FutureBuilder<void>(
+                              future: precacheImage(
+                                NetworkImage(user!.profilePic),
+                                context,
+                              ),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<void> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return CircleAvatar(
+                                    backgroundColor: kWhiteDark,
+                                    radius: 100,
+                                    backgroundImage:
+                                        NetworkImage(user.profilePic),
+                                  );
+                                } else {
+                                  return const CircularProgressIndicator(
+                                    backgroundColor: kWhiteLight,
+                                  );
+                                }
+                              },
                             ),
+
+                            //  CircleAvatar(
+                            //   radius: 100,
+                            //   backgroundImage: NetworkImage(user.profilePic),
+                            // ),
                           ),
-                        )),
+                        ),
                       ),
 
                       // // I want to display the image as a file

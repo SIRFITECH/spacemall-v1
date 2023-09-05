@@ -405,22 +405,13 @@ class ConfirmPayment extends StatelessWidget {
                     cartItemController.indexValue,
                   );
                 },
-                //     () {
-                //   print('confirm payment');
+                // onPressed: () {
                 //   cartItemController.showMoodOfPayment(
                 //     context,
                 //     screenSize,
                 //     isDarkMood,
                 //     cartItemController.indexValue,
                 //   );
-
-                //   // ReceiptsController.instance.cartTotal.value =
-                //   //     cartItemController.totalCartTotal.value.toString();
-                //   // AddReceiptsRepo.instance.saveReceiptData().then(
-                //   //       (value) => Get.to(
-                //   //         () => const ReceiptListScreen(),
-                //   //       ),
-                //   //     );
                 // },
                 child: const Text(
                   kConfirmPaymentText,

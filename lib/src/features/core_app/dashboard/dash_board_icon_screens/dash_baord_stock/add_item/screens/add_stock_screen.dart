@@ -268,7 +268,7 @@ class AddStock extends StatelessWidget {
                                                       child: Text(
                                                         truncateString(
                                                             value.categoryName,
-                                                            12),
+                                                            9),
                                                         style: textTheme
                                                             .labelSmall,
                                                       ),

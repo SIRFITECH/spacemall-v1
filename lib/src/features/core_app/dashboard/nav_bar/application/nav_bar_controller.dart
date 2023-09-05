@@ -5,6 +5,8 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/scr
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
 
+import '../screens/dashboard_navbar.dart';
+
 class NavBarController extends GetxController {
   final selectedIndex = 0.obs;
   final selectedMallIndex = 0.obs;
@@ -19,7 +21,6 @@ class NavBarController extends GetxController {
     const Center(
       child: ProfileScreen(),
     ),
-
     const SpacemallDrawer(),
     // Center(child:
     //     // AddStore(),
@@ -27,6 +28,13 @@ class NavBarController extends GetxController {
     //     ),
   ];
 
+  List screen = [
+    const DashBoardNavBar(),
+    const Center(
+      child: CheckOut(),
+    ),
+    const SpacemallDrawer(),
+  ];
   final List<Widget> mallScreens = const [
     Center(
       child: Center(

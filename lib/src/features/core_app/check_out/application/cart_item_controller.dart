@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/data/receipts_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
@@ -341,7 +343,6 @@ class CartItemController extends GetxController {
                 CartItemController.instance.totalCartTotal.value.toString());
             updateItemQuantities();
             updateCartState();
-
             previewReceipt();
           }).then(
             (value) {
@@ -475,6 +476,7 @@ class CartItemController extends GetxController {
           cartId: '',
           itemsInCart: '',
           paymentMethod: '',
+          staffId: '',
         ),
       ),
       recieptInfo: ReceiptsModel(
@@ -489,6 +491,7 @@ class CartItemController extends GetxController {
         cartId: '',
         itemsInCart: '',
         paymentMethod: '',
+        staffId: '',
       ),
       cartItem: CartItemModel(
         itemId: '',
@@ -531,7 +534,7 @@ class CartItemController extends GetxController {
             width: double.infinity,
             height: screenSize.height * 0.4,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               child: Column(
                 children: [
                   const Text('SELECT PAYMENT MOOD'),
@@ -584,7 +587,30 @@ class CartItemController extends GetxController {
                             ),
                             height: screenSize.height * 0.1,
                             width: screenSize.width * 0.35,
-                            child: const Center(child: Text('cash')),
+                            child: Column(
+                              children: [
+                                Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.asset(
+                                      kPaymentCash,
+                                      width: 50,
+                                      height: 40,
+                                    )
+                                    // SvgPicture.asset(
+                                    //   kProfileIcon,
+                                    //   // kPaymentCash,
+                                    //   // ignore: deprecated_member_use
+                                    //   color: isDarkMood
+                                    //       ? kMainComplimemtColorLight
+                                    //       : kMainColorLight,
+                                    //   width: 50,
+                                    //   height: 40,
+                                    //   fit: BoxFit.scaleDown,
+                                    // ),
+                                    ),
+                                const Center(child: Text('cash')),
+                              ],
+                            ),
                           ),
                         ),
                         GestureDetector(
@@ -604,7 +630,25 @@ class CartItemController extends GetxController {
                             ),
                             height: screenSize.height * 0.1,
                             width: screenSize.width * 0.35,
-                            child: const Center(child: Text('Card')),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SvgPicture.asset(
+                                    // kPaymentCard,
+                                    kProfileIcon,
+                                    // ignore: deprecated_member_use
+                                    color: isDarkMood
+                                        ? kMainComplimemtColorLight
+                                        : kMainColorLight,
+                                    width: 50,
+                                    height: 40,
+                                    fit: BoxFit.scaleDown,
+                                  ),
+                                ),
+                                const Center(child: Text('Card')),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -636,7 +680,26 @@ class CartItemController extends GetxController {
                             ),
                             height: screenSize.height * 0.1,
                             width: screenSize.width * 0.35,
-                            child: const Center(child: Text('Transfer')),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SvgPicture.asset(
+                                    // kProfileIcon,
+                                    kMenuIcon,
+                                    // kPaymentBank,
+                                    // ignore: deprecated_member_use
+                                    color: isDarkMood
+                                        ? kMainComplimemtColorLight
+                                        : kMainColorLight,
+                                    width: 50,
+                                    height: 40,
+                                    fit: BoxFit.scaleDown,
+                                  ),
+                                ),
+                                const Center(child: Text('Transfer')),
+                              ],
+                            ),
                           ),
                         ),
                         GestureDetector(
@@ -656,8 +719,26 @@ class CartItemController extends GetxController {
                             ),
                             height: screenSize.height * 0.1,
                             width: screenSize.width * 0.35,
-                            child: const Center(
-                              child: Text('Pay On Delivery'),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SvgPicture.asset(
+                                    kProfileIcon,
+                                    // kPaymentPOD,
+                                    // ignore: deprecated_member_use
+                                    color: isDarkMood
+                                        ? kMainComplimemtColorLight
+                                        : kMainColorLight,
+                                    width: 50,
+                                    height: 40,
+                                    fit: BoxFit.scaleDown,
+                                  ),
+                                ),
+                                const Center(
+                                  child: Text('Pay On Delivery'),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -855,8 +936,31 @@ class CartItemController extends GetxController {
     }
   }
 
-  // RxList<CategoryModel> categoriesInStore = <CategoryModel>[].obs;
+  Future saveReceiptForPreview() async {
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logo: null,
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
 
-  ScrollController categoryScrollController = ScrollController();
-  ScrollController gridScrollController = ScrollController();
+    /// target: to save the reciept to phone storage
+    /// what is needed
+    /// 1. get the cart
+    /// 2. generate a receipt model
+    /// 3. get the cart instance from the user
+    /// 4. save the receipt with a name
+  }
 }

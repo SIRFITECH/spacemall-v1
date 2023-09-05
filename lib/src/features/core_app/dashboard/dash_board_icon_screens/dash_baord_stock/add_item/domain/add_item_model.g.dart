@@ -31,6 +31,7 @@ class AddItemModelAdapter extends TypeAdapter<AddItemModel> {
       itemCount: fields[11] as RxInt,
       itemId: fields[12] as String,
       morePics: RxList.from(fields[13] as List),
+      // (fields[13] as List).cast<File>(),
     );
   }
 

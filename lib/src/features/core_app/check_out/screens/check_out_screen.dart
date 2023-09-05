@@ -738,7 +738,7 @@ class CheckOut extends StatelessWidget {
                                                                   0.06,
                                                               width: screenSize
                                                                       .width *
-                                                                  0.20,
+                                                                  0.28,
                                                               alignment:
                                                                   Alignment
                                                                       .center,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:showcaseview/showcaseview.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
@@ -15,7 +14,6 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_staff/screens/staff_screen.dart';
 import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
 
-import '../../../../../utils/helpers/global_keys.dart';
 import '../../dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
 import '../../dash_board_icon_screens/dash_board_debts/screens/debts_screen.dart';
 
@@ -57,31 +55,42 @@ class DashboardGrid extends StatelessWidget {
             crossAxisCount: 3,
             padding: const EdgeInsets.only(top: 80),
             children: [
-              Showcase(
-                tooltipPadding: const EdgeInsets.symmetric(vertical: 4),
-                onTargetClick: () {
+              // Showcase(
+              //   tooltipPadding: const EdgeInsets.symmetric(vertical: 4),
+              //   onTargetClick: () {
+              //     Get.to(() => Stock());
+              //   },
+              //   onBarrierClick: () {
+              //     Get.to(() => Stock());
+              //   },
+              //   disposeOnTap: true,
+              //   key: keyOne,
+              //   description: 'Click here to add your store',
+              //   child: GestureDetector(
+              //     onTap: () {
+              //       // _scaffoldKey.currentState.
+              //       Get.to(() => Stock());
+              //     },
+              //     child: DashBoardIcon(
+              //       isDarkMood: isDarkMood,
+              //       image: kStockIcon,
+              //       title: kDashbaordStockText,
+              //     ),
+              //   ),
+              // ),
+              // Reports icon
+              GestureDetector(
+                onTap: () {
+                  // _scaffoldKey.currentState.
                   Get.to(() => Stock());
                 },
-                onBarrierClick: () {
-                  Get.to(() => Stock());
-                },
-                disposeOnTap: true,
-                key: keyOne,
-                description: 'Click here to add your store',
-                child: GestureDetector(
-                  onTap: () {
-                    // _scaffoldKey.currentState.
-                    Get.to(() => Stock());
-                  },
-                  child: DashBoardIcon(
-                    isDarkMood: isDarkMood,
-                    image: kStockIcon,
-                    title: kDashbaordStockText,
-                  ),
+                child: DashBoardIcon(
+                  isDarkMood: isDarkMood,
+                  image: kStockIcon,
+                  title: kDashbaordStockText,
                 ),
               ),
-
-              // Reports icon
+              // stocks icon
               GestureDetector(
                 onTap: () {
                   Get.to(() => const ReportScreen());

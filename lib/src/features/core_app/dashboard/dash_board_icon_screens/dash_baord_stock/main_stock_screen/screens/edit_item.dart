@@ -92,7 +92,8 @@ class EditItem extends StatelessWidget {
                                   addItemController.selectItemImage(context),
                               child: item.itemPic == null
                                   ? CircleAvatar(
-                                      radius: 40,
+                                      radius: screenSize.width * 0.03,
+                                      // 40,
                                       backgroundColor:
                                           kDarkComplementColor.withOpacity(0.2),
                                       child: SizedBox(
@@ -105,8 +106,10 @@ class EditItem extends StatelessWidget {
                                               color: isDarkMood
                                                   ? kDarkModeIconColor
                                                   : kMainColorLight,
-                                              width: 200,
-                                              height: 200,
+                                              width: screenSize.width * 0.2,
+                                              // 200,
+                                              height: screenSize.height * 0.2,
+                                              // 200,
                                               fit: BoxFit.scaleDown,
                                             ),
                                           ),
@@ -177,7 +180,7 @@ class EditItem extends StatelessWidget {
                                       () => Container(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: screenSize.height *
-                                                0.024.toDouble()),
+                                                0.02.toDouble()),
                                         height: screenSize.height * 0.04,
                                         decoration: BoxDecoration(
                                           border: Border.all(

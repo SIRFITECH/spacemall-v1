@@ -10,6 +10,7 @@ import 'package:spacemall/src/features/core_app/check_out/screens/preview_receip
 import 'package:uuid/uuid.dart';
 
 import '../../../../repository/hive_boxes.dart';
+import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipt_pdf.dart';
 import '../domain/check_out_item_model.dart';
 import '../screens/widgets/receipt_build_widget.dart';
@@ -37,7 +38,7 @@ class CheckOutRepo extends GetxController {
 
   Future<File> generatePDFReceipt(ReceiptPDFModel receipt, int index) async {
     final receiptPDF = pw.Document();
-
+    int receiptNo = ReceiptsController.instance.receiptNo.value;
     receiptPDF.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
@@ -55,11 +56,14 @@ class CheckOutRepo extends GetxController {
       ),
     );
 
-    Get.to(() => PreviewReceipt(
-          doc: receiptPDF,
-        ));
+    Get.to(
+      () => PreviewReceipt(
+        doc: receiptPDF,
+      ),
+    );
 
-    return savePDF(receiptName: 'recipt_1.pdf', receiptPDF: receiptPDF);
+    return savePDF(
+        receiptName: 'recipt_$receiptNo.pdf', receiptPDF: receiptPDF);
   }
 
 // fetch the saved pdf for preview

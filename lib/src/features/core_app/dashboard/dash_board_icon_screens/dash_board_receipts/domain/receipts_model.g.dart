@@ -28,13 +28,14 @@ class ReceiptsModelAdapter extends TypeAdapter<ReceiptsModel> {
       cartId: fields[8] as String,
       itemsInCart: fields[9] as String,
       paymentMethod: fields[11] as String,
+      staffId: fields[12] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, ReceiptsModel obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
       ..write(obj.logo)
       ..writeByte(1)
@@ -56,7 +57,9 @@ class ReceiptsModelAdapter extends TypeAdapter<ReceiptsModel> {
       ..writeByte(9)
       ..write(obj.itemsInCart)
       ..writeByte(11)
-      ..write(obj.paymentMethod);
+      ..write(obj.paymentMethod)
+      ..writeByte(12)
+      ..write(obj.staffId);
   }
 
   @override

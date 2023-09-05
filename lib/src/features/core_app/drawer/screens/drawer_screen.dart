@@ -109,7 +109,9 @@ class SpacemallDrawer extends StatelessWidget {
                         ListTile(
                           horizontalTitleGap: 0,
                           onTap: () {
-                            Get.off(() => const ProfileScreen());
+                            Get.to(
+                              () => const ProfileScreen(),
+                            );
                           },
                           leading: const Icon(
                             Icons.person,
@@ -137,7 +139,7 @@ class SpacemallDrawer extends StatelessWidget {
                         ListTile(
                           horizontalTitleGap: 0,
                           onTap: () {
-                            Get.off(() => const AddStore());
+                            Get.to(() => const AddStore());
                           },
                           leading: const Icon(
                             Icons.storefront_rounded,

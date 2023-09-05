@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:hive/hive.dart';
-
 part 'receipts_model.g.dart';
 
 @HiveType(typeId: 2)
@@ -17,7 +15,7 @@ class ReceiptsModel {
   @HiveField(4)
   DateTime date;
   @HiveField(5)
-  String receiptNo; // start with 00000000, increament and convert to string
+  String receiptNo;
   @HiveField(6)
   String attendant;
   @HiveField(7)
@@ -28,6 +26,8 @@ class ReceiptsModel {
   String itemsInCart;
   @HiveField(11)
   String paymentMethod;
+  @HiveField(12)
+  String staffId;
 
   ReceiptsModel({
     required this.logo,
@@ -41,6 +41,7 @@ class ReceiptsModel {
     required this.cartId,
     required this.itemsInCart,
     required this.paymentMethod,
+    required this.staffId,
   });
 
   // populated from map, that is serializing the stock object from server
@@ -57,6 +58,7 @@ class ReceiptsModel {
       cartId: map['cartId'] ?? '',
       itemsInCart: map['itemsInCart'] ?? '',
       paymentMethod: map['paymentMethod'] ?? '',
+      staffId: map['staffId'] ?? '',
     );
   }
 
@@ -73,7 +75,8 @@ class ReceiptsModel {
       "receiptId": receiptId,
       "cartId": cartId,
       "itemsInCart": itemsInCart,
-      "paymentMethod": paymentMethod
+      "paymentMethod": paymentMethod,
+      "staffId": staffId,
     };
   }
 }

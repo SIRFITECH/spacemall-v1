@@ -28,6 +28,7 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       stores: RxList<StoreModel>.from((fields[9] as List<dynamic>)
           .map((store) => StoreModel.fromMap(store))
           .toList()),
+      // (fields[9] as List).cast<StoreModel>(),
       country: fields[6] as String,
       createdAt: fields[10] as String,
     );

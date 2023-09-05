@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:showcaseview/showcaseview.dart';
+// import 'package:showcaseview/showcaseview.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
 import 'package:spacemall/src/features/auth/application/otp_controller/otp_controller.dart';
@@ -194,11 +194,12 @@ class SpacemallApp extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data!) {
-              return ShowCaseWidget(
-                builder: Builder(
-                  builder: (context) => DashBoard(),
-                ),
-              );
+              return DashBoard();
+              // ShowCaseWidget(
+              //   builder: Builder(
+              //     builder: (context) => DashBoard(),
+              //   ),
+              // );
             } else {
               return const ChooseUserType();
             }

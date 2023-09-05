@@ -75,7 +75,7 @@ class AddCategory extends StatelessWidget {
                     return ListTile(
                       leading: IconButton(
                         onPressed: () {
-                          print('Delete from category');
+                          // print('Delete from category');
                           // addCategoryController.removeCategory(index);
                         },
                         icon: const Icon(Icons.remove_circle),

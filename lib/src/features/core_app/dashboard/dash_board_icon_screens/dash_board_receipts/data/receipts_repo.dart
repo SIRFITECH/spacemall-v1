@@ -24,21 +24,15 @@ class AddReceiptsRepo extends GetxController {
     UserModel? user;
     // ignore: unnecessary_null_comparison
     if (CartItemController.instance.userModel == null) {
-      user = await ProfileRepo.instance.getUserDataFromPhone();
-    } else {
       user = CartItemController.instance.userModel;
+    } else {
+      user = await ProfileRepo.instance.getUserDataFromPhone();
     }
 
-    // user!.cart.add(newItem);
-    // cart.add(newItem);
-    // cartItems.value = [...user.cart];
+    int receiptNo = ReceiptsController.instance.receiptNo.value++;
+    String staffNumber = '0123456789';
+    print(receiptNo);
 
-    // Get.snackbar(
-    //   'Operation Successful',
-    //   'Item added to cart successfully',
-    //   backgroundColor: kWhiteLight,
-    //   colorText: kBlack,
-    // );
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
@@ -57,20 +51,21 @@ class AddReceiptsRepo extends GetxController {
         categories: [],
       ),
     );
-
+    // print(user.cart.length);
     // create a new receipt
     ReceiptsModel newReceipt = ReceiptsModel(
       logo: null,
       customerName: 'New Customer',
-      businessEmail: 'storeList.contact',
+      businessEmail: user.email,
       cartTotal: receiptsController.cartTotal.value,
       date: DateTime.now(),
-      receiptNo: ReceiptsController.instance.receiptNo.value.toString(),
+      receiptNo: receiptNo.toString().padLeft(8, '0'),
       attendant: user.userName,
       receiptId: const Uuid().v4(),
       cartId: '',
       itemsInCart: CartItemController.instance.cartItems.length.toString(),
       paymentMethod: paymentMood,
+      staffId: staffNumber.substring(4),
     );
 
     // Add the new receipt item to the store's receipts list
@@ -127,22 +122,4 @@ class AddReceiptsRepo extends GetxController {
     }
     return receipts;
   }
-
-  // // clear the TextEditingControllers
-  // clearControllers() {
-  //   addItemController.itemName.clear();
-  //   addItemController.sellingPrice.clear();
-  //   addItemController.stockAvailable.clear();
-  //   addItemController.costPrice.clear();
-  //   addItemController.trackExpiry.clear();
-  //   addItemController.expiryAlert.clear();
-  //   addItemController.itemPic.value = null;
-  //   addCategoryController.categoryValue.value = null;
-  //   addItemController.trackProfit.value = false;
-  //   addItemController.trackLowStock.value = false;
-  //   addItemController.preventItemSalesWhenOutOfStock.value = false;
-  //   dateFieldController.expiryTapped.value = false;
-  //   dateFieldController.alertTapped.value = false;
-  //   dateFieldController.isTapped.value = false;
-  // }
 }

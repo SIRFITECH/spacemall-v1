@@ -37,7 +37,7 @@ class BottomNavBar extends StatelessWidget {
       color: isDarkMood ? kDarkModeBackgroundColor : kLightModeBackgroundColor,
       elevation: 0,
       child: SizedBox(
-        height: screenSize.height * 0.08,
+        height: screenSize.height * 0.09,
         width: screenSize.width,
         child: Column(
           children: [
@@ -57,11 +57,11 @@ class BottomNavBar extends StatelessWidget {
                   // Icon and text for setting
                   Obx(
                     () => BottomBarIcon(
-                      text: kSettingIconText,
-                      icon: kSettingsIcon,
-                      selected: navBarController.selectedIndex.value == 3,
+                      text: kMenuIconText,
+                      icon: kMenuIcon,
+                      selected: navBarController.selectedIndex.value == 2,
                       onPress: () {
-                        navBarController.setIndex(3);
+                        navBarController.setIndex(2);
                         navBarController.increamentIndex();
                       },
                     ),

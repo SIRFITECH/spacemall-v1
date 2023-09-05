@@ -26,7 +26,10 @@ class DashBoardIcon extends StatelessWidget {
         ),
         Text(
           title,
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontSize: 13,
+                fontWeight: FontWeight.normal,
+              ),
         )
       ],
     );

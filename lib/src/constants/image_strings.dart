@@ -18,6 +18,15 @@ const String kOnBoardingImage1 = 'assets/images/on_boarding_images/open.png';
 const String kOnBoardingImage2 = 'assets/images/on_boarding_images/bns.png';
 const String kOnBoardingImage3 = 'assets/images/on_boarding_images/welcome.png';
 
+// PAYMENT IMAGE STRINGS
+const String kPaymentBank = 'assets/images/navbar_images/bank.svg'
+// 'assets/images/dashboard_icons/calender.svg';
+    'assets/images/payment_images/bank.svg';
+const String kPaymentCard = 'assets/images/payment_images/card.svg';
+const String kPaymentCash = 'assets/images/welcome_image/welcome.png';
+// 'assets/images/payment_images/cash.png';
+const String kPaymentPOD = 'assets/images/payment_images/pod.svg';
+
 /// --- WELCOME SCREEN IMAGE STRINGS ---
 const String kWelcomeIllustration = 'assets/images/welcome_image/welcome.png';
 
@@ -50,6 +59,7 @@ const String kCheckOutIcon = 'assets/images/navbar_images/mall.svg';
 const String kProfileIcon = 'assets/images/navbar_images/profile.svg';
 const String kSettingsIcon = 'assets/images/navbar_images/settings.svg';
 const String kWalletIcon = 'assets/images/navbar_images/wallet.svg';
+const String kMenuIcon = 'assets/images/navbar_images/menu1.svg';
 
 /// --- NAVBAR IMAGE STRINGS ---
 

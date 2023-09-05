@@ -16,7 +16,7 @@ class ReceiptsController extends GetxController {
   RxString fromSelectedDate = ''.obs;
   RxString toSelectedDate = ''.obs;
 
-  RxInt receiptNo = 0.obs;
+  RxInt receiptNo = 0000001.obs;
   RxBool receiptStatus = false.obs; // false = unsuccessful, true = successful
 
   List<ReceiptsModel> convertReceipts(List receiptsFromDb) {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/utils/helpers/helper.dart';
 
 import '../../../../../../constants/colors.dart';
 import '../../../../../../localizations/currency.dart';
+import '../application/reciepts_controller.dart';
 
 class ReceiptView extends StatelessWidget {
   final ReceiptsModel receipt;
@@ -18,19 +18,17 @@ class ReceiptView extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
+    print(ReceiptsController.instance.receiptNo.value);
 
     return Scaffold(
       appBar: MyAppBar(
           isDarkMood: isDarkMood,
-          title: truncateString(receipt.receiptId, 15),
+          title: truncateString(receipt.receiptNo, 20),
           automaticallyImplyLeading: false),
-      body: SizedBox(
-        height: screenSize.height * 0.07,
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              height: screenSize.height * 0.07,
+      body: Column(
+        children: [
+          Expanded(
+            child: SizedBox(
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: const BorderRadius.all(
@@ -44,59 +42,121 @@ class ReceiptView extends StatelessWidget {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            receipt.customerName,
-                          ),
-                          // Obx(
-                          //   () =>
-                          Row(
-                            children: [
-                              Text(
-                                receipt.itemsInCart,
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                DateFormat('d MMM, yyyy').format(
-                                  receipt.date,
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  nairaFormat.format(
+                                    double.parse(
+                                      receipt.cartTotal,
+                                    ),
+                                  ),
+                                  style: const TextStyle(fontSize: 27),
                                 ),
-                                style: const TextStyle(fontSize: 12),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  formatDateTime(
+                                    receipt.date.toString(),
+                                  ),
+                                  style: const TextStyle(
+                                    color: kGreyColor,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: !isDarkMood
+                                      ? kTextFieldLightBorderColor
+                                          .withOpacity(0.1)
+                                      : kTextFieldDarkBorderColor
+                                          .withOpacity(0.1),
+                                  shape: BoxShape.circle),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: IconButton(
+                                  onPressed: () {
+                                    // print(receipt.date.toString());
+                                  },
+                                  icon: Icon(
+                                    Icons.ios_share,
+                                    size: 25,
+                                    color: !isDarkMood
+                                        ? kMainComplimemtColorLight
+                                        : kWhiteLight,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Staff - Attendant'),
+                            Text('Staff - ${receipt.attendant}'),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Text(
+                          "Details",
+                          style: TextStyle(fontSize: 27),
+                        ),
+                        SizedBox(
+                          height: screenSize.height * 0.6,
+                          child: ListView.builder(
+                            itemCount: 10,
+                            itemBuilder: (context, index) => const ListTile(
+                              title: Text('item Name'),
+                              subtitle: Text('item quantity x item price'),
+                              trailing: Text('Total price'),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            right: 8.0,
+                            top: 16,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Text('Total'),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Text(
+                                nairaFormat.format(
+                                  double.parse(
+                                    receipt.cartTotal,
+                                  ),
+                                ),
+                                style: const TextStyle(fontSize: 20),
                               ),
                             ],
                           ),
-                          // ),
-                        ],
-                      ),
-                      // Obx(
-                      //   () =>
-                      Text(
-                        nairaFormat.format(
-                          double.parse(
-                            receipt.cartTotal,
-                          ),
                         ),
-                        style: const TextStyle(fontSize: 12),
-                      ),
-
-                      // ),
-                    ],
-                  ),
-                ),
+                      ],
+                    )),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
