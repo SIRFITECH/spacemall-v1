@@ -35,6 +35,7 @@ class NavBarController extends GetxController {
     ),
     const SpacemallDrawer(),
   ];
+ 
   final List<Widget> mallScreens = const [
     Center(
       child: Center(

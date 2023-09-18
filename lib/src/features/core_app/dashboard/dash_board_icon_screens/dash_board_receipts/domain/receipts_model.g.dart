@@ -29,6 +29,7 @@ class ReceiptsModelAdapter extends TypeAdapter<ReceiptsModel> {
       itemsInCart: fields[9] as String,
       paymentMethod: fields[11] as String,
       staffId: fields[12] as String,
+      cart: (fields[13] as List).cast<CartItemModel>(),
     );
   }
 

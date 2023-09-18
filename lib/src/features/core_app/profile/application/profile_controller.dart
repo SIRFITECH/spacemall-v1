@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
@@ -12,14 +13,18 @@ class ProfileController extends GetxController {
   static ProfileController get instance => Get.find();
 
   RxBool isLoading = false.obs;
-  Rx<File?> profilePic = Rx(null);
+  Rx<File?> profilePic = Rx(
+      null); // i want to make profile icon to be default pic if user does not have dp
+
   RxList<CartItemModel> cart = <CartItemModel>[].obs;
   RxList<StoreModel> stores = <StoreModel>[].obs;
   final String uid = '';
   final TextEditingController tUserName = TextEditingController();
   final TextEditingController tEmail = TextEditingController();
   final TextEditingController tBio = TextEditingController();
+  TextEditingController? tContactNumber = TextEditingController();
   final TextEditingController tTrial = TextEditingController();
+  String? contactNumber = '';
 
   UserModel? user;
 

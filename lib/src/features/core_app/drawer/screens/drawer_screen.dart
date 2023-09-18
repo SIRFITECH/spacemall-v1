@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
+import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
@@ -10,6 +11,7 @@ import 'package:spacemall/src/utils/themes/app_theme_mood.dart';
 import 'package:spacemall/src/utils/themes/custom_text_styles.dart';
 
 import '../../../../utils/themes/themes.dart';
+import '../../dashboard/dash_board_display/screens/dash_board_screen.dart';
 import '../../settings/screens/settings_screen.dart';
 
 class SpacemallDrawer extends StatelessWidget {
@@ -164,7 +166,7 @@ class SpacemallDrawer extends StatelessWidget {
                         ),
                         ListTile(
                           horizontalTitleGap: 0,
-                          onTap: () {
+                          onTap: () async {
                             // ap.signOut();
                             // Navigator.pushReplacement(
                             //   context,
@@ -173,6 +175,7 @@ class SpacemallDrawer extends StatelessWidget {
                             //   ),
                             // );
                             // // print('Signed out');
+                            await AuthRepo.instance.signOut();
                           },
                           leading: const Icon(
                             Icons.logout_sharp,

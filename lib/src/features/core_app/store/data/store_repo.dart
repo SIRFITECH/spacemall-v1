@@ -1,6 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:spacemall/src/constants/text_strings.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/screens/add_category_screen.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
@@ -12,34 +15,11 @@ class StoreRepo extends GetxController {
   static StoreRepo get instance => Get.put(StoreRepo());
   late StoreController storeController;
 
-  // var logo;
-
-  //  StoreController.instance.setInitialSelectedStore();
-
-// phone operations
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //       StoreController.instance.setInitialSelectedStore();
-  // }
-
-  // @override
-  // void onReady() {
-  //   // Get called after widget is rendered on the screen
-  //   super.onReady();
-  //   // getStoresFromBox().isNotEmpty
-  //   //     ? StoreController.instance.selectedStore.value =
-  //   //         getStoresFromBox().first
-  //   //     : [];
-
-  //   StoreController.instance.setInitialSelectedStore();
-  // }
-
   Future saveStoreData() async {
     final appDocumentDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
     Box storeBox = await Hive.openBox<StoreModel>('store');
+
     // create a new store
     StoreModel newStore = StoreModel(
       logo: StoreController.instance.logo.value,
@@ -58,7 +38,7 @@ class StoreRepo extends GetxController {
     );
 
     // add the new store to hive
-    await storeBox.put(
+     await storeBox.put(
       'store-${newStore.storeId}',
       newStore,
     );
@@ -70,6 +50,7 @@ class StoreRepo extends GetxController {
       backgroundColor: kWhiteLight,
       colorText: kBlack,
     );
+    
   }
 
   // clear the TextEditingControllers

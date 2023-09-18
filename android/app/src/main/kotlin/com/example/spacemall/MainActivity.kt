@@ -1,4 +1,4 @@
-package com.example.spacemall
+package io.spacemall
 
 import io.flutter.embedding.android.FlutterActivity
 

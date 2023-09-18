@@ -34,6 +34,8 @@ class DashBaordLowStockWidget extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
+    Orientation orientation = MediaQuery.of(context).orientation;
+
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
@@ -97,7 +99,7 @@ class DashBaordLowStockWidget extends StatelessWidget {
           ),
         ),
         SizedBox(
-          width: screenSize.width * 0.42,
+          width: screenSize.width * 0.41,
         ),
         GestureDetector(
           onTap: () {

@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/cart_item_controller.dart';
+import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:uuid/uuid.dart';
@@ -31,7 +32,8 @@ class AddReceiptsRepo extends GetxController {
 
     int receiptNo = ReceiptsController.instance.receiptNo.value++;
     String staffNumber = '0123456789';
-    print(receiptNo);
+    List<CartItemModel> cartItemsList =
+        CartItemController.instance.cartItems.toList();
 
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
@@ -64,6 +66,31 @@ class AddReceiptsRepo extends GetxController {
       receiptId: const Uuid().v4(),
       cartId: '',
       itemsInCart: CartItemController.instance.cartItems.length.toString(),
+      cart:
+          // [
+          //   CartItemModel(
+          //     itemId: 'itemId',
+          //     itemName: 'itemName',
+          //     quantityInCart: RxInt(1),
+          //     price: '5000',
+          //     totalItemPrice: '5000',
+          //     subTotal: RxDouble(5000.0),
+          //     discount: 50,
+          //     tax: 35,
+          //   ),
+          //   CartItemModel(
+          //     itemId: 'itemId',
+          //     itemName: 'itemName',
+          //     quantityInCart: RxInt(1),
+          //     price: '5000',
+          //     totalItemPrice: '5000',
+          //     subTotal: RxDouble(5000.0),
+          //     discount: 50,
+          //     tax: 35,
+          //   )
+          // ],
+
+          cartItemsList,
       paymentMethod: paymentMood,
       staffId: staffNumber.substring(4),
     );

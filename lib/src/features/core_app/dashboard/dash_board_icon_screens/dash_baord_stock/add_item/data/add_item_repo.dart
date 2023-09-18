@@ -10,6 +10,9 @@ import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../../../../../constants/text_strings.dart';
+import '../../add_category/screens/add_category_screen.dart';
+
 class AddItemRepo extends GetxController {
   static AddItemRepo get instance => Get.find();
 
@@ -62,21 +65,54 @@ class AddItemRepo extends GetxController {
       itemId: const Uuid().v4(),
       morePics: addItemController.moreImages,
     );
-    addCategoryController.categoryValue.value?.itemsInCategory++;
-    addCategoryController.categoryValue.value?.items.add(newItem);
 
-    // Add the new stock item to the store's stock list
-    storeList.stock.add(newItem);
+    if (addItemController.itemPic.value != null) {
+      addCategoryController.categoryValue.value?.itemsInCategory++;
+      addCategoryController.categoryValue.value?.items.add(newItem);
+
+      // Add the new stock item to the store's stock list
+      storeList.stock.add(newItem);
+    } else {
+      Get.snackbar(
+        'Error',
+        'You need to add item pic',
+        backgroundColor: kWhiteLight,
+        colorText: kBlack,
+      );
+    }
 
 // update the storeBox
-    await storeBox.put(
-      currentStore.value,
-      storeList,
-    );
+    if (newItem.itemCategory != null) {
+      await storeBox.put(
+        currentStore.value,
+        storeList,
+      );
 
-    Get.back();
-    addItemController.isItemAdded.value = true;
-    AddItemController.instance.clearImages();
+      Get.back();
+      addItemController.isItemAdded.value = true;
+      AddItemController.instance.clearImages();
+    } else {
+      Get.dialog(
+        AlertDialog(
+          title: const Text(
+            kAddCategoryText,
+            style: TextStyle(color: kBlack),
+          ),
+          content: const Text(
+            kAddCategoryAlertBodyText,
+            style: TextStyle(color: kBlack),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Get.to(() => const AddCategory());
+              },
+              child: const Text('Ok'),
+            ),
+          ],
+        ),
+      );
+    }
   }
   // edit an itemin the stock list
 

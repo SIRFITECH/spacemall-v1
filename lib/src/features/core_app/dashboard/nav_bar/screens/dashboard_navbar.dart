@@ -30,6 +30,7 @@ class DashBoardNavBar extends StatelessWidget {
         children: [
           Container(
             height: screenSize.height * 0.3,
+            width: screenSize.width,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: isDarkMood
@@ -109,10 +110,12 @@ class DashBoardNavBar extends StatelessWidget {
                         });
                       }
 
-                      return navBarController.selectedIndex.value <= 2
-                          ? navBarController
-                              .screens[navBarController.selectedIndex.value]
-                          : const SpacemallDrawer();
+                      return navBarController
+                          .screens[navBarController.selectedIndex.value];
+                      // navBarController.selectedIndex.value <= 2
+                      //     ? navBarController
+                      //         .screen[navBarController.selectedIndex.value]
+                      //     : const SpacemallDrawer();
                     }),
                   ),
                 ),

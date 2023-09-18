@@ -18,7 +18,6 @@ class ReceiptView extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
-    print(ReceiptsController.instance.receiptNo.value);
 
     return Scaffold(
       appBar: MyAppBar(
@@ -120,11 +119,39 @@ class ReceiptView extends StatelessWidget {
                         SizedBox(
                           height: screenSize.height * 0.6,
                           child: ListView.builder(
-                            itemCount: 10,
-                            itemBuilder: (context, index) => const ListTile(
-                              title: Text('item Name'),
-                              subtitle: Text('item quantity x item price'),
-                              trailing: Text('Total price'),
+                            itemCount: receipt.cart.length,
+                            itemBuilder: (context, index) => Padding(
+                              padding: index == 0
+                                  ? const EdgeInsets.symmetric(vertical: 8.0)
+                                  : const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        receipt.cart[index].itemName,
+                                      ),
+                                      Text(
+                                        '${receipt.cart[index].quantityInCart} x ${nairaFormat.format(double.parse((receipt.cart[index].price)))}',
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    nairaFormat.format(
+                                      double.parse(
+                                        receipt.cart[index].subTotal.toString(),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),

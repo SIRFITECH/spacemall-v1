@@ -44,47 +44,45 @@ class SetProfile extends StatelessWidget {
                         children: [
                           Obx(
                             () => GestureDetector(
-                                onTap: () {
-                                  profileController.selectImage(context);
-                                  debugPrint(
-                                      'Select Image: ${profileController.profilePic}');
-                                },
-                                child: image.value == null
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 10.0),
-                                        child: CircleAvatar(
-                                          radius: 60,
-                                          backgroundColor: isDarkMood
-                                              ? kDarkComplementColor
-                                                  .withOpacity(0.2)
-                                              : kMainComplimemtColorLight
-                                                  .withOpacity(0.2),
-                                          child: SizedBox(
-                                            child: ClipOval(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(34.0),
-                                                child: SvgPicture.asset(
-                                                  kProfileIcon,
-                                                  // ignore: deprecated_member_use
-                                                  color: isDarkMood
-                                                      ? kMainComplimemtColorLight
-                                                      : kMainColorLight,
-                                                  width: 100,
-                                                  height: 100,
-                                                  fit: BoxFit.scaleDown,
-                                                ),
+                              onTap: () {
+                                profileController.selectImage(context);
+                              },
+                              child: image.value == null
+                                  ? Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10.0),
+                                      child: CircleAvatar(
+                                        radius: 60,
+                                        backgroundColor: isDarkMood
+                                            ? kDarkComplementColor
+                                                .withOpacity(0.2)
+                                            : kMainComplimemtColorLight
+                                                .withOpacity(0.2),
+                                        child: SizedBox(
+                                          child: ClipOval(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(34.0),
+                                              child: SvgPicture.asset(
+                                                kProfileIcon,
+                                                // ignore: deprecated_member_use
+                                                color: isDarkMood
+                                                    ? kMainComplimemtColorLight
+                                                    : kMainColorLight,
+                                                width: 100,
+                                                height: 100,
+                                                fit: BoxFit.scaleDown,
                                               ),
                                             ),
                                           ),
                                         ),
-                                      )
-                                    : CircleAvatar(
-                                        radius: 60,
-                                        backgroundImage:
-                                            FileImage(image.value!),
-                                      )),
+                                      ),
+                                    )
+                                  : CircleAvatar(
+                                      radius: 60,
+                                      backgroundImage: FileImage(image.value!),
+                                    ),
+                            ),
                           ),
                           Text(
                             kChangePhotoText,
@@ -93,36 +91,8 @@ class SetProfile extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // Row(
-                    //   children: [
-                    //     TextFeildWidget(
-                    //       screenSize: screenSize,
-                    //       isDarkMood: isDarkMood,
-                    //       controller: profileController.tUserName,
-                    //       keyboardType: TextInputType.name,
-                    //       height: screenSize.width * 0.1,
-                    //       hintText: '',
-                    //       labelText: kFNameText,
-                    //       maxLines: 1,
-                    //       width: screenSize.width * 0.42,
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 5,
-                    //     ),
-                    //     TextFeildWidget(
-                    //       screenSize: screenSize,
-                    //       isDarkMood: isDarkMood,
-                    //       controller: profileController.tLName,
-                    //       keyboardType: TextInputType.name,
-                    //       width: screenSize.width * 0.42,
-                    //       height: screenSize.width * 0.1,
-                    //       hintText: '',
-                    //       labelText: kLNameText,
-                    //       maxLines: 1,
-                    //     )
-                    //   ],
-                    // ),
 // username input
+
                     TextFeildWidget(
                       screenSize: screenSize,
                       isDarkMood: isDarkMood,
@@ -149,10 +119,10 @@ class SetProfile extends StatelessWidget {
                     // TextFeildWidget(
                     //   screenSize: screenSize,
                     //   isDarkMood: isDarkMood,
-                    //   controller: profileController.tHomeAddress,
+                    //   controller: profileController.tContactNumber!,
                     //   keyboardType: TextInputType.streetAddress,
                     //   hintText: '',
-                    //   labelText: kHomeText,
+                    //   labelText: kPhoneText,
                     //   maxLines: 4,
                     //   width: screenSize.width * 0.84,
                     //   height: screenSize.width * 0.1,

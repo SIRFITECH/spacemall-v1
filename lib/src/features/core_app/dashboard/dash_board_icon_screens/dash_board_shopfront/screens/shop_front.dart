@@ -94,13 +94,35 @@ class ShopFrontScreen extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.all(1.0),
                                 child: store.logo == null
-                                    ? SvgPicture.asset(
-                                        kImageIcon,
-                                        // ignore: deprecated_member_use
-                                        color: kMainColorDark,
-                                        width: 100,
-                                        height: 100,
-                                        fit: BoxFit.scaleDown,
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 10.0),
+                                        child: CircleAvatar(
+                                          radius: 60,
+                                          backgroundColor: isDarkMood
+                                              ? kDarkComplementColor
+                                                  .withOpacity(0.2)
+                                              : kMainComplimemtColorLight
+                                                  .withOpacity(0.2),
+                                          child: SizedBox(
+                                            child: ClipOval(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(34.0),
+                                                child: SvgPicture.asset(
+                                                  kImageIcon,
+                                                  // ignore: deprecated_member_use
+                                                  color: isDarkMood
+                                                      ? kMainComplimemtColorLight
+                                                      : kMainColorLight,
+                                                  width: 100,
+                                                  height: 100,
+                                                  fit: BoxFit.scaleDown,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       )
                                     : CircleAvatar(
                                         radius: 50,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/application/otp_controller/otp_controller.dart';
+import 'package:spacemall/src/features/auth/screens/login/login.dart';
 
 class OTPFooter extends StatelessWidget {
   const OTPFooter({
@@ -33,21 +35,45 @@ class OTPFooter extends StatelessWidget {
           kVDidntReciveCodeText,
           style: Theme.of(context).textTheme.labelMedium,
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextButton(
-            onPressed: () {},
-            child: Text.rich(
-              TextSpan(
-                children: [
+        Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {},
+                child: Text.rich(
                   TextSpan(
-                    text: kVResendNewCodeText,
-                    style: Theme.of(context).textTheme.headlineSmall,
+                    children: [
+                      TextSpan(
+                        text: kVResendNewCodeText,
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: TextButton(
+                onPressed: () {
+                  Get.off(
+                    () => const Login(),
+                  );
+                },
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Try Again',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         )
       ],
     );

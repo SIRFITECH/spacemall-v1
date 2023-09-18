@@ -38,6 +38,16 @@ class StoreController extends GetxController {
 
   // check if store already exists
   RxBool isStoreAdded = false.obs;
+  RxBool noStoreYet = true.obs;
+
+  bool setNoStore() {
+    if (StoreRepo.instance.getStoresFromBox().isEmpty) {
+      print('first call  ${noStoreYet.value}');
+      return noStoreYet.value = true;
+    }
+    print('Second call ${noStoreYet.value}');
+    return noStoreYet.value = false;
+  }
 
 // input data to create the store
   Rx<File?> logo = Rx<File?>(null);

@@ -4,11 +4,10 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/application/nav_bar_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/screens/bottom_nav_bar_screen.dart';
+import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 
 import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
-import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
 
-import '../../../../../constants/text_strings.dart';
 import '../application/dash_baord_controller.dart';
 
 class DashBoard extends StatelessWidget {
@@ -23,6 +22,7 @@ class DashBoard extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
+
     Get.put(
       StoreRepo(),
     );
@@ -33,59 +33,49 @@ class DashBoard extends StatelessWidget {
       DashBoardController(context),
     );
 
-    final StoreRepo storeRepo = StoreRepo();
+    // final StoreRepo storeRepo = StoreRepo();
+
+    final StoreController storeController = Get.find<StoreController>();
+    storeController.noStoreYet.value = false;
+    storeController.setNoStore();
 
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: isDarkMood ? kDarkModeBackgroundColor : kWhiteLight,
       body: GetBuilder<NavBarController>(
-          init: NavBarController(),
-          builder: (navBarController) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(6),
-                  child: Container(
-                    // color: isDarkMood
-                    //     ? kDarkModeBackgroundColor.withOpacity(0.1)
-                    //     : kLightModeBackgroundColor.withOpacity(0.1),
-                    height: screenSize.height * 0.93,
-                    child: Obx(() {
-                      if (storeRepo.getStoresFromBox().isEmpty &&
-                          navBarController.selectedIndex.value !=
-                              storeRepo.getStoresFromBox().length) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          Get.defaultDialog(
-                            backgroundColor: !isDarkMood
-                                ? kDarkModeBackgroundColor.withOpacity(0.1)
-                                : kWhiteDark.withOpacity(0.1),
-                            title: kAddStoreAppBarText,
-                            titleStyle: const TextStyle(
-                              color: kWhiteLight,
-                            ),
-                            content: const Text(
-                              kAddStoreAlertBodyText,
-                              style: TextStyle(
-                                color: kWhiteLight,
-                              ),
-                            ),
-                            confirm: ElevatedButton(
-                              onPressed: () {
-                                Get.to(() => const AddStore());
-                              },
-                              child: const Text(kOkayText),
-                            ),
-                          );
-                        });
-                      }
+        init: NavBarController(),
+        builder: (navBarController) {
+          // if (storeController.stores.isEmpty ||
+          //     storeController.noStoreYet.value == true) {
+          //   print('no store yet');
+          //   WidgetsBinding.instance.addPostFrameCallback((_) {
+          //     Get.defaultDialog(
+          //       backgroundColor: !isDarkMood
+          //           ? kDarkModeBackgroundColor.withOpacity(0.1)
+          //           : kWhiteDark.withOpacity(0.1),
+          //       title: kAddStoreText,
+          //       titleStyle: const TextStyle(
+          //         color: kWhiteLight,
+          //       ),
+          //       content: const Text(
+          //         kAddStoreAlertBodyText,
+          //         style: TextStyle(
+          //           color: kWhiteLight,
+          //         ),
+          //       ),
+          //       confirm: ElevatedButton(
+          //         onPressed: () {
+          //           Get.to(() => const AddStore());
+          //         },
+          //         child: const Text(kOkayText),
+          //       ),
+          //     );
+          //   });
+          // }
 
-                      return navBarController
-                          .screen[navBarController.selectedIndex.value];
-                      // navBarController
-                      //     .screens[navBarController.selectedIndex.value];
-                    }),
-                  ),
-                ),
-              )),
+          return navBarController.screen[navBarController.selectedIndex.value];
+        },
+      ),
       bottomNavigationBar: BottomNavBar(),
     );
   }

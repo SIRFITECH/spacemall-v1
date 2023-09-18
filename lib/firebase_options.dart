@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,9 +43,19 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBnoEmrxoVojn0uRVMNLdqBUC0sCRCGlKs',
+    appId: '1:1017415678363:web:1c5cf6616b66740a52893e',
+    messagingSenderId: '1017415678363',
+    projectId: 'spacemall-v1',
+    authDomain: 'spacemall-v1.firebaseapp.com',
+    storageBucket: 'spacemall-v1.appspot.com',
+    measurementId: 'G-1T7TCNDGLQ',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBwHhpISVlHImqzxXaJZ5wWZFfL2L-gTis',
-    appId: '1:1017415678363:android:350377590ed4d76752893e',
+    appId: '1:1017415678363:android:89ca0d90a17a1f9052893e',
     messagingSenderId: '1017415678363',
     projectId: 'spacemall-v1',
     storageBucket: 'spacemall-v1.appspot.com',
@@ -59,12 +63,23 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCltCUmBltGB_dh5HZcBm_Ag-adBm06HRE',
-    appId: '1:1017415678363:ios:8cede94e63fdc7eb52893e',
+    appId: '1:1017415678363:ios:56a87228cd7415be52893e',
     messagingSenderId: '1017415678363',
     projectId: 'spacemall-v1',
     storageBucket: 'spacemall-v1.appspot.com',
     androidClientId: '1017415678363-1mbva1dvqeopov2rtoe0ib92ohp6l91c.apps.googleusercontent.com',
-    iosClientId: '1017415678363-nn4tmt3qndv4k94mvmu7vikifefi3nra.apps.googleusercontent.com',
-    iosBundleId: 'com.example.spacemall',
+    iosClientId: '1017415678363-mlb586r2fladi8jjmnmeamefpstcnrvg.apps.googleusercontent.com',
+    iosBundleId: 'io.spacemall',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyCltCUmBltGB_dh5HZcBm_Ag-adBm06HRE',
+    appId: '1:1017415678363:ios:56a87228cd7415be52893e',
+    messagingSenderId: '1017415678363',
+    projectId: 'spacemall-v1',
+    storageBucket: 'spacemall-v1.appspot.com',
+    androidClientId: '1017415678363-1mbva1dvqeopov2rtoe0ib92ohp6l91c.apps.googleusercontent.com',
+    iosClientId: '1017415678363-mlb586r2fladi8jjmnmeamefpstcnrvg.apps.googleusercontent.com',
+    iosBundleId: 'io.spacemall',
   );
 }

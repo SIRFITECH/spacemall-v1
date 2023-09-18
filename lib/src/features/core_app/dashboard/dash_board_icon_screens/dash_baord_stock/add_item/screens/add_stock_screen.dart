@@ -745,9 +745,10 @@ class AddStock extends StatelessWidget {
                       ),
                     );
                   },
-                )),
+                ),),
           ),
         ),
+        
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Get.to(() => const AddCategory());

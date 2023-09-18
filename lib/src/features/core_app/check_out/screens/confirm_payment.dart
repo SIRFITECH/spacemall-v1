@@ -398,6 +398,7 @@ class ConfirmPayment extends StatelessWidget {
               padding: EdgeInsets.all(screenSize.height * 0.05),
               child: ElevatedButton(
                 onPressed: () {
+                  print('Payment pressed');
                   cartItemController.showMoodOfPayment(
                     context,
                     screenSize,

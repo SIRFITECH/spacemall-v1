@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="facebook_app_name">io.spacemall</string>    
+    <string name="facebook_app_id">1056011145307282</string>
+    <string name="fb_login_protocol_scheme">fb1056011145307282</string>
+    <string name="facebook_client_token">157471085bdebdd4c05b62ebdbde7661</string>
+</resources>

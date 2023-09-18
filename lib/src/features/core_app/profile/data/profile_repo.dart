@@ -46,7 +46,7 @@ class ProfileRepo extends GetxController {
 
   // bool isLoading = false;
 
-  RxString conttactNumber = ''.obs;
+  // RxString conttactNumber = ''.obs;
   RxString role = ''.obs;
 
   UserModel? _userModel;
@@ -71,9 +71,8 @@ class ProfileRepo extends GetxController {
   saveData(BuildContext context) async {
     dp = profileController.profilePic.value;
     UserModel user = UserModel(
-      // change the profilePic to a file instead of a string
       profilePic: '',
-      contactNumber: AuthRepo.instance.userPhone!,
+      contactNumber: ProfileController.instance.contactNumber ?? '',
       role: splashController.userRole.value,
       cart: [],
       stores: RxList<StoreModel>()..addAll([]),
@@ -85,16 +84,16 @@ class ProfileRepo extends GetxController {
       createdAt: DateFormat('d MMM, yyyy').format(DateTime.now()),
     );
 
-    if (dp != null) {
-      const Center(
-        child: CircularProgressIndicator(),
-      );
-      ProfileRepo.instance.saveUserDataToFireBase(
-        context: context,
-        userModel: user,
-        dp: profileController.profilePic.value!,
-        onSucess: () {
-          // save to phone memory
+    const Center(
+      child: CircularProgressIndicator(),
+    );
+    ProfileRepo.instance.saveUserDataToFireBase(
+      context: context,
+      userModel: user,
+      dp: profileController.profilePic.value!,
+      onSucess: () {
+        // save to phone memory
+        if (dp != null) {
           ProfileRepo.instance.saveDataToPhone(user).then(
                 (value) => AuthRepo.instance.setSignedIn().then(
                   (value) {
@@ -104,16 +103,16 @@ class ProfileRepo extends GetxController {
                   },
                 ),
               );
-        },
-      );
-    } else {
-      Get.snackbar(
-        'Error',
-        'You have to add a profile photo',
-        backgroundColor: kRedColor,
-        colorText: kWhiteLight,
-      );
-    }
+        } else {
+          Get.snackbar(
+            'Error',
+            'You have to add a profile photo',
+            backgroundColor: kRedColor,
+            colorText: kWhiteLight,
+          );
+        }
+      },
+    );
   }
 
   ///PHONE OPERATIONS
@@ -131,6 +130,13 @@ class ProfileRepo extends GetxController {
       backgroundColor: kWhiteLight,
       colorText: kBlack,
     );
+  }
+
+  void clearFeilds() {
+    profileController.profilePic = Rx(null);
+    profileController.tUserName.clear();
+    profileController.tEmail.clear();
+    profileController.tBio.clear();
   }
 
 // fetch saved data from phone storage
@@ -169,12 +175,13 @@ class ProfileRepo extends GetxController {
   }) async {
     try {
       profileController.isLoading.value = true;
+
       await saveImageToStorage('profilePic/${authRepo.uid}', dp).then(
         (value) {
           userModel.profilePic = value;
           userModel.createdAt =
               DateFormat('d MMM, yyyy').format(DateTime.now());
-          userModel.contactNumber = AuthRepo.instance.userPhone!;
+          userModel.contactNumber = AuthRepo.instance.userPhone ?? '';
           userModel.uid = AuthRepo.instance.uid;
         },
       );

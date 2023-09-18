@@ -20,6 +20,7 @@ class AddCategoryController extends GetxController {
   int selectedIndex = 0;
 
   RxBool noCategory = true.obs;
+
   // category dropdown
   Rx<CategoryModel?> categoryValue = Rx<CategoryModel?>(
     null,
@@ -86,6 +87,7 @@ class AddCategoryController extends GetxController {
       store.categories.add(newCategory);
 
       // Update the storeBox with the modified store
+      
       await storeBox.put(AddItemRepo.instance.currentStore.value, store);
 
       categories.add(newCategory);

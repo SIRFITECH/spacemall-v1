@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/sizes.dart';
+import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
+
+import '../../../../constants/image_strings.dart';
 
 class FLogin extends StatelessWidget {
   const FLogin({
@@ -25,23 +27,33 @@ class FLogin extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
-                onTap: () {},
-                child: const Image(
-                  height: kFImageHeight,
-                  width: kFImageWidth,
-                  image: AssetImage(kFaceBookLogin),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child: const Image(
+                onTap: () {
+                  AuthRepo.instance.signInWithGoogle();
+                },
+                child:
+                    // Text('Google')
+                    const Image(
                   height: kFImageHeight,
                   width: kFImageWidth,
                   image: AssetImage(kGmailLogin),
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  AuthRepo.instance.signInWithFacebook();
+                },
+                child:
+                    // Text('Facebook'),
+                    const Image(
+                  height: kFImageHeight,
+                  width: kFImageWidth,
+                  image: AssetImage(kFaceBookLogin),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  AuthRepo.instance.signInWithTwitter();
+                },
                 child: const Image(
                   height: kFImageHeight,
                   width: kFImageWidth,
@@ -49,16 +61,29 @@ class FLogin extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  AuthRepo.instance.signInWithInsta();
+                },
+                // child: Text('Instagram'),
                 child: const Image(
                   height: kFImageHeight,
                   width: kFImageWidth,
                   image: AssetImage(kInstagramLogin),
                 ),
               ),
+              GestureDetector(
+                onTap: () {
+                  AuthRepo.instance.signInWithMetaMask();
+                },
+                child: const Image(
+                  height: kFImageHeight,
+                  width: kFImageWidth,
+                  image: AssetImage(kMetaMaskLogin),
+                ),
+              ),
             ],
           ),
-        )
+        ),
       ],
     );
   }

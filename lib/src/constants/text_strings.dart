@@ -118,6 +118,7 @@ const String kCategoryLabelText = 'Category Name';
 const String kHintText = 'eg Drinks';
 const String kAddCategoryText = 'Add Category';
 const String kAddCategoryAlertBodyText = 'Please add category to continue';
+const String kAddStoreText = 'Add Store';
 
 /// --- STOCK SCREEN TEXT ---
 

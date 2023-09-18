@@ -339,6 +339,7 @@ class CartItemController extends GetxController {
 
     CartItemController.instance.cartItems.isNotEmpty
         ? (AddReceiptsRepo.instance.saveReceiptData().then((value) {
+            print(CartItemController.instance.cartItems.toList());
             setSale(
                 CartItemController.instance.totalCartTotal.value.toString());
             updateItemQuantities();
@@ -474,6 +475,7 @@ class CartItemController extends GetxController {
           attendant: '',
           receiptId: '',
           cartId: '',
+          cart: [],
           itemsInCart: '',
           paymentMethod: '',
           staffId: '',
@@ -489,6 +491,7 @@ class CartItemController extends GetxController {
         attendant: '',
         receiptId: '',
         cartId: '',
+        cart: [],
         itemsInCart: '',
         paymentMethod: '',
         staffId: '',
@@ -520,17 +523,7 @@ class CartItemController extends GetxController {
         builder: (context) {
           var cartIsEmpty = CartItemController.instance.cartItems;
           return Container(
-            decoration: const BoxDecoration(
-                // borderRadius: BorderRadius.circular(20),
-                // border: Border.all(
-                //   width: 1,
-                //   color: isDarkMood
-                //       ? kMainColorLight.withOpacity(0.9)
-                //       : kMainComplimemtColorLight.withOpacity(0.8),
-                // ),
-                // shape: BoxShape.circle,
-                // color: kLightModeActiveButtonColor,
-                ),
+            decoration: const BoxDecoration(),
             width: double.infinity,
             height: screenSize.height * 0.4,
             child: Padding(
@@ -590,24 +583,13 @@ class CartItemController extends GetxController {
                             child: Column(
                               children: [
                                 Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Image.asset(
-                                      kPaymentCash,
-                                      width: 50,
-                                      height: 40,
-                                    )
-                                    // SvgPicture.asset(
-                                    //   kProfileIcon,
-                                    //   // kPaymentCash,
-                                    //   // ignore: deprecated_member_use
-                                    //   color: isDarkMood
-                                    //       ? kMainComplimemtColorLight
-                                    //       : kMainColorLight,
-                                    //   width: 50,
-                                    //   height: 40,
-                                    //   fit: BoxFit.scaleDown,
-                                    // ),
-                                    ),
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Image.asset(
+                                    kPaymentCash,
+                                    width: 50,
+                                    height: 40,
+                                  ),
+                                ),
                                 const Center(child: Text('cash')),
                               ],
                             ),

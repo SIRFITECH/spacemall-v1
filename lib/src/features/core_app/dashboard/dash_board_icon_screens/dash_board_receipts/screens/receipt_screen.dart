@@ -254,7 +254,7 @@ class ReceiptListScreen extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            '${receipts.itemsInCart} items',
+                                            '${receipts.itemsInCart.length} items',
                                             style:
                                                 const TextStyle(fontSize: 12),
                                           ),

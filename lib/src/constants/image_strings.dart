@@ -36,6 +36,7 @@ const String kFaceBookLogin = 'assets/images/login_image/facebook.png';
 const String kGmailLogin = 'assets/images/login_image/gmail.png';
 const String kTwitterLogin = 'assets/images/login_image/twitter.png';
 const String kInstagramLogin = 'assets/images/login_image/insta.png';
+const String kMetaMaskLogin = 'assets/images/login_image/metamask.png';
 
 /// --- OTP SCREEN IMAGE STRINGS ---
 const String kOTPIllustration = 'assets/images/otp_image/verify.png';
