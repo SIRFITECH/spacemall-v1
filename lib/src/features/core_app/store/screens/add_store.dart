@@ -30,7 +30,8 @@ class AddStore extends StatelessWidget {
     // storeController.noStoreYet.value = false;
     // StoreController.instance.setNoStore();
 
-    print(' from add store screen ${storeController.noStoreYet.value}');
+    print(
+        ' THE PRESENT VALUE OF NOSTOREYET IS ${storeController.noStoreYet.value} IN THE ADD-STORE SCREEN');
 
     return Scaffold(
       appBar: MyAppBar(

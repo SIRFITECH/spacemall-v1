@@ -306,13 +306,13 @@ class AuthRepo extends GetxController {
         codeSent: (String verificationId, int? resendToken) async {
           Get.snackbar('Code sent', 'You should',
               colorText: Colors.white, backgroundColor: Colors.green);
-          String smsCode = OtpController.instance.otp.value;
+          // String smsCode = OtpController.instance.otp.value;
           resendToken = OtpController.instance.resendToken.value;
           this.verificationId.value = verificationId;
 
           // // Create a PhoneAuthCredential with the code
-          PhoneAuthCredential credential = PhoneAuthProvider.credential(
-              verificationId: verificationId, smsCode: smsCode);
+          // PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          //     verificationId: verificationId, smsCode: smsCode);
           // print('THIS USER HAS THE ACCESS CODE OF $verificationId');
           // print('smsCode is $smsCode and resendToken is $resendToken');
           // credential.smsCode;

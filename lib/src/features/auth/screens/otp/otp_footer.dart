@@ -4,7 +4,7 @@ import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/application/otp_controller/otp_controller.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
-import 'package:spacemall/src/features/auth/screens/login/login.dart';
+// import 'package:spacemall/src/features/auth/screens/login/login.dart';
 
 class OTPFooter extends StatelessWidget {
   const OTPFooter({
@@ -61,8 +61,8 @@ class OTPFooter extends StatelessWidget {
                 child: TextButton(
                   onPressed: otpController.timer.value > 1
                       ? () {
-                        AuthRepo.instance.resendOTP();
-                          print('resend now');
+                          AuthRepo.instance.resendOTP();
+                          // print('resend now');
                         }
                       : null,
                   child: Text.rich(

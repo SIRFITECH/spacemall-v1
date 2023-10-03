@@ -32,8 +32,8 @@ class AddReceiptsRepo extends GetxController {
 
     int receiptNo = ReceiptsController.instance.receiptNo.value++;
     String staffNumber = '0123456789';
-    List<CartItemModel> cartItemsList =
-        CartItemController.instance.cartItems.toList();
+    // List<CartItemModel> cartItemsList =
+    //     CartItemController.instance.cartItems.toList();
 
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,

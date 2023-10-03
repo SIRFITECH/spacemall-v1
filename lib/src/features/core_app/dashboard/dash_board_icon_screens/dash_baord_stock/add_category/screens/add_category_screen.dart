@@ -64,7 +64,7 @@ class AddCategory extends StatelessWidget {
             child: GetBuilder<StoreController>(
               builder: (storeController) {
                 print(
-                    'THE PRESENT VALUE OF NOSTOREYET IS ${storeController.noStoreYet.value}');
+                    'THE PRESENT VALUE OF NOSTOREYET IS ${storeController.noStoreYet.value} IN ADD-CATEGORY SCREEN');
                 if (
                     // storeController.stores.isEmpty ||
                     storeController.noStoreYet.value == true) {

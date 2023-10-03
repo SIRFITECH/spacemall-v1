@@ -12,12 +12,12 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/localizations/currency.dart';
-import 'package:spacemall/src/repository/hive_boxes.dart';
+// import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/helpers/helper.dart';
 
-import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
+// import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
-import '../../store/domain/store_model.dart';
+// import '../../store/domain/store_model.dart';
 
 class CheckOut extends StatelessWidget {
   const CheckOut({super.key});
@@ -30,7 +30,7 @@ class CheckOut extends StatelessWidget {
     final screenSize = media.size;
 
     final cartItemController = Get.put(CartItemController());
-    final AddItemRepo addItemRepo = Get.find();
+    // final AddItemRepo addItemRepo = Get.find();
     Get.put(
       ReceiptsController(),
     );

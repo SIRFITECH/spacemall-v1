@@ -16,7 +16,7 @@ class ReceiptView extends StatelessWidget {
     final media = MediaQuery.of(context);
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
-    final screenSize = media.size;
+    // final screenSize = media.size;
 
     return Scaffold(
       appBar: MyAppBar(

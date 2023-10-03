@@ -6,7 +6,7 @@ import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/screens/login/login_divider_widget.dart';
 import 'package:spacemall/src/features/core_app/check_out/data/check_out_repo.dart';
-import 'package:spacemall/src/features/core_app/check_out/screens/check_out_screen.dart';
+// import 'package:spacemall/src/features/core_app/check_out/screens/check_out_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/application/stock_controller.dart';
@@ -15,10 +15,11 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/localizations/currency.dart';
-import 'package:spacemall/src/repository/hive_boxes.dart';
+// import 'package:spacemall/src/repository/hive_boxes.dart';
 
 import '../../../../../../../utils/helpers/helper.dart';
-import '../../../../../store/domain/store_model.dart';
+import '../../../../../store/application/store_controller.dart';
+// import '../../../../../store/domain/store_model.dart';
 
 class Stock extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -33,28 +34,9 @@ class Stock extends StatelessWidget {
     final StockController stockController = Get.find();
     final AddItemRepo addItemRepo = Get.find();
     AddItemRepo.instance.setStockList();
-
-    // StoreModel store = storeBox.get(
-    //   addItemRepo.currentStore.value,
-    //   defaultValue: StoreModel(
-    //     logo: null,
-    //     storeName: '',
-    //     bankName: '',
-    //     accountNumber: '',
-    //     contact: '',
-    //     stock: RxList([]),
-    //     receipts: [],
-    //     debts: [],
-    //     staff: [],
-    //     sales: [],
-    //     customer: [],
-    //     storeId: '',
-    //     categories: [],
-    //   ),
-    // );
-
-    // final RxList<AddItemModel> stocks = RxList<AddItemModel>.from(store.stock);
-    //  store.stock.toList();
+    final StoreController storeController = Get.find();
+    print(
+        ' THE PRESENT VALUE OF NOSTOREYET IS ${storeController.noStoreYet.value} IN THE STOCK SCREEN');
 
     return Scaffold(
       key: _scaffoldKey,
@@ -76,7 +58,7 @@ class Stock extends StatelessWidget {
       //   description: 'Press on the menu to add a new store',
       //   child:
       // ),
-      body: store.storeName == ''
+      body: storeController.noStoreYet.value == true
           ? Center(
               child: Container(
                 child: const Text(

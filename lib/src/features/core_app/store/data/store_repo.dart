@@ -17,6 +17,8 @@ class StoreRepo extends GetxController {
     final appDocumentDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
     // Box storeBox = await Hive.openBox<StoreModel>('store');
+    print(
+        ' THE PRESENT VALUE OF NOSTOREYET IS ${storeController.noStoreYet.value} BEFORE ADDING A STORE');
 
     // create a new store
     StoreModel newStore = StoreModel(
@@ -43,6 +45,8 @@ class StoreRepo extends GetxController {
       );
       storeController.setNoStore();
       storeController.stores.add(newStore);
+      print(
+          ' THE PRESENT VALUE OF NOSTOREYET IS ${storeController.noStoreYet.value} AFTER ADDING A STORE');
       Get.back();
 
       Get.snackbar(

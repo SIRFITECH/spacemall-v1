@@ -8,9 +8,7 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
 import 'package:spacemall/src/features/auth/application/otp_controller/otp_controller.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
-import 'package:spacemall/src/features/auth/screens/splash_screen/splash_screen.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/domain/category_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
@@ -25,13 +23,13 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_shopfront/application/store_front_controller.dart';
+import 'package:spacemall/src/features/core_app/main/spacemall.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/repository/spacial_adotpters.dart';
-import 'package:spacemall/src/utils/themes/themes.dart';
 
 import 'firebase_options.dart';
 import 'src/features/auth/application/splash_controller/splash_controller.dart';
@@ -157,107 +155,3 @@ void main() async {
 
   runApp(const SpacemallApp());
 }
-
-class SpacemallApp extends StatelessWidget {
-  static final ValueNotifier<ThemeData> themeNotifier =
-      ValueNotifier(SAppTheme.lightTheme);
-
-  const SpacemallApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    // final themeController = Get.put(ThemeController());
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      themeMode:
-          // themeController.theme,
-          ThemeMode.system,
-      theme: SAppTheme.lightTheme,
-      darkTheme: SAppTheme.darkTheme,
-      defaultTransition: Transition.leftToRightWithFade,
-      transitionDuration: const Duration(milliseconds: 10),
-      // initialBinding: SpaceMallBinding(),
-
-      // initialRoute: '/',
-      // onInit: () async {
-      //   bool isExistingUser = await AuthRepo.instance.checkExistingUser();
-      //   if (isExistingUser) {
-      //     Get.offNamed('/dashboard');
-      //   } else {
-      //     Get.offNamed('/');
-      //   }
-      // },
-      // getPages: [
-      //   GetPage(name: '/', page: () => const ChooseUserType()),
-      //   GetPage(
-      //       name: '/dashboard',
-      //       page: () => DashBoard(),
-      //       middlewares: [SpaceMallMiddleWare1()]),
-      // ],
-
-      home: FutureBuilder<bool>(
-        future: AuthRepo.instance.checkExistingUser(),
-        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data!) {
-              return DashBoard();
-              // ShowCaseWidget(
-              //   builder: Builder(
-              //     builder: (context) => DashBoard(),
-              //   ),
-              // );
-            } else {
-              return const ChooseUserType();
-            }
-          }
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-// class SpacemallApp extends StatelessWidget {
-//   static final ValueNotifier<ThemeData> themeNotifier =
-//       ValueNotifier(SAppTheme.lightTheme);
-
-//   const SpacemallApp({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ValueListenableBuilder<ThemeData>(
-//       valueListenable: themeNotifier,
-//       builder: (_, ThemeData currentTheme, __) {
-//         return GetMaterialApp(
-//           debugShowCheckedModeBanner: false,
-//           theme: currentTheme,
-//           darkTheme: SAppTheme.darkTheme,
-//           themeMode: ThemeMode.system,
-//           defaultTransition: Transition.leftToRightWithFade,
-//           transitionDuration: const Duration(milliseconds: 50),
-//           home: FutureBuilder<bool>(
-//             future: AuthRepo.instance.checkExistingUser(),
-//             builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-//               if (snapshot.hasData) {
-//                 if (snapshot.data!) {
-//                   return DashBoard();
-//                 } else {
-//                   return const Login();
-//                 }
-//               }
-//               return const Scaffold(
-//                 body: Center(
-//                   child: CircularProgressIndicator(),
-//                 ),
-//               );
-//             },
-//           ),
-//         );
-//       },
-//     );
-//   }
-// }

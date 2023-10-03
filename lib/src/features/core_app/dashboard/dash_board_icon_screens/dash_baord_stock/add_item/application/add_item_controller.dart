@@ -12,7 +12,7 @@ import '../../../../../../../constants/text_strings.dart';
 import '../../../../../store/domain/store_model.dart';
 import '../../add_category/application/add_category_controller.dart';
 import '../../add_category/domain/category_model.dart';
-import '../../add_category/screens/add_category_screen.dart';
+// import '../../add_category/screens/add_category_screen.dart';
 
 class AddItemController extends GetxController {
   static AddItemController get instance => Get.put(

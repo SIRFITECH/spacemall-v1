@@ -4,7 +4,7 @@ import 'package:spacemall/src/features/core_app/check_out/screens/check_out_scre
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_main_display.dart';
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
-import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
+// import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 
 import '../screens/dashboard_navbar.dart';
 
@@ -13,7 +13,7 @@ class NavBarController extends GetxController {
   final selectedMallIndex = 0.obs;
 
   final List<Widget> screens = [
-    Center(
+    const Center(
       child:
           // StoreController.instance.stores.isNotEmpty ?
           DashboardGrid(),
@@ -25,7 +25,6 @@ class NavBarController extends GetxController {
       child: ProfileScreen(),
     ),
     const SpacemallDrawer(),
-   
   ];
 
   List screen = [
