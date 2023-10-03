@@ -4,7 +4,6 @@ import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/application/otp_controller/otp_controller.dart';
-import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:spacemall/src/features/auth/screens/login/f_login.dart';
 import 'package:spacemall/src/features/auth/screens/login/login_or_widget.dart';
 import 'package:spacemall/src/features/auth/screens/otp/otp_screen.dart';
@@ -141,7 +140,7 @@ class Login extends StatelessWidget {
                               );
                               ProfileController.instance.contactNumber =
                                   '+${loginController.country.value.phoneCode}${loginController.phoneController.text.trim()}';
-
+                              OtpController.instance.setTimer();
                               Get.off(
                                 () => const OTPScreen(),
                               );

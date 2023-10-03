@@ -11,22 +11,29 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/auth/application/otp_controller/otp_controller.dart';
 import 'package:spacemall/src/features/auth/screens/login/login.dart';
 import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_screen.dart';
-import 'package:spacemall/src/features/auth/screens/otp/otp_screen.dart';
 import 'package:spacemall/src/features/auth/screens/welcome/welcome.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
-import 'package:spacemall/src/repository/hive_boxes.dart';
-
 import '../../../core_app/profile/application/profile_controller.dart';
 import '../../../core_app/profile/screens/set_profile.dart';
 
 class AuthRepo extends GetxController {
+  FirebaseAuth auth;
+  UserModel user;
+
+  AuthRepo(this.auth, this.user);
   static AuthRepo get instance => Get.find();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  late final Rx<User?> firebaseUser;
+  Stream<User?> get signInUser => auth.authStateChanges();
+
+  Future<String> signInWithPhone(String phoneNo) async {
+    return await Future.value('success');
+  }
+
+  // IMPPORTANTS ABOVE
+
+  Rx<User?> firebaseUser = Rx<User?>(null);
   var verificationId = ''.obs;
-  // RxBool isLoading = false.obs;
 
   bool _isUserSignedIn = false;
   bool get isUserSignedIn => _isUserSignedIn;
@@ -34,42 +41,21 @@ class AuthRepo extends GetxController {
   String? _uid;
   String get uid => _uid ?? '';
 
-  String? userPhone = FirebaseAuth.instance.currentUser != null
-      ? FirebaseAuth.instance.currentUser!.phoneNumber
-      : '';
-
   String? _profilePic;
   String get profilePic => _profilePic?.toString() ?? '';
 
   String? _phoneNumber;
   String? get phoneNumber =>
-      _phoneNumber?.toString() ?? _auth.currentUser?.phoneNumber;
+      _phoneNumber?.toString() ?? auth.currentUser?.phoneNumber;
 
   @override
   void onReady() {
-    firebaseUser = Rx<User?>(_auth.currentUser);
+    firebaseUser = Rx<User?>(auth.currentUser);
 
-    firebaseUser.bindStream(_auth.userChanges());
+    firebaseUser.bindStream(auth.userChanges());
     ever(firebaseUser, (callback) => _setInitialScreen);
     checkInternetConnection();
   }
-
-  UserModel user = userBox.get(
-    'user',
-    defaultValue: UserModel(
-      cart: [],
-      stores: RxList([]),
-      profilePic: '',
-      bio: '',
-      createdAt: '',
-      email: '',
-      contactNumber: '',
-      country: '',
-      role: '',
-      uid: '',
-      userName: '',
-    ),
-  );
 
   _setInitialScreen(User? user) {
     // user == null
@@ -121,7 +107,7 @@ class AuthRepo extends GetxController {
         ),
       );
     } else if (e.code == 'account-exists-with-different-credential') {
-      //  fetch already existing accounts using _auth.fetchSignInMethodsForEmail;
+      //  fetch already existing accounts using auth.fetchSignInMethodsForEmail;
       // and ask user to sign in with the existing account then
       //link their account with the existing account
 
@@ -293,24 +279,15 @@ class AuthRepo extends GetxController {
     }
   }
 
-  Future<void> phoneAuth(String phoneNo) async {
-    // OtpController.instance.isLoading.value = true;
-    // FirebaseAuth.instance.userChanges().listen(
-    //   (User? user) {
-    //     if (user == null) {
-    //       print('User is currently signed out!');
-    //     } else {
-    //       print('User is signed in!');
-    //     }
-    //   },
-    // );
+  Future<String> phoneAuth(String phoneNo) async {
+    OtpController.instance.isLoading.value = true;
     try {
-      await _auth.verifyPhoneNumber(
+      await auth.verifyPhoneNumber(
         phoneNumber: phoneNo,
         verificationCompleted: (PhoneAuthCredential credential) async {
           // Sign the user in (or link) with the auto-generated credential
 
-          await _auth.signInWithCredential(credential);
+          await auth.signInWithCredential(credential);
 
           // RecaptchaVerifier(
           //   container: null, // Provide a container if needed for web
@@ -324,151 +301,6 @@ class AuthRepo extends GetxController {
 
         verificationFailed: (FirebaseAuthException e) {
           catchLoginError(e);
-          // if (e.code == 'invalid-phone-number') {
-          //   Get.dialog(
-          //     AlertDialog(
-          //       title: const Text(
-          //         'Invalid phone number',
-          //         style: TextStyle(color: kBlack),
-          //       ),
-          //       content: const Text(
-          //         'The phone number provided is invalid, check and try again',
-          //         style: TextStyle(color: kBlack),
-          //       ),
-          //       actions: [
-          //         TextButton(
-          //           onPressed: () {
-          //             Get.off(
-          //               () => const Login(),
-          //             );
-          //           },
-          //           child: const Text('Ok'),
-          //         ),
-          //       ],
-          //     ),
-          //   );
-          // } else if (e.code == 'account-exists-with-different-credential') {
-          //   //  fetch already existing accounts using _auth.fetchSignInMethodsForEmail;
-          //   // and ask user to sign in with the existing account then
-          //   //link their account with the existing account
-
-          //   Get.dialog(
-          //     AlertDialog(
-          //       title: const Text(
-          //         'Account exists with different credential',
-          //         style: TextStyle(color: kBlack),
-          //       ),
-          //       content: const Text(
-          //         'Please try again with the correct credentials',
-          //         style: TextStyle(color: kBlack),
-          //       ),
-          //       actions: [
-          //         TextButton(
-          //           onPressed: () {
-          //             Get.off(
-          //               () => const Login(),
-          //             );
-          //           },
-          //           child: const Text('Ok'),
-          //         ),
-          //       ],
-          //     ),
-          //   );
-          // } else if (e.code == 'operation-not-allowed') {
-          //   Get.dialog(
-          //     AlertDialog(
-          //       title: const Text(
-          //         'You can not perform this operation',
-          //         style: TextStyle(color: kBlack),
-          //       ),
-          //       content: const Text(
-          //         'Please contact customer support',
-          //         style: TextStyle(color: kBlack),
-          //       ),
-          //       actions: [
-          //         TextButton(
-          //           onPressed: () {
-          //             Get.off(
-          //               () => const Login(),
-          //             );
-          //           },
-          //           child: const Text('Ok'),
-          //         ),
-          //       ],
-          //     ),
-          //   );
-          // } else if (e.code == 'user-disabled') {
-          //   Get.dialog(
-          //     AlertDialog(
-          //       title: const Text(
-          //         'Your account is disabled ',
-          //         style: TextStyle(color: kBlack),
-          //       ),
-          //       content: const Text(
-          //         'Please contact customer support',
-          //         style: TextStyle(color: kBlack),
-          //       ),
-          //       actions: [
-          //         TextButton(
-          //           onPressed: () {
-          //             Get.off(
-          //               () => const Login(),
-          //             );
-          //           },
-          //           child: const Text('Ok'),
-          //         ),
-          //       ],
-          //     ),
-          //   );
-          // } else if (e.code == 'invalid-verification-code') {
-          //   // Get.snackbar('invalid verification code', 'Please try again',
-          //   //     colorText: Colors.white, backgroundColor: Colors.red);
-          //   Get.dialog(
-          //     AlertDialog(
-          //       title: const Text(
-          //         'You have an invalid verification code ',
-          //         style: TextStyle(color: kBlack),
-          //       ),
-          //       content: const Text(
-          //         'Please try again',
-          //         style: TextStyle(color: kBlack),
-          //       ),
-          //       actions: [
-          //         TextButton(
-          //           onPressed: () {
-          //             Get.off(
-          //               () => const OTPScreen(),
-          //             );
-          //           },
-          //           child: const Text('Ok'),
-          //         ),
-          //       ],
-          //     ),
-          //   );
-          // } else if (e.code == 'invalid-verification-id') {
-          //   Get.dialog(
-          //     AlertDialog(
-          //       title: const Text(
-          //         'You have an invalid verification id',
-          //         style: TextStyle(color: kBlack),
-          //       ),
-          //       content: const Text(
-          //         'Please re try the login',
-          //         style: TextStyle(color: kBlack),
-          //       ),
-          //       actions: [
-          //         TextButton(
-          //           onPressed: () {
-          //             Get.off(
-          //               () => const Login(),
-          //             );
-          //           },
-          //           child: const Text('Ok'),
-          //         ),
-          //       ],
-          //     ),
-          //   );
-          // }
         },
 
         codeSent: (String verificationId, int? resendToken) async {
@@ -481,13 +313,13 @@ class AuthRepo extends GetxController {
           // // Create a PhoneAuthCredential with the code
           PhoneAuthCredential credential = PhoneAuthProvider.credential(
               verificationId: verificationId, smsCode: smsCode);
-          print('THIS USER HAS THE ACCESS CODE OF $verificationId');
+          // print('THIS USER HAS THE ACCESS CODE OF $verificationId');
           // print('smsCode is $smsCode and resendToken is $resendToken');
           // credential.smsCode;
 
           // Sign the user in (or link) with the credential
           // try {
-          //   await _auth.signInWithCredential(credential);
+          //   await auth.signInWithCredential(credential);
           // } catch (e) {
           //   Get.snackbar('Login Error', e.toString(),
           //       colorText: Colors.white, backgroundColor: Colors.red);
@@ -497,37 +329,30 @@ class AuthRepo extends GetxController {
         },
 
         // code auto retrieval timeout
-        timeout: const Duration(seconds: 60),
+        timeout: const Duration(seconds: 30),
         codeAutoRetrievalTimeout: (verificationId) {
           this.verificationId.value = verificationId;
-
-          // Get.dialog(
-          //   AlertDialog(
-          //     title: const Text(
-          //       'Code timeout',
-          //       style: TextStyle(color: kBlack),
-          //     ),
-          //     content: const Text(
-          //       'Code timeout, please try again',
-          //       style: TextStyle(color: kBlack),
-          //     ),
-          //     actions: [
-          //       TextButton(
-          //         onPressed: () {
-          //           Get.back();
-          //         },
-          //         child: const Text('Ok'),
-          //       ),
-          //     ],
-          //   ),
-          // );
         },
       );
+
+      OtpController.instance.isLoading.value = false;
+      return 'success';
     } on FirebaseAuthException catch (e) {
       Get.snackbar('Login Error', e.toString(),
           colorText: Colors.white, backgroundColor: Colors.red);
     }
     OtpController.instance.isLoading.value = false;
+    return 'error';
+  }
+
+  resendOTP() {
+    if (ProfileController.instance.contactNumber != null) {
+      phoneAuth(ProfileController.instance.contactNumber!);
+      OtpController.instance.setTimer();
+    } else {
+      Get.snackbar('No phone number',
+          'Please go back to Login page and add your phone number');
+    }
   }
 
   Future<void> signInWithGoogle() async {
@@ -556,10 +381,10 @@ class AuthRepo extends GetxController {
           idToken: googleSignInAuthentication.idToken,
           accessToken: googleSignInAuthentication.accessToken,
         );
-        print(
-            'THIS USER HAS THE ACCESS CODE OF ${googleSignInAuthentication.accessToken}');
+        // print(
+        //     'THIS USER HAS THE ACCESS CODE OF ${googleSignInAuthentication.accessToken}');
         UserCredential userCredential =
-            await _auth.signInWithCredential(credential);
+            await auth.signInWithCredential(credential);
         _uid = userCredential.user?.uid ?? '';
         // String photoURL = userCredential.user?.photoURL ?? '';
         ProfileController.instance.tUserName.text =
@@ -746,7 +571,7 @@ class AuthRepo extends GetxController {
   Future<bool> verifyOTP(String otp) async {
     OtpController.instance.isLoading.value = true;
     checkExistingUser();
-    var credentials = await _auth.signInWithCredential(
+    var credentials = await auth.signInWithCredential(
       PhoneAuthProvider.credential(
           verificationId: verificationId.value, smsCode: otp),
     );
@@ -763,7 +588,7 @@ class AuthRepo extends GetxController {
   //     PhoneAuthCredential credential = PhoneAuthProvider.credential(
   //       verificationId: verificationId, smsCode: smsCode);
   //     OtpController.instance.isLoading.value = true;
-  //   await _auth.signInWithCredential(credential);
+  //   await auth.signInWithCredential(credential);
   //     OtpController.instance.isLoading.value =
   //   false;
   // }
@@ -821,7 +646,7 @@ class AuthRepo extends GetxController {
 
   Future<void> signOut() async {
     await GoogleSignIn().signOut();
-    await _auth.signOut();
+    await auth.signOut();
     await setSignedOut();
     Get.offAll(() => const Login());
   }

@@ -1,9 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-// import 'package:showcaseview/showcaseview.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
 import 'package:spacemall/src/features/auth/application/otp_controller/otp_controller.dart';
@@ -40,22 +40,11 @@ import 'src/features/core_app/profile/application/profile_controller.dart';
 import 'src/features/core_app/profile/data/profile_repo.dart';
 
 void main() async {
-  // final Brightness brightness =
-  //     WidgetsBinding.instance.window.platformBrightness;
-
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
-        systemNavigationBarColor:
-            //  brightness == Brightness.light
-            //     ?
-            kDarkModeBackgroundColor
-        // : kLightModeBackgroundColor
-        ),
+        systemNavigationBarColor: kDarkModeBackgroundColor),
   );
 
-  //  MediaQuery.of(context).platformBrightness == Brightness.light
-  //               ? kDarkModeBackgroundColor
-  //               : kLightModeBackgroundColor
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(FileAdapter()); // typeId = 0
@@ -93,7 +82,9 @@ void main() async {
       Get.put(
         AddItemRepo(),
       );
-
+      Get.put(
+        ProfileController(),
+      );
       Get.put(
         StoreRepo(),
       );
@@ -113,7 +104,24 @@ void main() async {
       );
 
       Get.put(
-        AuthRepo(),
+        AuthRepo(
+            FirebaseAuth.instance,
+            userBox.get(
+              'user',
+              defaultValue: UserModel(
+                cart: [],
+                stores: RxList([]),
+                profilePic: '',
+                bio: '',
+                createdAt: '',
+                email: '',
+                contactNumber: '',
+                country: '',
+                role: '',
+                uid: '',
+                userName: '',
+              ),
+            )),
       );
       Get.put(
         SplashController(),
@@ -121,9 +129,7 @@ void main() async {
       Get.put(
         LoginController(),
       );
-      Get.put(
-        ProfileController(),
-      );
+
       Get.put(
         ProfileRepo(),
       );

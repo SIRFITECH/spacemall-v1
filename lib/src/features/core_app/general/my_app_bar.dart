@@ -8,21 +8,23 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.isDarkMood,
     required this.title,
     required this.automaticallyImplyLeading,
-    this.showBackButton,
+    // this.showBackButton,
+    this.action,
   });
   // : super(key: key);
 
   final bool isDarkMood;
   final String title;
   final bool automaticallyImplyLeading;
-  late bool? showBackButton;
+  // late bool? showBackButton;
+  late VoidCallback? action;
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
-    showBackButton = !automaticallyImplyLeading;
+    // showBackButton = !automaticallyImplyLeading;
 
     return AppBar(
       automaticallyImplyLeading: automaticallyImplyLeading,
@@ -37,35 +39,37 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           : kWhiteLight.withAlpha(2),
       elevation: 0,
       actions: [
-        showBackButton == true
-            ? Padding(
-                padding: const EdgeInsets.only(right: 16.0, top: 5),
-                child: GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Column(
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.only(left: 8.0),
-                        child: Icon(Icons.arrow_back_ios),
-                      ),
-                      const SizedBox(
-                        height: 3,
-                      ),
-                      Text(
-                        'Back',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: isDarkMood ? kWhiteLight : kBlackDark,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+        // showBackButton == true
+        // ?
+        Padding(
+          padding: const EdgeInsets.only(right: 16.0, top: 5),
+          child: GestureDetector(
+            onTap: () {
+              action ?? Get.back();
+            },
+            child: Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Icon(Icons.arrow_back_ios),
+                ),
+                const SizedBox(
+                  height: 3,
+                ),
+                Text(
+                  'Back',
+                  style: TextStyle(
+                    fontSize: 15,
+                    color: isDarkMood ? kWhiteLight : kBlackDark,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              )
-            : Container(),
+              ],
+            ),
+          ),
+        )
+        // : Container()
+        ,
       ],
     );
   }

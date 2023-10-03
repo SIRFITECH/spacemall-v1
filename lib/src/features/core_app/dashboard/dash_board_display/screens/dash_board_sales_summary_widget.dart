@@ -120,8 +120,6 @@ class DashBoardSalesSummary extends StatelessWidget {
                 Icons.arrow_drop_down,
                 color: kBlackDark,
               ),
-              // Obx(
-              //   () =>
               GestureDetector(
                 onTap: () {},
                 child: Row(
@@ -130,6 +128,7 @@ class DashBoardSalesSummary extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GetBuilder<SalesController>(
+                          id: 'sales-summary',
                           builder: (salesController) => Text(
                             truncateString(
                                 nairaFormat.format(
@@ -193,7 +192,6 @@ class DashBoardSalesSummary extends StatelessWidget {
                   ],
                 ),
               ),
-              // )
             ],
           ),
         ),

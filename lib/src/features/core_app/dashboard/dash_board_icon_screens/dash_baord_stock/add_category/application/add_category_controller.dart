@@ -87,10 +87,11 @@ class AddCategoryController extends GetxController {
       store.categories.add(newCategory);
 
       // Update the storeBox with the modified store
-      
+
       await storeBox.put(AddItemRepo.instance.currentStore.value, store);
 
       categories.add(newCategory);
+      noCategory.value = false;
       Get.back();
       categoryName.clear();
       Get.snackbar(

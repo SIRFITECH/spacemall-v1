@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:spacemall/src/constants/text_strings.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/screens/add_category_screen.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
@@ -14,11 +11,12 @@ import '../../../../constants/colors.dart';
 class StoreRepo extends GetxController {
   static StoreRepo get instance => Get.put(StoreRepo());
   late StoreController storeController;
+  // final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
   Future saveStoreData() async {
     final appDocumentDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
-    Box storeBox = await Hive.openBox<StoreModel>('store');
+    // Box storeBox = await Hive.openBox<StoreModel>('store');
 
     // create a new store
     StoreModel newStore = StoreModel(
@@ -38,20 +36,80 @@ class StoreRepo extends GetxController {
     );
 
     // add the new store to hive
-     await storeBox.put(
-      'store-${newStore.storeId}',
-      newStore,
-    );
-    Get.back();
-    storeController.stores.add(newStore);
-    Get.snackbar(
-      '${storeController.storeName.text.trim()} created',
-      '${storeController.storeName.text.trim()} store created successfully',
-      backgroundColor: kWhiteLight,
-      colorText: kBlack,
-    );
-    
+    try {
+      await storeBox.put(
+        'store-${newStore.storeId}',
+        newStore,
+      );
+      storeController.setNoStore();
+      storeController.stores.add(newStore);
+      Get.back();
+
+      Get.snackbar(
+        '${storeController.storeName.text.trim()} created',
+        '${storeController.storeName.text.trim()} store created successfully',
+        backgroundColor: kWhiteLight,
+        colorText: kBlack,
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Error creating ${storeController.storeName.text.trim()} store',
+        e.toString(),
+        // 'An error occured creating ${storeController.storeName.text.trim()}',
+        backgroundColor: kRedColor,
+        colorText: kWhiteLight,
+      );
+    }
   }
+
+  // // save store data to firebase
+  // saveStoreDataToFireBase({
+  //   required BuildContext context,
+  //   required File logo,
+  // }) async {
+  //   SharedPreferences access = await SharedPreferences.getInstance();
+  //   final uid = access.getString('uid') ?? '';
+
+  //   try {
+  //     await saveImageToStorage('storelogo/$uid', logo);
+  //     final userDoc = _fireStore.collection('users').doc(uid);
+  //     DocumentSnapshot userSnapshot = await userDoc.get();
+  //     List<dynamic> currentStores = userSnapshot.get('stores') ?? [];
+
+  //     // create a new store
+  //     StoreModel newStore = StoreModel(
+  //       logo: StoreController.instance.logo.value,
+  //       storeName: StoreController.instance.storeName.text.trim(),
+  //       bankName: StoreController.instance.bankName.text.trim(),
+  //       accountNumber: StoreController.instance.accountNumber.text.trim(),
+  //       contact: StoreController.instance.contact.text.trim(),
+  //       stock: RxList([]),
+  //       receipts: [],
+  //       debts: [],
+  //       staff: [],
+  //       sales: [],
+  //       customer: [],
+  //       categories: [],
+  //       storeId: const Uuid().v4(),
+  //     );
+
+  //     currentStores.add(newStore.toMap());
+
+  //     userDoc.update({'stores': currentStores});
+
+  //     print('NEW FIREBASE STORES $currentStores');
+  //     print('FIREBASE STORES ${userSnapshot.toString()}');
+
+  //     // await userDoc.update({'stores': currentStores});
+
+  //     print('Store added to firebase');
+  //   } on FirebaseAuthException catch (e) {
+  //     showSnackBar(
+  //       context,
+  //       e.message.toString(),
+  //     );
+  //   }
+  // }
 
   // clear the TextEditingControllers
   clearControllers() {

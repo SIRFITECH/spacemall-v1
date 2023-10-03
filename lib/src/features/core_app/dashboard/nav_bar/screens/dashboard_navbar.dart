@@ -5,7 +5,6 @@ import '../../../../../constants/colors.dart';
 import '../../../../../constants/image_strings.dart';
 import '../../../../../constants/sizes.dart';
 import '../../../../../constants/text_strings.dart';
-import '../../../drawer/screens/drawer_screen.dart';
 import '../../../store/data/store_repo.dart';
 import '../../../store/screens/add_store.dart';
 import '../../dash_board_display/screens/dash_board_customer_widget.dart';
@@ -112,10 +111,7 @@ class DashBoardNavBar extends StatelessWidget {
 
                       return navBarController
                           .screens[navBarController.selectedIndex.value];
-                      // navBarController.selectedIndex.value <= 2
-                      //     ? navBarController
-                      //         .screen[navBarController.selectedIndex.value]
-                      //     : const SpacemallDrawer();
+                  
                     }),
                   ),
                 ),

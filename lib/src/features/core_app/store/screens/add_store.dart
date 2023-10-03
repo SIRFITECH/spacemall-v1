@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
+// import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
 import 'package:spacemall/src/features/core_app/general/custom_button.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widget.dart';
@@ -26,14 +27,19 @@ class AddStore extends StatelessWidget {
 
     var logo = storeController.logo;
     final ProfileController profileController = Get.find();
-    storeController.noStoreYet.value = false;
-    StoreController.instance.setNoStore();
-    StoreController.instance.setNoStore();
+    // storeController.noStoreYet.value = false;
+    // StoreController.instance.setNoStore();
+
+    print(' from add store screen ${storeController.noStoreYet.value}');
+
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
         title: kAddStoreAppBarText,
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
+        // action: () {
+        //   Get.to(() => Stock());
+        // },
       ),
       body:
           //  Obx(
@@ -225,7 +231,8 @@ class AddStore extends StatelessWidget {
                 CustomButton(
                   screenSize: screenSize,
                   onPress: () {
-                    storeController.addNewStoreToPhone();
+                    storeController.addNewStoreToPhone(context);
+                    storeController.noStoreYet.value = false;
                   },
                   title: kSave,
                   width: screenSize.width * 0.3,
@@ -249,8 +256,6 @@ class AddStore extends StatelessWidget {
               : Container(),
         ],
       ),
-
-      // ),
     );
   }
 }

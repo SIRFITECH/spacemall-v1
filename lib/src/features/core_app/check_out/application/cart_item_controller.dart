@@ -339,19 +339,21 @@ class CartItemController extends GetxController {
 
     CartItemController.instance.cartItems.isNotEmpty
         ? (AddReceiptsRepo.instance.saveReceiptData().then((value) {
-            print(CartItemController.instance.cartItems.toList());
+            // print(CartItemController.instance.cartItems.toList());
             setSale(
                 CartItemController.instance.totalCartTotal.value.toString());
             updateItemQuantities();
             updateCartState();
             previewReceipt();
-          }).then(
-            (value) {
-              SalesController.instance.addNewSales();
-              AddReceiptsRepo.instance.paymentMood = '';
-              clearCart();
-            },
-          ))
+          })
+            .then(
+              (value) {
+                SalesController.instance.addNewSales();
+                AddReceiptsRepo.instance.paymentMood = '';
+                clearCart();
+              },
+            ),
+            )
         : Get.snackbar(
             'Error',
             'You can not checkout an empty cart',
@@ -919,24 +921,24 @@ class CartItemController extends GetxController {
   }
 
   Future saveReceiptForPreview() async {
-    StoreModel store = storeBox.get(
-      AddItemRepo.instance.currentStore.value,
-      defaultValue: StoreModel(
-        logo: null,
-        storeName: '',
-        bankName: '',
-        accountNumber: '',
-        contact: '',
-        stock: [],
-        receipts: [],
-        debts: [],
-        staff: [],
-        sales: [],
-        customer: [],
-        storeId: '',
-        categories: [],
-      ),
-    );
+    // StoreModel store = storeBox.get(
+    //   AddItemRepo.instance.currentStore.value,
+    //   defaultValue: StoreModel(
+    //     logo: null,
+    //     storeName: '',
+    //     bankName: '',
+    //     accountNumber: '',
+    //     contact: '',
+    //     stock: [],
+    //     receipts: [],
+    //     debts: [],
+    //     staff: [],
+    //     sales: [],
+    //     customer: [],
+    //     storeId: '',
+    //     categories: [],
+    //   ),
+    // );
 
     /// target: to save the reciept to phone storage
     /// what is needed

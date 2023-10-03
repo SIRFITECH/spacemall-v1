@@ -5,6 +5,7 @@ import 'package:spacemall/src/features/auth/application/otp_controller/otp_contr
 import 'package:spacemall/src/features/auth/screens/otp/otp_footer.dart';
 import 'package:spacemall/src/features/auth/screens/otp/otp_header_widget.dart';
 import 'package:spacemall/src/features/auth/screens/otp/pinput_widget.dart';
+import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 
 class OTPScreen extends StatelessWidget {
   const OTPScreen({super.key});
@@ -20,6 +21,11 @@ class OTPScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: isDarkMood ? kDarkThemeBgColor : kLightThemeBgColor,
+      appBar: MyAppBar(
+        title: '',
+        isDarkMood: isDarkMood,
+        automaticallyImplyLeading: false,
+      ),
       body: SafeArea(
           child: Stack(
         children: [

@@ -8,10 +8,11 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/profile/application/date_widget_controller.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
+import 'package:spacemall/src/utils/helpers/helper.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../../../../constants/text_strings.dart';
-import '../../add_category/screens/add_category_screen.dart';
+// import '../../../../../../../constants/text_strings.dart';
+// import '../../add_category/screens/add_category_screen.dart';
 
 class AddItemRepo extends GetxController {
   static AddItemRepo get instance => Get.find();
@@ -23,29 +24,34 @@ class AddItemRepo extends GetxController {
   final itemPic = addItemController.itemPic.value;
 
   RxString currentStore = ''.obs;
+  var stockList = <AddItemModel>[].obs;
+
+  void setStockList() {
+    stockList.value = store.stock;
+  }
 
   ///PHONE OPERATIONS
 
   Future saveItemData() async {
-    // fetch store from storeBox
-    StoreModel storeList = storeBox.get(
-      currentStore.value,
-      defaultValue: StoreModel(
-        logo: null,
-        storeName: '',
-        bankName: '',
-        accountNumber: '',
-        contact: '',
-        stock: RxList([]),
-        receipts: [],
-        debts: [],
-        staff: [],
-        sales: [],
-        customer: [],
-        storeId: '',
-        categories: [],
-      ),
-    );
+    // // fetch store from storeBox
+    // StoreModel storeList = storeBox.get(
+    //   currentStore.value,
+    //   defaultValue: StoreModel(
+    //     logo: null,
+    //     storeName: '',
+    //     bankName: '',
+    //     accountNumber: '',
+    //     contact: '',
+    //     stock: RxList([]),
+    //     receipts: [],
+    //     debts: [],
+    //     staff: [],
+    //     sales: [],
+    //     customer: [],
+    //     storeId: '',
+    //     categories: [],
+    //   ),
+    // );
 
     // create a new item
     AddItemModel newItem = AddItemModel(
@@ -65,59 +71,26 @@ class AddItemRepo extends GetxController {
       itemId: const Uuid().v4(),
       morePics: addItemController.moreImages,
     );
-
-    if (addItemController.itemPic.value != null) {
-      addCategoryController.categoryValue.value?.itemsInCategory++;
-      addCategoryController.categoryValue.value?.items.add(newItem);
-
-      // Add the new stock item to the store's stock list
-      storeList.stock.add(newItem);
-    } else {
-      Get.snackbar(
-        'Error',
-        'You need to add item pic',
-        backgroundColor: kWhiteLight,
-        colorText: kBlack,
-      );
-    }
+    addCategoryController.categoryValue.value?.itemsInCategory++;
+    addCategoryController.categoryValue.value?.items.add(newItem);
 
 // update the storeBox
-    if (newItem.itemCategory != null) {
-      await storeBox.put(
-        currentStore.value,
-        storeList,
-      );
+    await storeBox.put(
+      currentStore.value,
+      store,
+    );
 
-      Get.back();
-      addItemController.isItemAdded.value = true;
-      AddItemController.instance.clearImages();
-    } else {
-      Get.dialog(
-        AlertDialog(
-          title: const Text(
-            kAddCategoryText,
-            style: TextStyle(color: kBlack),
-          ),
-          content: const Text(
-            kAddCategoryAlertBodyText,
-            style: TextStyle(color: kBlack),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Get.to(() => const AddCategory());
-              },
-              child: const Text('Ok'),
-            ),
-          ],
-        ),
-      );
-    }
+    Get.back();
+    addItemController.isItemAdded.value = true;
+    AddItemController.instance.clearImages();
+
+    // Add the new stock item to the store's stock list
+    store.stock.add(newItem);
   }
   // edit an itemin the stock list
 
   Future editItemData(AddItemModel editedItem) async {
-    StoreModel storeList = storeBox.get(
+    StoreModel store = storeBox.get(
       currentStore.value,
       defaultValue: StoreModel(
         logo: null,
@@ -137,11 +110,11 @@ class AddItemRepo extends GetxController {
     );
 
     int itemIndex =
-        storeList.stock.indexWhere((item) => item.itemId == editedItem.itemId);
-    storeList.stock[itemIndex] = editedItem;
+        store.stock.indexWhere((item) => item.itemId == editedItem.itemId);
+    store.stock[itemIndex] = editedItem;
     await storeBox.put(
       currentStore.value,
-      storeList,
+      store,
     );
 
     Get.snackbar(

@@ -63,9 +63,14 @@ class AddCategory extends StatelessWidget {
             height: screenSize.height * 0.85,
             child: GetBuilder<StoreController>(
               builder: (storeController) {
-                if (storeController.stores.isEmpty &&
+                print(
+                    'THE PRESENT VALUE OF NOSTOREYET IS ${storeController.noStoreYet.value}');
+                if (
+                    // storeController.stores.isEmpty ||
                     storeController.noStoreYet.value == true) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
+                    // print(
+                    //     'from add category screen1 ${storeController.noStoreYet.value}');
                     Get.defaultDialog(
                       backgroundColor: !isDarkMood
                           ? kDarkModeBackgroundColor.withOpacity(0.1)
@@ -82,13 +87,20 @@ class AddCategory extends StatelessWidget {
                       ),
                       confirm: ElevatedButton(
                         onPressed: () {
+                          addCategoryController.noCategory.value = false;
+                          storeController.noStoreYet.value = false;
                           Get.to(() => const AddStore());
+
+                          // print(
+                          //     'from add category screen2 ${storeController.noStoreYet.value}');
                         },
                         child: const Text(kOkayText),
                       ),
                     );
                   });
-                  addCategoryController.noCategory.value = false;
+
+                  // print(
+                  //     'from add category screen3 ${storeController.noStoreYet.value}');
                 }
 
                 return Padding(

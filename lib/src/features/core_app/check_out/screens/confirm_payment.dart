@@ -27,25 +27,6 @@ class ConfirmPayment extends StatelessWidget {
     final CartItemController cartItemController = Get.find();
     cartItemController.onInit();
 
-    // StoreModel store = storeBox.get(
-    //   AddItemRepo.instance.currentStore.value,
-    //   defaultValue: StoreModel(
-    //     logo: null,
-    //     storeName: '',
-    //     bankName: '',
-    //     accountNumber: '',
-    //     contact: '',
-    //     stock: [],
-    //     receipts: [],
-    //     debts: [],
-    //     staff: [],
-    //     sales: [],
-    //     customer: [],
-    //     storeId: '',
-    //     categories: [],
-    //   ),
-    // );
-
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
@@ -398,7 +379,7 @@ class ConfirmPayment extends StatelessWidget {
               padding: EdgeInsets.all(screenSize.height * 0.05),
               child: ElevatedButton(
                 onPressed: () {
-                  print('Payment pressed');
+                  // print('Payment pressed');
                   cartItemController.showMoodOfPayment(
                     context,
                     screenSize,

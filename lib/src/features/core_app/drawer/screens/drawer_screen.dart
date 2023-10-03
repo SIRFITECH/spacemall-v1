@@ -96,7 +96,7 @@ class SpacemallDrawer extends StatelessWidget {
                         ListTile(
                           horizontalTitleGap: 0,
                           onTap: () {
-                            // Get.off(() => DashBoard());
+                            Get.off(() => DashBoard());
                           },
                           leading: const Icon(
                             Icons.home_sharp,

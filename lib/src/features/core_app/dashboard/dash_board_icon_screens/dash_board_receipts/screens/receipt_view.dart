@@ -5,7 +5,6 @@ import 'package:spacemall/src/utils/helpers/helper.dart';
 
 import '../../../../../../constants/colors.dart';
 import '../../../../../../localizations/currency.dart';
-import '../application/reciepts_controller.dart';
 
 class ReceiptView extends StatelessWidget {
   final ReceiptsModel receipt;
@@ -116,45 +115,46 @@ class ReceiptView extends StatelessWidget {
                           "Details",
                           style: TextStyle(fontSize: 27),
                         ),
-                        SizedBox(
-                          height: screenSize.height * 0.6,
-                          child: ListView.builder(
-                            itemCount: receipt.cart.length,
-                            itemBuilder: (context, index) => Padding(
-                              padding: index == 0
-                                  ? const EdgeInsets.symmetric(vertical: 8.0)
-                                  : const EdgeInsets.symmetric(vertical: 4.0),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        receipt.cart[index].itemName,
-                                      ),
-                                      Text(
-                                        '${receipt.cart[index].quantityInCart} x ${nairaFormat.format(double.parse((receipt.cart[index].price)))}',
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    nairaFormat.format(
-                                      double.parse(
-                                        receipt.cart[index].subTotal.toString(),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+                        // SizedBox(
+                        //   height: screenSize.height * 0.6,
+                        //   child: ListView.builder(
+                        //     itemCount: receipt.cart.length,
+                        //     itemBuilder: (context, index) => Padding(
+                        //       padding: index == 0
+                        //           ? const EdgeInsets.symmetric(vertical: 8.0)
+                        //           : const EdgeInsets.symmetric(vertical: 4.0),
+                        //       child: Row(
+                        //         mainAxisAlignment:
+                        //             MainAxisAlignment.spaceBetween,
+                        //         crossAxisAlignment: CrossAxisAlignment.start,
+                        //         children: [
+                        //           Column(
+                        //             mainAxisAlignment: MainAxisAlignment.start,
+                        //             crossAxisAlignment:
+                        //                 CrossAxisAlignment.start,
+                        //             children: [
+                        //               Text(
+                        //                 receipt.cart[index].itemName,
+                        //               ),
+                        //               Text(
+                        //                 '${receipt.cart[index].quantityInCart} x ${nairaFormat.format(double.parse((receipt.cart[index].price)))}',
+                        //                 style: const TextStyle(fontSize: 12),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //           Text(
+                        //             nairaFormat.format(
+                        //               double.parse(
+                        //                 receipt.cart[index].subTotal.toString(),
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
+
                         Padding(
                           padding: const EdgeInsets.only(
                             right: 8.0,

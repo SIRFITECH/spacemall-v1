@@ -16,6 +16,8 @@ class ReceiptsModelAdapter extends TypeAdapter<ReceiptsModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
+    print('FROM THE RECEIPTMODEL HIVE ${fields[9]}');
+
     return ReceiptsModel(
       logo: fields[0] as File?,
       customerName: fields[1] as String,
@@ -29,7 +31,10 @@ class ReceiptsModelAdapter extends TypeAdapter<ReceiptsModel> {
       itemsInCart: fields[9] as String,
       paymentMethod: fields[11] as String,
       staffId: fields[12] as String,
-      cart: (fields[13] as List).cast<CartItemModel>(),
+      cart: fields[13] != null && fields[13] is List
+          ? (fields[13] as List).cast<CartItemModel>()
+          : <CartItemModel>[],
+      // cart: (fields[13] as List).cast<CartItemModel>(),
     );
   }
 

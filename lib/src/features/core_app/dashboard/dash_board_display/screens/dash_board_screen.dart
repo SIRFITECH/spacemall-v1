@@ -21,7 +21,7 @@ class DashBoard extends StatelessWidget {
     final media = MediaQuery.of(context);
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
-    final screenSize = media.size;
+    // final screenSize = media.size;
 
     Get.put(
       StoreRepo(),
@@ -33,11 +33,8 @@ class DashBoard extends StatelessWidget {
       DashBoardController(context),
     );
 
-    // final StoreRepo storeRepo = StoreRepo();
-
-    final StoreController storeController = Get.find<StoreController>();
-    storeController.noStoreYet.value = false;
-    storeController.setNoStore();
+    // final StoreController storeController = Get.find<StoreController>();
+    // storeController.stores.value = StoreRepo.instance.getStoresFromBox();
 
     return Scaffold(
       key: _scaffoldKey,

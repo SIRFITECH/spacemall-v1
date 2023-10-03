@@ -8,8 +8,11 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
+import '../../../../../../../constants/text_strings.dart';
 import '../../../../../store/domain/store_model.dart';
+import '../../add_category/application/add_category_controller.dart';
 import '../../add_category/domain/category_model.dart';
+import '../../add_category/screens/add_category_screen.dart';
 
 class AddItemController extends GetxController {
   static AddItemController get instance => Get.put(
@@ -46,13 +49,6 @@ class AddItemController extends GetxController {
       selectedIndex--;
     }
   }
-
-  // final moreImages = <String>[
-  //   "Image 1",
-  //   "Image 2",
-  //   "Image 3",
-  //   "Image 4",
-  // ];
 
   printItemList() {
     // print(itemList.length);
@@ -102,7 +98,46 @@ class AddItemController extends GetxController {
 
 // add item to phone memory
   Future<void> addItemToPhone() async {
-    addItemRepo.saveItemData().then((value) => Get.off(() => Stock()));
+    if (AddItemController.instance.itemPic.value != null) {
+      if (AddCategoryController.instance.categoryValue.value?.categoryName !=
+          null) {
+        addItemRepo.saveItemData().then((value) {
+          AddItemRepo.instance.clearControllers();
+          AddItemController.instance.clearImages();
+          update();
+          Get.off(() => Stock());
+        });
+      } else {
+        Get.dialog(
+          AlertDialog(
+            title: const Text(
+              kAddCategoryText,
+              style: TextStyle(color: kBlack),
+            ),
+            content: const Text(
+              kAddCategoryAlertBodyText,
+              style: TextStyle(color: kBlack),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                  // Get.to(() => const AddCategory());
+                },
+                child: const Text('Ok'),
+              ),
+            ],
+          ),
+        );
+      }
+    } else {
+      Get.snackbar(
+        'Error',
+        'You need to add item pic',
+        backgroundColor: kRedColor,
+        colorText: kWhiteLight,
+      );
+    }
   }
 
   RxList<File> moreImages = <File>[].obs;

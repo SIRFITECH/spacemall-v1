@@ -18,8 +18,7 @@ import '../../dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens
 import '../../dash_board_icon_screens/dash_board_debts/screens/debts_screen.dart';
 
 class DashboardGrid extends StatelessWidget {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  DashboardGrid({super.key});
+  const DashboardGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +34,6 @@ class DashboardGrid extends StatelessWidget {
     );
 
     return Scaffold(
-      key: _scaffoldKey,
       backgroundColor: isDarkMood ? kDarkModeBackgroundColor : kWhiteLight,
       body: Container(
         decoration: BoxDecoration(

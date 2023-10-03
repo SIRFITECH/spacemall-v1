@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
@@ -72,19 +71,19 @@ class AddItemsCard extends StatelessWidget {
                                   Get.to(
                                     () => const AddCategory(),
                                   );
-                                  debugPrint('$index add category');
+
                                   break;
                                 case 2:
                                   Get.to(
                                     () => const AddTag(),
                                   );
-                                  debugPrint('$index add tag');
+               
                                   break;
                                 case 3:
                                   Get.to(
                                     () => const AddModifier(),
                                   );
-                                  debugPrint('$index add modifier');
+         
                                   break;
                               }
                             },

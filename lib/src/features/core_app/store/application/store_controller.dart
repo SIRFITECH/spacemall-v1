@@ -15,6 +15,7 @@ import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
 import '../../../../constants/colors.dart';
+import '../../dashboard/dash_board_display/screens/dash_board_screen.dart';
 import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_category/domain/category_model.dart';
 
 class StoreController extends GetxController {
@@ -40,12 +41,12 @@ class StoreController extends GetxController {
   RxBool isStoreAdded = false.obs;
   RxBool noStoreYet = true.obs;
 
+// Located in the add store screen
   bool setNoStore() {
     if (StoreRepo.instance.getStoresFromBox().isEmpty) {
-      print('first call  ${noStoreYet.value}');
       return noStoreYet.value = true;
     }
-    print('Second call ${noStoreYet.value}');
+
     return noStoreYet.value = false;
   }
 
@@ -70,20 +71,9 @@ class StoreController extends GetxController {
   }
 
   Rx<StoreModel?> selectedStore = Rx<StoreModel?>(
-    // StoreRepo.instance.getStoresFromBox().isEmpty
-    //     ?
-    null
-    // : StoreRepo.instance.getStoresFromBox().last
-    ,
+    null,
   );
 
-  // List<StoreModel> storesFromBox = StoreRepo.instance.getStoresFromBox();
-  // Rx<StoreModel?> selectedStore = Rx<StoreModel?>(
-  //   null,
-  // );
-  // Rx<StoreModel?> lastStore = Rx<StoreModel?>(
-  //   StoreRepo.instance.getStoresFromBox().last,
-  // );
 // set the first store if there is a store in the phone
   void setInitialSelectedStore() {
     List<StoreModel> storesFromBox = StoreRepo.instance.getStoresFromBox();
@@ -113,25 +103,35 @@ class StoreController extends GetxController {
   RxList<StoreModel> stores = <StoreModel>[].obs;
 
 // create a new store
-  Future<void> addNewStoreToPhone() async {
-    isLoading.value = true;
-    storeRepo.saveStoreData().then((value) => storeRepo.clearControllers())
-        // .then(
-        //   (value) => Get.off(() => DashBoard()),
-        // )
-        ;
-    Get.snackbar(
-      '${storeName.text.trim()} created',
-      '${storeName.text.trim()} store created successfully',
-      backgroundColor: kWhiteLight,
-      colorText: kBlack,
-    );
-    isStoreAdded.value = true;
+  Future<void> addNewStoreToPhone(BuildContext context) async {
+    if (StoreController.instance.logo.value == null ||
+        StoreController.instance.storeName.text == '') {
+      Get.snackbar(
+          'Bad Store', 'You can not add a store without logo or a name',
+          backgroundColor: kRedColor, colorText: kWhiteLight);
+    } else {
+      isLoading.value = true;
+      storeRepo
+          .saveStoreData()
+          .then((value) => storeRepo.clearControllers())
+          .then(
+            (value) => Get.off(() => DashBoard()),
+          );
+      // storeRepo.saveStoreDataToFireBase(
+      //   context: context,
+      //   logo: StoreController.instance.logo.value!,
+      // );
+      Get.snackbar(
+        '${storeName.text.trim()} created',
+        '${storeName.text.trim()} store created successfully',
+        backgroundColor: kWhiteLight,
+        colorText: kBlack,
+      );
+      isStoreAdded.value = true;
 
-    isLoading.value = false;
+      isLoading.value = false;
+    }
   }
-
-  // List myStores = storeBox.values.toList();
 
   setStore(
     StoreModel? newValue,

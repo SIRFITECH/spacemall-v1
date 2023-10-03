@@ -66,31 +66,30 @@ class AddReceiptsRepo extends GetxController {
       receiptId: const Uuid().v4(),
       cartId: '',
       itemsInCart: CartItemController.instance.cartItems.length.toString(),
-      cart:
-          // [
-          //   CartItemModel(
-          //     itemId: 'itemId',
-          //     itemName: 'itemName',
-          //     quantityInCart: RxInt(1),
-          //     price: '5000',
-          //     totalItemPrice: '5000',
-          //     subTotal: RxDouble(5000.0),
-          //     discount: 50,
-          //     tax: 35,
-          //   ),
-          //   CartItemModel(
-          //     itemId: 'itemId',
-          //     itemName: 'itemName',
-          //     quantityInCart: RxInt(1),
-          //     price: '5000',
-          //     totalItemPrice: '5000',
-          //     subTotal: RxDouble(5000.0),
-          //     discount: 50,
-          //     tax: 35,
-          //   )
-          // ],
+      cart: [
+        CartItemModel(
+          itemId: 'itemId',
+          itemName: 'itemName',
+          quantityInCart: RxInt(1),
+          price: '5000',
+          totalItemPrice: '5000',
+          subTotal: RxDouble(5000.0),
+          discount: 50,
+          tax: 35,
+        ),
+        CartItemModel(
+          itemId: 'itemId',
+          itemName: 'itemName',
+          quantityInCart: RxInt(1),
+          price: '5000',
+          totalItemPrice: '5000',
+          subTotal: RxDouble(5000.0),
+          discount: 50,
+          tax: 35,
+        )
+      ],
 
-          cartItemsList,
+      // cartItemsList,
       paymentMethod: paymentMood,
       staffId: staffNumber.substring(4),
     );

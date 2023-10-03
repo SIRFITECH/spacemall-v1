@@ -19,7 +19,7 @@ class LoginButton extends StatelessWidget {
         width: double.infinity,
         child: ElevatedButton(
           onPressed: () {
-            Get.off(
+            Get.to(
               () => const OTPScreen(),
             );
           },

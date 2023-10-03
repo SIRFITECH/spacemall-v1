@@ -31,7 +31,7 @@ class DashBoardCustomerWidget extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
-    Orientation orientation = MediaQuery.of(context).orientation;
+    // Orientation orientation = MediaQuery.of(context).orientation;
     // ignore: unused_local_variable
     // final dashBoardController = DashBoardController(context);
 
@@ -95,47 +95,46 @@ class DashBoardCustomerWidget extends StatelessWidget {
           SizedBox(
             width: screenSize.width * 0.23,
           ),
-          Center(
-              child: Obx(
-            () => DropdownButton<StoreModel>(
-              iconSize: 32,
-              icon: const Icon(
-                Icons.arrow_drop_down,
-                color: kBrighComplementColor,
-              ),
-              value: storeController.selectedStore.value,
-              hint: Text(
-                'Add a Store',
-                style: TextStyle(
-                  color: isDarkMood ? kWhiteDark : kWhiteLight,
+          Obx(() => Center(
+                child: DropdownButton<StoreModel>(
+                  iconSize: 32,
+                  icon: const Icon(
+                    Icons.arrow_drop_down,
+                    color: kBrighComplementColor,
+                  ),
+                  value: storeController.selectedStore.value,
+                  hint: Text(
+                    'Add a Store',
+                    style: TextStyle(
+                      color: isDarkMood ? kWhiteDark : kWhiteLight,
+                    ),
+                  ),
+                  elevation: 0,
+                  dropdownColor: !isDarkMood
+                      ? kMainComplimemtColorLight.withOpacity(.4)
+                      : kBlackDark,
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  items: StoreRepo.instance
+                      .getStoresFromBox()
+                      .map<DropdownMenuItem<StoreModel>>((StoreModel value) {
+                        return DropdownMenuItem<StoreModel>(
+                          value: value,
+                          child: Text(
+                            truncateString(
+                              value.storeName,
+                              14,
+                            ),
+                            style: textTheme.titleSmall,
+                          ),
+                        );
+                      })
+                      .toSet()
+                      .toList(),
+                  onChanged: (StoreModel? newValue) => storeController.setStore(
+                    newValue,
+                  ),
                 ),
-              ),
-              elevation: 0,
-              dropdownColor: !isDarkMood
-                  ? kMainComplimemtColorLight.withOpacity(.4)
-                  : kBlackDark,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              items: StoreRepo.instance
-                  .getStoresFromBox()
-                  .map<DropdownMenuItem<StoreModel>>((StoreModel value) {
-                    return DropdownMenuItem<StoreModel>(
-                      value: value,
-                      child: Text(
-                        truncateString(
-                          value.storeName,
-                          14,
-                        ),
-                        style: textTheme.titleSmall,
-                      ),
-                    );
-                  })
-                  .toSet()
-                  .toList(),
-              onChanged: (StoreModel? newValue) => storeController.setStore(
-                newValue,
-              ),
-            ),
-          )),
+              )),
           SizedBox(
             width: screenSize.width * 0.005,
           ),

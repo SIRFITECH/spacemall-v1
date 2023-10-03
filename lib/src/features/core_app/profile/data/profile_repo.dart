@@ -18,13 +18,8 @@ import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
+import '../../../../utils/helpers/helper.dart';
 import '../../store/domain/store_model.dart';
-
-// enum ThemeMode {
-//   light,
-//   dark,
-//   system,
-// }
 
 class ProfileRepo extends GetxController {
   static ProfileRepo get instance => Get.find();
@@ -38,7 +33,7 @@ class ProfileRepo extends GetxController {
   );
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseStorage _firestorage = FirebaseStorage.instance;
+  // final FirebaseStorage _firestorage = FirebaseStorage.instance;
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
   var dp = ProfileController.instance.profilePic.value;
@@ -87,13 +82,13 @@ class ProfileRepo extends GetxController {
     const Center(
       child: CircularProgressIndicator(),
     );
-    ProfileRepo.instance.saveUserDataToFireBase(
-      context: context,
-      userModel: user,
-      dp: profileController.profilePic.value!,
-      onSucess: () {
-        // save to phone memory
-        if (dp != null) {
+    if (profileController.profilePic.value != null) {
+      ProfileRepo.instance.saveUserDataToFireBase(
+        context: context,
+        userModel: user,
+        dp: profileController.profilePic.value!,
+        onSucess: () {
+          // save to phone memory
           ProfileRepo.instance.saveDataToPhone(user).then(
                 (value) => AuthRepo.instance.setSignedIn().then(
                   (value) {
@@ -103,19 +98,23 @@ class ProfileRepo extends GetxController {
                   },
                 ),
               );
-        } else {
-          Get.snackbar(
-            'Error',
-            'You have to add a profile photo',
-            backgroundColor: kRedColor,
-            colorText: kWhiteLight,
-          );
-        }
-      },
-    );
+        },
+      );
+    } else {
+      Get.snackbar('Profile photo needed', 'You have to add a profile photo',
+          backgroundColor: kRedColor, colorText: kWhiteLight);
+    }
   }
 
   ///PHONE OPERATIONS
+
+  final user = {
+    'name': 'John',
+    'age': 30,
+  };
+  createUser(user) {
+    return user;
+  }
 
 // save data to phone
   Future saveDataToPhone(UserModel user) async {
@@ -153,19 +152,6 @@ class ProfileRepo extends GetxController {
   }
 
   ///DATABASE OPERATIONS
-
-  // store file to storage
-
-  Future<String> saveImageToStorage(String ref, File file) async {
-    UploadTask uploadTask = _firestorage.ref().child(ref).putFile(file);
-
-    TaskSnapshot snapshot = await uploadTask;
-
-    String downloadUrl = await snapshot.ref.getDownloadURL();
-
-    return downloadUrl;
-  }
-
   // save data to firebase
   saveUserDataToFireBase({
     required BuildContext context,
@@ -173,15 +159,14 @@ class ProfileRepo extends GetxController {
     required File dp,
     required Function onSucess,
   }) async {
+    profileController.isLoading.value = true;
     try {
-      profileController.isLoading.value = true;
-
       await saveImageToStorage('profilePic/${authRepo.uid}', dp).then(
         (value) {
           userModel.profilePic = value;
           userModel.createdAt =
               DateFormat('d MMM, yyyy').format(DateTime.now());
-          userModel.contactNumber = AuthRepo.instance.userPhone ?? '';
+          // userModel.contactNumber = AuthRepo.instance.userPhone ?? '';
           userModel.uid = AuthRepo.instance.uid;
         },
       );
