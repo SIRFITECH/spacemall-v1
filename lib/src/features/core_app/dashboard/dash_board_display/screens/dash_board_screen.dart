@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_customers/application/customer_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/application/nav_bar_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/screens/bottom_nav_bar_screen.dart';
@@ -8,6 +9,7 @@ import 'package:spacemall/src/features/core_app/dashboard/nav_bar/screens/bottom
 
 import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
 
+import '../../dash_board_icon_screens/dash_board_staff/application/staff_controller.dart';
 import '../application/dash_baord_controller.dart';
 
 class DashBoard extends StatelessWidget {
@@ -21,7 +23,6 @@ class DashBoard extends StatelessWidget {
     final media = MediaQuery.of(context);
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
-    // final screenSize = media.size;
 
     Get.put(
       StoreRepo(),
@@ -32,9 +33,12 @@ class DashBoard extends StatelessWidget {
     Get.put(
       DashBoardController(context),
     );
-
-    // final StoreController storeController = Get.find<StoreController>();
-    // storeController.stores.value = StoreRepo.instance.getStoresFromBox();
+    Get.put(
+      StaffController(),
+    );
+    Get.put(
+      CustomersController(),
+    );
 
     return Scaffold(
       key: _scaffoldKey,

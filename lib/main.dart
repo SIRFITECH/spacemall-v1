@@ -9,7 +9,6 @@ import 'package:spacemall/src/features/auth/application/login_controller/login_c
 import 'package:spacemall/src/features/auth/application/otp_controller/otp_controller.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/domain/category_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
@@ -59,7 +58,7 @@ void main() async {
   Hive.registerAdapter(SalesModelAdapter()); // typeId = 11
   Hive.registerAdapter(CartItemModelAdapter()); // typeId = 9
 
-  stockBox = await Hive.openBox<AddItemModel>('item_list'); // typeId: 10
+
   receiptsBox = await Hive.openBox<ReceiptsModel>('receipt'); // typeId: 2
   userBox = await Hive.openBox<UserModel>('user'); // typeId: 3
   storeBox = await Hive.openBox<StoreModel>('store'); // typeId: 4
@@ -83,23 +82,6 @@ void main() async {
       Get.put(
         ProfileController(),
       );
-      Get.put(
-        StoreRepo(),
-      );
-
-      final StoreRepo storeRepo = StoreRepo();
-      final StoreController storeController =
-          StoreController(storeRepo: storeRepo);
-      storeRepo.storeController = storeController;
-      Get.put(
-        StoreController(storeRepo: storeRepo),
-      );
-      Get.put(
-        SalesController(),
-      );
-      Get.put(
-        ReportsController(),
-      );
 
       Get.put(
         AuthRepo(
@@ -109,7 +91,7 @@ void main() async {
               defaultValue: UserModel(
                 cart: [],
                 stores: RxList([]),
-                profilePic: '',
+                profilePicLocalPath: '',
                 bio: '',
                 createdAt: '',
                 email: '',
@@ -118,9 +100,29 @@ void main() async {
                 role: '',
                 uid: '',
                 userName: '',
+                profilePicRemotePath: '',
               ),
             )),
       );
+
+      Get.put(
+        StoreRepo(),
+      );
+      final StoreRepo storeRepo = StoreRepo();
+      final StoreController storeController =
+          StoreController(storeRepo: storeRepo);
+      storeRepo.storeController = storeController;
+      Get.put(
+        StoreController(storeRepo: storeRepo),
+      );
+
+      Get.put(
+        SalesController(),
+      );
+      Get.put(
+        ReportsController(),
+      );
+
       Get.put(
         SplashController(),
       );
@@ -138,12 +140,11 @@ void main() async {
       Get.put(
         OtpController(),
       );
+
       Get.put(
         ShopFrontController(),
       );
-      Get.put(
-        AddCategoryController(),
-      );
+
       Get.put(
         AddModifierController(),
       );

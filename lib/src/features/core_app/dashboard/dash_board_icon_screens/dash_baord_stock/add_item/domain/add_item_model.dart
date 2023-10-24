@@ -29,7 +29,7 @@ class AddItemModel {
   @HiveField(10)
   String expiryAlert;
   @HiveField(11)
-  RxInt itemCount;
+  int itemCount;
   @HiveField(12)
   String itemId;
   @HiveField(13)

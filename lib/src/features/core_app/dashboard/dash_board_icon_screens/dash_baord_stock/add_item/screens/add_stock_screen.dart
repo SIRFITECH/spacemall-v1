@@ -39,7 +39,8 @@ class AddStock extends StatelessWidget {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+        logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
@@ -77,7 +78,8 @@ class AddStock extends StatelessWidget {
             height: screenSize.height * 0.85,
             child: GetBuilder<AddCategoryController>(
               builder: (addCategoryController) {
-                if (store.categories.toList().isEmpty &&
+                if (
+                    // store.categories.toList().isEmpty &&
                     addCategoryController.noCategory.value == true) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     Get.defaultDialog(
@@ -531,117 +533,6 @@ class AddStock extends StatelessWidget {
                           }),
                         ],
                       ),
-
-                      // Column(
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   children: [
-                      //     const Text(kAddMoreImagesText),
-                      //     addItemController.images.isNotEmpty
-                      //         ? SizedBox(
-                      //             height: screenSize.height * 0.08,
-                      //             width: double.infinity,
-                      //             child: GridView.builder(
-                      //               gridDelegate:
-                      //                   const SliverGridDelegateWithFixedCrossAxisCount(
-                      //                 crossAxisCount: 5,
-                      //                 mainAxisSpacing: 4.0,
-                      //                 crossAxisSpacing: 8.0,
-                      //               ),
-                      //               itemCount:
-                      //                   addItemController.images.length + 1,
-                      //               itemBuilder:
-                      //                   (BuildContext context, int index) {
-                      //                 if (index <
-                      //                     addItemController.images.length) {
-                      //                   File image =
-                      //                       addItemController.images[index];
-                      //                   return GestureDetector(
-                      //                     onLongPress: () {
-                      //                       print(
-                      //                           'Delete the image selected');
-                      //                     },
-                      //                     child: ClipRRect(
-                      //                       borderRadius:
-                      //                           BorderRadius.circular(10),
-                      //                       child: Container(
-                      //                         height:
-                      //                             screenSize.height * 0.07,
-                      //                         width:
-                      //                             screenSize.width * 0.15,
-                      //                         decoration: BoxDecoration(
-                      //                           borderRadius:
-                      //                               BorderRadius.circular(
-                      //                                   10),
-                      //                           border: Border.all(
-                      //                             style: BorderStyle.solid,
-                      //                             color: kGreyColor
-                      //                                 .withOpacity(0.3),
-                      //                           ),
-                      //                         ),
-                      //                         child: Image.file(
-                      //                           image,
-                      //                           height: 50,
-                      //                           width: 50,
-                      //                         ),
-                      //                       ),
-                      //                     ),
-                      //                   );
-                      //                 } else {
-                      //                   return GestureDetector(
-                      //                     onTap: () {
-                      //                       addItemController
-                      //                           .addImage(context);
-                      //                     },
-                      //                     child: Container(
-                      //                       height:
-                      //                           screenSize.height * 0.07,
-                      //                       width: screenSize.width * 0.15,
-                      //                       decoration: BoxDecoration(
-                      //                         borderRadius:
-                      //                             BorderRadius.circular(10),
-                      //                         border: Border.all(
-                      //                           style: BorderStyle.solid,
-                      //                           color: kGreyColor
-                      //                               .withOpacity(0.3),
-                      //                         ),
-                      //                       ),
-                      //                       child: Icon(
-                      //                         Icons.add,
-                      //                         size: 30,
-                      //                         color: kGreyColor
-                      //                             .withOpacity(0.3),
-                      //                       ),
-                      //                     ),
-                      //                   );
-                      //                 }
-                      //               },
-                      //             ),
-                      //           )
-                      //         : GestureDetector(
-                      //             onTap: () {
-                      //               addItemController.addImage(context);
-                      //             },
-                      //             child: Container(
-                      //               height: screenSize.height * 0.07,
-                      //               width: screenSize.width * 0.15,
-                      //               decoration: BoxDecoration(
-                      //                 borderRadius:
-                      //                     BorderRadius.circular(10),
-                      //                 border: Border.all(
-                      //                   style: BorderStyle.solid,
-                      //                   color: kGreyColor.withOpacity(0.3),
-                      //                 ),
-                      //               ),
-                      //               child: Icon(
-                      //                 Icons.add,
-                      //                 size: 30,
-                      //                 color: kGreyColor.withOpacity(0.3),
-                      //               ),
-                      //             ),
-                      //           ),
-                      //   ],
-                      // ),
-
                       CustomDivider(
                         height: screenSize.width * 0.025,
                         thickness: screenSize.width * 0.004,

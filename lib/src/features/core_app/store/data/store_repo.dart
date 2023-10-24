@@ -1,121 +1,95 @@
+import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../constants/colors.dart';
+import '../../../../repository/services/network_connectivity/network_connectivity.dart';
+import '../../../../repository/services/network_connectivity/store_firebase_services.dart';
+import '../../../../repository/services/phone_storage/store_phone_services.dart';
+import '../../../../utils/app_utils/appp_utils.dart';
+import '../../../auth/data/auth_repo/auth_repo.dart';
 
 class StoreRepo extends GetxController {
   static StoreRepo get instance => Get.put(StoreRepo());
   late StoreController storeController;
-  // final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+  final AuthRepo authRepo = Get.find();
 
-  Future saveStoreData() async {
-    final appDocumentDir = await getApplicationDocumentsDirectory();
-    Hive.init(appDocumentDir.path);
-    // Box storeBox = await Hive.openBox<StoreModel>('store');
-    print(
-        ' THE PRESENT VALUE OF NOSTOREYET IS ${storeController.noStoreYet.value} BEFORE ADDING A STORE');
+  late File logo;
 
-    // create a new store
-    StoreModel newStore = StoreModel(
-      logo: StoreController.instance.logo.value,
-      storeName: storeController.storeName.text.trim(),
-      bankName: storeController.bankName.text.trim(),
-      accountNumber: storeController.accountNumber.text.trim(),
-      contact: storeController.contact.text.trim(),
-      stock: RxList([]),
-      receipts: [],
-      debts: [],
-      staff: [],
-      sales: [],
-      customer: [],
-      categories: [],
-      storeId: const Uuid().v4(),
-    );
+  saveStore(BuildContext context) async {
+    bool deviceHasInternet = await NetworkConnectivity().deviceHasInternet();
+    if (deviceHasInternet) {
+      StoreController.instance.logo.value;
+      logo = storeController.logo.value!;
 
-    // add the new store to hive
-    try {
-      await storeBox.put(
-        'store-${newStore.storeId}',
-        newStore,
+      StoreModel newStore = StoreModel(
+        logoLocalPath: '',
+        storeName: storeController.storeName.text.trim(),
+        bankName: storeController.bankName.text.trim(),
+        accountNumber: storeController.accountNumber.text.trim(),
+        contact: storeController.contact.text.trim(),
+        stock: RxList([]),
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        categories: [],
+        storeId: const Uuid().v4(),
+        logoRemotePath: '',
       );
-      storeController.setNoStore();
-      storeController.stores.add(newStore);
-      print(
-          ' THE PRESENT VALUE OF NOSTOREYET IS ${storeController.noStoreYet.value} AFTER ADDING A STORE');
-      Get.back();
-
-      Get.snackbar(
-        '${storeController.storeName.text.trim()} created',
-        '${storeController.storeName.text.trim()} store created successfully',
-        backgroundColor: kWhiteLight,
-        colorText: kBlack,
+      const Center(
+        child: CircularProgressIndicator(),
       );
-    } catch (e) {
-      Get.snackbar(
-        'Error creating ${storeController.storeName.text.trim()} store',
-        e.toString(),
-        // 'An error occured creating ${storeController.storeName.text.trim()}',
-        backgroundColor: kRedColor,
-        colorText: kWhiteLight,
+      if (storeController.logo.value != null) {
+        try {
+          StoreFirebaseServices()
+              .saveStoreToDB(
+                  newStore: newStore,
+                  logo: logo,
+                  onSucess: () {
+                    StorePhoneServices().saveStoreDataToDevice(newStore);
+                  })
+              .then((value) {
+            spaceMallSnackBar(
+              'Success!!',
+              'You have added a store with  store name ${newStore.storeName.toUpperCase()}',
+              kWhiteLight,
+              kGreenColor,
+            );
+            Get.to(
+              () => DashBoard(),
+            );
+          });
+        } catch (e) {
+          print(e.toString());
+
+          spaceMallSnackBar(
+            'Error',
+            e.toString(),
+            kWhiteDark,
+            kRedColor,
+          );
+        }
+      } else {
+        Get.snackbar('Store must have a logo', 'You have to add a store logo',
+            backgroundColor: kRedColor, colorText: kWhiteLight);
+      }
+    } else {
+      spaceMallSnackBar(
+        'Add Store Error',
+        'Seems you lost connection, please check you internet',
+        kWhiteDark,
+        kRedColor,
       );
     }
   }
 
-  // // save store data to firebase
-  // saveStoreDataToFireBase({
-  //   required BuildContext context,
-  //   required File logo,
-  // }) async {
-  //   SharedPreferences access = await SharedPreferences.getInstance();
-  //   final uid = access.getString('uid') ?? '';
-
-  //   try {
-  //     await saveImageToStorage('storelogo/$uid', logo);
-  //     final userDoc = _fireStore.collection('users').doc(uid);
-  //     DocumentSnapshot userSnapshot = await userDoc.get();
-  //     List<dynamic> currentStores = userSnapshot.get('stores') ?? [];
-
-  //     // create a new store
-  //     StoreModel newStore = StoreModel(
-  //       logo: StoreController.instance.logo.value,
-  //       storeName: StoreController.instance.storeName.text.trim(),
-  //       bankName: StoreController.instance.bankName.text.trim(),
-  //       accountNumber: StoreController.instance.accountNumber.text.trim(),
-  //       contact: StoreController.instance.contact.text.trim(),
-  //       stock: RxList([]),
-  //       receipts: [],
-  //       debts: [],
-  //       staff: [],
-  //       sales: [],
-  //       customer: [],
-  //       categories: [],
-  //       storeId: const Uuid().v4(),
-  //     );
-
-  //     currentStores.add(newStore.toMap());
-
-  //     userDoc.update({'stores': currentStores});
-
-  //     print('NEW FIREBASE STORES $currentStores');
-  //     print('FIREBASE STORES ${userSnapshot.toString()}');
-
-  //     // await userDoc.update({'stores': currentStores});
-
-  //     print('Store added to firebase');
-  //   } on FirebaseAuthException catch (e) {
-  //     showSnackBar(
-  //       context,
-  //       e.message.toString(),
-  //     );
-  //   }
-  // }
-
-  // clear the TextEditingControllers
   clearControllers() {
     StoreController.instance.logo.value = null;
     storeController.storeName.clear();
@@ -124,7 +98,7 @@ class StoreRepo extends GetxController {
     storeController.contact.clear();
   }
 
-  // get stores
+  // get stores from phone
   List<StoreModel> getStoresFromBox() {
     List<StoreModel> stores = [];
     for (var key in storeBox.keys) {
@@ -138,6 +112,7 @@ class StoreRepo extends GetxController {
     return stores;
   }
 
+// delete store from phone
   Future<void> deleteStoreFromPhone(index) async {
     if (storeBox.isNotEmpty) {
       storeBox.deleteAt(index);
@@ -146,9 +121,7 @@ class StoreRepo extends GetxController {
   }
 
   // add item to hive
-
   Future<void> addToHive(StoreModel store) async {
-    // StoreController.instance.itemList.add(store);
     await storeBox.put('store-${storeController.storeName}', store);
     update();
   }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -28,8 +29,8 @@ String formatDateTime(String inputDateTime) {
   return '$formattedDate, $formattedTime';
 }
 
-// store file to storage
-Future<String> saveImageToStorage(String ref, File file) async {
+// save image to firebase firestore and return the storage ref
+Future<String> saveImageToDB(String ref, File file) async {
   UploadTask uploadTask =
       FirebaseStorage.instance.ref().child(ref).putFile(file);
 
@@ -40,10 +41,22 @@ Future<String> saveImageToStorage(String ref, File file) async {
   return downloadUrl;
 }
 
+// convert image file into a uint64 list string to be stored in hive
+Future<String> convertImageToString(File imageFile) async {
+  try {
+    List<int> imageBytes = await imageFile.readAsBytes();
+    String base64String = base64Encode(imageBytes);
+    return base64String;
+  } catch (e) {
+    print('Error converting image to base64: $e');
+    return '';
+  }
+}
+
 StoreModel store = storeBox.get(
   AddItemRepo.instance.currentStore.value,
   defaultValue: StoreModel(
-    logo: null,
+    logoLocalPath: '',
     storeName: '',
     bankName: '',
     accountNumber: '',
@@ -56,5 +69,6 @@ StoreModel store = storeBox.get(
     customer: [],
     storeId: '',
     categories: [],
+    logoRemotePath: '',
   ),
 );

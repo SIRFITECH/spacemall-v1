@@ -8,17 +8,18 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/profile/application/date_widget_controller.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
-import 'package:spacemall/src/utils/helpers/helper.dart';
+import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 import 'package:uuid/uuid.dart';
 
-// import '../../../../../../../constants/text_strings.dart';
-// import '../../add_category/screens/add_category_screen.dart';
+import '../../../../../../../repository/services/network_connectivity/stock_firebase_services.dart';
+import '../../../../../../../repository/services/phone_storage/stock_phone_services.dart';
 
 class AddItemRepo extends GetxController {
   static AddItemRepo get instance => Get.find();
 
   static AddItemController addItemController = Get.find();
   static AddCategoryController addCategoryController = Get.find();
+
   static DateFieldController dateFieldController = Get.find();
 
   final itemPic = addItemController.itemPic.value;
@@ -27,31 +28,34 @@ class AddItemRepo extends GetxController {
   var stockList = <AddItemModel>[].obs;
 
   void setStockList() {
-    stockList.value = store.stock;
+    stockList.value = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logoLocalPath: '',
+        logoRemotePath: '',
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: RxList([]),
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ).stock,
+    );
   }
 
   ///PHONE OPERATIONS
 
   Future saveItemData() async {
-    // // fetch store from storeBox
-    // StoreModel storeList = storeBox.get(
-    //   currentStore.value,
-    //   defaultValue: StoreModel(
-    //     logo: null,
-    //     storeName: '',
-    //     bankName: '',
-    //     accountNumber: '',
-    //     contact: '',
-    //     stock: RxList([]),
-    //     receipts: [],
-    //     debts: [],
-    //     staff: [],
-    //     sales: [],
-    //     customer: [],
-    //     storeId: '',
-    //     categories: [],
-    //   ),
-    // );
+    // we just have few things to achieve here
+    // 1. save the item to server
+    // 2. save the item to device
+    // 3. return error if there is error and success if there is success
 
     // create a new item
     AddItemModel newItem = AddItemModel(
@@ -67,33 +71,39 @@ class AddItemRepo extends GetxController {
           addItemController.preventItemSalesWhenOutOfStock.value,
       trackExpiry: addItemController.trackExpiry.text.trim(),
       expiryAlert: addItemController.expiryAlert.text.trim(),
-      itemCount: RxInt(0),
+      itemCount: 0,
       itemId: const Uuid().v4(),
       morePics: addItemController.moreImages,
     );
-    addCategoryController.categoryValue.value?.itemsInCategory++;
-    addCategoryController.categoryValue.value?.items.add(newItem);
 
-// update the storeBox
-    await storeBox.put(
-      currentStore.value,
-      store,
-    );
-
-    Get.back();
-    addItemController.isItemAdded.value = true;
-    AddItemController.instance.clearImages();
-
-    // Add the new stock item to the store's stock list
-    store.stock.add(newItem);
+    try {
+      StockFirebaseServices().saveStockItemToDB(
+        stockItem: newItem,
+        onSucess: () {
+          StockPhoneServices().saveStockItemToDevice(newItem);
+          print('Add item to firebase successful!!');
+        },
+      );
+    } catch (e) {
+      debugPrint(
+          'An error occured in saveItemData() in addItemRepo: ${e.toString()}');
+      spaceMallSnackBar(
+        'Error adding item',
+        e.toString(),
+        kWhiteLight,
+        kRedColor,
+      );
+    }
   }
+
   // edit an itemin the stock list
 
   Future editItemData(AddItemModel editedItem) async {
     StoreModel store = storeBox.get(
       currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+        logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
@@ -167,6 +177,4 @@ class AddItemRepo extends GetxController {
 
     update();
   }
-
-  ///DATABASE OPERATIONS
 }

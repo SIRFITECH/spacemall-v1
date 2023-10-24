@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/domain/stock_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_customers/domain/customer_model.dart';
@@ -15,7 +16,6 @@ import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
 import '../../../../constants/colors.dart';
-import '../../dashboard/dash_board_display/screens/dash_board_screen.dart';
 import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_category/domain/category_model.dart';
 
 class StoreController extends GetxController {
@@ -27,28 +27,26 @@ class StoreController extends GetxController {
   static StoreController get instance => Get.put(
         StoreController(storeRepo: StoreRepo.instance),
       );
-
+  final AddCategoryController addCategoryController =
+      Get.put(AddCategoryController());
   @override
   void onInit() {
     super.onInit();
     setInitialSelectedStore();
   }
 
-  // bool to indicate loading
-  RxBool isLoading = false.obs;
+  RxBool _noStoreYet = true.obs;
+
+  RxBool _isLoading = false.obs;
 
   // check if store already exists
   RxBool isStoreAdded = false.obs;
-  RxBool noStoreYet = true.obs;
 
-// Located in the add store screen
-  bool setNoStore() {
-    if (StoreRepo.instance.getStoresFromBox().isEmpty) {
-      return noStoreYet.value = true;
-    }
+  String _logoRemotePath = '';
 
-    return noStoreYet.value = false;
-  }
+  String _logoPicLocalPath = '';
+
+  StoreModel? _store;
 
 // input data to create the store
   Rx<File?> logo = Rx<File?>(null);
@@ -67,6 +65,7 @@ class StoreController extends GetxController {
 //  select and display logo
   void selectLogo(BuildContext context) async {
     logo.value = (await pickImage(context));
+    setLogoPicLocalPath(logo.value!.path);
     update();
   }
 
@@ -84,7 +83,7 @@ class StoreController extends GetxController {
 
   Rx<StoreModel> selectedStoreValue = Rx<StoreModel>(
     StoreModel(
-      logo: null,
+      logoLocalPath: '',
       storeName: '',
       bankName: '',
       accountNumber: '',
@@ -97,6 +96,7 @@ class StoreController extends GetxController {
       customer: [],
       storeId: '',
       categories: [],
+      logoRemotePath: '',
     ),
   );
 
@@ -111,16 +111,7 @@ class StoreController extends GetxController {
           backgroundColor: kRedColor, colorText: kWhiteLight);
     } else {
       isLoading.value = true;
-      storeRepo
-          .saveStoreData()
-          .then((value) => storeRepo.clearControllers())
-          .then(
-            (value) => Get.off(() => DashBoard()),
-          );
-      // storeRepo.saveStoreDataToFireBase(
-      //   context: context,
-      //   logo: StoreController.instance.logo.value!,
-      // );
+      storeRepo.saveStore(context);
       Get.snackbar(
         '${storeName.text.trim()} created',
         '${storeName.text.trim()} store created successfully',
@@ -173,5 +164,33 @@ class StoreController extends GetxController {
   final storeStatus = true.obs;
   void storeStatusOpen(bool isOpen) {
     storeStatus(isOpen);
+  }
+
+  RxBool get noStoreYet => _noStoreYet;
+  set setNoStoreYet(RxBool value) {
+    _noStoreYet = value;
+  }
+
+  String get logoRemotePath => _logoRemotePath;
+
+  void setLogoRemotePath(String value) {
+    _logoRemotePath = value;
+  }
+
+  String get logoPicLocalPath => _logoPicLocalPath;
+
+  void setLogoPicLocalPath(String value) {
+    _logoPicLocalPath = value;
+  }
+
+  StoreModel? get store => _store;
+
+  void setstore(StoreModel? value) {
+    _store = value;
+  }
+
+  RxBool get isLoading => _isLoading;
+  void setIsLoading(RxBool value) {
+    _isLoading = value;
   }
 }

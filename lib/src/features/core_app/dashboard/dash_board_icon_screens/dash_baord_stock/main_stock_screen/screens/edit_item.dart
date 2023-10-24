@@ -667,7 +667,7 @@ class EditItem extends StatelessWidget {
                                 addItemController.expiryAlert.text == ''
                                     ? item.expiryAlert
                                     : addItemController.expiryAlert.text.trim(),
-                            itemCount: RxInt(0),
+                            itemCount: 0,
                             itemId: item.itemId,
                             morePics: addItemController.moreImages.isNotEmpty
                                 ? addItemController.moreImages

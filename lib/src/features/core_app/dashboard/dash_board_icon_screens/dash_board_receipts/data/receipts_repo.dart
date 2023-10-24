@@ -2,12 +2,12 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/cart_item_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
+import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../../constants/colors.dart';
 
-import '../../../../profile/data/profile_repo.dart';
 import '../../../../profile/domain/user_model.dart';
 import '../../../../store/domain/store_model.dart';
 import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
@@ -27,7 +27,7 @@ class AddReceiptsRepo extends GetxController {
     if (CartItemController.instance.userModel == null) {
       user = CartItemController.instance.userModel;
     } else {
-      user = await ProfileRepo.instance.getUserDataFromPhone();
+      user = await ProfileController.instance.getUserDataFromHive();
     }
 
     int receiptNo = ReceiptsController.instance.receiptNo.value++;
@@ -38,7 +38,8 @@ class AddReceiptsRepo extends GetxController {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+        logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
@@ -58,7 +59,7 @@ class AddReceiptsRepo extends GetxController {
     ReceiptsModel newReceipt = ReceiptsModel(
       logo: null,
       customerName: 'New Customer',
-      businessEmail: user.email,
+      businessEmail: user!.email,
       cartTotal: receiptsController.cartTotal.value,
       date: DateTime.now(),
       receiptNo: receiptNo.toString().padLeft(8, '0'),
@@ -119,7 +120,8 @@ class AddReceiptsRepo extends GetxController {
   StoreModel store = storeBox.get(
     AddItemRepo.instance.currentStore.value,
     defaultValue: StoreModel(
-      logo: null,
+        logoLocalPath: '',
+      logoRemotePath: '',
       storeName: '',
       bankName: '',
       accountNumber: '',

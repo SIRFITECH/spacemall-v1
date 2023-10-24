@@ -298,11 +298,19 @@ class AddItemController extends GetxController {
 
   int allItemsInStore(StoreModel store) {
     int totalItems = 0;
+
     for (var category in store.categories) {
-      totalItems += category.itemsInCategory.value;
-      // int.tryParse();
+      totalItems += category.itemsInCategory;
     }
     return totalItems;
+  }
+
+  List<AddItemModel> allStockInStore(StoreModel store) {
+    List<AddItemModel> listOfStock = [];
+    for (var stock in store.stock) {
+      listOfStock.add(stock);
+    }
+    return listOfStock;
   }
 
   List<AddItemModel> filterItemsByCategory(

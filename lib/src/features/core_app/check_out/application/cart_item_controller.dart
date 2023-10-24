@@ -6,7 +6,7 @@ import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/data/receipts_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
-import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
+import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/localizations/currency.dart';
@@ -26,7 +26,7 @@ class CartItemController extends GetxController {
   static CartItemController get instance => Get.put(
         CartItemController(),
       );
-  final profileRepo = Get.put(ProfileRepo());
+  final profileConrtoller = Get.put(ProfileController());
   final checkOutRepo = Get.put(CheckOutRepo());
 
   int numberOfItemSelect = -1;
@@ -147,7 +147,8 @@ class CartItemController extends GetxController {
       StoreModel store = storeBox.get(
         AddItemRepo.instance.currentStore.value,
         defaultValue: StoreModel(
-          logo: null,
+          logoLocalPath: '',
+           logoRemotePath: '',
           storeName: '',
           bankName: '',
           accountNumber: '',
@@ -178,7 +179,7 @@ class CartItemController extends GetxController {
                 preventItemSalesWhenOutOfStock: false,
                 trackExpiry: '',
                 expiryAlert: '',
-                itemCount: RxInt(0),
+                itemCount: 0,
                 itemId: '',
                 morePics: RxList([])),
           )
@@ -190,7 +191,7 @@ class CartItemController extends GetxController {
 
       UserModel? user;
       if (_userModel == null) {
-        user = await profileRepo.getUserDataFromPhone();
+        user = await profileConrtoller.getUserDataFromHive();
       } else {
         user = _userModel;
       }
@@ -225,7 +226,7 @@ class CartItemController extends GetxController {
               preventItemSalesWhenOutOfStock: false,
               trackExpiry: '',
               expiryAlert: '',
-              itemCount: RxInt(0),
+              itemCount: 0,
               itemId: '',
               morePics: RxList([])),
         )
@@ -283,7 +284,8 @@ class CartItemController extends GetxController {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+        logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
@@ -338,22 +340,22 @@ class CartItemController extends GetxController {
         CartItemController.instance.totalCartTotal.value.toString();
 
     CartItemController.instance.cartItems.isNotEmpty
-        ? (AddReceiptsRepo.instance.saveReceiptData().then((value) {
-            // print(CartItemController.instance.cartItems.toList());
-            setSale(
-                CartItemController.instance.totalCartTotal.value.toString());
-            updateItemQuantities();
-            updateCartState();
-            previewReceipt();
-          })
-            .then(
+        ? (
+            AddReceiptsRepo.instance.saveReceiptData().then((value) {
+              // print(CartItemController.instance.cartItems.toList());
+              setSale(
+                  CartItemController.instance.totalCartTotal.value.toString());
+              updateItemQuantities();
+              updateCartState();
+              previewReceipt();
+            }).then(
               (value) {
                 SalesController.instance.addNewSales();
                 AddReceiptsRepo.instance.paymentMood = '';
                 clearCart();
               },
             ),
-            )
+          )
         : Get.snackbar(
             'Error',
             'You can not checkout an empty cart',
@@ -366,7 +368,8 @@ class CartItemController extends GetxController {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+          logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
@@ -387,7 +390,7 @@ class CartItemController extends GetxController {
           store.stock.indexWhere((item) => item.itemId == cartItem.itemId);
 
       if (index >= 0) {
-        store.stock[index].itemCount = RxInt(0);
+        store.stock[index].itemCount = 0;
         CartItemController.instance.items.value = 0;
       } else {
         Get.snackbar(
@@ -401,7 +404,8 @@ class CartItemController extends GetxController {
   }
 
   void clearCart() async {
-    UserModel? user = _userModel ?? await profileRepo.getUserDataFromPhone();
+    UserModel? user =
+        _userModel ?? await profileConrtoller.getUserDataFromHive();
 
     // ignore: unnecessary_null_comparison
     if (user != null) {
@@ -425,7 +429,8 @@ class CartItemController extends GetxController {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+    logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
@@ -740,18 +745,18 @@ class CartItemController extends GetxController {
   UserModel get userModel {
     return _userModel ??
         UserModel(
-          profilePic: '',
-          userName: '',
-          email: '',
-          contactNumber: '',
-          country: '',
-          bio: '',
-          uid: '',
-          role: '',
-          cart: <CartItemModel>[],
-          stores: RxList<StoreModel>([]),
-          createdAt: '',
-        );
+            profilePicLocalPath: '',
+            userName: '',
+            email: '',
+            contactNumber: '',
+            country: '',
+            bio: '',
+            uid: '',
+            role: '',
+            cart: <CartItemModel>[],
+            stores: RxList<StoreModel>([]),
+            createdAt: '',
+            profilePicRemotePath: '');
   }
 
   /// FOURTH LOGIC
@@ -764,7 +769,8 @@ class CartItemController extends GetxController {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+         logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
@@ -795,7 +801,7 @@ class CartItemController extends GetxController {
               preventItemSalesWhenOutOfStock: false,
               trackExpiry: '',
               expiryAlert: '',
-              itemCount: RxInt(0),
+              itemCount: 0,
               itemId: '',
               morePics: RxList([])),
         )
@@ -808,7 +814,7 @@ class CartItemController extends GetxController {
       if (!itemExistInCart(newItem)) {
         UserModel? user;
         if (_userModel == null) {
-          user = await profileRepo.getUserDataFromPhone();
+          user = await profileConrtoller.getUserDataFromHive();
         } else {
           user = _userModel;
         }

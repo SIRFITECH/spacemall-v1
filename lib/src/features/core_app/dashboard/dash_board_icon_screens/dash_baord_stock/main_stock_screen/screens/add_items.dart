@@ -20,6 +20,7 @@ class AddItemsCard extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
+
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
       child: SizedBox(
@@ -77,13 +78,13 @@ class AddItemsCard extends StatelessWidget {
                                   Get.to(
                                     () => const AddTag(),
                                   );
-               
+
                                   break;
                                 case 3:
                                   Get.to(
                                     () => const AddModifier(),
                                   );
-         
+
                                   break;
                               }
                             },

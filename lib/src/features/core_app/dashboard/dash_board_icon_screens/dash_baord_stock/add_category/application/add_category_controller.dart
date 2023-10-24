@@ -1,19 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
-import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/screens/add_category_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
+import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 import 'package:uuid/uuid.dart';
+import '../../../../../../../constants/colors.dart';
 import '../../../../../../../repository/hive_boxes.dart';
 import '../../../../../store/application/store_controller.dart';
 import '../../../../../store/domain/store_model.dart';
+import '../data/add_category_repo.dart';
 import '../domain/category_model.dart';
 
 class AddCategoryController extends GetxController {
   static AddCategoryController get instance => Get.find();
-  final AddItemRepo addItemRepo = Get.put(AddItemRepo());
+  final AddItemRepo addItemRepo = Get.find();
+
+  final AddCategoryRepo _addCategoryRepo = Get.put(AddCategoryRepo());
+
   late StoreController storeController;
+  RxBool _isLoading = false.obs;
 
   final TextEditingController categoryName = TextEditingController();
 
@@ -35,71 +40,23 @@ class AddCategoryController extends GetxController {
 
   RxList<CategoryModel> categories = <CategoryModel>[].obs;
 
-  // removeCategory(index) {
-  //   Get.snackbar(
-  //     '${categoryItems[index]} removed',
-  //     '${categoryItems[index]} category removed successfully',
-  //     backgroundColor: kWhiteLight,
-  //     colorText: kBlack,
-  //   );
-  //   categoryItems.removeAt(index);
-  // }
+  addNewCategory(BuildContext context) async {
+    CategoryModel newCategory = CategoryModel(
+      categoryName: categoryName.text.trim(),
+      categoryId: const Uuid().v4(),
+      items: RxList([]),
+      itemsInCategory: 0,
+    );
 
-  addNewCategory() async {
     if (categoryName.text.isEmpty) {
-      Get.snackbar(
-        'Error',
+      spaceMallSnackBar(
+        'Error Adding Categrory',
         'You cannot add an empty category',
-        backgroundColor: kWhiteLight,
-        colorText: kBlack,
+        kWhiteLight,
+        kRedColor,
       );
     } else {
-      storeBox = await Hive.openBox<StoreModel>('store');
-
-      // fetch store from storeBox
-      StoreModel store = storeBox.get(
-        AddItemRepo.instance.currentStore.value,
-        defaultValue: StoreModel(
-          logo: null,
-          storeName: '',
-          bankName: '',
-          accountNumber: '',
-          contact: '',
-          stock: RxList([]),
-          receipts: [],
-          debts: [],
-          staff: [],
-          sales: [],
-          customer: [],
-          storeId: '',
-          categories: [],
-        ),
-      );
-
-      // Create a new category
-      CategoryModel newCategory = CategoryModel(
-        categoryName: categoryName.text.trim(),
-        categoryId: const Uuid().v4(),
-        items: RxList(),
-        itemsInCategory: RxInt(0),
-      );
-      // Add the new category to the store's categories list
-      store.categories.add(newCategory);
-
-      // Update the storeBox with the modified store
-
-      await storeBox.put(AddItemRepo.instance.currentStore.value, store);
-
-      categories.add(newCategory);
-      noCategory.value = false;
-      Get.back();
-      categoryName.clear();
-      Get.snackbar(
-        '${categoryName.text} added',
-        '${categoryName.text} category added successfully',
-        backgroundColor: kWhiteLight,
-        colorText: kBlack,
-      );
+      _addCategoryRepo.saveCategory(context, newCategory);
     }
   }
 
@@ -108,7 +65,8 @@ class AddCategoryController extends GetxController {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+        logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
@@ -135,5 +93,11 @@ class AddCategoryController extends GetxController {
     // }
     categoryList.addAll(store.categories);
     return categoryList;
+  }
+
+  RxBool get isLoading => _isLoading;
+
+  set isLoading(RxBool value) {
+    _isLoading = value;
   }
 }

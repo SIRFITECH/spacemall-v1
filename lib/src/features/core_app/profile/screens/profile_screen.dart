@@ -5,9 +5,11 @@ import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
-import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
+
+import '../../../../repository/services/phone_storage/user_phone_services.dart';
+import '../application/profile_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -19,7 +21,8 @@ class ProfileScreen extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     // final screenSize = media.size;
 
-    final profileRepo = Get.put(ProfileRepo());
+    final profileController = ProfileController();
+
     final LoginController loginController = Get.find();
 
     return SafeArea(
@@ -30,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
         ),
         body: FutureBuilder<UserModel?>(
-          future: profileRepo.getUserDataFromPhone(),
+          future: profileController.getUserDataFromHive(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
@@ -94,7 +97,11 @@ class ProfileScreen extends StatelessWidget {
                           child: ClipOval(
                             child: FutureBuilder<void>(
                               future: precacheImage(
-                                NetworkImage(user!.profilePic),
+                                UserPhoneServices().chooseImageProvider(
+                                  profileController.isConnected,
+                                  user!.profilePicLocalPath,
+                                  user.profilePicRemotePath,
+                                ),
                                 context,
                               ),
                               builder: (BuildContext context,
@@ -102,10 +109,13 @@ class ProfileScreen extends StatelessWidget {
                                 if (snapshot.connectionState ==
                                     ConnectionState.done) {
                                   return CircleAvatar(
-                                    backgroundColor: kWhiteDark,
-                                    radius: 100,
+                                    radius: 30,
                                     backgroundImage:
-                                        NetworkImage(user.profilePic),
+                                        UserPhoneServices().chooseImageProvider(
+                                      profileController.isConnected,
+                                      user.profilePicLocalPath,
+                                      user.profilePicRemotePath,
+                                    ),
                                   );
                                 } else {
                                   return const CircularProgressIndicator(
@@ -114,25 +124,9 @@ class ProfileScreen extends StatelessWidget {
                                 }
                               },
                             ),
-
                           ),
                         ),
                       ),
-
-                      // // I want to display the image as a file
-                      // SizedBox(
-                      //   child: ClipOval(
-                      //     child: Padding(
-                      //       padding: const EdgeInsets.all(1.0),
-                      //       child: CircleAvatar(
-                      //         radius: 30,
-                      //         backgroundImage: FileImage(
-                      //           File(user.profilePic),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Row(

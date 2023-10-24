@@ -4,19 +4,19 @@ import 'package:spacemall/src/features/core_app/check_out/screens/check_out_scre
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_main_display.dart';
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
-// import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 
+import '../../dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import '../screens/dashboard_navbar.dart';
 
 class NavBarController extends GetxController {
+  final addCategoryController = Get.put(AddCategoryController());
+
   final selectedIndex = 0.obs;
   final selectedMallIndex = 0.obs;
 
   final List<Widget> screens = [
     const Center(
-      child:
-          // StoreController.instance.stores.isNotEmpty ?
-          DashboardGrid(),
+      child: DashboardGrid(),
     ),
     const Center(
       child: CheckOut(),

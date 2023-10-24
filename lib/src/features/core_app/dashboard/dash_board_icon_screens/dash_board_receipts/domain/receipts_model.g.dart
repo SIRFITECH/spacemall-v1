@@ -16,7 +16,6 @@ class ReceiptsModelAdapter extends TypeAdapter<ReceiptsModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    print('FROM THE RECEIPTMODEL HIVE ${fields[9]}');
 
     return ReceiptsModel(
       logo: fields[0] as File?,

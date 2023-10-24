@@ -9,7 +9,6 @@ import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dar
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widget.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
-import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
 
 import '../../../../../../../repository/hive_boxes.dart';
 import '../../../../../store/domain/store_model.dart';
@@ -24,12 +23,15 @@ class AddCategory extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    final AddCategoryController addCategoryController = Get.find();
+    final AddCategoryController _addCategoryController = Get.find();
+
+    StoreController storeController = Get.find();
 
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+        logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
@@ -61,47 +63,39 @@ class AddCategory extends StatelessWidget {
                 ? kDarkModeBackgroundColor.withOpacity(0.020)
                 : kWhiteLight.withOpacity(0.1),
             height: screenSize.height * 0.85,
-            child: GetBuilder<StoreController>(
-              builder: (storeController) {
+            child: Obx(
+              () {
                 print(
-                    'THE PRESENT VALUE OF NOSTOREYET IS ${storeController.noStoreYet.value} IN ADD-CATEGORY SCREEN');
-                if (
-                    // storeController.stores.isEmpty ||
-                    storeController.noStoreYet.value == true) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    // print(
-                    //     'from add category screen1 ${storeController.noStoreYet.value}');
-                    Get.defaultDialog(
-                      backgroundColor: !isDarkMood
-                          ? kDarkModeBackgroundColor.withOpacity(0.1)
-                          : kWhiteDark.withOpacity(0.1),
-                      title: kAddStoreText,
-                      titleStyle: const TextStyle(
-                        color: kWhiteLight,
-                      ),
-                      content: const Text(
-                        kAddStoreAlertBodyText,
-                        style: TextStyle(
-                          color: kWhiteLight,
-                        ),
-                      ),
-                      confirm: ElevatedButton(
-                        onPressed: () {
-                          addCategoryController.noCategory.value = false;
-                          storeController.noStoreYet.value = false;
-                          Get.to(() => const AddStore());
-
-                          // print(
-                          //     'from add category screen2 ${storeController.noStoreYet.value}');
-                        },
-                        child: const Text(kOkayText),
-                      ),
-                    );
-                  });
-
-                  // print(
-                  //     'from add category screen3 ${storeController.noStoreYet.value}');
-                }
+                    'THE VALUE OF NOSTOREYET IS ON THE ADD CATEGORY SCREEN ${storeController.noStoreYet.value}');
+                // print('${store.categories[0].categoryId}');
+                // if (
+                //     // storeController.stores.isEmpty ||
+                //     storeController.noStoreYet.value == true) {
+                //   WidgetsBinding.instance.addPostFrameCallback((_) {
+                //     Get.defaultDialog(
+                //       backgroundColor: !isDarkMood
+                //           ? kDarkModeBackgroundColor.withOpacity(0.1)
+                //           : kWhiteDark.withOpacity(0.1),
+                //       title: kAddStoreText,
+                //       titleStyle: const TextStyle(
+                //         color: kWhiteLight,
+                //       ),
+                //       content: const Text(
+                //         kAddStoreAlertBodyText,
+                //         style: TextStyle(
+                //           color: kWhiteLight,
+                //         ),
+                //       ),
+                //       confirm: ElevatedButton(
+                //         onPressed: () {
+                //           // addCategoryController.noCategory.value = false;
+                //           Get.to(() => const AddStore());
+                //         },
+                //         child: const Text(kOkayText),
+                //       ),
+                //     );
+                //   });
+                // }
 
                 return Padding(
                   padding: EdgeInsets.all(screenSize.width * 0.025),
@@ -130,6 +124,7 @@ class AddCategory extends StatelessWidget {
                                 return ListTile(
                                   leading: IconButton(
                                     onPressed: () {
+                                      print('categories ${store.categories}');
                                       // print('Delete from category');
                                       // addCategoryController.removeCategory(index);
                                     },
@@ -155,7 +150,7 @@ class AddCategory extends StatelessWidget {
                               TextFeildWidget(
                                 screenSize: screenSize,
                                 isDarkMood: isDarkMood,
-                                controller: addCategoryController.categoryName,
+                                controller: _addCategoryController.categoryName,
                                 keyboardType: TextInputType.text,
                                 hintText: kHintText,
                                 labelText: kCategoryLabelText,
@@ -170,7 +165,7 @@ class AddCategory extends StatelessWidget {
                           ),
                           ElevatedButton(
                               onPressed: () {
-                                addCategoryController.addNewCategory();
+                                _addCategoryController.addNewCategory(context);
                               },
                               child: const Text(kAddCategoryText))
                         ],
@@ -183,78 +178,9 @@ class AddCategory extends StatelessWidget {
           ),
         ),
       ),
-
-      // SingleChildScrollView(
-      //   child: Container(
-      //     decoration: BoxDecoration(
-      //       image: DecorationImage(
-      //         image: !isDarkMood
-      //             ? const AssetImage(kBackGroundCart)
-      //             : const AssetImage(kBackGroundCartDarkMood),
-      //         fit: BoxFit.contain,
-      //       ),
-      //     ),
-      //     child: Column(
-      //       children: [
-      //         SizedBox(
-      //           height: screenSize.height * 0.65,
-      //           child:
-      //               //  Obx(
-      //               //   () =>
-      //               ListView.builder(
-      //             shrinkWrap: true,
-      //             itemCount: store.categories.length,
-      //             itemBuilder: (context, index) {
-      //               final category = store.categories[index];
-      //               return ListTile(
-      //                 leading: IconButton(
-      //                   onPressed: () {
-      //                     // print('Delete from category');
-      //                     // addCategoryController.removeCategory(index);
-      //                   },
-      //                   icon: const Icon(Icons.remove_circle),
-      //                   color: kRedColor,
-      //                 ),
-      //                 title: Text(
-      //                   category.categoryName,
-      //                   style: Theme.of(context).textTheme.labelSmall,
-      //                 ),
-      //               );
-      //             },
-      //           ),
-      //           // ),
-      //         ),
-      //         const SizedBox(
-      //           height: 10,
-      //         ),
-      //         Column(
-      //           crossAxisAlignment: CrossAxisAlignment.start,
-      //           children: [
-      //             TextFeildWidget(
-      //               screenSize: screenSize,
-      //               isDarkMood: isDarkMood,
-      //               controller: addCategoryController.categoryName,
-      //               keyboardType: TextInputType.text,
-      //               hintText: kHintText,
-      //               labelText: kCategoryLabelText,
-      //               maxLines: 1,
-      //               height: screenSize.width * 0.135,
-      //               width: screenSize.width * 0.90,
-      //             ),
-      //           ],
-      //         ),
-      //         SizedBox(
-      //           height: MediaQuery.of(context).size.width * 0.1,
-      //         ),
-      //         ElevatedButton(
-      //             onPressed: () {
-      //               addCategoryController.addNewCategory();
-      //             },
-      //             child: const Text(kAddCategoryText))
-      //       ],
-      //     ),
-      //   ),
-      // ),
     );
   }
 }
+
+
+ 

@@ -28,7 +28,7 @@ class AddItemModelAdapter extends TypeAdapter<AddItemModel> {
       preventItemSalesWhenOutOfStock: fields[8] as bool,
       trackExpiry: fields[9] as String,
       expiryAlert: fields[10] as String,
-      itemCount: fields[11] as RxInt,
+      itemCount: fields[11] as int,
       itemId: fields[12] as String,
       morePics: RxList.from(fields[13] as List),
       // (fields[13] as List).cast<File>(),

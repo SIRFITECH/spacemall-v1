@@ -11,7 +11,7 @@ class CategoryModel {
   @HiveField(1)
   RxList<AddItemModel> items;
   @HiveField(2)
-  RxInt itemsInCategory;
+  int itemsInCategory;
   @HiveField(3)
   String categoryId;
 

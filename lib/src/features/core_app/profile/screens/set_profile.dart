@@ -91,7 +91,7 @@ class SetProfile extends StatelessWidget {
                         ],
                       ),
                     ),
-// username input
+                      // username input
 
                     TextFeildWidget(
                       screenSize: screenSize,
@@ -368,7 +368,7 @@ class SetProfile extends StatelessWidget {
 
                     CustomButton(
                       screenSize: screenSize,
-                      onPress: () => profileRepo.saveData(context),
+                      onPress: () => profileRepo.saveUser(context),
                       title: kSave,
                       width:
                           // double.infinity,

@@ -21,7 +21,8 @@ class LowStock extends StatelessWidget {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+     logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
@@ -36,11 +37,6 @@ class LowStock extends StatelessWidget {
         categories: [],
       ),
     );
-
-    // List<StoreModel> lowStock = store.stock
-    //     .where((item) => int.parse(item.itemQuantity) < 20)
-    //     .map((item) => item as StoreModel)
-    //     .toList();
 
     return Scaffold(
       appBar: MyAppBar(
@@ -63,21 +59,6 @@ class LowStock extends StatelessWidget {
               ? ListView.builder(
                   itemCount: store.stock.length,
                   itemBuilder: (context, index) {
-                    // List<AddItemModel> stock = store.stock;
-
-                    // int low = 0;
-                    // List<AddItemModel> toOrder = [];
-
-                    // for (var lowStock in stock) {
-                    //   if (int.parse(store.stock[index].itemQuantity) < 20) {
-                    //     low++;
-                    //     toOrder.length++;
-                    //     ReportsController.instance.lowStock.value =
-                    //         low.toString();
-                    //   }
-                    //   ;
-                    // }
-
                     return SizedBox(
                       height: 60,
                       child: Card(

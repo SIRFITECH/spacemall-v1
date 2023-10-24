@@ -5,9 +5,6 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/screens/login/login_divider_widget.dart';
-import 'package:spacemall/src/features/core_app/check_out/data/check_out_repo.dart';
-// import 'package:spacemall/src/features/core_app/check_out/screens/check_out_screen.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/application/stock_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/add_items.dart';
@@ -15,11 +12,12 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/localizations/currency.dart';
-// import 'package:spacemall/src/repository/hive_boxes.dart';
-
+import '../../../../../../../repository/hive_boxes.dart';
 import '../../../../../../../utils/helpers/helper.dart';
+import '../../../../../check_out/screens/check_out_screen.dart';
 import '../../../../../store/application/store_controller.dart';
-// import '../../../../../store/domain/store_model.dart';
+import '../../../../../store/domain/store_model.dart';
+import '../../add_item/data/add_item_repo.dart';
 
 class Stock extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -32,11 +30,32 @@ class Stock extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
     final StockController stockController = Get.find();
-    final AddItemRepo addItemRepo = Get.find();
-    AddItemRepo.instance.setStockList();
+
     final StoreController storeController = Get.find();
-    print(
-        ' THE PRESENT VALUE OF NOSTOREYET IS ${storeController.noStoreYet.value} IN THE STOCK SCREEN');
+
+    final StoreModel _store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logoLocalPath: '',
+        logoRemotePath: '',
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: [],
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
+    List<AddItemModel> stocks = _store.stock.toList();
+    // print(_store.stock.toList().first.itemName);
+    // print(AddItemRepo.instance.currentStore.value);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -45,25 +64,11 @@ class Stock extends StatelessWidget {
         title: '${store.storeName} stock',
         automaticallyImplyLeading: true,
       ),
-
       drawer: const SpacemallDrawer(),
-      // Showcase(
-      //   key: keyTwo,
-      //   description: 'Click to add and select the "Add a Store Menu"',
-      //   child:
-      // ),
-
-      //  Showcase(
-      //   key: keyTwo,
-      //   description: 'Press on the menu to add a new store',
-      //   child:
-      // ),
-      body: storeController.noStoreYet.value == true
-          ? Center(
-              child: Container(
-                child: const Text(
-                    'Please choose a store \n Or add store from the menu icon \n On your top left hand to continue'),
-              ),
+      body: storeController.noStoreYet.value == true && store.storeName == ''
+          ? const Center(
+              child: Text(
+                  'Please choose a store \n Or add store from the menu icon \n On your top left hand to continue'),
             )
           : Container(
               decoration: BoxDecoration(
@@ -123,10 +128,10 @@ class Stock extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                             horizontal: 14.0,
                           ),
-                          itemCount: addItemRepo.stockList.length,
+                          itemCount: stocks.length,
                           itemBuilder: (context, index) {
-                            AddItemModel stockItem =
-                                addItemRepo.stockList[index];
+                            AddItemModel stockItem = stocks[index];
+                            // addItemRepo.stockList[index];
 
                             return GestureDetector(
                               onTap: () {
@@ -134,7 +139,6 @@ class Stock extends StatelessWidget {
                                 if (index == tapIndex) {
                                   Get.to(() => EditItem(item: stockItem));
                                   // AddItemRepo.instance.editItemData(stockItem);
-                                  debugPrint(stockItem.itemId);
                                 }
                               },
                               child: Column(
@@ -342,9 +346,25 @@ class Stock extends StatelessWidget {
               ),
             ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Get.to(() => const CheckOut());
-          CheckOutRepo.instance.increamentCount();
+        onPressed: () async {
+          Get.to(() => const CheckOut());
+          // StoreRepo.instance.addStoreToFirestore(
+          //   StoreModel(
+          //     logo: pic,
+          //     storeName: 'storeName',
+          //     bankName: 'xBank',
+          //     accountNumber: '01234567',
+          //     contact: 'email@gmail.com',
+          //     stock: RxList([]),
+          //     receipts: [],
+          //     debts: [],
+          //     staff: [],
+          //     sales: [],
+          //     customer: [],
+          //     categories: [],
+          //     storeId: const Uuid().v4(),
+          //   ),
+          // );
         },
         // => addItemRepo.printHiveBox(stockBox),
         //     {

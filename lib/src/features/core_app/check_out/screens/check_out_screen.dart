@@ -9,15 +9,15 @@ import 'package:spacemall/src/features/core_app/check_out/application/cart_item_
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/check_out/screens/confirm_payment.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/localizations/currency.dart';
-// import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/helpers/helper.dart';
 
-// import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
+import '../../../../repository/hive_boxes.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
-// import '../../store/domain/store_model.dart';
+import '../../store/domain/store_model.dart';
 
 class CheckOut extends StatelessWidget {
   const CheckOut({super.key});
@@ -30,42 +30,39 @@ class CheckOut extends StatelessWidget {
     final screenSize = media.size;
 
     final cartItemController = Get.put(CartItemController());
-    // final AddItemRepo addItemRepo = Get.find();
+    // AddItemRepo.instance.setStockList();
+
     Get.put(
       ReceiptsController(),
     );
     int tapedIndex = -1;
 
-    // StoreModel store = storeBox.get(
-    //   addItemRepo.currentStore.value,
-    //   defaultValue: StoreModel(
-    //     logo: null,
-    //     storeName: '',
-    //     bankName: '',
-    //     accountNumber: '',
-    //     contact: '',
-    //     stock: RxList([]),
-    //     receipts: [],
-    //     debts: [],
-    //     staff: [],
-    //     sales: [],
-    //     customer: [],
-    //     storeId: '',
-    //     categories: [],
-    //   ),
-    // );
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logoLocalPath: '',
+        logoRemotePath: '',
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: RxList([]),
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
 
     List<AddItemModel> stocks = store.stock.toList();
-
-    // List<AddItemModel> filteredItems = AddItemController.instance
-    //     .filterItemsByCategory(
-    //         AddItemController.instance.selectedCategoryIndex.value,
-    //         store.categories);
 
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: 'Check Out',
+        title: 'Check Out ',
         automaticallyImplyLeading: false,
       ),
       body: store.storeName == ''
@@ -87,8 +84,6 @@ class CheckOut extends StatelessWidget {
                   ? Padding(
                       padding: EdgeInsets.only(
                         top: screenSize.height * 0.05,
-                        // bottom: screenSize.height * 0.1
-                        // 0.117,
                       ),
                       child: ListView.builder(
                         itemCount: store.categories.length + 1,
@@ -112,7 +107,6 @@ class CheckOut extends StatelessWidget {
                                       color: isDarkMood
                                           ? Colors.white.withOpacity(0.1)
                                           : Colors.black.withOpacity(0.1),
-                                      // kBlack.withOpacity(0.2),
                                     ),
                                     child: ExpandablePanel(
                                       header: ListTile(
@@ -129,6 +123,7 @@ class CheckOut extends StatelessWidget {
                                           style: TextStyle(fontSize: 12),
                                         ),
                                         subtitle: Text(
+                                          // 'This is all',
                                           '$alItemsInCategory',
                                           style: const TextStyle(fontSize: 10),
                                         ),
@@ -268,8 +263,8 @@ class CheckOut extends StatelessWidget {
                                                                 .instance
                                                                 .items
                                                                 .value =
-                                                            stockItem.itemCount
-                                                                .value++;
+                                                            stockItem
+                                                                .itemCount++;
                                                         CartItemController
                                                             .instance
                                                             .items
@@ -289,8 +284,7 @@ class CheckOut extends StatelessWidget {
                                                           : (int.parse(stockItem
                                                                       .itemSellingPrice) *
                                                                   stockItem
-                                                                      .itemCount
-                                                                      .value)
+                                                                      .itemCount)
                                                               .toInt();
 
                                                       CartItemController
@@ -301,9 +295,9 @@ class CheckOut extends StatelessWidget {
                                                               stockItem.itemId,
                                                           itemName: stockItem
                                                               .itemName,
-                                                          quantityInCart:
+                                                          quantityInCart: RxInt(
                                                               stockItem
-                                                                  .itemCount,
+                                                                  .itemCount),
                                                           price: nairaFormat
                                                               .format(int.parse(
                                                                   stockItem
@@ -542,8 +536,7 @@ class CheckOut extends StatelessWidget {
                                                   const ClampingScrollPhysics(),
                                               itemCount: store
                                                   .categories[categoryIndex]
-                                                  .itemsInCategory
-                                                  .value,
+                                                  .itemsInCategory,
                                               itemBuilder: (context, index) {
                                                 AddItemModel stockItem = store
                                                     .categories[categoryIndex]
@@ -666,8 +659,7 @@ class CheckOut extends StatelessWidget {
                                                                     .items
                                                                     .value =
                                                                 stockItem
-                                                                    .itemCount
-                                                                    .value++;
+                                                                    .itemCount++;
                                                             CartItemController
                                                                 .instance
                                                                 .items
@@ -687,8 +679,7 @@ class CheckOut extends StatelessWidget {
                                                               : (int.parse(stockItem
                                                                           .itemSellingPrice) *
                                                                       stockItem
-                                                                          .itemCount
-                                                                          .value)
+                                                                          .itemCount)
                                                                   .toInt();
 
                                                           CartItemController
@@ -701,8 +692,8 @@ class CheckOut extends StatelessWidget {
                                                                   stockItem
                                                                       .itemName,
                                                               quantityInCart:
-                                                                  stockItem
-                                                                      .itemCount,
+                                                                  RxInt(stockItem
+                                                                      .itemCount),
                                                               price: nairaFormat
                                                                   .format(int.parse(
                                                                       stockItem

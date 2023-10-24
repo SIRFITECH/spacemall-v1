@@ -441,37 +441,8 @@ Widget buildLogo({
   required StoreModel seller,
 }) {
   return SizedBox(
-    child:
-        seller.logo == null ? Text('Store Logo') : Text(' Alternative String'),
-    // CircleAvatar(
-    //             radius: 30,
-    //             backgroundImage: FileImage(
-    //               seller.logo!,
-    //             ),
-    //           ),
-    // ClipOval(
-    //   child: Padding(
-    //     padding: const EdgeInsets.all(1.0),
-    //     child:
-    //     seller.logo == null
-    //         ?
-    //         SvgPicture.asset(
-    //             kImageIcon,
-    //             // ignore: deprecated_member_use
-    //             color: kMainColorDark,
-    //             width: 100,
-    //             height: 100,
-    //             // fit: BoxFit
-    //             //     .scaleDown,
-    //           )
-
-    //         CircleAvatar(
-    //             radius: 30,
-    //             backgroundImage: FileImage(
-    //               seller.logo!,
-    //             ),
-    //           ),
-    //   ),
-    // ),
+    child: seller.logoLocalPath == ''
+        ? Text('Store Logo')
+        : Text(' Alternative String'),
   );
 }

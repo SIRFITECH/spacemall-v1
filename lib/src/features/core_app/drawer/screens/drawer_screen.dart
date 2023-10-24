@@ -3,13 +3,14 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
-import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
+import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
 import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
 import 'package:spacemall/src/utils/themes/app_theme_mood.dart';
 import 'package:spacemall/src/utils/themes/custom_text_styles.dart';
 
+import '../../../../repository/services/phone_storage/user_phone_services.dart';
 import '../../../../utils/themes/themes.dart';
 import '../../dashboard/dash_board_display/screens/dash_board_screen.dart';
 import '../../settings/screens/settings_screen.dart';
@@ -23,11 +24,11 @@ class SpacemallDrawer extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
-    final profileRepo = Get.put(ProfileRepo());
+    final profileController = Get.put(ProfileController());
     final themeController = Get.put(ThemeController());
 
     return FutureBuilder<UserModel?>(
-        future: profileRepo.getUserDataFromPhone(),
+        future: profileController.getUserDataFromHive(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -61,18 +62,24 @@ class SpacemallDrawer extends StatelessWidget {
                           child: ClipOval(
                             child: FutureBuilder<void>(
                               future: precacheImage(
-                                NetworkImage(user.profilePic),
-                                context,
-                              ),
+                                  UserPhoneServices().chooseImageProvider(
+                                    profileController.isConnected,
+                                    user.profilePicLocalPath,
+                                    user.profilePicRemotePath,
+                                  ),
+                                  context),
                               builder: (BuildContext context,
                                   AsyncSnapshot<void> snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.done) {
                                   return CircleAvatar(
-                                    backgroundColor: kWhiteDark,
-                                    radius: 100,
+                                    radius: 30,
                                     backgroundImage:
-                                        NetworkImage(user.profilePic),
+                                        UserPhoneServices().chooseImageProvider(
+                                      profileController.isConnected,
+                                      user.profilePicLocalPath,
+                                      user.profilePicRemotePath,
+                                    ),
                                   );
                                 } else {
                                   return const CircularProgressIndicator(
@@ -81,11 +88,6 @@ class SpacemallDrawer extends StatelessWidget {
                                 }
                               },
                             ),
-
-                            //  CircleAvatar(
-                            //   radius: 100,
-                            //   backgroundImage: NetworkImage(user.profilePic),
-                            // ),
                           ),
                         ),
                       ),
@@ -196,7 +198,7 @@ class SpacemallDrawer extends StatelessWidget {
                               themeController.changeTheme(SAppTheme.darkTheme);
                               themeController.saveTheme(true);
                             }
-                            profileRepo.toggleThemeMode();
+                            // profileRepo.toggleThemeMode();
                             // showModalBottomSheet(
                             //   context: context,
                             //   builder: (context) {

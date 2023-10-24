@@ -28,7 +28,8 @@ class _StaffState extends State<StaffScreen> {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+         logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
@@ -124,7 +125,7 @@ class _StaffState extends State<StaffScreen> {
                       : const Icon(
                           Icons.radio_button_on,
                           size: 25,
-                          color: kCkeckButtonColor,
+                          color: kGreenColor,
                         ),
                 ),
               ),
@@ -177,7 +178,7 @@ class _StaffState extends State<StaffScreen> {
                       : const Icon(
                           Icons.radio_button_on,
                           size: 25,
-                          color: kCkeckButtonColor,
+                          color: kGreenColor,
                         ),
                 ),
               ),

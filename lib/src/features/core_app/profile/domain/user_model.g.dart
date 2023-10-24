@@ -16,8 +16,9 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
+
     return UserModel(
-      profilePic: fields[0] as String,
+      profilePicLocalPath: fields[0] as String,
       userName: fields[1] as String,
       email: fields[2] as String,
       contactNumber: fields[3] as String,
@@ -28,18 +29,18 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       stores: RxList<StoreModel>.from((fields[9] as List<dynamic>)
           .map((store) => StoreModel.fromMap(store))
           .toList()),
-      // (fields[9] as List).cast<StoreModel>(),
       country: fields[6] as String,
       createdAt: fields[10] as String,
+      profilePicRemotePath: fields[11] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserModel obj) {
     writer
-      ..writeByte(11)
+      ..writeByte(12)
       ..writeByte(0)
-      ..write(obj.profilePic)
+      ..write(obj.profilePicLocalPath)
       ..writeByte(1)
       ..write(obj.userName)
       ..writeByte(2)
@@ -59,7 +60,9 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       ..writeByte(9)
       ..write(obj.stores)
       ..writeByte(10)
-      ..write(obj.createdAt);
+      ..write(obj.createdAt)
+      ..writeByte(11)
+      ..write(obj.profilePicRemotePath);
   }
 
   @override

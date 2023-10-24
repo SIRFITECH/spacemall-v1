@@ -10,7 +10,7 @@ part 'user_model.g.dart';
 @HiveType(typeId: 3)
 class UserModel {
   @HiveField(0)
-  String profilePic;
+  String profilePicLocalPath;
   @HiveField(1)
   String userName;
   @HiveField(2)
@@ -31,9 +31,11 @@ class UserModel {
   RxList<StoreModel> stores;
   @HiveField(10)
   String createdAt;
+  @HiveField(11)
+  String profilePicRemotePath;
 
   UserModel({
-    required this.profilePic,
+    required this.profilePicLocalPath,
     required this.userName,
     required this.email,
     required this.contactNumber,
@@ -44,6 +46,7 @@ class UserModel {
     required this.stores,
     required this.country,
     required this.createdAt,
+    required this.profilePicRemotePath,
   });
 
   // populated from map, that is serializing the user object from server
@@ -52,7 +55,7 @@ class UserModel {
       cart: CartItemController.instance.convertCartItems(map['cart'] ?? []),
       stores:
           RxList(StoreController.instance.convertStores(map['stores'] ?? [])),
-      profilePic: map['profilePic'] ?? '',
+      profilePicLocalPath: map['profilePicLocalPath'] ?? '',
       userName: map['userName'] ?? '',
       email: map['email'] ?? '',
       contactNumber: map['contactNumber'] ?? '',
@@ -61,6 +64,7 @@ class UserModel {
       uid: map['uid'] ?? '',
       bio: map['bio'] ?? '',
       createdAt: map['createdAt'] ?? '',
+      profilePicRemotePath: map['profilePicLocalPath'] ?? '',
     );
   }
 
@@ -69,7 +73,7 @@ class UserModel {
     return {
       "cart": cart,
       'stores': stores,
-      "profilePic": profilePic,
+      "profilePicLocalPath": profilePicLocalPath,
       "userName": userName,
       "email": email,
       "contactNumber": contactNumber,
@@ -78,6 +82,7 @@ class UserModel {
       "uid": uid,
       "bio": bio,
       "createdAt": createdAt,
+      "profilePicRemotePath": profilePicRemotePath,
     };
   }
 }

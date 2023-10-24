@@ -1,5 +1,3 @@
-// import 'dart:math';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,12 +11,14 @@ import 'package:spacemall/src/features/auth/screens/login/login.dart';
 import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_screen.dart';
 import 'package:spacemall/src/features/auth/screens/welcome/welcome.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
-import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import '../../../core_app/profile/application/profile_controller.dart';
 import '../../../core_app/profile/screens/set_profile.dart';
 
 class AuthRepo extends GetxController {
+  /// I want to make this class testable
+  ///
+
   FirebaseAuth auth;
   UserModel user;
 
@@ -30,7 +30,7 @@ class AuthRepo extends GetxController {
     return await Future.value('success');
   }
 
-  // IMPPORTANTS ABOVE
+  // IMPORTANTS ABOVE
 
   Rx<User?> firebaseUser = Rx<User?>(null);
   var verificationId = ''.obs;
@@ -381,8 +381,7 @@ class AuthRepo extends GetxController {
           idToken: googleSignInAuthentication.idToken,
           accessToken: googleSignInAuthentication.accessToken,
         );
-        // print(
-        //     'THIS USER HAS THE ACCESS CODE OF ${googleSignInAuthentication.accessToken}');
+        print('THIS USER HAS A PROFILE PIC ${googleSignInAccount.photoUrl}');
         UserCredential userCredential =
             await auth.signInWithCredential(credential);
         _uid = userCredential.user?.uid ?? '';
@@ -583,15 +582,6 @@ class AuthRepo extends GetxController {
     return credentials.user != null ? true : false;
   }
 
-  // Future<void> resendOTP() async {
-  //   print('resending otp');
-  //     PhoneAuthCredential credential = PhoneAuthProvider.credential(
-  //       verificationId: verificationId, smsCode: smsCode);
-  //     OtpController.instance.isLoading.value = true;
-  //   await auth.signInWithCredential(credential);
-  //     OtpController.instance.isLoading.value =
-  //   false;
-  // }
   Future<bool> checkExistingUser() async {
     // DocumentSnapshot snapshot =
     //     await _firestore.collection('users').doc(_uid).get();
@@ -631,6 +621,7 @@ class AuthRepo extends GetxController {
   Future setSignedIn() async {
     final SharedPreferences access = await SharedPreferences.getInstance();
     access.setBool('user_signed_in', true);
+    access.setString('loginToken', AuthRepo.instance.uid);
     access.setString('uid', AuthRepo.instance.uid);
     _isUserSignedIn = true;
   }
@@ -639,8 +630,8 @@ class AuthRepo extends GetxController {
   Future setSignedOut() async {
     final SharedPreferences access = await SharedPreferences.getInstance();
     access.setBool('user_signed_in', false);
-    access.remove('uid');
-    ProfileRepo.instance.clearFeilds();
+    // access.remove('uid');
+    // ProfileRepo.instance.clearFeilds();
     _isUserSignedIn = false;
   }
 

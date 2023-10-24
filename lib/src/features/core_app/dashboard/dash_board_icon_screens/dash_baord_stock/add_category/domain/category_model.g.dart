@@ -21,7 +21,7 @@ class CategoryModelAdapter extends TypeAdapter<CategoryModel> {
       categoryId: fields[3] as String,
       items: RxList.from(fields[1] as List),
       // (fields[1] as List).cast<AddItemModel>(),
-      itemsInCategory: fields[2] as RxInt,
+      itemsInCategory: fields[2] as int,
     );
   }
 

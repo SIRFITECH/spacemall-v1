@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/domain/category_model.dart';
@@ -22,7 +20,7 @@ part 'store_model.g.dart';
 @HiveType(typeId: 4)
 class StoreModel {
   @HiveField(0)
-  File? logo;
+  String logoLocalPath;
   @HiveField(1)
   String storeName;
   @HiveField(2)
@@ -47,6 +45,8 @@ class StoreModel {
   String accountNumber;
   @HiveField(12)
   List<CategoryModel> categories;
+  @HiveField(13)
+  String logoRemotePath;
   // @HiveField(13)
   // bool storeStatus;
   // @HiveField(14)
@@ -54,7 +54,7 @@ class StoreModel {
 
   // store constructor
   StoreModel({
-    required this.logo,
+    required this.logoLocalPath,
     required this.storeName,
     required this.bankName,
     required this.accountNumber,
@@ -67,6 +67,7 @@ class StoreModel {
     required this.customer,
     required this.storeId,
     required this.categories,
+    required this.logoRemotePath,
     // required this.storeStatus
     // required this.lowStock
   });
@@ -75,12 +76,12 @@ class StoreModel {
 
   factory StoreModel.fromMap(Map<String, dynamic> map) {
     return StoreModel(
-      logo: null,
-      storeName: '',
-      bankName: '',
-      contact: '',
-      accountNumber: '',
-      storeId: '',
+      logoLocalPath: map['logoLocalPath'] ?? '',
+      storeName: map['storeName'] ?? '',
+      bankName: map['bankName'] ?? '',
+      contact: map['contact'] ?? '',
+      accountNumber: map['accountNumber'] ?? '',
+      storeId: map['storeId'] ?? '',
       categories:
           StoreController.instance.convertCategories(map['categories'] ?? []),
       stock: RxList(
@@ -93,13 +94,14 @@ class StoreModel {
       sales: SalesController.instance.convertSales(map['sales'] ?? []),
       customer:
           CustomersController.instance.convertCustomers(map['customer'] ?? []),
+      logoRemotePath: map['logoRemotePath'] ?? '',
     );
   }
 
   // populated to map, that is serializing the store object to string for server use
   Map<String, dynamic> toMap() {
     return {
-      "logo": logo,
+      "logoLocalPath": logoLocalPath,
       " storeName": storeName,
       "bankName": bankName,
       "contact": contact,
@@ -111,7 +113,8 @@ class StoreModel {
       "sales": sales,
       "customer": customer,
       "storeId": storeId,
-      "categories": categories
+      "categories": categories,
+      "logoRemotePath": logoRemotePath,
     };
   }
 }

@@ -10,10 +10,8 @@ import 'package:spacemall/src/features/core_app/check_out/screens/preview_receip
 import 'package:uuid/uuid.dart';
 
 import '../../../../repository/hive_boxes.dart';
-import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipt_pdf.dart';
-import '../../store/application/store_controller.dart';
 import '../domain/check_out_item_model.dart';
 import '../screens/widgets/receipt_build_widget.dart';
 
@@ -25,13 +23,6 @@ class CheckOutRepo extends GetxController {
   String itemId = const Uuid().v4();
 
   var count = 0.obs;
-
-  void increamentCount() {
-    count.value++;
-    StoreController.instance.setNoStore();
-    AddItemRepo.instance.setStockList();
-    // print('Stock list is ${AddItemRepo.instance.stockList}');
-  }
 
   // get stores
   List<CartItemModel> getCheckOutCartFromBox() {

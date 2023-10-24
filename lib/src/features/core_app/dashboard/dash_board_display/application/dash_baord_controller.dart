@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-// import 'package:spacemall/src/features/core_app/check_out/data/check_out_repo.dart';
-// import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
-// import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
-// import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/application/stock_controller.dart';
-// import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
-// import 'package:spacemall/src/utils/helpers/helper.dart';
+import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
+import 'package:spacemall/src/features/core_app/store/data/store_service.dart';
 
-// import '../../../store/application/store_controller.dart';
-// import 'package:showcaseview/showcaseview.dart';
-// import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
-
-// import '../../../../../utils/helpers/global_keys.dart';
+import '../../../../../repository/services/network_connectivity/network_connectivity.dart';
 
 class DashBoardController extends GetxController {
   static DashBoardController get instance => Get.find();
@@ -24,9 +16,9 @@ class DashBoardController extends GetxController {
   void onInit() {
     super.onInit();
     // ever(
-    //     CheckOutRepo.instance.count,
-    //     (callback) => print(
-    //         'Testing the count in checkout repo is ${CheckOutRepo.instance.count}'));
+    //     isDeviceConnected,
+    //     (callback) =>
+    //         print('Testing the isDeviceConnected $isDeviceConnected'));
     // ever(
     //   StoreController.instance.noStoreYet,
     //   (callback) => print(
@@ -40,8 +32,34 @@ class DashBoardController extends GetxController {
     //     AddItemRepo.instance.stockList,
     //     (callback) => print(
     //         'Stock list has changed to ${AddItemRepo.instance.stockList}'));
+
+    StoreController.instance.setNoStoreYet = true.obs;
+    StoreService().addNewStoreToFirebase();
+
+    print(
+        'Connection to internet is ${NetworkConnectivity().deviceHasInternet()}');
+    print('the value of noStoreYet ${StoreController.instance.noStoreYet}');
     print('Dashbaord init controller');
   }
+
+  // Future<void> getConnectivity() async {
+  //   subscription = Connectivity().onConnectivityChanged.listen((event) async {
+  //     final hasConnection = await InternetConnectionChecker().hasConnection;
+  //     isDeviceConnected.value = hasConnection;
+
+  //     if (!hasConnection && !isAlertOpen) {
+  //       Get.snackbar('Network error', 'You are working offline',
+  //           colorText: kBlackDark, backgroundColor: Colors.grey[400]);
+  //       print('INTERNET NOT CONNECTED');
+  //       isAlertOpen = true;
+  //     } else if (hasConnection) {
+  //       Get.snackbar('Network alert', 'Welcome back online',
+  //           colorText: kBlackDark, backgroundColor: Colors.grey[400]);
+  //       print('INTERNET CONNECTED');
+  //       isAlertOpen = false;
+  //     }
+  //   });
+  // }
 
   RxString todaySales = ''.obs;
   DateTime selectedDate = DateTime.now();

@@ -15,7 +15,7 @@ class CartController extends GetxController {
 
   void addItemToCart(CartItemModel newCartItem) {
     UserModel user = UserModel(
-      profilePic: '',
+      profilePicLocalPath: '',
       userName: '',
       email: '',
       contactNumber: '',
@@ -26,6 +26,7 @@ class CartController extends GetxController {
       cart: <CartItemModel>[],
       stores: RxList<StoreModel>([]),
       createdAt: '',
+      profilePicRemotePath: '',
     );
 
     user.cart.add(newCartItem);
