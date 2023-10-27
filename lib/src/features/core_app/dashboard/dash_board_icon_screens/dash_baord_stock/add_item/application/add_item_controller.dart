@@ -12,9 +12,15 @@ import '../../../../../../../constants/text_strings.dart';
 import '../../../../../store/domain/store_model.dart';
 import '../../add_category/application/add_category_controller.dart';
 import '../../add_category/domain/category_model.dart';
-// import '../../add_category/screens/add_category_screen.dart';
 
 class AddItemController extends GetxController {
+  // The purpose of this class is to hold and manipulate the addItem state
+  // its functions are:
+  // 1. Hold addItem variables
+  // 2. Deliver addItem variable manipulation
+  // 3. Arrange addItem data for saving to the db
+  // 4. act as the only public interface to addItem component
+
   static AddItemController get instance => Get.put(
         AddItemController(),
       );

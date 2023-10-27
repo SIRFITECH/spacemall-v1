@@ -67,7 +67,7 @@ class StoreRepo extends GetxController {
             );
           });
         } catch (e) {
-          print(e.toString());
+          debugPrint(e.toString());
 
           spaceMallSnackBar(
             'Error',

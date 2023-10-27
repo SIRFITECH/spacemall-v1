@@ -30,10 +30,9 @@ class CheckOutController extends GetxController {
       );
 
   final cartItemController = Get.put(CartItemController());
-
   final checkOutRepo = Get.put(CheckOutRepo());
-
   final profileConrtoller = Get.put(ProfileController());
+  final receiptsController = Get.put(ReceiptsController());
 
   int indexValue = 0;
 
@@ -96,13 +95,13 @@ class CheckOutController extends GetxController {
   }
 
   void completeSale(String paymentMood) async {
-    AddReceiptsRepo.instance.paymentMood = paymentMood;
+    ReceiptsRepo.instance.paymentMood = paymentMood;
     ReceiptsController.instance.cartTotal.value =
         totalCartTotal.value.toString();
 
     cartItems.isNotEmpty
         ? (
-            AddReceiptsRepo.instance.saveReceiptData().then((value) {
+            ReceiptsRepo.instance.saveReceipt().then((value) {
               setSale(totalCartTotal.value.toString());
               updateItemQuantities();
               updateCartState();
@@ -110,7 +109,7 @@ class CheckOutController extends GetxController {
             }).then(
               (value) {
                 SalesController.instance.addNewSales();
-                AddReceiptsRepo.instance.paymentMood = '';
+                ReceiptsRepo.instance.paymentMood = '';
                 clearCart();
               },
             ),
@@ -640,7 +639,10 @@ class CheckOutController extends GetxController {
     }
   }
 
-  Future<void> checkOut() async {
+// Used to initiate the checkout sequence from the checkOut  screen,
+// first step is in the confirm payment screen
+
+  Future<void> moveToConfirmPayment() async {
     setCartTransactionData();
     Get.to(() => const ConfirmPayment());
   }

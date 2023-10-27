@@ -54,7 +54,7 @@ class StoreController extends GetxController {
   RxList<ReceiptsModel> receipts = <ReceiptsModel>[].obs;
   RxList<DebtsModel> debts = <DebtsModel>[].obs;
   RxList<StaffModel> staff = <StaffModel>[].obs;
-  RxList<SalesModel> sales = <SalesModel>[].obs;
+  RxList<ReceiptsModel> sales = <ReceiptsModel>[].obs;
   RxList<CustomerModel> customers = <CustomerModel>[].obs;
   final String uid = '';
   final TextEditingController storeName = TextEditingController();

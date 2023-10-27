@@ -381,7 +381,7 @@ class ConfirmPayment extends StatelessWidget {
               padding: EdgeInsets.all(screenSize.height * 0.05),
               child: ElevatedButton(
                 onPressed: () {
-                  // print('Payment pressed');
+                 
                   checkOutController.showMoodOfPayment(
                     context,
                     screenSize,
@@ -389,14 +389,7 @@ class ConfirmPayment extends StatelessWidget {
                     checkOutController.indexValue,
                   );
                 },
-                // onPressed: () {
-                //   cartItemController.showMoodOfPayment(
-                //     context,
-                //     screenSize,
-                //     isDarkMood,
-                //     cartItemController.indexValue,
-                //   );
-                // },
+               
                 child: const Text(
                   kConfirmPaymentText,
                   style: TextStyle(fontSize: 15, color: kWhiteLight),

@@ -5,7 +5,15 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import '../../../../../../repository/hive_boxes.dart';
 
 class ReceiptsController extends GetxController {
+  // The purpose of this class is to hold and manipulate the receipt state
+  // its functions are:
+  // 1. Hold receipt variables
+  // 2. Deliver receipt variable manipulation
+  // 3. Arrange receipt data for saving to the db
+  // 4. act as the only public interface to receipt component
+
   static ReceiptsController get instance => Get.put(ReceiptsController());
+  // final receiptRepo = Get.find();
 
   RxString cartTotal = '0'.obs;
   RxList<ReceiptsModel> receipts = <ReceiptsModel>[].obs;
@@ -17,7 +25,7 @@ class ReceiptsController extends GetxController {
   RxString toSelectedDate = ''.obs;
 
   RxInt receiptNo = 0000001.obs;
-  RxBool receiptStatus = false.obs; // false = unsuccessful, true = successful
+  RxBool receiptStatus = false.obs;
 
   List<ReceiptsModel> convertReceipts(List receiptsFromDb) {
     List<ReceiptsModel> result = [];

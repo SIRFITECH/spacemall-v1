@@ -63,7 +63,7 @@ void main() async {
   storeBox = await Hive.openBox<StoreModel>('store'); // typeId: 4
   receiptsBox = await Hive.openBox<CategoryModel>('category'); // typeId: 5
   customersBox = await Hive.openBox<CustomerModel>('customers'); // typeId: 8
-  salesBox = await Hive.openBox<SalesModel>('sales'); // typeId: 11
+  salesBox = await Hive.openBox<ReceiptsModel>('sales'); // typeId: 11
   debtsBox = await Hive.openBox<CustomerModel>('debts'); // typeId: 8
   cartBox = await Hive.openBox<CartItemModel>('cart'); // typeId: 9
   appBox = await Hive.openBox('spacemall');

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/data/repositoies/remote_db_interface/receipt_remote_db_adapter.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
 
 import '../../../constants/colors.dart';
 import '../../../features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
@@ -35,8 +35,8 @@ class ReceiptFirebaseServices extends ReceiptRemoteDataBaseAdapter {
   );
 
   @override
-  Future<void> saveNewSaleToDB(
-      {required SalesModel newSale, required Function onSucess}) async {
+  Future<void> saveNewReceiptToDB(
+      {required ReceiptsModel newReceipt, required Function onSucess}) async {
     // _addCategoryController.isLoading.value = true;
 
     try {
@@ -50,19 +50,17 @@ class ReceiptFirebaseServices extends ReceiptRemoteDataBaseAdapter {
 
       final currentUserStoresMap =
           currentUserStores.data() as Map<String, dynamic>;
-      // currentUserStoresMap['receipts'];
 
       List<dynamic> currentReceipts = currentUserStoresMap['receipts'];
 
-      currentReceipts.add(newSale.toMap());
-      print(currentReceipts);
+      currentReceipts.add(newReceipt.toMap());
 
-      // await _fireStore
-      //     .collection('stores')
-      //     .doc(_store.storeId)
-      //     .update({'receipts': currentReceipts}).then(
-      //   (value) => onSucess(),
-      // );
+      await _fireStore
+          .collection('stores')
+          .doc(_store.storeId)
+          .update({'receipts': currentReceipts}).then(
+        (value) => onSucess(),
+      );
 
       // _addCategoryController.isLoading.value = false;
     } catch (e) {

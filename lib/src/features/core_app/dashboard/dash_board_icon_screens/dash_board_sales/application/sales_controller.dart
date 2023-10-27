@@ -7,13 +7,13 @@ import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/application/dash_baord_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/application/receipts_controller.dart';
 
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_model.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../../../constants/colors.dart';
 import '../../../../../../repository/hive_boxes.dart';
 import '../../../../store/domain/store_model.dart';
 import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
+import '../domain/sales_model.dart';
 
 class SalesController extends GetxController {
   static SalesController get instance => Get.find();

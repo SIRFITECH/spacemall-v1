@@ -98,7 +98,7 @@ class CheckOut extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
-                  checkOutController.checkOut();
+                  checkOutController.moveToConfirmPayment();
                 },
                 child: const Text(kCheckOutText),
               ),
