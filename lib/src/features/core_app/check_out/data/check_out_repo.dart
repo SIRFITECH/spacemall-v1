@@ -10,7 +10,7 @@ import 'package:spacemall/src/features/core_app/check_out/screens/preview_receip
 import 'package:uuid/uuid.dart';
 
 import '../../../../repository/hive_boxes.dart';
-import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
+import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/receipts_controller.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipt_pdf.dart';
 import '../domain/check_out_item_model.dart';
 import '../screens/widgets/receipt_build_widget.dart';
@@ -86,4 +86,8 @@ class CheckOutRepo extends GetxController {
 
     return file;
   }
+
+
+
+
 }

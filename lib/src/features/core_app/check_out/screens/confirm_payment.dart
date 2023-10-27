@@ -13,6 +13,7 @@ import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/localizations/currency.dart';
 
 import '../../../../common_widgets/common_widgets.dart';
+import '../application/check_out_controller.dart';
 
 class ConfirmPayment extends StatelessWidget {
   const ConfirmPayment({super.key});
@@ -25,6 +26,7 @@ class ConfirmPayment extends StatelessWidget {
     final screenSize = media.size;
 
     final CartItemController cartItemController = Get.find();
+    final CheckOutController checkOutController = Get.find();
     cartItemController.onInit();
 
     return Scaffold(
@@ -59,8 +61,8 @@ class ConfirmPayment extends StatelessWidget {
                       : kLightModeBackgroundColor.withOpacity(0.1),
                   height: screenSize.height * 0.5,
                   child: Obx(() {
-                    if (cartItemController.isFirstTime.value &&
-                        cartItemController.cartItems.isNotEmpty) {
+                    if (checkOutController.isFirstTime.value &&
+                        checkOutController.cartItems.isNotEmpty) {
                       WidgetsBinding.instance.addPostFrameCallback((_) {
                         Get.defaultDialog(
                           backgroundColor: !isDarkMood
@@ -85,32 +87,32 @@ class ConfirmPayment extends StatelessWidget {
                         );
                       });
 
-                      cartItemController.isFirstTime.value = false;
+                      checkOutController.isFirstTime.value = false;
                     }
 
                     return ListView.builder(
-                      itemCount: cartItemController.cartItems.length,
+                      itemCount: checkOutController.cartItems.length,
                       itemBuilder: (context, index) {
-                        var stockList = cartItemController.cartItems[index];
-                        cartItemController.indexValue = index;
+                        var stockList = checkOutController.cartItems[index];
+                        checkOutController.indexValue = index;
 
                         return SizedBox(
                           height: screenSize.height * 0.07,
                           child: Column(
                             children: [
-                              if (index < cartItemController.cartItems.length)
+                              if (index < checkOutController.cartItems.length)
                                 GestureDetector(
                                   onHorizontalDragStart:
                                       (DragStartDetails details) {
-                                    cartItemController
+                                    checkOutController
                                         .decreaseItemQuantityInCart(index);
                                   },
                                   onTap: () {
-                                    cartItemController
+                                    checkOutController
                                         .increaseItemQuantityInCart(index);
                                   },
                                   onLongPress: () {
-                                    cartItemController
+                                    checkOutController
                                         .removeItemFromCart(index);
                                   },
                                   child: SizedBox(
@@ -145,7 +147,7 @@ class ConfirmPayment extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  cartItemController
+                                                  checkOutController
                                                       .cartItems[index]
                                                       .itemName,
                                                 ),
@@ -218,7 +220,7 @@ class ConfirmPayment extends StatelessWidget {
                                 ),
                                 Text(
                                   nairaFormat.format(
-                                    cartItemController.totalCartSubTotal.value,
+                                    checkOutController.totalCartSubTotal.value,
                                   ),
                                   style: const TextStyle(
                                     fontSize: 20,
@@ -254,7 +256,7 @@ class ConfirmPayment extends StatelessWidget {
                                 ),
                                 Text(
                                   nairaFormat.format(
-                                    cartItemController.totalCartDiscount.value,
+                                    checkOutController.totalCartDiscount.value,
                                   ),
                                   style: const TextStyle(
                                     fontSize: 20,
@@ -288,7 +290,7 @@ class ConfirmPayment extends StatelessWidget {
                                     )),
                                 Text(
                                   nairaFormat.format(
-                                    cartItemController.totalCartTax.value,
+                                    checkOutController.totalCartTax.value,
                                   ),
                                   style: const TextStyle(
                                     fontSize: 20,
@@ -328,7 +330,7 @@ class ConfirmPayment extends StatelessWidget {
                                     )),
                                 Text(
                                   nairaFormat.format(
-                                    cartItemController.totalCartTotal.value,
+                                    checkOutController.totalCartTotal.value,
                                   ),
                                   style: const TextStyle(
                                     fontSize: 20,
@@ -380,11 +382,11 @@ class ConfirmPayment extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   // print('Payment pressed');
-                  cartItemController.showMoodOfPayment(
+                  checkOutController.showMoodOfPayment(
                     context,
                     screenSize,
                     isDarkMood,
-                    cartItemController.indexValue,
+                    checkOutController.indexValue,
                   );
                 },
                 // onPressed: () {

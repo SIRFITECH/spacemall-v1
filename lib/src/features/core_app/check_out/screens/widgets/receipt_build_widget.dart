@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:spacemall/src/features/core_app/check_out/application/cart_item_controller.dart';
+import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/localizations/currency.dart';
@@ -149,7 +149,7 @@ Widget buildTitle(ReceiptPDFModel receipt) => Column(
 // build a body line
 Widget buildBody(ReceiptPDFModel receipt) {
   List<List<String>> bodyList =
-      mapCartItemsToStringList(CartItemController.instance.cartItems);
+      mapCartItemsToStringList(CheckOutController.instance.cartItems);
 
   TableRow headers = createHeaderRow(
     [
@@ -188,7 +188,7 @@ Widget buildTotal(ReceiptPDFModel receipt) => Container(
                   title: 'Subtotal',
                   value: nairaFormat.format(
                     double.parse(
-                      CartItemController.instance.totalCartSubTotal.value
+                      CheckOutController.instance.totalCartSubTotal.value
                           .toString(),
                     ),
                   ),
@@ -198,7 +198,7 @@ Widget buildTotal(ReceiptPDFModel receipt) => Container(
                   title: 'Discount',
                   value: nairaFormat.format(
                     double.parse(
-                      CartItemController.instance.totalCartDiscount.value
+                      CheckOutController.instance.totalCartDiscount.value
                           .toString(),
                     ),
                   ),
@@ -208,7 +208,7 @@ Widget buildTotal(ReceiptPDFModel receipt) => Container(
                   title: 'Tax',
                   value: nairaFormat.format(
                     double.parse(
-                      CartItemController.instance.totalCartTax.value.toString(),
+                      CheckOutController.instance.totalCartTax.value.toString(),
                     ),
                   ),
                   unit: true,
@@ -218,7 +218,7 @@ Widget buildTotal(ReceiptPDFModel receipt) => Container(
                   title: 'Total',
                   value: nairaFormat.format(
                     double.parse(
-                      CartItemController.instance.totalCartTotal.value
+                      CheckOutController.instance.totalCartTotal.value
                           .toString(),
                     ),
                   ),
@@ -282,7 +282,7 @@ Widget buildHeader(ReceiptPDFModel receipt) => Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildCustomer(customerName: 'customerName', contact: 'contact'),
-            buildReceiptInfo(receipt, CartItemController.instance.indexValue),
+            buildReceiptInfo(receipt, CheckOutController.instance.indexValue),
           ],
         )
       ],

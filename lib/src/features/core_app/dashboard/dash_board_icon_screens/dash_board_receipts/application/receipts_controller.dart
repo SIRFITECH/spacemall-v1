@@ -47,19 +47,6 @@ class ReceiptsController extends GetxController {
     }
   }
 
-  // void showCalendarAndSetFromDate(BuildContext context) async {
-  //   DateTime? pickedDate = await showDatePicker(
-  //     context: context,
-  //     initialDate: DateTime.now(),
-  //     firstDate: DateTime(2022, 1, 1),
-  //     lastDate: DateTime(2023, 12, 31),
-  //   );
-
-  //   if (pickedDate != null) {
-  //     fromDate.value = pickedDate;
-  //   }
-  // }
-
   // get stores
   List<ReceiptsModel> getStoresFromBox() {
     List<ReceiptsModel> receipts = [];

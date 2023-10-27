@@ -8,7 +8,7 @@ import 'package:spacemall/src/features/core_app/dashboard/nav_bar/application/na
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/screens/bttom_bar_icon_widget.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
 
-import '../../dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
+import '../../dash_board_icon_screens/dash_board_receipts/application/receipts_controller.dart';
 import '../../dash_board_icon_screens/dash_board_receipts/data/receipts_repo.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -23,15 +23,15 @@ class BottomNavBar extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = MediaQuery.of(context).size;
 
-    Get.put(
-      ReceiptsController(),
-    );
-    Get.put(
-      CartItemController(),
-    );
-    Get.put(
-      AddReceiptsRepo(),
-    );
+    // Get.put(
+    //   ReceiptsController(),
+    // );
+    // Get.put(
+    //   CartItemController(),
+    // );
+    // Get.put(
+    //   AddReceiptsRepo(),
+    // );
 
     return BottomAppBar(
       color: isDarkMood ? kDarkModeBackgroundColor : kLightModeBackgroundColor,

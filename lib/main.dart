@@ -58,7 +58,6 @@ void main() async {
   Hive.registerAdapter(SalesModelAdapter()); // typeId = 11
   Hive.registerAdapter(CartItemModelAdapter()); // typeId = 9
 
-
   receiptsBox = await Hive.openBox<ReceiptsModel>('receipt'); // typeId: 2
   userBox = await Hive.openBox<UserModel>('user'); // typeId: 3
   storeBox = await Hive.openBox<StoreModel>('store'); // typeId: 4

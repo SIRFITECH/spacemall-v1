@@ -5,6 +5,8 @@ import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 
+import '../../check_out/application/check_out_controller.dart';
+
 part 'user_model.g.dart';
 
 @HiveType(typeId: 3)
@@ -52,7 +54,7 @@ class UserModel {
   // populated from map, that is serializing the user object from server
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      cart: CartItemController.instance.convertCartItems(map['cart'] ?? []),
+      cart: CheckOutController.instance.convertCartItems(map['cart'] ?? []),
       stores:
           RxList(StoreController.instance.convertStores(map['stores'] ?? [])),
       profilePicLocalPath: map['profilePicLocalPath'] ?? '',

@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:spacemall/src/features/core_app/check_out/application/cart_item_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
 import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
@@ -8,10 +7,11 @@ import 'package:uuid/uuid.dart';
 
 import '../../../../../../constants/colors.dart';
 
+import '../../../../check_out/application/check_out_controller.dart';
 import '../../../../profile/domain/user_model.dart';
 import '../../../../store/domain/store_model.dart';
 import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
-import '../application/reciepts_controller.dart';
+import '../application/receipts_controller.dart';
 
 class AddReceiptsRepo extends GetxController {
   static AddReceiptsRepo get instance => Get.find();
@@ -24,16 +24,14 @@ class AddReceiptsRepo extends GetxController {
   Future saveReceiptData() async {
     UserModel? user;
     // ignore: unnecessary_null_comparison
-    if (CartItemController.instance.userModel == null) {
-      user = CartItemController.instance.userModel;
+    if (CheckOutController.instance.userModel == null) {
+      user = CheckOutController.instance.userModel;
     } else {
       user = await ProfileController.instance.getUserDataFromHive();
     }
 
     int receiptNo = ReceiptsController.instance.receiptNo.value++;
     String staffNumber = '0123456789';
-    // List<CartItemModel> cartItemsList =
-    //     CartItemController.instance.cartItems.toList();
 
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
@@ -54,7 +52,7 @@ class AddReceiptsRepo extends GetxController {
         categories: [],
       ),
     );
-    // print(user.cart.length);
+
     // create a new receipt
     ReceiptsModel newReceipt = ReceiptsModel(
       logo: null,
@@ -66,7 +64,7 @@ class AddReceiptsRepo extends GetxController {
       attendant: user.userName,
       receiptId: const Uuid().v4(),
       cartId: '',
-      itemsInCart: CartItemController.instance.cartItems.length.toString(),
+      itemsInCart: CheckOutController.instance.cartItems.length.toString(),
       cart: [
         CartItemModel(
           itemId: 'itemId',
@@ -120,7 +118,7 @@ class AddReceiptsRepo extends GetxController {
   StoreModel store = storeBox.get(
     AddItemRepo.instance.currentStore.value,
     defaultValue: StoreModel(
-        logoLocalPath: '',
+      logoLocalPath: '',
       logoRemotePath: '',
       storeName: '',
       bankName: '',

@@ -33,7 +33,7 @@ class Stock extends StatelessWidget {
 
     final StoreController storeController = Get.find();
 
-    final StoreModel _store = storeBox.get(
+    final StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
         logoLocalPath: '',
@@ -53,8 +53,8 @@ class Stock extends StatelessWidget {
       ),
     );
 
-    List<AddItemModel> stocks = _store.stock.toList();
-    // print(_store.stock.toList().first.itemName);
+    List<AddItemModel> stocks = store.stock.toList();
+    // print(store.stock.toList().first.itemName);
     // print(AddItemRepo.instance.currentStore.value);
 
     return Scaffold(

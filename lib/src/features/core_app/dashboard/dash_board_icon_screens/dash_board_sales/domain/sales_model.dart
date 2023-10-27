@@ -6,15 +6,20 @@ part 'sales_model.g.dart';
 @HiveType(typeId: 11)
 class SalesModel {
   @HiveField(0)
-  String saleId;
+  String saleId; //Unique identifier for the receipt
   @HiveField(1)
   String attendant;
   @HiveField(2)
   DateTime date;
   @HiveField(3)
-  CartItemModel cart;
+  CartItemModel cart; // List of items purchased, each item may have product details (e.g., name, price, quantity)
   @HiveField(4)
   String customerName;
+  String userId = '';// Identifier for the user making the purchase
+  String storeId = '';  // Identifier for the business owner
+  String paymentMethod = '';  // Payment method used (e.g., credit card, PayPal)
+  String Total  =''; // amount of the receipt
+
 
   SalesModel({
     required this.saleId,

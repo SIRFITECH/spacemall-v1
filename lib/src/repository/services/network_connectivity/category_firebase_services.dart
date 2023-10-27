@@ -51,7 +51,7 @@ class CategoryFirebaseServices extends CategoryRemoteDataBaseAdapter {
 
       final currentUserStoresMap =
           currentUserStores.data() as Map<String, dynamic>;
-      currentUserStoresMap['categories'];
+      // currentUserStoresMap['categories'];
 
       List<dynamic> currentCategory = currentUserStoresMap['categories'];
 

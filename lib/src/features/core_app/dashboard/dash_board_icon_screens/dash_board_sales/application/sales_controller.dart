@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/application/dash_baord_controller.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/application/reciepts_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/application/receipts_controller.dart';
 
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_model.dart';
 import 'package:uuid/uuid.dart';
@@ -116,7 +116,7 @@ class SalesController extends GetxController {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-         logoLocalPath: '',
+        logoLocalPath: '',
         logoRemotePath: '',
         storeName: '',
         bankName: '',
@@ -161,6 +161,13 @@ class SalesController extends GetxController {
     amount.text = newSale.cart.totalItemPrice;
     dueDate.text = DateFormat('d MMM, yyyy').format(newSale.date);
     dueTime.text = DateFormat('hh:mm:ss a').format(newSale.date);
+
+    // ReceiptFirebaseServices().saveNewSaleToDB(
+    //     newSale: newSale,
+    //     onSucess: () {
+    //       print(
+    //           'Receipt added to Firebase inside addNewSales in SalesController');
+    //     });
   }
 
 // get sales for a given date
@@ -169,7 +176,7 @@ class SalesController extends GetxController {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-     logoLocalPath: '',
+        logoLocalPath: '',
         logoRemotePath: '',
         storeName: '',
         bankName: '',
