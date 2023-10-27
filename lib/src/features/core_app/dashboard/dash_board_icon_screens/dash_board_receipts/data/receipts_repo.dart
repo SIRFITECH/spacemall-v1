@@ -14,9 +14,9 @@ import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
 import '../application/receipts_controller.dart';
 
 class AddReceiptsRepo extends GetxController {
-  static AddReceiptsRepo get instance => Get.find();
+  static AddReceiptsRepo get instance => Get.put(AddReceiptsRepo());
   final AddItemRepo addItemRepo = Get.put(AddItemRepo());
-  final ReceiptsController receiptsController = Get.find();
+  final ReceiptsController receiptsController = Get.put(ReceiptsController());
   String paymentMood = '';
 
   ///PHONE OPERATIONS

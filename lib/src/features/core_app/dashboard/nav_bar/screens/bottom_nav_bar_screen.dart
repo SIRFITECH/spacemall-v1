@@ -3,13 +3,9 @@ import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
-import 'package:spacemall/src/features/core_app/check_out/application/cart_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/application/nav_bar_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/screens/bttom_bar_icon_widget.dart';
 import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
-
-import '../../dash_board_icon_screens/dash_board_receipts/application/receipts_controller.dart';
-import '../../dash_board_icon_screens/dash_board_receipts/data/receipts_repo.dart';
 
 class BottomNavBar extends StatelessWidget {
   BottomNavBar({super.key});

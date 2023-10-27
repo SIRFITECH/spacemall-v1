@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:spacemall/src/features/core_app/check_out/application/cart_item_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
