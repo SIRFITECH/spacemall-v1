@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:spacemall/data/repositoies/local_db_inteface/store_local_db_adapter.dart';
@@ -25,7 +26,7 @@ class StorePhoneServices extends StoreLocalDataBaseAdapter {
 
       _storeController.stores.add(newStore);
     } catch (e) {
-      print(
+      debugPrint(
           'Error occured in the saveStoreDataToDevice() in StorePhoneServices ${e.toString()}');
       spaceMallSnackBar(
           'Error creating ${_storeController.storeName.text.trim()} store',
@@ -33,8 +34,5 @@ class StorePhoneServices extends StoreLocalDataBaseAdapter {
           kWhiteLight,
           kRedColor);
     }
-
-    print(
-        'from the saveStoreDataToDevice() in StorePhoneServices, process completed');
   }
 }

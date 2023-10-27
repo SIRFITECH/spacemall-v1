@@ -95,12 +95,8 @@ class UserPhoneServices extends UserLocalDataBaseAdapter {
   ImageProvider<Object> chooseImageProvider(
       bool isConnected, String localImagePath, String networkImageUrl) {
     if (isConnected) {
-      print(
-          'from the chooseImageProvider(), networkImageUrl is $networkImageUrl');
       return NetworkImage(networkImageUrl);
     } else {
-      print(
-          'from the chooseImageProvider(), localImagePath is $localImagePath');
       return FileImage(File(localImagePath));
     }
   }

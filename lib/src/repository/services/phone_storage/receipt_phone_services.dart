@@ -57,8 +57,6 @@ class ReceiptPhoneService extends ReceiptLocalDataBaseAdapter {
         backgroundColor: kWhiteLight,
         colorText: kBlack,
       );
-
-      print('Saved to phone!!');
     } catch (e) {
       debugPrint(
           'Error ${e.toString()} occured in saveReceiptToDevice() inside ReceiptPhoneService while adding receipt');

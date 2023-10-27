@@ -81,7 +81,6 @@ class AddItemRepo extends GetxController {
         stockItem: newItem,
         onSucess: () {
           StockPhoneServices().saveStockItemToDevice(newItem);
-          print('Add item to firebase successful!!');
         },
       );
     } catch (e) {

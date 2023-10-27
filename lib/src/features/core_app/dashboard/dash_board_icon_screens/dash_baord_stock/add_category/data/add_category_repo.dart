@@ -30,7 +30,7 @@ class AddCategoryRepo extends GetxController {
         )
             .then((value) {
           Get.to(() => Stock());
-          // category.feild = '';
+
           spaceMallSnackBar(
             'Success!!',
             'You have added  ${newCategory.categoryName.toUpperCase()} to your store',
@@ -39,7 +39,7 @@ class AddCategoryRepo extends GetxController {
           );
         });
       } catch (e) {
-        print(e.toString());
+        debugPrint('error adding category ${e.toString()}');
       }
     } else {
       spaceMallSnackBar(

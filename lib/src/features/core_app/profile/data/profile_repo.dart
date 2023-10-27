@@ -98,7 +98,7 @@ class ProfileRepo extends GetxController {
             );
           }
         } catch (e) {
-          print(e.toString());
+          debugPrint('There is error adding user: ${e.toString()}');
         }
       } else {
         Get.snackbar('Profile photo needed', 'You have to add a profile photo',
@@ -111,13 +111,6 @@ class ProfileRepo extends GetxController {
           kWhiteDark,
           kRedColor);
     }
-  }
-
-  void _clearFeilds() {
-    _profileController.profilePic.value = null;
-    _profileController.tUserName.clear();
-    _profileController.tEmail.clear();
-    _profileController.tBio.clear();
   }
 
 // fetch saved data from phone storage

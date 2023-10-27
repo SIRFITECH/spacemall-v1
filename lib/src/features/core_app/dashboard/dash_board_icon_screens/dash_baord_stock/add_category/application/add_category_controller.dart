@@ -18,7 +18,7 @@ class AddCategoryController extends GetxController {
   final AddCategoryRepo _addCategoryRepo = Get.put(AddCategoryRepo());
 
   late StoreController storeController;
-  RxBool _isLoading = false.obs;
+  RxBool isLoading = false.obs;
 
   final TextEditingController categoryName = TextEditingController();
 
@@ -93,11 +93,5 @@ class AddCategoryController extends GetxController {
     // }
     categoryList.addAll(store.categories);
     return categoryList;
-  }
-
-  RxBool get isLoading => _isLoading;
-
-  set isLoading(RxBool value) {
-    _isLoading = value;
   }
 }

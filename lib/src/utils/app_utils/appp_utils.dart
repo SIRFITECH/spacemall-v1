@@ -49,7 +49,7 @@ Future<Uint8List> fileToUint8List(File file) async {
     final Uint8List uint8list = await file.readAsBytes();
     return uint8list;
   } catch (e) {
-    print('Error converting File to Uint8List: $e');
+    debugPrint('Error converting File to Uint8List: $e');
     return Uint8List(0);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:http/http.dart' as http;
@@ -33,7 +34,7 @@ class NetworkConnectivity {
       final response = await http.get(Uri.parse("https://www.google.com"));
       return response.statusCode == 200;
     } catch (e) {
-      print('From the connection check method ${e.toString()}');
+      debugPrint('From the connection check method: ${e.toString()}');
       return false;
     }
   }

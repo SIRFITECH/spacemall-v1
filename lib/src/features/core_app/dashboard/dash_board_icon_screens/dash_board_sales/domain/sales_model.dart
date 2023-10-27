@@ -19,7 +19,7 @@ class SalesModel {
   String userId = ''; // Identifier for the user making the purchase
   String storeId = ''; // Identifier for the business owner
   String paymentMethod = ''; // Payment method used (e.g., credit card, PayPal)
-  String Total = ''; // amount of the receipt
+
 
   SalesModel({
     required this.saleId,

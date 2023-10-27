@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/data/repositoies/local_db_inteface/category_local_db_adapter.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
@@ -48,7 +49,7 @@ class CategoryPhoneServices extends CategoryLocalDataBaseAdapter {
         kWhiteLight,
       );
     } catch (e) {
-      print(
+      debugPrint(
           'error in the saveCategoryToDevice() when trying to save category to hive, error is: ${e.toString()}');
     }
   }

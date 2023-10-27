@@ -1,13 +1,9 @@
 import 'package:get/get.dart';
-import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
-import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/repository/services/network_connectivity/receipt_firebase_services.dart';
 import 'package:spacemall/src/repository/services/phone_storage/receipt_phone_services.dart';
 import 'package:uuid/uuid.dart';
-
-import '../../../../../../constants/colors.dart';
 
 import '../../../../check_out/application/check_out_controller.dart';
 import '../../../../profile/domain/user_model.dart';
@@ -25,7 +21,6 @@ class ReceiptsRepo extends GetxController {
   final AddItemRepo addItemRepo = Get.put(AddItemRepo());
   final ReceiptsController receiptsController = Get.put(ReceiptsController());
   String paymentMood = '';
-  var user;
 
   Future saveReceipt() async {
     // The onlt thing we want to do here is:
@@ -36,13 +31,6 @@ class ReceiptsRepo extends GetxController {
 
     UserModel? user = await userBox.get('user_profile');
     String staffNumber = '0123456789';
-
-    // // ignore: unnecessary_null_comparison
-    // if (user == null) {
-    //   user = user;
-    // } else {
-    //   user = await ProfileController.instance.getUserDataFromHive();
-    // }
 
     // create a new receipt
     ReceiptsModel newReceipt = ReceiptsModel(
@@ -57,30 +45,6 @@ class ReceiptsRepo extends GetxController {
       cartId: '',
       itemsInCart: CheckOutController.instance.cartItems.length.toString(),
       cart: [],
-      // [
-      //   CartItemModel(
-      //     itemId: 'itemId',
-      //     itemName: 'itemName',
-      //     quantityInCart: RxInt(1),
-      //     price: '5000',
-      //     totalItemPrice: '5000',
-      //     subTotal: RxDouble(5000.0),
-      //     discount: 50,
-      //     tax: 35,
-      //   ),
-      //   CartItemModel(
-      //     itemId: 'itemId',
-      //     itemName: 'itemName',
-      //     quantityInCart: RxInt(1),
-      //     price: '5000',
-      //     totalItemPrice: '5000',
-      //     subTotal: RxDouble(5000.0),
-      //     discount: 50,
-      //     tax: 35,
-      //   )
-      // ],
-
-      // cartItemsList,
       paymentMethod: paymentMood,
       staffId: staffNumber.substring(4),
     );
@@ -89,11 +53,7 @@ class ReceiptsRepo extends GetxController {
         newReceipt: newReceipt,
         onSucess: () {
           ReceiptPhoneService().saveReceiptToDevice(newReceipt);
-          print('Saved to firebase...');
         });
-
- 
-    // Get.back();
   }
 
   // stores from phone

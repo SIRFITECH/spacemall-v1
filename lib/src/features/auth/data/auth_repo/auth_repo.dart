@@ -381,7 +381,7 @@ class AuthRepo extends GetxController {
           idToken: googleSignInAuthentication.idToken,
           accessToken: googleSignInAuthentication.accessToken,
         );
-        print('THIS USER HAS A PROFILE PIC ${googleSignInAccount.photoUrl}');
+
         UserCredential userCredential =
             await auth.signInWithCredential(credential);
         _uid = userCredential.user?.uid ?? '';

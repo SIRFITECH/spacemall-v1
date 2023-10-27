@@ -8,7 +8,6 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widget.dart';
-import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 
 import '../../../../../../../repository/hive_boxes.dart';
 import '../../../../../store/domain/store_model.dart';
@@ -23,9 +22,9 @@ class AddCategory extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    final AddCategoryController _addCategoryController = Get.find();
+    final AddCategoryController addCategoryController = Get.find();
 
-    StoreController storeController = Get.find();
+    // StoreController storeController = Get.find();
 
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
@@ -65,8 +64,6 @@ class AddCategory extends StatelessWidget {
             height: screenSize.height * 0.85,
             child: Obx(
               () {
-                print(
-                    'THE VALUE OF NOSTOREYET IS ON THE ADD CATEGORY SCREEN ${storeController.noStoreYet.value}');
                 // print('${store.categories[0].categoryId}');
                 // if (
                 //     // storeController.stores.isEmpty ||
@@ -124,7 +121,6 @@ class AddCategory extends StatelessWidget {
                                 return ListTile(
                                   leading: IconButton(
                                     onPressed: () {
-                                      print('categories ${store.categories}');
                                       // print('Delete from category');
                                       // addCategoryController.removeCategory(index);
                                     },
@@ -150,7 +146,7 @@ class AddCategory extends StatelessWidget {
                               TextFeildWidget(
                                 screenSize: screenSize,
                                 isDarkMood: isDarkMood,
-                                controller: _addCategoryController.categoryName,
+                                controller: addCategoryController.categoryName,
                                 keyboardType: TextInputType.text,
                                 hintText: kHintText,
                                 labelText: kCategoryLabelText,
@@ -165,7 +161,7 @@ class AddCategory extends StatelessWidget {
                           ),
                           ElevatedButton(
                               onPressed: () {
-                                _addCategoryController.addNewCategory(context);
+                                addCategoryController.addNewCategory(context);
                               },
                               child: const Text(kAddCategoryText))
                         ],
@@ -181,6 +177,3 @@ class AddCategory extends StatelessWidget {
     );
   }
 }
-
-
- 
