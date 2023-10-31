@@ -13,7 +13,6 @@ class ReceiptsController extends GetxController {
   // 4. act as the only public interface to receipt component
 
   static ReceiptsController get instance => Get.put(ReceiptsController());
-  // final receiptRepo = Get.find();
 
   RxString cartTotal = '0'.obs;
   RxList<ReceiptsModel> receipts = <ReceiptsModel>[].obs;

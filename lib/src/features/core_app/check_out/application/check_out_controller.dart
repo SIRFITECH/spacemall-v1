@@ -113,7 +113,9 @@ class CheckOutController extends GetxController {
                 clearCart();
               },
             ),
-          )
+
+            // SalesController.instance.addNewSales()
+            )
         : spaceMallSnackBar(
             'Error',
             'You can not checkout an empty cart',

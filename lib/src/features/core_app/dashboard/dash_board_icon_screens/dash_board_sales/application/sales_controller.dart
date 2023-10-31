@@ -1,22 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
+import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/application/dash_baord_controller.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/application/receipts_controller.dart';
+import 'package:spacemall/src/repository/services/network_connectivity/sales_firebase_services.dart';
+import 'package:spacemall/src/repository/services/phone_storage/sales_phone_services.dart';
 
 import 'package:uuid/uuid.dart';
 
 import '../../../../../../constants/colors.dart';
 import '../../../../../../repository/hive_boxes.dart';
+import '../../../../profile/domain/user_model.dart';
 import '../../../../store/domain/store_model.dart';
 import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
 import '../domain/sales_model.dart';
 
 class SalesController extends GetxController {
   static SalesController get instance => Get.find();
+
+  final CheckOutController checkOutController = Get.put(CheckOutController());
 
   DateTime now = DateTime.now();
   RxString date = ''.obs;
@@ -109,11 +113,12 @@ class SalesController extends GetxController {
     return result;
   }
 
-  addNewSales() async {
-    salesBox = await Hive.openBox<SalesModel>('sales');
-    String paymentMood = payment;
+  List<Map<String, dynamic>> cartToMap(List<CartItemModel> cart) {
+    return cart.map((item) => item.toMap()).toList();
+  }
 
-    StoreModel store = storeBox.get(
+  addNewSales() async {
+    final StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
         logoLocalPath: '',
@@ -133,41 +138,25 @@ class SalesController extends GetxController {
       ),
     );
 
+    UserModel? user = await userBox.get('user_profile');
     // Create a new sale
     SalesModel newSale = SalesModel(
       customerName: 'New Customer',
       saleId: const Uuid().v4(),
-      attendant: '',
+      attendant: user!.userName,
       date: DateTime.now(),
-      cart: CartItemModel(
-        itemId: 'stockItem.itemId',
-        itemName: 'stockItem.itemName',
-        quantityInCart: RxInt(0),
-        price: 'N 20,000',
-        totalItemPrice: ReceiptsController.instance.cartTotal.value,
-        subTotal: RxDouble(0),
-        discount: 0,
-        tax: 0,
-      ),
+      cart: [],
+      // user.cart,
+      //  totalCartTotal.value = 0.0;
+      cartTotal: checkOutController.totalCartTotal.value.toString(),
+      storeId: store.storeId,
     );
 
-    // Add the new category to the store's categories list
-    store.sales.add(newSale);
-
-    // Update the storeBox with the modified sale
-    await storeBox.put(AddItemRepo.instance.currentStore.value, store);
-
-    paymentMethod.text = paymentMood;
-    amount.text = newSale.cart.totalItemPrice;
-    dueDate.text = DateFormat('d MMM, yyyy').format(newSale.date);
-    dueTime.text = DateFormat('hh:mm:ss a').format(newSale.date);
-
-    // ReceiptFirebaseServices().saveNewSaleToDB(
-    //     newSale: newSale,
-    //     onSucess: () {
-    //       print(
-    //           'Receipt added to Firebase inside addNewSales in SalesController');
-    //     });
+    SalesFirebaseServices().saveNewSalesToDB(
+        newSales: newSale,
+        onSucess: () {
+          SalesPhoneService().saveSalesToDevice(newSale);
+        });
   }
 
 // get sales for a given date
@@ -205,7 +194,7 @@ class SalesController extends GetxController {
         .toList();
     if (salesForDate.isNotEmpty) {
       for (var sale in salesForDate) {
-        totalPrice.value += double.parse(sale.cart.totalItemPrice);
+        totalPrice.value += double.parse(sale.cartTotal);
         update();
       }
       DashBoardController.instance.todaySales.value = totalPrice.toString();
@@ -246,7 +235,7 @@ class SalesController extends GetxController {
     } else {
       if (salesForDate.isNotEmpty) {
         for (var sale in salesForDate) {
-          totalPrice.value += double.parse(sale.cart.totalItemPrice);
+          totalPrice.value += double.parse(sale.cartTotal);
           update();
         }
         DashBoardController.instance.todaySales.value = totalPrice.toString();

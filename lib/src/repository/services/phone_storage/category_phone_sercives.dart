@@ -39,9 +39,10 @@ class CategoryPhoneServices extends CategoryLocalDataBaseAdapter {
       await storeBox.put(AddItemRepo.instance.currentStore.value, store);
 
       categoryController.categories.add(newCategory);
+      categoryController.categoryName.clear();
       categoryController.noCategory.value = false;
       Get.back();
-      categoryController.categoryName.clear();
+
       spaceMallSnackBar(
         '${categoryController.categoryName.text} added',
         '${categoryController.categoryName.text} category added successfully',

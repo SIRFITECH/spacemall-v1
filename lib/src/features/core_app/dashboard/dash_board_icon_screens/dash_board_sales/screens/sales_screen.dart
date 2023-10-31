@@ -8,7 +8,6 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/image_strings.dart';
-import '../../../../../../localizations/currency.dart';
 import '../../../../../../repository/hive_boxes.dart';
 import '../../../../store/domain/store_model.dart';
 import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
@@ -180,10 +179,10 @@ class SalesScreen extends StatelessWidget {
                     ? ListView.builder(
                         itemCount: salesList.length,
                         itemBuilder: (context, index) {
-                          String totalItemPrice = salesList[index]
-                              .cart
-                              .totalItemPrice
-                              .replaceAll(RegExp(r'[^0-9]'), '');
+                          // String totalItemPrice = salesList[index]
+                          //     .cart
+                          //     .totalItemPrice
+                          //     .replaceAll(RegExp(r'[^0-9]'), '');
                           return GestureDetector(
                             onTap: () {
                               Get.to(
@@ -284,17 +283,17 @@ class SalesScreen extends StatelessWidget {
                                                 ),
                                                 Row(
                                                   children: [
-                                                    Text(
-                                                      nairaFormat.format(
-                                                        double.parse(
-                                                            totalItemPrice),
-                                                      ),
-                                                      style: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
+                                                    // Text(
+                                                    //   nairaFormat.format(
+                                                    //     double.parse(
+                                                    //         totalItemPrice),
+                                                    //   ),
+                                                    //   style: const TextStyle(
+                                                    //     fontSize: 15,
+                                                    //     fontWeight:
+                                                    //         FontWeight.bold,
+                                                    //   ),
+                                                    // ),
                                                     const SizedBox(
                                                       width: 5,
                                                     ),

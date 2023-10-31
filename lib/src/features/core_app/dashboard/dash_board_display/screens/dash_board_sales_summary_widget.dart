@@ -78,8 +78,6 @@ class DashBoardSalesSummary extends StatelessWidget {
                       }
 
                       SalesController.instance.getTotalSalesForToday(
-                          // DateTime.parse(
-                          //     DashBoardController.instance.todaySales.value),
                           DashBoardController.instance.selectedDate =
                               selectedDate);
                     } else {
@@ -141,6 +139,7 @@ class DashBoardSalesSummary extends StatelessWidget {
                                   ),
                                 ),
                                 13),
+                            // '2000',
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge!

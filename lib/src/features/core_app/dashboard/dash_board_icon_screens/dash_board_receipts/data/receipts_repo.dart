@@ -30,13 +30,13 @@ class ReceiptsRepo extends GetxController {
     int receiptNo = ReceiptsController.instance.receiptNo.value++;
 
     UserModel? user = await userBox.get('user_profile');
-    String staffNumber = '0123456789';
+    String staffNumber = user!.contactNumber;
 
     // create a new receipt
     ReceiptsModel newReceipt = ReceiptsModel(
       logo: null,
       customerName: 'New Customer',
-      businessEmail: user!.email,
+      businessEmail: user.email,
       cartTotal: receiptsController.cartTotal.value,
       date: DateTime.now(),
       receiptNo: receiptNo.toString().padLeft(8, '0'),
@@ -45,6 +45,7 @@ class ReceiptsRepo extends GetxController {
       cartId: '',
       itemsInCart: CheckOutController.instance.cartItems.length.toString(),
       cart: [],
+      // convertCartItems()
       paymentMethod: paymentMood,
       staffId: staffNumber.substring(4),
     );

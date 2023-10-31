@@ -12,14 +12,14 @@ class SalesModel {
   @HiveField(2)
   DateTime date;
   @HiveField(3)
-  CartItemModel
+  List<CartItemModel>
       cart; // List of items purchased, each item may have product details (e.g., name, price, quantity)
   @HiveField(4)
-  String customerName;
-  String userId = ''; // Identifier for the user making the purchase
-  String storeId = ''; // Identifier for the business owner
-  String paymentMethod = ''; // Payment method used (e.g., credit card, PayPal)
-
+  String customerName; // Identifier for the user making the purchase
+  @HiveField(5)
+  String cartTotal;
+  @HiveField(6)
+  String storeId; // Identifier for the business owner
 
   SalesModel({
     required this.saleId,
@@ -27,6 +27,8 @@ class SalesModel {
     required this.date,
     required this.cart,
     required this.customerName,
+    required this.cartTotal,
+    required this.storeId,
   });
 
   // populated from map, that is serializing the stock object from server
@@ -35,8 +37,10 @@ class SalesModel {
       saleId: map['saleId'] ?? '',
       attendant: map['attendant'] ?? '',
       date: map['date'] ?? '',
-      cart: map['cart'] ?? '',
+      cart: map['cart'] ?? [],
       customerName: map['customerName'] ?? '',
+      cartTotal: map['cartTotal'] ?? '',
+      storeId: map['storeId'] ?? '',
     );
   }
 
@@ -48,6 +52,8 @@ class SalesModel {
       "date": date,
       "cart": cart,
       "customerName": customerName,
+      "cartTotal": cartTotal,
+      "storeId": storeId,
     };
   }
 }
