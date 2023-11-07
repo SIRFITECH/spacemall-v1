@@ -49,6 +49,11 @@ class StockPhoneServices extends StockLocalDataBaseAdapter {
         AddItemRepo.instance.currentStore.value); // typeId: 10
     try {
       // increament the category count and Add the new stock item to the store's category list
+      print(
+          'itemsInCategory is ${addCategoryController.categoryValue.value?.itemsInCategory}');
+      print(
+          'categoryName is ${addCategoryController.categoryValue.value?.categoryName}');
+          
       addCategoryController.categoryValue.value?.itemsInCategory++;
       addCategoryController.categoryValue.value?.items.add(stockItem);
 

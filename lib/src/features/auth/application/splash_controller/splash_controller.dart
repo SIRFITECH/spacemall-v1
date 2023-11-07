@@ -6,7 +6,7 @@ class SplashController extends GetxController {
   var userRole = ''.obs;
   List icons = [
     kCustomerIcon,
-    kMallIcon,
+    kStoreIcon,
   ];
   List role = [
     'Your Store',

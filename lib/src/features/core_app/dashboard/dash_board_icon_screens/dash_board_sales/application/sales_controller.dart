@@ -139,13 +139,26 @@ class SalesController extends GetxController {
     );
 
     UserModel? user = await userBox.get('user_profile');
+
     // Create a new sale
     SalesModel newSale = SalesModel(
       customerName: 'New Customer',
       saleId: const Uuid().v4(),
       attendant: user!.userName,
       date: DateTime.now(),
-      cart: [],
+      cart: [
+        // CartItemModel(
+        //   itemId: 'itemId',
+        //   itemName: 'itemName',
+        //   quantityInCart: RxInt(1),
+        //   price: '2',
+        //   totalItemPrice: '3',
+        //   subTotal: RxDouble(2),
+        //   discount: 2,
+        //   tax: 5,
+        // ).toMap()
+      ],
+      // [user.cart],
       // user.cart,
       //  totalCartTotal.value = 0.0;
       cartTotal: checkOutController.totalCartTotal.value.toString(),

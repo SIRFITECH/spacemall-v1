@@ -27,6 +27,13 @@ class DashBoardNavBar extends StatelessWidget {
     return SafeArea(
       child: Stack(
         children: [
+          // the app bar that shows the
+          // - Low stock
+          // - mall
+          // - customers
+          // - stores
+
+          // - dashboard icons
           Container(
             height: screenSize.height * 0.3,
             width: screenSize.width,
@@ -111,16 +118,13 @@ class DashBoardNavBar extends StatelessWidget {
 
                       return navBarController
                           .screens[navBarController.selectedIndex.value];
-                  
                     }),
                   ),
                 ),
               ),
-
-              // navBarController
-              //     .screens[navBarController.selectedIndex.value]
             ),
           ),
+          // - sales summary
           DashBoardSalesSummary(isDarkMood: isDarkMood),
         ],
       ),

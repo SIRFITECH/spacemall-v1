@@ -140,7 +140,7 @@ class DashBoardCustomerWidget extends StatelessWidget {
           ),
           Iconz(
             isDarkMood: isDarkMood,
-            image: kMallIcon,
+            image: kStoreIcon,
             height: kMallIconzHeight,
             color: isDarkMood ? kWhiteDark : kBrighComplementColor,
           ),

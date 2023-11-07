@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
@@ -14,12 +15,46 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_staff/screens/staff_screen.dart';
 import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
 
+import '../../../../../utils/helpers/showcase.dart';
 import '../../dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
 import '../../dash_board_icon_screens/dash_board_debts/screens/debts_screen.dart';
 
-class DashboardGrid extends StatelessWidget {
+class DashboardGrid extends StatefulWidget {
   const DashboardGrid({super.key});
 
+  @override
+  State<DashboardGrid> createState() => _DashboardGridState();
+}
+
+class _DashboardGridState extends State<DashboardGrid> {
+  final GlobalKey _stockKey = GlobalKey();
+  final GlobalKey menuKey = GlobalKey();
+  final GlobalKey addStoreKey = GlobalKey();
+  final GlobalKey addCategoryKey = GlobalKey();
+  final GlobalKey checkOutKey = GlobalKey();
+  final GlobalKey salesSummaryKey = GlobalKey();
+  final GlobalKey storesListKey = GlobalKey();
+  final GlobalKey lowStockKey = GlobalKey();
+  BuildContext? myContext;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      (_) => ShowCaseWidget.of(myContext!).startShowCase([
+            _stockKey,
+            menuKey,
+            addStoreKey,
+            addCategoryKey,
+            checkOutKey,
+            salesSummaryKey,
+            storesListKey,
+            lowStockKey,
+          ]);
+    });
+    super.initState();
+  }
+
+  // This is the dashboard icons on the
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
@@ -53,66 +88,72 @@ class DashboardGrid extends StatelessWidget {
             crossAxisCount: 3,
             padding: const EdgeInsets.only(top: 80),
             children: [
-              // Showcase(
-              //   tooltipPadding: const EdgeInsets.symmetric(vertical: 4),
-              //   onTargetClick: () {
-              //     Get.to(() => Stock());
-              //   },
-              //   onBarrierClick: () {
-              //     Get.to(() => Stock());
-              //   },
-              //   disposeOnTap: true,
-              //   key: keyOne,
-              //   description: 'Click here to add your store',
-              //   child: GestureDetector(
-              //     onTap: () {
-              //       // _scaffoldKey.currentState.
-              //       Get.to(() => Stock());
-              //     },
-              //     child: DashBoardIcon(
-              //       isDarkMood: isDarkMood,
-              //       image: kStockIcon,
-              //       title: kDashbaordStockText,
-              //     ),
+              // stocks icon
+              SpaceMallShowCase(
+                  title: 'Follow to add Store',
+                  description: 'Tap and add store',
+                  globalKey: _stockKey,
+                  context: context,
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(
+                        () => Stock(),
+                      );
+                    },
+                    child: DashBoardIcon(
+                      isDarkMood: isDarkMood,
+                      image: kStockIcon,
+                      title: kDashbaordStockText,
+                    ),
+                  )
+
+                  // DashBoardGridIcon(
+                  //   isDarkMood: isDarkMood,
+                  //   screen: Stock(),
+                  //   showCaseStockIcon: true,
+                  //   showCaseStockKey: dashBoardController.addStoreKey,
+                  //   dashBoardIcon: DashBoardIcon(
+                  //     isDarkMood: isDarkMood,
+                  //     image: kStockIcon,
+                  //     title: kDashbaordStockText,
+                  //   ),
+                  // ),
+                  ),
+
+              // DashBoardGridIcon(
+              //   isDarkMood: isDarkMood,
+              //   screen: Stock(),
+              //   showCaseStockIcon: true,
+              //   showCaseStockKey: dashBoardController.addStoreKey,
+              //   dashBoardIcon: DashBoardIcon(
+              //     isDarkMood: isDarkMood,
+              //     image: kStockIcon,
+              //     title: kDashbaordStockText,
               //   ),
               // ),
+
               // Reports icon
-              GestureDetector(
-                onTap: () {
-                  // _scaffoldKey.currentState.
-                  Get.to(() => Stock());
-                },
-                child: DashBoardIcon(
-                  isDarkMood: isDarkMood,
-                  image: kStockIcon,
-                  title: kDashbaordStockText,
-                ),
-              ),
-              // stocks icon
-              GestureDetector(
-                onTap: () {
-                  Get.to(() => const ReportScreen());
-                },
-                child: DashBoardIcon(
+              DashBoardGridIcon(
+                isDarkMood: isDarkMood,
+                dashBoardIcon: DashBoardIcon(
                   title: kDashbaordReportsText,
                   image: kReportIcon,
                   isDarkMood: isDarkMood,
                 ),
+                screen: const ReportScreen(),
               ),
               // sales icon
-              GestureDetector(
-                onTap: () {
-                  Get.to(
-                    () => const SalesScreen(),
-                  );
-                },
-                child: DashBoardIcon(
+              DashBoardGridIcon(
+                isDarkMood: isDarkMood,
+                screen: const SalesScreen(),
+                dashBoardIcon: DashBoardIcon(
                   title: kDashbaordSalesText,
                   image: kSalesIcon,
                   isDarkMood: isDarkMood,
                 ),
               ),
               // customer icon
+
               GestureDetector(
                 onTap: () {
                   Get.to(
@@ -185,12 +226,40 @@ class DashboardGrid extends StatelessWidget {
                 },
                 child: DashBoardIcon(
                   title: kDashbaordShopfrontText,
-                  image: kMallIcon,
+                  image: kStoreIcon,
                   isDarkMood: isDarkMood,
                 ),
               ),
             ]),
       ),
+    );
+  }
+}
+
+// This is the class that builds the dashboard icon in the dashboard grid
+class DashBoardGridIcon extends StatelessWidget {
+  const DashBoardGridIcon({
+    super.key,
+    required this.isDarkMood,
+    required this.screen,
+    required this.dashBoardIcon,
+    this.showCaseStockIcon = false,
+    this.showCaseStockKey,
+  });
+
+  final bool isDarkMood;
+  final Widget screen;
+  final DashBoardIcon dashBoardIcon;
+  final bool showCaseStockIcon;
+  final GlobalKey<State<StatefulWidget>>? showCaseStockKey;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Get.to(() => screen);
+      },
+      child: dashBoardIcon,
     );
   }
 }

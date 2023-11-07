@@ -47,34 +47,6 @@ class DashBoard extends StatelessWidget {
       body: GetBuilder<NavBarController>(
         init: NavBarController(),
         builder: (navBarController) {
-          // if (storeController.stores.isEmpty ||
-          //     storeController.noStoreYet.value == true) {
-          //   print('no store yet');
-          //   WidgetsBinding.instance.addPostFrameCallback((_) {
-          //     Get.defaultDialog(
-          //       backgroundColor: !isDarkMood
-          //           ? kDarkModeBackgroundColor.withOpacity(0.1)
-          //           : kWhiteDark.withOpacity(0.1),
-          //       title: kAddStoreText,
-          //       titleStyle: const TextStyle(
-          //         color: kWhiteLight,
-          //       ),
-          //       content: const Text(
-          //         kAddStoreAlertBodyText,
-          //         style: TextStyle(
-          //           color: kWhiteLight,
-          //         ),
-          //       ),
-          //       confirm: ElevatedButton(
-          //         onPressed: () {
-          //           Get.to(() => const AddStore());
-          //         },
-          //         child: const Text(kOkayText),
-          //       ),
-          //     );
-          //   });
-          // }
-
           return navBarController.screen[navBarController.selectedIndex.value];
         },
       ),

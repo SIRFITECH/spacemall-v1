@@ -12,7 +12,7 @@ class SalesModel {
   @HiveField(2)
   DateTime date;
   @HiveField(3)
-  List<CartItemModel>
+  List
       cart; // List of items purchased, each item may have product details (e.g., name, price, quantity)
   @HiveField(4)
   String customerName; // Identifier for the user making the purchase

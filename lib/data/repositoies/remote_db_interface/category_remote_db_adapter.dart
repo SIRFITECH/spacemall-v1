@@ -5,4 +5,8 @@ abstract class CategoryRemoteDataBaseAdapter {
     required CategoryModel newCategory,
     required Function onSucess,
   });
+
+  Future<void> deleteCategoryFromDB(
+    int categoryIndex,
+  );
 }

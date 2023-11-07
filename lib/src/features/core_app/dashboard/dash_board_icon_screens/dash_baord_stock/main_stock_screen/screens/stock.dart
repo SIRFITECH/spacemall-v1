@@ -11,6 +11,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/edit_item.dart';
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
+import 'package:spacemall/src/features/core_app/generic_dash_board_screens/svg_icons_widget.dart';
 import 'package:spacemall/src/localizations/currency.dart';
 import '../../../../../../../repository/hive_boxes.dart';
 import '../../../../../check_out/screens/check_out_screen.dart';
@@ -347,23 +348,6 @@ class Stock extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           Get.to(() => const CheckOut());
-          // StoreRepo.instance.addStoreToFirestore(
-          //   StoreModel(
-          //     logo: pic,
-          //     storeName: 'storeName',
-          //     bankName: 'xBank',
-          //     accountNumber: '01234567',
-          //     contact: 'email@gmail.com',
-          //     stock: RxList([]),
-          //     receipts: [],
-          //     debts: [],
-          //     staff: [],
-          //     sales: [],
-          //     customer: [],
-          //     categories: [],
-          //     storeId: const Uuid().v4(),
-          //   ),
-          // );
         },
         // => addItemRepo.printHiveBox(stockBox),
         //     {
@@ -374,9 +358,16 @@ class Stock extends StatelessWidget {
         // },
         // =>
         // addItemRepo.deleteLastItemFromPhone(),
-        child: const Icon(
-          Icons.add,
-          size: 45,
+        backgroundColor:
+            isDarkMood ? kMainComplimemtColorLight : kMainColorDark,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15.0),
+          child: Iconz(
+            isDarkMood: isDarkMood,
+            image: kCheckOutIcon,
+            color: kWhiteLight,
+            height: 25,
+          ),
         ),
       ),
     );

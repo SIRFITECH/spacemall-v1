@@ -40,6 +40,7 @@ class AddCategoryController extends GetxController {
 
   RxList<CategoryModel> categories = <CategoryModel>[].obs;
 
+// add category
   addNewCategory(BuildContext context) async {
     CategoryModel newCategory = CategoryModel(
       categoryName: categoryName.text.trim(),
@@ -57,6 +58,40 @@ class AddCategoryController extends GetxController {
       );
     } else {
       _addCategoryRepo.saveCategory(context, newCategory);
+    }
+  }
+
+// remove category by index
+  removeCategory(int categoryIndex) {
+    final StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logoLocalPath: '',
+        logoRemotePath: '',
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: RxList([]),
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
+    if (store.categories.isEmpty) {
+      spaceMallSnackBar(
+        'Error Deleting Categrory',
+        'You cannot a category that does not exist',
+        kWhiteLight,
+        kRedColor,
+      );
+    } else {
+      _addCategoryRepo.removeCategory(categoryIndex);
     }
   }
 

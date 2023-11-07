@@ -99,6 +99,7 @@ class ProfileRepo extends GetxController {
           }
         } catch (e) {
           debugPrint('There is error adding user: ${e.toString()}');
+          Get.back();
         }
       } else {
         Get.snackbar('Profile photo needed', 'You have to add a profile photo',

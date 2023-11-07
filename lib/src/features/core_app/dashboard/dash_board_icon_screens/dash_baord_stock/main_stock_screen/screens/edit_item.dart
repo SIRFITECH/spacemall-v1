@@ -145,6 +145,7 @@ class EditItem extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // row for name and category
+
                           Row(
                             children: [
                               Padding(
@@ -180,7 +181,7 @@ class EditItem extends StatelessWidget {
                                       () => Container(
                                         padding: EdgeInsets.symmetric(
                                             horizontal: screenSize.height *
-                                                0.02.toDouble()),
+                                                0.024.toDouble()),
                                         height: screenSize.height * 0.04,
                                         decoration: BoxDecoration(
                                           border: Border.all(
@@ -206,7 +207,24 @@ class EditItem extends StatelessWidget {
                                           ),
                                           value: addCategoryController
                                               .categoryValue.value,
-                                          hint: Text(item.itemCategory!),
+                                          hint: categoriesFromBox.isNotEmpty
+                                              ? Text(
+                                                  truncateString(
+                                                      'Choose Category', 9),
+                                                )
+                                              : GestureDetector(
+                                                  onTap: () {
+                                                    print(
+                                                        'Add Categroy tapped');
+
+                                                    // Get.to(() =>
+                                                    //     const AddCategory());
+                                                  },
+                                                  child: Text(
+                                                    truncateString(
+                                                        'Add Category', 9),
+                                                  ),
+                                                ),
                                           style: textTheme.labelSmall,
                                           elevation: 0,
                                           dropdownColor: MediaQuery.of(context)
@@ -225,7 +243,7 @@ class EditItem extends StatelessWidget {
                                               value: value,
                                               child: Text(
                                                 truncateString(
-                                                    value.categoryName, 12),
+                                                    value.categoryName, 9),
                                                 style: textTheme.labelSmall,
                                               ),
                                             );
@@ -240,6 +258,7 @@ class EditItem extends StatelessWidget {
                               ),
                             ],
                           ),
+
                           // row for selling and cost price
                           Row(
                             children: [

@@ -78,7 +78,45 @@ class CategoryFirebaseServices extends CategoryRemoteDataBaseAdapter {
     }
   }
 
-  Future<void> getCategoriesFromFirebase() async {}
-  Future<void> deleteCategoryFromFirebase(CategoryModel newCategory) async {}
+  // delete item from remote server
   Future<void> editCategoryInFirebase(CategoryModel newCategory) async {}
+
+  @override
+  Future<void> deleteCategoryFromDB(int categoryIndex) async {
+    try {
+      // get the exixting store
+      // get the categories inside the store
+      // add the new category to the store
+      // update the store back
+
+      final currentUserStores =
+          await _fireStore.collection('stores').doc(_store.storeId).get();
+
+      final currentUserStoresMap =
+          currentUserStores.data() as Map<String, dynamic>;
+      // currentUserStoresMap['categories'];
+
+      List<dynamic> currentCategory = currentUserStoresMap['categories'];
+      print(currentCategory[categoryIndex]);
+
+      currentCategory.removeAt(categoryIndex);
+
+      _fireStore
+          .collection('stores')
+          .doc(_store.storeId)
+          .update({'categories': currentCategory});
+
+      // _addCategoryController.isLoading.value = false;
+    } catch (e) {
+      _addCategoryController.isLoading.value = false;
+      debugPrint(
+          'Error from deleteCategoryFromDB() from CategoryFirebaseServices ${e.toString()}');
+      spaceMallSnackBar(
+        'Error Delete Category to server',
+        e.toString(),
+        kWhiteLight,
+        kRedColor,
+      );
+    }
+  }
 }

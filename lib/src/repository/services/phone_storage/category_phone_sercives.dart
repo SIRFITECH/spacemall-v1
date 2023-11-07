@@ -54,4 +54,53 @@ class CategoryPhoneServices extends CategoryLocalDataBaseAdapter {
           'error in the saveCategoryToDevice() when trying to save category to hive, error is: ${e.toString()}');
     }
   }
+
+  @override
+  Future<void> deleteCategoryFromDevice(int categoryIndex) async {
+    final StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logoLocalPath: '',
+        logoRemotePath: '',
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: RxList([]),
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
+    try {
+      if (categoryIndex > store.categories.length) {
+      } else {
+        store.categories.removeAt(categoryIndex);
+
+        Get.back();
+
+        spaceMallSnackBar(
+          'Category Deleted',
+          'Category Deleted successfully',
+          kBlack,
+          kWhiteLight,
+        );
+      }
+    } catch (e) {
+      debugPrint(
+          'Error in the deleteCategoryFromDevice() when trying to delete category from phone, error is: ${e.toString()}');
+
+      spaceMallSnackBar(
+        'Error Deleting category ',
+        'You cannot delete catefory that does not exist',
+        kWhiteLight,
+        kRedColor,
+      );
+    }
+  }
 }

@@ -49,4 +49,22 @@ class AddCategoryRepo extends GetxController {
           kRedColor);
     }
   }
+
+  removeCategory(int categoryIndex) {
+    try {
+      CategoryFirebaseServices()
+          .deleteCategoryFromDB(categoryIndex)
+          .then((value) {
+        CategoryPhoneServices().deleteCategoryFromDevice(categoryIndex);
+      });
+    } catch (e) {
+      debugPrint('Error deleting category ${e.toString()}');
+      spaceMallSnackBar(
+        'Error Deleting Category',
+        'Could not remove category',
+        kWhiteLight,
+        kRedColor,
+      );
+    }
+  }
 }

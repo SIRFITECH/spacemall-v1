@@ -115,7 +115,7 @@ class CheckOutController extends GetxController {
             ),
 
             // SalesController.instance.addNewSales()
-            )
+          )
         : spaceMallSnackBar(
             'Error',
             'You can not checkout an empty cart',
@@ -442,7 +442,7 @@ class CheckOutController extends GetxController {
     int quantity = existingItem.quantityInCart.value;
 
     if (quantity > 1) {
-      existingItem.quantityInCart.value--;
+      existingItem.quantityInCart--;
       String priceString = existingItem.price.toString();
       String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
       String quantityInCartString = existingItem.quantityInCart.toString();
@@ -479,7 +479,7 @@ class CheckOutController extends GetxController {
           categories: [],
         ),
       );
-      existingItem.quantityInCart.value = 0;
+      existingItem.quantityInCart = RxInt(0);
       String id = store.stock
           .firstWhere(
             (item) => item.itemId == existingItem.itemId,
@@ -553,7 +553,7 @@ class CheckOutController extends GetxController {
           (item) => item.itemId == cartItems[index].itemId,
         );
         if (existingItem.itemId.isNotEmpty) {
-          existingItem.quantityInCart.value++;
+          existingItem.quantityInCart++;
           String priceString = existingItem.price.toString();
           String numPriceString = priceString.replaceAll(RegExp(r'[^0-9]'), '');
           String quantityInCartString = existingItem.quantityInCart.toString();

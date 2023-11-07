@@ -153,7 +153,7 @@ class ConfirmPayment extends StatelessWidget {
                                                 ),
                                                 Obx(
                                                   () => Text(
-                                                    '${stockList.quantityInCart.value} x ${stockList.price}',
+                                                    '${stockList.quantityInCart} x ${stockList.price}',
                                                     style: const TextStyle(
                                                         fontSize: 12),
                                                   ),
@@ -381,7 +381,6 @@ class ConfirmPayment extends StatelessWidget {
               padding: EdgeInsets.all(screenSize.height * 0.05),
               child: ElevatedButton(
                 onPressed: () {
-                 
                   checkOutController.showMoodOfPayment(
                     context,
                     screenSize,
@@ -389,7 +388,6 @@ class ConfirmPayment extends StatelessWidget {
                     checkOutController.indexValue,
                   );
                 },
-               
                 child: const Text(
                   kConfirmPaymentText,
                   style: TextStyle(fontSize: 15, color: kWhiteLight),

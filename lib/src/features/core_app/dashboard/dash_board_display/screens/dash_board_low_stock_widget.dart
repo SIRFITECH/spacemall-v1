@@ -115,12 +115,18 @@ class DashBaordLowStockWidget extends StatelessWidget {
               const SizedBox(
                 width: 4,
               ),
-              Iconz(
+              PNGIconz(
                 isDarkMood: isDarkMood,
                 image: kMallIcon,
                 height: kMallIconzHeight,
                 color: isDarkMood ? kWhiteDark : kBrighComplementColor,
-              ),
+              )
+              // Iconz(
+              //   isDarkMood: isDarkMood,
+              //   image: kMallIcon,
+              //   height: kMallIconzHeight,
+              //   color: isDarkMood ? kWhiteDark : kBrighComplementColor,
+              // ),
             ],
           ),
         ),

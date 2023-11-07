@@ -27,7 +27,7 @@ class CategoryModel {
       categoryName: map['categoryName'] ?? '',
       categoryId: map['categoryId'] ?? '',
       items: map['items'] ?? '',
-      itemsInCategory: map['itemsInCategory'] ?? '',
+      itemsInCategory: map['itemsInCategory'] ?? 0,
     );
   }
 

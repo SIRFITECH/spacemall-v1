@@ -51,7 +51,9 @@ const String kStaffIcon = 'assets/images/dashboard_icons/staff.svg';
 const String kReceiptIcon = 'assets/images/dashboard_icons/receipt.svg';
 const String kDebtBookIcon = 'assets/images/dashboard_icons/debtbook.svg';
 const String kSocialIcon = 'assets/images/dashboard_icons/social.svg';
-const String kMallIcon = 'assets/images/dashboard_icons/shop.svg';
+const String kStoreIcon = 'assets/images/dashboard_icons/shop.svg';
+// const String kMallIcon = 'assets/images/dashboard_icons/mall.svg';
+const String kMallIcon = 'assets/images/dashboard_icons/mall.png';
 const String kImageIcon = 'assets/images/dashboard_icons/Image.svg';
 
 /// --- NAVBAR IMAGE STRINGS ---

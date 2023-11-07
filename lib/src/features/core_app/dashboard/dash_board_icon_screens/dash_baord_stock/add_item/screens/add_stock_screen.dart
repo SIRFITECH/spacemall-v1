@@ -78,34 +78,34 @@ class AddStock extends StatelessWidget {
             height: screenSize.height * 0.85,
             child: GetBuilder<AddCategoryController>(
               builder: (addCategoryController) {
-                if (
-                    // store.categories.toList().isEmpty &&
-                    addCategoryController.noCategory.value == true) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    Get.defaultDialog(
-                      backgroundColor: !isDarkMood
-                          ? kDarkModeBackgroundColor.withOpacity(0.1)
-                          : kWhiteDark.withOpacity(0.1),
-                      title: kAddCategoryText,
-                      titleStyle: const TextStyle(
-                        color: kWhiteLight,
-                      ),
-                      content: const Text(
-                        kAddCategoryAlertBodyText,
-                        style: TextStyle(
-                          color: kWhiteLight,
-                        ),
-                      ),
-                      confirm: ElevatedButton(
-                        onPressed: () {
-                          Get.to(() => const AddCategory());
-                        },
-                        child: const Text(kOkayText),
-                      ),
-                    );
-                  });
-                  addCategoryController.noCategory.value = false;
-                }
+                // if (
+                //     // store.categories.toList().isEmpty &&
+                //     addCategoryController.noCategory.value == true) {
+                //   WidgetsBinding.instance.addPostFrameCallback((_) {
+                //     Get.defaultDialog(
+                //       backgroundColor: !isDarkMood
+                //           ? kDarkModeBackgroundColor.withOpacity(0.1)
+                //           : kWhiteDark.withOpacity(0.1),
+                //       title: kAddCategoryText,
+                //       titleStyle: const TextStyle(
+                //         color: kWhiteLight,
+                //       ),
+                //       content: const Text(
+                //         kAddCategoryAlertBodyText,
+                //         style: TextStyle(
+                //           color: kWhiteLight,
+                //         ),
+                //       ),
+                //       confirm: ElevatedButton(
+                //         onPressed: () {
+                //           Get.to(() => const AddCategory());
+                //         },
+                //         child: const Text(kOkayText),
+                //       ),
+                //     );
+                //   });
+                //   addCategoryController.noCategory.value = false;
+                // }
 
                 return Padding(
                   padding: EdgeInsets.all(screenSize.width * 0.025),
@@ -116,41 +116,80 @@ class AddStock extends StatelessWidget {
                           // Circular avartar for the item pic
                           Column(
                             children: [
-                              Obx(
-                                () => GestureDetector(
-                                  onTap: () => addItemController
-                                      .selectItemImage(context),
-                                  child: itemPic.value == null
-                                      ? CircleAvatar(
-                                          radius: 40,
-                                          backgroundColor: kDarkComplementColor
-                                              .withOpacity(0.2),
-                                          child: SizedBox(
-                                            child: ClipOval(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(20.0),
-                                                child: SvgPicture.asset(
-                                                  kImageIcon,
-                                                  // ignore: deprecated_member_use
-                                                  color: isDarkMood
-                                                      ? kDarkModeIconColor
-                                                      : kMainColorLight,
-                                                  width: 200,
-                                                  height: 200,
-                                                  fit: BoxFit.scaleDown,
-                                                ),
+                              // GetX<AddItemController>(
+                              //     init: AddItemController(),
+                              //     builder: (addItemController) {
+                              //       return GestureDetector(
+                              //         onTap: () => addItemController
+                              //             .selectItemImage(context),
+                              //         child: itemPic.value == null
+                              //             ? CircleAvatar(
+                              //                 radius: 40,
+                              //                 backgroundColor:
+                              //                     kDarkComplementColor
+                              //                         .withOpacity(0.2),
+                              //                 child: SizedBox(
+                              //                   child: ClipOval(
+                              //                     child: Padding(
+                              //                       padding:
+                              //                           const EdgeInsets.all(
+                              //                               20.0),
+                              //                       child: SvgPicture.asset(
+                              //                         kImageIcon,
+                              //                         // ignore: deprecated_member_use
+                              //                         color: isDarkMood
+                              //                             ? kDarkModeIconColor
+                              //                             : kMainColorLight,
+                              //                         width: 200,
+                              //                         height: 200,
+                              //                         fit: BoxFit.scaleDown,
+                              //                       ),
+                              //                     ),
+                              //                   ),
+                              //                 ),
+                              //               )
+                              //             : CircleAvatar(
+                              //                 radius: 40,
+                              //                 backgroundImage:
+                              //                     FileImage(itemPic.value!),
+                              //               ),
+                              //       );
+                              //     }),
+
+                              GestureDetector(
+                                onTap: () =>
+                                    addItemController.selectItemImage(context),
+                                child: itemPic.value == null
+                                    ? CircleAvatar(
+                                        radius: 40,
+                                        backgroundColor: kDarkComplementColor
+                                            .withOpacity(0.2),
+                                        child: SizedBox(
+                                          child: ClipOval(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(20.0),
+                                              child: SvgPicture.asset(
+                                                kImageIcon,
+                                                // ignore: deprecated_member_use
+                                                color: isDarkMood
+                                                    ? kDarkModeIconColor
+                                                    : kMainColorLight,
+                                                width: 200,
+                                                height: 200,
+                                                fit: BoxFit.scaleDown,
                                               ),
                                             ),
                                           ),
-                                        )
-                                      : CircleAvatar(
-                                          radius: 40,
-                                          backgroundImage:
-                                              FileImage(itemPic.value!),
                                         ),
-                                ),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 40,
+                                        backgroundImage:
+                                            FileImage(itemPic.value!),
+                                      ),
                               ),
+
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
@@ -233,9 +272,18 @@ class AddStock extends StatelessWidget {
                                                       truncateString(
                                                           'Choose Category', 9),
                                                     )
-                                                  : Text(
-                                                      truncateString(
-                                                          'Add Category', 9),
+                                                  : GestureDetector(
+                                                      onTap: () {
+                                                        debugPrint(
+                                                            'Add Categroy tapped in AddStock ');
+
+                                                        Get.to(() =>
+                                                            const AddCategory());
+                                                      },
+                                                      child: Text(
+                                                        truncateString(
+                                                            'Add Category', 9),
+                                                      ),
                                                     ),
                                               style: textTheme.labelSmall,
                                               elevation: 0,
@@ -610,16 +658,6 @@ class AddStock extends StatelessWidget {
           ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     Get.to(() => const AddCategory());
-      //   },
-      //   backgroundColor: kMainColorLight,
-      //   child: const Icon(
-      //     Icons.add,
-      //     color: kWhiteDark,
-      //   ),
-      // ),
     );
   }
 }
