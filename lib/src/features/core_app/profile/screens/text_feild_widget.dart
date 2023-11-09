@@ -125,8 +125,10 @@ class DateFeildWidget extends StatelessWidget {
 
                   DateTime selectedDate =
                       defaultTargetPlatform == TargetPlatform.iOS
+                          // ignore: use_build_context_synchronously
                           ? await SalesController.instance
                               .pickiOSDate(context, screenSize)
+                          // ignore: use_build_context_synchronously
                           : await SalesController.instance.pickDate(context);
 
                   // ignore: unnecessary_null_comparison

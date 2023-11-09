@@ -51,7 +51,6 @@ class CategoryFirebaseServices extends CategoryRemoteDataBaseAdapter {
 
       final currentUserStoresMap =
           currentUserStores.data() as Map<String, dynamic>;
-      // currentUserStoresMap['categories'];
 
       List<dynamic> currentCategory = currentUserStoresMap['categories'];
 
@@ -97,7 +96,6 @@ class CategoryFirebaseServices extends CategoryRemoteDataBaseAdapter {
       // currentUserStoresMap['categories'];
 
       List<dynamic> currentCategory = currentUserStoresMap['categories'];
-      print(currentCategory[categoryIndex]);
 
       currentCategory.removeAt(categoryIndex);
 

@@ -156,40 +156,41 @@ class AddStock extends StatelessWidget {
                               //       );
                               //     }),
 
-                              GestureDetector(
-                                onTap: () =>
-                                    addItemController.selectItemImage(context),
-                                child: itemPic.value == null
-                                    ? CircleAvatar(
-                                        radius: 40,
-                                        backgroundColor: kDarkComplementColor
-                                            .withOpacity(0.2),
-                                        child: SizedBox(
-                                          child: ClipOval(
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(20.0),
-                                              child: SvgPicture.asset(
-                                                kImageIcon,
-                                                // ignore: deprecated_member_use
-                                                color: isDarkMood
-                                                    ? kDarkModeIconColor
-                                                    : kMainColorLight,
-                                                width: 200,
-                                                height: 200,
-                                                fit: BoxFit.scaleDown,
+                              Obx(
+                                () => GestureDetector(
+                                  onTap: () => addItemController
+                                      .selectItemImage(context),
+                                  child: itemPic.value == null
+                                      ? CircleAvatar(
+                                          radius: 40,
+                                          backgroundColor: kDarkComplementColor
+                                              .withOpacity(0.2),
+                                          child: SizedBox(
+                                            child: ClipOval(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(20.0),
+                                                child: SvgPicture.asset(
+                                                  kImageIcon,
+                                                  // ignore: deprecated_member_use
+                                                  color: isDarkMood
+                                                      ? kDarkModeIconColor
+                                                      : kMainColorLight,
+                                                  width: 200,
+                                                  height: 200,
+                                                  fit: BoxFit.scaleDown,
+                                                ),
                                               ),
                                             ),
                                           ),
+                                        )
+                                      : CircleAvatar(
+                                          radius: 40,
+                                          backgroundImage:
+                                              FileImage(itemPic.value!),
                                         ),
-                                      )
-                                    : CircleAvatar(
-                                        radius: 40,
-                                        backgroundImage:
-                                            FileImage(itemPic.value!),
-                                      ),
+                                ),
                               ),
-
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
@@ -633,8 +634,14 @@ class AddStock extends StatelessWidget {
                         children: [
                           CustomButton(
                             screenSize: screenSize,
-                            onPress: () =>
-                                AddItemController.instance.addItemToPhone(),
+                            onPress: ()
+                                // =>
+                                {
+                              AddItemController.instance.addItemToPhone();
+
+                              print(
+                                  'items in category is ${AddCategoryController.instance.categoryValue.value?.itemsInCategory}');
+                            },
                             title: kAddStockAppBarText,
                             width: screenSize.width * 0.3,
                           ),

@@ -39,7 +39,6 @@ class SalesPhoneService extends SalesLocalDataBaseAdapter {
 
       // Update the storeBox with the modified sale
       await storeBox.put(AddItemRepo.instance.currentStore.value, store);
-      print('saved to the phone!!!');
     } catch (e) {
       debugPrint(
           'Error from the saveSalesToDevice() in SalesPhoneService: ${e.toString()}');

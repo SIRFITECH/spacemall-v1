@@ -43,7 +43,6 @@ class SalesFirebaseServices extends SalesRemoteDataBaseAdapter {
       // get the categories inside the store
       // add the new category to the store
       // update the store back
-      print('saving to firebase...');
 
       final currentUserStores =
           await _fireStore.collection('stores').doc(_store.storeId).get();
