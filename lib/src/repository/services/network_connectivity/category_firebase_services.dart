@@ -54,14 +54,32 @@ class CategoryFirebaseServices extends CategoryRemoteDataBaseAdapter {
 
       List<dynamic> currentCategory = currentUserStoresMap['categories'];
 
-      currentCategory.add(newCategory.toMap());
+      bool categoryExists = currentCategory.any((category) {
+        var categories = category['categoryName'];
+        return categories.toString().toLowerCase() ==
+            newCategory.categoryName.toLowerCase();
+      });
 
-      _fireStore
-          .collection('stores')
-          .doc(_store.storeId)
-          .update({'categories': currentCategory}).then(
-        (value) => onSucess(),
-      );
+      if (!categoryExists) {
+        currentCategory.add(newCategory.toMap());
+
+        _fireStore
+            .collection('stores')
+            .doc(_store.storeId)
+            .update({'categories': currentCategory}).then(
+          (value) => onSucess(),
+        );
+      } else {
+        spaceMallSnackBar(
+          'Category Already Exists',
+          'Category ${newCategory.categoryName} already exists.',
+          kWhiteLight,
+          kRedColor,
+        );
+        debugPrint(
+          'Error: Category ${newCategory.categoryName} already exists.',
+        );
+      }
 
       _addCategoryController.isLoading.value = false;
     } catch (e) {
@@ -93,7 +111,6 @@ class CategoryFirebaseServices extends CategoryRemoteDataBaseAdapter {
 
       final currentUserStoresMap =
           currentUserStores.data() as Map<String, dynamic>;
-      // currentUserStoresMap['categories'];
 
       List<dynamic> currentCategory = currentUserStoresMap['categories'];
 

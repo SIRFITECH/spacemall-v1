@@ -79,8 +79,11 @@ class CategoryPhoneServices extends CategoryLocalDataBaseAdapter {
 
     try {
       if (categoryIndex > store.categories.length) {
+        spaceMallSnackBar('Invalid selection',
+            'You can not delet this category', kWhiteLight, kRedColor);
       } else {
         store.categories.removeAt(categoryIndex);
+        await storeBox.deleteAt(categoryIndex);
 
         Get.back();
 

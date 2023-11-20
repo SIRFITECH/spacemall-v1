@@ -668,7 +668,7 @@ class CheckOutController extends GetxController {
     return result;
   }
 
-  Future<dynamic> showMoodOfPayment(
+  Future<dynamic> showModeOfPayment(
       BuildContext context, Size screenSize, bool isDarkMood, int index) {
     return showModalBottomSheet(
         context: context,
@@ -682,7 +682,7 @@ class CheckOutController extends GetxController {
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               child: Column(
                 children: [
-                  const Text('SELECT PAYMENT MOOD'),
+                  const Text('SELECT PAYMENT MODE'),
                   cartIsEmpty.isNotEmpty
                       ? RichText(
                           text: TextSpan(

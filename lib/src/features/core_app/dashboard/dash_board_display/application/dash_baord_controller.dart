@@ -15,7 +15,9 @@ class DashBoardController extends GetxController {
   // final GlobalKey storesListKey = GlobalKey();
   // final GlobalKey lowStockKey = GlobalKey();
 
-  DashBoardController(this.context);
+  DashBoardController(
+    this.context,
+  );
   // List<StoreModel> storesFromBox = StoreRepo.instance.getStoresFromBox();
 
   @override

@@ -381,7 +381,7 @@ class ConfirmPayment extends StatelessWidget {
               padding: EdgeInsets.all(screenSize.height * 0.05),
               child: ElevatedButton(
                 onPressed: () {
-                  checkOutController.showMoodOfPayment(
+                  checkOutController.showModeOfPayment(
                     context,
                     screenSize,
                     isDarkMood,

@@ -15,7 +15,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_staff/screens/staff_screen.dart';
 import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
 
-import '../../../../../utils/helpers/showcase.dart';
+// import '../../../../../utils/helpers/showcase.dart';
 import '../../dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
 import '../../dash_board_icon_screens/dash_board_debts/screens/debts_screen.dart';
 
@@ -89,48 +89,49 @@ class _DashboardGridState extends State<DashboardGrid> {
             padding: const EdgeInsets.only(top: 80),
             children: [
               // stocks icon
-              SpaceMallShowCase(
-                  title: 'Follow to add Store',
-                  description: 'Tap and add store',
-                  globalKey: _stockKey,
-                  context: context,
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.to(
-                        () => Stock(),
-                      );
-                    },
-                    child: DashBoardIcon(
-                      isDarkMood: isDarkMood,
-                      image: kStockIcon,
-                      title: kDashbaordStockText,
-                    ),
-                  )
+              // SpaceMallShowCase(
+              //     title: 'Follow to add Store',
+              //     description: 'Tap and add store',
+              //     globalKey: _stockKey,
+              //     context: context,
+              //     child: GestureDetector(
+              //       onTap: () {
+              //         Get.to(
+              //           () => Stock(),
+              //         );
+              //       },
+              //       child: DashBoardIcon(
+              //         isDarkMood: isDarkMood,
+              //         image: kStockIcon,
+              //         title: kDashbaordStockText,
+              //       ),
+              //     )
 
-                  // DashBoardGridIcon(
-                  //   isDarkMood: isDarkMood,
-                  //   screen: Stock(),
-                  //   showCaseStockIcon: true,
-                  //   showCaseStockKey: dashBoardController.addStoreKey,
-                  //   dashBoardIcon: DashBoardIcon(
-                  //     isDarkMood: isDarkMood,
-                  //     image: kStockIcon,
-                  //     title: kDashbaordStockText,
-                  //   ),
-                  // ),
-                  ),
+              //     // DashBoardGridIcon(
+              //     //   isDarkMood: isDarkMood,
+              //     //   screen: Stock(),
+              //     //   showCaseStockIcon: true,
+              //     //   showCaseStockKey: dashBoardController.addStoreKey,
+              //     //   dashBoardIcon: DashBoardIcon(
+              //     //     isDarkMood: isDarkMood,
+              //     //     image: kStockIcon,
+              //     //     title: kDashbaordStockText,
+              //     //   ),
+              //     // ),
+              //     ),
 
-              // DashBoardGridIcon(
-              //   isDarkMood: isDarkMood,
-              //   screen: Stock(),
-              //   showCaseStockIcon: true,
-              //   showCaseStockKey: dashBoardController.addStoreKey,
-              //   dashBoardIcon: DashBoardIcon(
-              //     isDarkMood: isDarkMood,
-              //     image: kStockIcon,
-              //     title: kDashbaordStockText,
-              //   ),
-              // ),
+              GestureDetector(
+                onTap: () {
+                  Get.to(
+                    () => Stock(),
+                  );
+                },
+                child: DashBoardIcon(
+                  isDarkMood: isDarkMood,
+                  image: kStockIcon,
+                  title: kDashbaordStockText,
+                ),
+              ),
 
               // Reports icon
               DashBoardGridIcon(

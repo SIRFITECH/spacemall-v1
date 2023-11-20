@@ -54,8 +54,6 @@ class Stock extends StatelessWidget {
     );
 
     List<AddItemModel> stocks = store.stock.toList();
-    // print(store.stock.toList().first.itemName);
-    // print(AddItemRepo.instance.currentStore.value);
 
     return Scaffold(
       key: _scaffoldKey,
@@ -337,6 +335,42 @@ class Stock extends StatelessWidget {
                                 ],
                               ),
                             );
+
+                            //  Dismissible(
+                            //   key: ValueKey(index),
+                            //   background: Container(
+                            //     color: kRedColor,
+                            //     padding: const EdgeInsets.only(left: 16),
+                            //     alignment: Alignment.centerLeft,
+                            //     child: const Icon(
+                            //       Icons.delete,
+                            //       color: Colors.white,
+                            //     ),
+                            //   ),
+                            //   onDismissed: (direction) {
+                            //     // Handle dismiss action
+                            //     if (direction == DismissDirection.endToStart) {
+                            //       // Swiped to the left
+                            //       ScaffoldMessenger.of(context).showSnackBar(
+                            //         SnackBar(
+                            //           content:
+                            //               Text('Deleted item at index $index'),
+                            //         ),
+                            //       );
+                            //     } else if (direction ==
+                            //         DismissDirection.startToEnd) {
+                            //       // Swiped to the right
+                            //       ScaffoldMessenger.of(context).showSnackBar(
+                            //         SnackBar(
+                            //           content:
+                            //               Text('Approved item at index $index'),
+                            //         ),
+                            //       );
+                            //     }
+                            //   },
+                            //   child:
+
+                            // );
                           },
                         ),
                       ),

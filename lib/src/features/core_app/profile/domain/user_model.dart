@@ -69,6 +69,8 @@ class UserModel {
     );
   }
 
+ 
+
   // populated to map, that is serializing the user object to string for server use
   Map<String, dynamic> toMap() {
     return {

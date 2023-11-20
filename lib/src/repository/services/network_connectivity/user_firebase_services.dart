@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spacemall/data/repositoies/remote_db_interface/user_remote_db_adapter.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 
@@ -33,8 +32,9 @@ class UserFirebaseServices extends UserRemoteDataBaseAdapter {
   }) async {
     try {
       _profileController.isLoading.value = true;
-      SharedPreferences access = await SharedPreferences.getInstance();
-      userId = access.getString('uid') ?? '';
+      userId = user.uid;
+      // SharedPreferences access = await SharedPreferences.getInstance();
+      // userId = access.getString('uid') ?? '';
 
       await saveImageToDB('$userId/profilePic/${user.userName}', dp)
           .then((value) {
@@ -44,6 +44,7 @@ class UserFirebaseServices extends UserRemoteDataBaseAdapter {
         user.uid = userId;
       });
       _profileController.setUser(user);
+
       await _fireStore.collection('users').doc(userId).set(user.toMap()).then(
             (value) => onSucess(),
           );

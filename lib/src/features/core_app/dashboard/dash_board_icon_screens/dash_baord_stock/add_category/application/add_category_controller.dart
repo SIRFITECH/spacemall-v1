@@ -30,6 +30,7 @@ class AddCategoryController extends GetxController {
   Rx<CategoryModel?> categoryValue = Rx<CategoryModel?>(
     null,
   );
+
   void setCategory(CategoryModel? newValue) {
     if (newValue?.categoryId == newValue?.categoryId) {
       categoryValue.value = newValue!;

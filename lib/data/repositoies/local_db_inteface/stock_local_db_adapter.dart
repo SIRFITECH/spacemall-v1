@@ -4,4 +4,6 @@ abstract class StockLocalDataBaseAdapter {
   Future<void> saveStockItemToDevice(
     AddItemModel stockItem,
   );
+  Future<void> editStockInDevice(AddItemModel editedItem);
+  Future<void> deleteStockFromDevice(AddItemModel deleteItem);
 }

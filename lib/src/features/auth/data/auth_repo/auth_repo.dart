@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_scre
 import 'package:spacemall/src/features/auth/screens/welcome/welcome.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
+import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 import '../../../core_app/profile/application/profile_controller.dart';
 import '../../../core_app/profile/screens/set_profile.dart';
 
@@ -279,72 +281,6 @@ class AuthRepo extends GetxController {
     }
   }
 
-  Future<String> phoneAuth(String phoneNo) async {
-    OtpController.instance.isLoading.value = true;
-    try {
-      await auth.verifyPhoneNumber(
-        phoneNumber: phoneNo,
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          // Sign the user in (or link) with the auto-generated credential
-
-          await auth.signInWithCredential(credential);
-
-          // RecaptchaVerifier(
-          //   container: null, // Provide a container if needed for web
-          //   size: RecaptchaVerifierSize.normal,
-          //    theme: RecaptchaVerifierTheme.dark, auth:,
-          // );
-
-          // check if user is logged in already using uid
-          // and use the uid to link the account
-        },
-
-        verificationFailed: (FirebaseAuthException e) {
-          catchLoginError(e);
-        },
-
-        codeSent: (String verificationId, int? resendToken) async {
-          Get.snackbar('Code sent', 'You should',
-              colorText: Colors.white, backgroundColor: Colors.green);
-          // String smsCode = OtpController.instance.otp.value;
-          resendToken = OtpController.instance.resendToken.value;
-          this.verificationId.value = verificationId;
-
-          // // Create a PhoneAuthCredential with the code
-          // PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          //     verificationId: verificationId, smsCode: smsCode);
-          // print('THIS USER HAS THE ACCESS CODE OF $verificationId');
-          // print('smsCode is $smsCode and resendToken is $resendToken');
-          // credential.smsCode;
-
-          // Sign the user in (or link) with the credential
-          // try {
-          //   await auth.signInWithCredential(credential);
-          // } catch (e) {
-          //   Get.snackbar('Login Error', e.toString(),
-          //       colorText: Colors.white, backgroundColor: Colors.red);
-          // }
-          // check if user is logged in already using uid
-          // and use the uid to link the account
-        },
-
-        // code auto retrieval timeout
-        timeout: const Duration(seconds: 30),
-        codeAutoRetrievalTimeout: (verificationId) {
-          this.verificationId.value = verificationId;
-        },
-      );
-
-      OtpController.instance.isLoading.value = false;
-      return 'success';
-    } on FirebaseAuthException catch (e) {
-      Get.snackbar('Login Error', e.toString(),
-          colorText: Colors.white, backgroundColor: Colors.red);
-    }
-    OtpController.instance.isLoading.value = false;
-    return 'error';
-  }
-
   resendOTP() {
     if (ProfileController.instance.contactNumber != null) {
       phoneAuth(ProfileController.instance.contactNumber!);
@@ -582,6 +518,122 @@ class AuthRepo extends GetxController {
     return credentials.user != null ? true : false;
   }
 
+  Future<String> phoneAuth(String phoneNo) async {
+    OtpController.instance.isLoading.value = true;
+    try {
+      await auth.verifyPhoneNumber(
+        phoneNumber: phoneNo,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          // Sign the user in (or link) with the auto-generated credential
+
+          await auth.signInWithCredential(credential);
+
+          // RecaptchaVerifier(
+          //   container: null, // Provide a container if needed for web
+          //   size: RecaptchaVerifierSize.normal,
+          //    theme: RecaptchaVerifierTheme.dark, auth:,
+          // );
+
+          // check if user is logged in already using uid
+          // and use the uid to link the account
+        },
+
+        verificationFailed: (FirebaseAuthException e) {
+          catchLoginError(e);
+        },
+
+        codeSent: (String verificationId, int? resendToken) async {
+          Get.snackbar('Code sent', 'You should',
+              colorText: Colors.white, backgroundColor: Colors.green);
+          // String smsCode = OtpController.instance.otp.value;
+          resendToken = OtpController.instance.resendToken.value;
+          this.verificationId.value = verificationId;
+
+          // // Create a PhoneAuthCredential with the code
+          // PhoneAuthCredential credential = PhoneAuthProvider.credential(
+          //     verificationId: verificationId, smsCode: smsCode);
+          // print('THIS USER HAS THE ACCESS CODE OF $verificationId');
+          // print('smsCode is $smsCode and resendToken is $resendToken');
+          // credential.smsCode;
+
+          // Sign the user in (or link) with the credential
+          // try {
+          //   await auth.signInWithCredential(credential);
+          // } catch (e) {
+          //   Get.snackbar('Login Error', e.toString(),
+          //       colorText: Colors.white, backgroundColor: Colors.red);
+          // }
+          // check if user is logged in already using uid
+          // and use the uid to link the account
+        },
+
+        // code auto retrieval timeout
+        timeout: const Duration(seconds: 30),
+        codeAutoRetrievalTimeout: (verificationId) {
+          this.verificationId.value = verificationId;
+        },
+      );
+
+      OtpController.instance.isLoading.value = false;
+      return 'success';
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar('Login Error', e.toString(),
+          colorText: Colors.white, backgroundColor: Colors.red);
+    }
+    OtpController.instance.isLoading.value = false;
+    return 'error';
+  }
+
+  // Future<bool> verifyOTP(String otp,) async {
+  //   OtpController.instance.isLoading.value = true;
+  //   print('user uid is $_uid');
+  //   print('The user number is $phoneNumber');
+  //   // Step 1: Check if the user already exists using uid
+  //   // bool isExistingUser =
+  //   await checkExistingFirebaseUser( _uid!);
+
+  //   // Step 2: Sign in with the provided OTP
+  //   var credentials = await auth.signInWithCredential(
+  //     PhoneAuthProvider.credential(
+  //       verificationId: verificationId.value,
+  //       smsCode: otp,
+  //     ),
+  //   );
+
+  //   OtpController.instance.isLoading.value = false;
+
+  //   // Step 3: Check if the sign-in was successful
+  //   if (credentials.user != null) {
+  //     // Additional steps can be performed if needed
+  //     // For example, you can get the UID of the signed-in user
+  //     _uid = credentials.user!.uid;
+
+  //     // Step 4: Return true if the user signed in successfully
+  //     return true;
+  //   } else {
+  //     // Step 5: Return false if sign-in failed
+  //     return false;
+  //   }
+  // }
+
+  Future<bool> checkExistingFirebaseUser(String userid) async {
+    // Implement logic to check if the user already exists in your database
+    // You might query your user database based on the phone number or UID
+
+    // For example, you can use Firebase Firestore
+    // Replace 'usersCollection' and 'phoneNumberField' with your actual collection and field names
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where(uid, isEqualTo: userid)
+        .get();
+
+    // .where('phoneNumberField', isEqualTo: phoneNumber)
+    // .get();
+
+    // Return true if the user already exists, false otherwise
+    return querySnapshot.docs.isNotEmpty;
+  }
+
   Future<bool> checkExistingUser() async {
     // DocumentSnapshot snapshot =
     //     await _firestore.collection('users').doc(_uid).get();
@@ -591,21 +643,21 @@ class AuthRepo extends GetxController {
     String user = access.getString('uid') ?? '';
 
     if (user.isNotEmpty) {
-      Get.snackbar(
+      spaceMallSnackBar(
         'Login successful',
         'Loged in as $user ',
-        backgroundColor: kWhiteDark,
-        colorText: kBlackDark,
+        kWhiteDark,
+        kBlackDark,
       );
 
       return true;
     } else {
-      // Get.snackbar(
-      //   'Welcome',
-      //   'Welcom to spacemall ',
-      //   backgroundColor: kWhiteDark,
-      //   colorText: kBlackDark,
-      // );
+      spaceMallSnackBar(
+        'Welcome Onboard',
+        'You have created your account',
+        kWhiteDark,
+        kBlackDark,
+      );
 
       return false;
     }

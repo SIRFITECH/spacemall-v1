@@ -14,7 +14,8 @@ import '../../hive_boxes.dart';
 
 class StockPhoneServices extends StockLocalDataBaseAdapter {
   final AddItemRepo addItemRepo = AddItemRepo();
-  final AddCategoryController addCategoryController = AddCategoryController();
+  // final AddCategoryController addCategoryController = AddCategoryController();
+  static AddCategoryController addCategoryController = Get.find();
   final AddItemController addItemController = AddItemController();
 
   // fetch store from storeBox
@@ -39,9 +40,7 @@ class StockPhoneServices extends StockLocalDataBaseAdapter {
   );
 
   // void saveStockToPhone() {}
-  void getStocksFromPhone() {}
-  void deleteStockFromPhone() {}
-  void editStockInPhone() {}
+  void getStocksFromDevice() {}
 
   @override
   Future<void> saveStockItemToDevice(AddItemModel stockItem) async {
@@ -50,6 +49,7 @@ class StockPhoneServices extends StockLocalDataBaseAdapter {
     try {
       // increament the category count and Add the new stock item to the store's category list
       addCategoryController.categoryValue.value?.itemsInCategory++;
+
       addCategoryController.categoryValue.value?.items.add(stockItem);
 
       // Add the new stock item to the store's stock list
@@ -73,6 +73,104 @@ class StockPhoneServices extends StockLocalDataBaseAdapter {
         kWhiteLight,
         kRedColor,
       );
+    }
+  }
+
+  @override
+  Future<void> editStockInDevice(AddItemModel editedItem) async {
+    try {
+      StoreModel store = storeBox.get(
+        AddItemRepo.instance.currentStore.value,
+        defaultValue: StoreModel(
+          logoLocalPath: '',
+          logoRemotePath: '',
+          storeName: '',
+          bankName: '',
+          accountNumber: '',
+          contact: '',
+          stock: RxList([]),
+          receipts: [],
+          debts: [],
+          staff: [],
+          sales: [],
+          customer: [],
+          storeId: '',
+          categories: [],
+        ),
+      );
+
+      int itemIndex =
+          store.stock.indexWhere((item) => item.itemId == editedItem.itemId);
+
+      store.stock[itemIndex] = editedItem;
+
+      await storeBox.put(
+        addItemRepo.currentStore.value,
+        store,
+      );
+      spaceMallSnackBar(
+        'Edited',
+        '${editedItem.itemName} edited',
+        Colors.green,
+        kWhiteLight,
+      );
+
+      Get.back();
+    } catch (e) {
+      debugPrint('error editing stock: ${e.toString()}');
+      spaceMallSnackBar('Error Editing', e.toString(), kWhiteLight, kRedColor);
+    }
+  }
+
+  @override
+  Future<void> deleteStockFromDevice(AddItemModel deleteItem) async {
+    try {
+      StoreModel store = storeBox.get(
+        AddItemRepo.instance.currentStore.value,
+        defaultValue: StoreModel(
+          logoLocalPath: '',
+          logoRemotePath: '',
+          storeName: '',
+          bankName: '',
+          accountNumber: '',
+          contact: '',
+          stock: RxList([]),
+          receipts: [],
+          debts: [],
+          staff: [],
+          sales: [],
+          customer: [],
+          storeId: '',
+          categories: [],
+        ),
+      );
+
+      int itemIndex =
+          store.stock.indexWhere((item) => item.itemId == deleteItem.itemId);
+
+      // store.stock[itemIndex] = deleteItem;
+      if (itemIndex != -1) {
+        await storeBox.deleteAt(itemIndex
+            // addItemRepo.currentStore.value,
+            // store,
+            );
+        spaceMallSnackBar(
+          'Edited',
+          '${deleteItem.itemName} edited',
+          Colors.green,
+          kWhiteLight,
+        );
+
+        Get.back();
+      } else {
+        debugPrint('Error deleting item from phone');
+        spaceMallSnackBar('Error Deleteing Item',
+            'Error deleting item from phone', kWhiteLight, kRedColor);
+      }
+    } catch (e) {
+      debugPrint('error editing stock: ${e.toString()}');
+      spaceMallSnackBar(
+          'Error Deleteing Item', e.toString(), kWhiteLight, kRedColor);
     }
   }
 }

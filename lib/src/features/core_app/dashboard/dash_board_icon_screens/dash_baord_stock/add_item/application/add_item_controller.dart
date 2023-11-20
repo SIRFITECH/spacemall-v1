@@ -28,6 +28,7 @@ class AddItemController extends GetxController {
   static AddItemRepo addItemRepo = Get.find();
 
   var isItemAdded = false.obs;
+  var isLoading = false.obs;
 
   var selectedIndex = 0.obs;
 
@@ -104,6 +105,7 @@ class AddItemController extends GetxController {
 
 // add item to phone memory
   Future<void> addItemToPhone() async {
+    isLoading.value = true;
     if (AddItemController.instance.itemPic.value != null) {
       if (AddCategoryController.instance.categoryValue.value?.categoryName !=
           null) {
@@ -113,7 +115,9 @@ class AddItemController extends GetxController {
           update();
           Get.off(() => Stock());
         });
+        isLoading.value = false;
       } else {
+        isLoading.value = false;
         Get.dialog(
           AlertDialog(
             title: const Text(
@@ -137,6 +141,7 @@ class AddItemController extends GetxController {
         );
       }
     } else {
+      isLoading.value = false;
       Get.snackbar(
         'Error',
         'You need to add item pic',
@@ -144,6 +149,10 @@ class AddItemController extends GetxController {
         colorText: kWhiteLight,
       );
     }
+  }
+
+  Future<void> editItemOnPhone(AddItemModel editedItem) async {
+    AddItemRepo.instance.editItemData(editedItem);
   }
 
   RxList<File> moreImages = <File>[].obs;

@@ -160,22 +160,6 @@ class Login extends StatelessWidget {
                   ],
                 ),
               ),
-              // Obx(
-              //   () => OtpController.instance.isLoading.value
-              //       ? Positioned(
-              //           child: Container(
-              //               height: screenSize.height,
-              //               width: screenSize.width,
-              //               alignment: Alignment.center,
-              //               decoration: BoxDecoration(
-              //                 color: Colors.black.withOpacity(0.5),
-              //               ),
-              //               child: const Center(
-              //                 child: CircularProgressIndicator(),
-              //               )),
-              //         )
-              //       : Container(),
-              // )
             ],
           );
         },
@@ -185,40 +169,3 @@ class Login extends StatelessWidget {
 }
 
 final _formKey = GlobalKey<FormState>();
-
-
-/**
- *   ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: values.length,
-              itemBuilder: (context, index) {
-                final value = values[index];
-                return ExpansionTile(
-                  title: Text(
-                    value,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  children: [
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: items.length,
-                      itemBuilder: (context, index) {
-                        final item = items[index];
-                        return ListTile(
-                          leading: Text('Pic'),
-                          // Image.asset(item['pic']),
-                          title: Text(item['name']!),
-                          subtitle: Text(item['Vendor']!),
-                        );
-                      },
-                    ),
-                  ],
-                );
-              },
-            ),
-          
- */

@@ -5,6 +5,7 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
 import 'package:spacemall/src/features/core_app/profile/application/date_widget_controller.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
@@ -77,12 +78,14 @@ class AddItemRepo extends GetxController {
     );
 
     try {
-      StockFirebaseServices().saveStockItemToDB(
-        stockItem: newItem,
-        onSucess: () {
-          StockPhoneServices().saveStockItemToDevice(newItem);
-        },
-      );
+      // StockFirebaseServices().saveStockItemToDB(
+      //   stockItem: newItem,
+      //   onSucess: () {
+      //     StockPhoneServices().saveStockItemToDevice(newItem);
+      //   },
+      // );
+
+      StockPhoneServices().saveStockItemToDevice(newItem);
     } catch (e) {
       debugPrint(
           'An error occured in saveItemData() in addItemRepo: ${e.toString()}');
@@ -98,42 +101,15 @@ class AddItemRepo extends GetxController {
   // edit an itemin the stock list
 
   Future editItemData(AddItemModel editedItem) async {
-    StoreModel store = storeBox.get(
-      currentStore.value,
-      defaultValue: StoreModel(
-        logoLocalPath: '',
-        logoRemotePath: '',
-        storeName: '',
-        bankName: '',
-        accountNumber: '',
-        contact: '',
-        stock: RxList([]),
-        receipts: [],
-        debts: [],
-        staff: [],
-        sales: [],
-        customer: [],
-        storeId: '',
-        categories: [],
-      ),
-    );
+    addCategoryController.isLoading.value = true;
+    StockFirebaseServices().editStockInFirebase(editedItem).then((value) {
+      StockPhoneServices().editStockInDevice(editedItem);
+      AddItemRepo.instance.clearControllers();
+      AddItemController.instance.clearImages();
+      addCategoryController.isLoading.value = false;
+    }).then((value) => Get.to(() => Stock()));
 
-    int itemIndex =
-        store.stock.indexWhere((item) => item.itemId == editedItem.itemId);
-    store.stock[itemIndex] = editedItem;
-    await storeBox.put(
-      currentStore.value,
-      store,
-    );
-
-    Get.snackbar(
-      'Edited',
-      '${editedItem.itemName} edited',
-      backgroundColor: Colors.green,
-      colorText: kWhiteLight,
-    );
-
-    Get.back();
+    // StockPhoneServices().editStockInDevice(editedItem);
   }
 
   // clear the TextEditingControllers

@@ -169,14 +169,6 @@ class SpacemallDrawer extends StatelessWidget {
                         ListTile(
                           horizontalTitleGap: 0,
                           onTap: () async {
-                            // ap.signOut();
-                            // Navigator.pushReplacement(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const SignIn(),
-                            //   ),
-                            // );
-                            // // print('Signed out');
                             await AuthRepo.instance.signOut();
                           },
                           leading: const Icon(
@@ -198,90 +190,6 @@ class SpacemallDrawer extends StatelessWidget {
                               themeController.changeTheme(SAppTheme.darkTheme);
                               themeController.saveTheme(true);
                             }
-                            // profileRepo.toggleThemeMode();
-                            // showModalBottomSheet(
-                            //   context: context,
-                            //   builder: (context) {
-                            //     return Container(
-                            //       width: double.infinity,
-                            //       height: screenSize.height * 0.3,
-                            //       padding: EdgeInsets.all(
-                            //         screenSize.height * 0.025,
-                            //       ),
-                            //       child: Column(
-                            //         children: [
-                            //           const Text(
-                            //             kDarkMoodText,
-                            //             style: TextStyle(
-                            //               color: kBlackDark,
-                            //               fontSize: 20,
-                            //               fontWeight: FontWeight.normal,
-                            //             ),
-                            //           ),
-                            //           const SizedBox(
-                            //             height: 10,
-                            //           ),
-                            //           Column(
-                            //             crossAxisAlignment:
-                            //                 CrossAxisAlignment.start,
-                            //             children: [
-                            //               const Padding(
-                            //                 padding:
-                            //                     EdgeInsets.only(left: 10.0),
-                            //                 child: Text(kDarkMoodText),
-                            //               ),
-                            //               Row(
-                            //                 mainAxisAlignment:
-                            //                     MainAxisAlignment.start,
-                            //                 children: [
-                            //                   Column(
-                            //                     children: [
-                            //                       CustomRadio(
-                            //                           onChange: (value) {},
-                            //                           color:
-                            //                               kLightModeIconColor,
-                            //                           value: true,
-                            //                           groupValue: true),
-                            //                       const Text(kOnText)
-                            //                     ],
-                            //                   ),
-                            //                   Column(
-                            //                     children: [
-                            //                       CustomRadio(
-                            //                           onChange: (value) {},
-                            //                           color:
-                            //                               kLightModeIconColor,
-                            //                           value: true,
-                            //                           groupValue: true),
-                            //                       const Text(kOffText)
-                            //                     ],
-                            //                   ),
-                            //                 ],
-                            //               ),
-                            //               Padding(
-                            //                 padding: const EdgeInsets.only(
-                            //                     left: 10.0),
-                            //                 child: Row(
-                            //                   children: [
-                            //                     const Text(
-                            //                       kUseSystemSettingsText,
-                            //                       // style: TextStyle(color: kBlack),
-                            //                     ),
-                            //                     CustomRadio(
-                            //                         onChange: (value) {},
-                            //                         color: kLightModeIconColor,
-                            //                         value: false,
-                            //                         groupValue: false)
-                            //                   ],
-                            //                 ),
-                            //               ),
-                            //             ],
-                            //           )
-                            //         ],
-                            //       ),
-                            //     );
-                            //   },
-                            // );
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
