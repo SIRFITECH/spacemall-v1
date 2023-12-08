@@ -35,6 +35,12 @@ class DashBoardCustomerWidget extends StatelessWidget {
     // ignore: unused_local_variable
     // final dashBoardController = DashBoardController(context);
 
+    if (StoreRepo.instance.getStoresFromBox().isNotEmpty) {
+      for (var store in StoreRepo.instance.getStoresFromBox()) {
+        debugPrint(store.storeName);
+      }
+    }
+
     final storeController = StoreController(storeRepo: storeRepo);
 
     if (storeBox.isNotEmpty && storeController.selectedStore.value == null) {

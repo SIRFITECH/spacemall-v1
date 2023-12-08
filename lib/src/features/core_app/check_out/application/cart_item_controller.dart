@@ -7,7 +7,6 @@ import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import '../domain/cart_model.dart';
 import '../domain/check_out_item_model.dart';
 
-
 class CartItemController extends GetxController {
   static CartItemController get instance => Get.put(CartItemController());
 
@@ -39,18 +38,20 @@ class CartItemController extends GetxController {
   UserModel get userModel {
     return _userModel ??
         UserModel(
-            profilePicLocalPath: '',
-            userName: '',
-            email: '',
-            contactNumber: '',
-            country: '',
-            bio: '',
-            uid: '',
-            role: '',
-            cart: <CartItemModel>[],
-            stores: RxList<StoreModel>([]),
-            createdAt: '',
-            profilePicRemotePath: '');
+          profilePicLocalPath: '',
+          userName: '',
+          email: '',
+          contactNumber: '',
+          country: '',
+          bio: '',
+          uid: '',
+          role: '',
+          cart: <CartItemModel>[],
+          stores: RxList<StoreModel>([]),
+          createdAt: '',
+          profilePicRemotePath: '',
+          storeUIDs: [],
+        );
   }
 
   /// FOURTH LOGIC
@@ -60,21 +61,18 @@ class CartItemController extends GetxController {
       (cart) => cart.cartId == cartId,
       orElse: () => CartModel(
         cartId: cartId,
-        itemName: '',
-        quantityInCart: '',
-        totalItemPrice: '',
-        totalCartPrice: '',
-        numOfItemsInCart: '',
-        subTotal: '',
-        discount: '',
-        tax: '',
+        // itemName: '',
+        // quantityInCart: '',
+        // totalItemPrice: '',
+        // totalCartPrice: '',
+        // numOfItemsInCart: '',
+        // subTotal: '',
+        // discount: '',
+        // tax: '',
+        cartItemList: [],
       ),
     );
   }
-
- 
-
-  
 
   increamentItems(int index, int tapedIndex) {
     if (index == tapedIndex) {

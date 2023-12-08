@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spacemall/data/repositoies/local_db_inteface/category_local_db_adapter.dart';
+import 'package:spacemall/data/repositories/local_db_inteface/category_local_db_adapter.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/domain/category_model.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';

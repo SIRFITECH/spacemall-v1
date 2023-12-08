@@ -48,7 +48,7 @@ class BottomNavBar extends StatelessWidget {
               child: Row(
                 children: [
                   SizedBox(
-                    width: media.size.width * 0.1,
+                    width: media.size.width * 0.05,
                   ),
                   // Icon and text for setting
                   Obx(

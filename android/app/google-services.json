@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "1017415678363-qdh9ek129u3b8j6hos1bh4o2vskja173.apps.googleusercontent.com",
+          "client_id": "1017415678363-719s5i0mmqm39if7131376vg2ltsntf6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.spacemall",
+            "certificate_hash": "a47ebfb5aa4bdb5449005f7ad2b61c246cc9d454"
+          }
+        },
+        {
+          "client_id": "1017415678363-3ioqumo5ljq322df8nbh68gn3nflcqk6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +35,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1017415678363-94gg0mporkvcigml1s6cqbrel87evibf.apps.googleusercontent.com",
+              "client_id": "1017415678363-3ioqumo5ljq322df8nbh68gn3nflcqk6.apps.googleusercontent.com",
               "client_type": 3
             },
             {

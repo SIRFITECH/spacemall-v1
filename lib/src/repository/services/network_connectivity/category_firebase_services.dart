@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spacemall/data/repositoies/remote_db_interface/category_remote_db_adapter.dart';
+import 'package:spacemall/data/repositories/remote_db_interface/category_remote_db_adapter.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/domain/category_model.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 

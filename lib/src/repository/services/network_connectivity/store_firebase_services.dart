@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:spacemall/data/repositoies/remote_db_interface/store_remote_db_adapter.dart';
+import 'package:spacemall/data/repositories/remote_db_interface/store_remote_db_adapter.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
@@ -35,6 +35,7 @@ class StoreFirebaseServices extends StoreRemoteDataBaseAdapter {
       uid: '',
       userName: '',
       profilePicRemotePath: '',
+      storeUIDs: [],
     ),
   );
 
@@ -50,6 +51,9 @@ class StoreFirebaseServices extends StoreRemoteDataBaseAdapter {
         newStore.logoLocalPath = _storeController.logoPicLocalPath;
         newStore.logoRemotePath = value;
       });
+      //  _user.storeUIDs.insert(_user.storeUIDs.length, newStore.storeId);
+      String userId = _user.uid;
+
       // set the newStore
       _storeController.setStore(newStore);
 
@@ -58,6 +62,10 @@ class StoreFirebaseServices extends StoreRemoteDataBaseAdapter {
           .doc(newStore.storeId)
           .set(newStore.toMap())
           .then((value) => onSucess());
+
+      await _fireStore.collection('users').doc(userId).update({
+        "storeUIDs": FieldValue.arrayUnion([newStore.storeId]),
+      });
     } catch (e) {
       debugPrint(
           'from the saveStoreToDB() in StoreFirebase, the error is: ${e.toString()}');

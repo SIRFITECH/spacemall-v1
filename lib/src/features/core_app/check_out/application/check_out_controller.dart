@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_customers/domain/customer_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/domain/debts_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipt_pdf.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/screens/receipt_view.dart';
 import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
+import 'package:spacemall/src/repository/services/phone_storage/sales_phone_services.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
 import '../../../../constants/colors.dart';
@@ -13,11 +18,8 @@ import '../../../../localizations/currency.dart';
 import '../../../../repository/hive_boxes.dart';
 import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import '../../dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
-import '../../dashboard/dash_board_icon_screens/dash_board_customers/domain/customer_model.dart';
-import '../../dashboard/dash_board_icon_screens/dash_board_debts/domain/debts_model.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_receipts/application/receipts_controller.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_receipts/data/receipts_repo.dart';
-import '../../dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipt_pdf.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
 import '../../dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import '../data/check_out_repo.dart';
@@ -42,26 +44,59 @@ class CheckOutController extends GetxController {
   RxDouble totalCartDiscount = 0.0.obs;
   RxDouble totalCartTax = 0.0.obs;
   RxBool isFirstTime = true.obs;
+  TextEditingController stockSearchController = TextEditingController();
 
   UserModel? _userModel;
   UserModel get userModel {
     return _userModel ??
         UserModel(
-            profilePicLocalPath: '',
-            userName: '',
-            email: '',
-            contactNumber: '',
-            country: '',
-            bio: '',
-            uid: '',
-            role: '',
-            cart: <CartItemModel>[],
-            stores: RxList<StoreModel>([]),
-            createdAt: '',
-            profilePicRemotePath: '');
+          profilePicLocalPath: '',
+          userName: '',
+          email: '',
+          contactNumber: '',
+          country: '',
+          bio: '',
+          uid: '',
+          role: '',
+          cart: <CartItemModel>[],
+          stores: RxList<StoreModel>([]),
+          createdAt: '',
+          profilePicRemotePath: '',
+          storeUIDs: [],
+        );
   }
 
+  StoreModel store = storeBox.get(
+    AddItemRepo.instance.currentStore.value,
+    defaultValue: StoreModel(
+      logoLocalPath: '',
+      logoRemotePath: '',
+      storeName: '',
+      bankName: '',
+      accountNumber: '',
+      contact: '',
+      stock: RxList([]),
+      receipts: [],
+      debts: [],
+      staff: [],
+      sales: [],
+      customer: [],
+      storeId: '',
+      categories: [],
+    ),
+  );
+
   RxList<CartItemModel> cartItems = <CartItemModel>[].obs;
+
+  RxList<AddItemModel> filteredStocks = <AddItemModel>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    List<AddItemModel> stockInStore =
+        AddItemController.instance.allStockInStore(store);
+    filteredStocks.value = List.from(stockInStore);
+  }
 
   removeItemFromCart(
     int index,
@@ -94,30 +129,94 @@ class CheckOutController extends GetxController {
     SalesController.instance.salesForTheDay.value = saleAmount;
   }
 
-  void completeSale(String paymentMood) async {
-    ReceiptsRepo.instance.paymentMood = paymentMood;
+  void completeSale(String paymentMode, bool isDarkMood) async {
+    ReceiptsRepo.instance.paymentMood = paymentMode;
     ReceiptsController.instance.cartTotal.value =
         totalCartTotal.value.toString();
 
-    cartItems.isNotEmpty
-        ? (
-            ReceiptsRepo.instance.saveReceipt().then((value) {
-              setSale(totalCartTotal.value.toString());
-              updateItemQuantities();
-              updateCartState();
-              previewReceipt();
-            }).then(
-              (value) {
-                SalesController.instance.addNewSales();
-                ReceiptsRepo.instance.paymentMood = '';
-                clearCart();
-              },
-            ),
+    String cartTotal = nairaFormat
+        .format(double.parse(ReceiptsController.instance.cartTotal.value));
 
-            // SalesController.instance.addNewSales()
+    String paymentMethod = ReceiptsRepo.instance.paymentMood;
+
+    cartItems.isNotEmpty
+        ? Get.defaultDialog(
+            backgroundColor: !isDarkMood
+                ? kDarkModeBackgroundColor.withOpacity(0.1)
+                : kWhiteDark.withOpacity(0.1),
+            title: 'Confirm Payment',
+            titleStyle: const TextStyle(
+              color: kWhiteLight,
+            ),
+            content: Text(
+              'You are recieving $cartTotal by $paymentMethod',
+              style: const TextStyle(
+                color: kWhiteLight,
+              ),
+            ),
+            confirm: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 65.0),
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kGreyColor,
+                    ),
+                    child: const Text('Cancel'),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      (
+                        SalesController.instance
+                            .addNewSales(ReceiptsRepo.instance.paymentMood)
+                            .then(
+                          (value) {
+                            ReceiptsRepo.instance.saveReceipt().then((value) {
+                              setSale(totalCartTotal.value.toString());
+                              updateItemQuantities();
+                              updateCartState();
+                              Get.to(
+                                () => ReceiptView(
+                                  receipt: ReceiptsModel(
+                                    logo: null,
+                                    customerName: 'customerName',
+                                    businessEmail: 'businessEmail',
+                                    cartTotal: ReceiptsController
+                                        .instance.cartTotal.value,
+                                    date: DateTime.now(),
+                                    receiptNo: 'receiptNo',
+                                    attendant: 'attendant',
+                                    receiptId: 'receiptId',
+                                    cartId: 'cartId',
+                                    itemsInCart: 'itemsInCart',
+                                    paymentMethod: paymentMethod,
+                                    staffId: 'staffId',
+                                    cart: cart,
+                                  ),
+                                ),
+                              );
+                            });
+                          },
+                        ).then((value) {
+                          ReceiptsRepo.instance.paymentMood = '';
+                          clearCart();
+                        }),
+                      );
+                    },
+                    child: const Text('Proceed'),
+                  ),
+                ],
+              ),
+            ),
           )
         : spaceMallSnackBar(
-            'Error',
+            'Empty Cart Error',
             'You can not checkout an empty cart',
             kWhiteLight,
             kRedColor,
@@ -147,6 +246,7 @@ class CheckOutController extends GetxController {
   }
 
   Future previewReceipt() async {
+    
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
@@ -166,7 +266,8 @@ class CheckOutController extends GetxController {
         categories: [],
       ),
     );
-
+var cart = await SalesPhoneService()
+        .getSalesFromDevice('4b04703c-2667-47a5-93a1-d8e624e7df82');
     final receipt = ReceiptPDFModel(
       seller: store,
       customer: CustomerModel(
@@ -224,16 +325,17 @@ class CheckOutController extends GetxController {
         paymentMethod: '',
         staffId: '',
       ),
-      cartItem: CartItemModel(
-        itemId: '',
-        itemName: '',
-        quantityInCart: RxInt(0),
-        price: '',
-        totalItemPrice: '',
-        subTotal: RxDouble(0.0),
-        discount: 0.0,
-        tax: 0.0,
-      ),
+      cartItem: cart,
+      // CartItemModel(
+      //   itemId: '',
+      //   itemName: '',
+      //   quantityInCart: RxInt(0),
+      //   price: '',
+      //   totalItemPrice: '',
+      //   subTotal: RxDouble(0.0),
+      //   discount: 0.0,
+      //   tax: 0.0,
+      // ),
       totalCartPrice: '',
       cartId: '',
       subTotal: '',
@@ -659,6 +761,7 @@ class CheckOutController extends GetxController {
   }
 
   var cart = CheckOutRepo.instance.getCheckOutCartFromBox();
+  var clearCheckOutCart = CheckOutRepo.instance.clearCheckOutCart();
 
   List<CartItemModel> convertCartItems(List cartFromDb) {
     List<CartItemModel> result = [];
@@ -717,7 +820,7 @@ class CheckOutController extends GetxController {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            completeSale('Cash');
+                            completeSale('Cash', isDarkMood);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -749,7 +852,7 @@ class CheckOutController extends GetxController {
                         ),
                         GestureDetector(
                           onTap: () {
-                            completeSale('Card');
+                            completeSale('Card', isDarkMood);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -768,16 +871,10 @@ class CheckOutController extends GetxController {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: SvgPicture.asset(
-                                    // kPaymentCard,
-                                    kProfileIcon,
-                                    // ignore: deprecated_member_use
-                                    color: isDarkMood
-                                        ? kMainComplimemtColorLight
-                                        : kMainColorLight,
+                                  child: Image.asset(
+                                    kPaymentCard,
                                     width: 50,
                                     height: 40,
-                                    fit: BoxFit.scaleDown,
                                   ),
                                 ),
                                 const Center(child: Text('Card')),
@@ -799,7 +896,7 @@ class CheckOutController extends GetxController {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            completeSale('Bank Transfer');
+                            completeSale('Bank Transfer', isDarkMood);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -818,17 +915,10 @@ class CheckOutController extends GetxController {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: SvgPicture.asset(
-                                    // kProfileIcon,
-                                    kMenuIcon,
-                                    // kPaymentBank,
-                                    // ignore: deprecated_member_use
-                                    color: isDarkMood
-                                        ? kMainComplimemtColorLight
-                                        : kMainColorLight,
+                                  child: Image.asset(
+                                    kPaymentBank,
                                     width: 50,
                                     height: 40,
-                                    fit: BoxFit.scaleDown,
                                   ),
                                 ),
                                 const Center(child: Text('Transfer')),
@@ -838,7 +928,7 @@ class CheckOutController extends GetxController {
                         ),
                         GestureDetector(
                           onTap: () {
-                            completeSale('POD');
+                            completeSale('POD', isDarkMood);
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -857,16 +947,10 @@ class CheckOutController extends GetxController {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: SvgPicture.asset(
-                                    kProfileIcon,
-                                    // kPaymentPOD,
-                                    // ignore: deprecated_member_use
-                                    color: isDarkMood
-                                        ? kMainComplimemtColorLight
-                                        : kMainColorLight,
+                                  child: Image.asset(
+                                    kPaymentPOD,
                                     width: 50,
                                     height: 40,
-                                    fit: BoxFit.scaleDown,
                                   ),
                                 ),
                                 const Center(
@@ -884,5 +968,32 @@ class CheckOutController extends GetxController {
             ),
           );
         });
+  }
+
+  void filterStocks(String searchText) {
+    List<AddItemModel> stockInStore =
+        AddItemController.instance.allStockInStore(store);
+    filteredStocks.clear();
+    if (searchText.isEmpty) {
+      debugPrint('$searchText is empty');
+      // if no item is searched, return all items in store
+      filteredStocks.addAll(stockInStore);
+    } else {
+      // Filter stocks based on the search text
+      filteredStocks.addAll(
+        stockInStore.where(
+          (stockInStore) => stockInStore.itemName
+              .toLowerCase()
+              .contains(searchText.toLowerCase()),
+        ),
+      );
+
+      // for (var stock in filteredStocks) {
+      //   print(stock.itemName);
+      //   print(stock.itemSellingPrice);
+      //   print(stock.itemQuantity);
+      // }
+    }
+    // stockSearchController.clear();
   }
 }

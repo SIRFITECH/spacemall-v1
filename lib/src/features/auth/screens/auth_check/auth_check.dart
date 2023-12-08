@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/auth/screens/login/login.dart';
+import 'package:spacemall/src/features/auth/screens/splash_screen/splash_screen_loader.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
 
@@ -47,26 +48,17 @@ class AuthCheckScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return 
-  //   FirebaseAuth.instance
-  // .authStateChanges()
-  // .listen((User? user) {
-  //   if (user == null) {
-  //     print('User is currently signed out!');
-  //   } else {
-  //     print('User is signed in!');
-  //   }
-  // });
-    StreamBuilder<User?>(
+    return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // while waiting for app to fetch user data from firebase
           return Container(
             decoration: const BoxDecoration(color: kWhiteLight),
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
+            child: const SplascreenLoader(),
+            // const Center(
+            //   child: CircularProgressIndicator(),
+            // ),
           );
         } else if (snapshot.hasData && snapshot.data != null) {
           // if user exists and has data
@@ -79,13 +71,19 @@ class AuthCheckScreen extends StatelessWidget {
               // while waiting for app to fetch user data from firebase
               if (userSnapshot.connectionState == ConnectionState.waiting) {
                 return Container(
-                  decoration: const BoxDecoration(color: kWhiteLight),
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              } else if (userSnapshot.hasData && userSnapshot.data != null) {
-                // userSnapshot.data!
+                    decoration: const BoxDecoration(color: kWhiteLight),
+                    child: const SplascreenLoader()
+                    //  Center(
+                    //   child: CircularProgressIndicator(),
+                    // ),
+                    );
+              } else if (userSnapshot.hasData &&
+                  userSnapshot.data!.data() != null) {
+                // List<dynamic> storeUIDs = userSnapshot.data!.get('storeUIDs');
+                // for (var uid in storeUIDs) {
+                //   print(uid);
+                // }
+
                 return DashBoard();
               } else {
                 return const SetProfile();
@@ -97,6 +95,5 @@ class AuthCheckScreen extends StatelessWidget {
         }
       },
     );
- 
   }
 }

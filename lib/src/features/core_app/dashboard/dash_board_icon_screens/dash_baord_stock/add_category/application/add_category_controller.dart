@@ -42,7 +42,7 @@ class AddCategoryController extends GetxController {
   RxList<CategoryModel> categories = <CategoryModel>[].obs;
 
 // add category
-  addNewCategory(BuildContext context) async {
+  Future addNewCategory(BuildContext context) async {
     CategoryModel newCategory = CategoryModel(
       categoryName: categoryName.text.trim(),
       categoryId: const Uuid().v4(),
@@ -59,6 +59,7 @@ class AddCategoryController extends GetxController {
       );
     } else {
       _addCategoryRepo.saveCategory(context, newCategory);
+
     }
   }
 

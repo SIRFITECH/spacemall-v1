@@ -38,6 +38,13 @@ class AddItemController extends GetxController {
   // my initial variable
   RxList<AddItemModel> itemList = <AddItemModel>[].obs;
 
+  // var selectedCategoryIndex = 0.obs;
+  RxInt selectedCategoryIndex = RxInt(-1);
+  RxInt selectedAllItemsCategoryIndex = RxInt(-1);
+
+  // RxMap to store index variables for each category
+  RxMap<String, RxInt> tapedItem = <String, RxInt>{}.obs;
+
   void setPressed() {
     isPressed.value = true;
     update();
@@ -104,7 +111,7 @@ class AddItemController extends GetxController {
   }
 
 // add item to phone memory
-  Future<void> addItemToPhone() async {
+  Future<void> addNewItem() async {
     isLoading.value = true;
     if (AddItemController.instance.itemPic.value != null) {
       if (AddCategoryController.instance.categoryValue.value?.categoryName !=
@@ -305,11 +312,15 @@ class AddItemController extends GetxController {
     moreImages.clear();
   }
 
-  var selectedCategoryIndex = 0.obs;
   void setSelectedCategoryIndex(int index) {
     selectedCategoryIndex.value = index;
     update();
   }
+
+  // void setSelectedAllItemsCategory(int index) {
+  //   selectedAllItemsCategoryIndex.value = index;
+  //   update();
+  // }
 
   int allItemsInStore(StoreModel store) {
     int totalItems = 0;
@@ -343,4 +354,5 @@ class AddItemController extends GetxController {
       return [];
     }
   }
+
 }

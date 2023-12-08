@@ -38,6 +38,14 @@ class CheckOutRepo extends GetxController {
     return checkOutCart;
   }
 
+  void clearCheckOutCart() {
+    for (var key in storeBox.keys) {
+      if (key.startsWith('store-')) {
+        cartBox.delete(key);
+      }
+    }
+  }
+
   Future<File> generatePDFReceipt(ReceiptPDFModel receipt, int index) async {
     final receiptPDF = pw.Document();
     int receiptNo = ReceiptsController.instance.receiptNo.value;
@@ -86,8 +94,4 @@ class CheckOutRepo extends GetxController {
 
     return file;
   }
-
-
-
-
 }

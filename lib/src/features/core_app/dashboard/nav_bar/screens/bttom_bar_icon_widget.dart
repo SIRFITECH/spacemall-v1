@@ -14,8 +14,8 @@ class BottomBarIcon extends StatelessWidget {
     required this.icon,
     required this.selected,
     required this.onPress,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class BottomBarIcon extends StatelessWidget {
           children: [
             Padding(
               padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                  const EdgeInsets.symmetric(vertical: 2.0, horizontal: 16),
               child: GestureDetector(
                 onTap: onPress,
                 child: Iconz(

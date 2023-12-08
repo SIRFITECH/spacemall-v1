@@ -37,20 +37,22 @@ class OTPScreen extends StatelessWidget {
               OTPFooter(otpController: otpController)
             ],
           ),
-          otpController.isLoading.value
-              ? Positioned(
-                  child: Container(
-                      height: screenSize.height,
-                      width: screenSize.width,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.5),
-                      ),
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      )),
-                )
-              : Container(),
+          Obx(
+            () => otpController.isLoading.value
+                ? Positioned(
+                    child: Container(
+                        height: screenSize.height,
+                        width: screenSize.width,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                        ),
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        )),
+                  )
+                : Container(),
+          )
         ],
       )),
     );

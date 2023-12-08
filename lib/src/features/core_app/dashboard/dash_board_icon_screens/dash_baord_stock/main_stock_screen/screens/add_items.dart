@@ -8,9 +8,9 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 
 class AddItemsCard extends StatelessWidget {
   const AddItemsCard({
-    Key? key,
+    super.key,
     required this.items,
-  }) : super(key: key);
+  });
 
   final List<String> items;
 
@@ -59,7 +59,6 @@ class AddItemsCard extends StatelessWidget {
                         Positioned(
                           left: screenSize.width * 0.135,
                           bottom: screenSize.height * 0.0475,
-                          // 42,
                           child: GestureDetector(
                             onTap: () {
                               switch (index) {

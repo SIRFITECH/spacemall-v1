@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spacemall/data/repositoies/remote_db_interface/receipt_remote_db_adapter.dart';
+import 'package:spacemall/data/repositories/remote_db_interface/receipt_remote_db_adapter.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
 
 import '../../../constants/colors.dart';
@@ -44,22 +44,22 @@ class ReceiptFirebaseServices extends ReceiptRemoteDataBaseAdapter {
       // add the new category to the store
       // update the store back
 
+      // get store data in the current user
       final currentUserStores =
           await _fireStore.collection('stores').doc(_store.storeId).get();
 
+      // convert the store data to Map<String, dynamic>
       final currentUserStoresMap =
           currentUserStores.data() as Map<String, dynamic>;
 
+      // extract the receipts from the store
       List<dynamic> currentReceipts = currentUserStoresMap['receipts'];
 
       currentReceipts.add(newReceipt.toMap());
 
-      await _fireStore
-          .collection('stores')
-          .doc(_store.storeId)
-          .update({'receipts': currentReceipts}).then(
-        (value) => onSucess(),
-      );
+      await _fireStore.collection('stores').doc(_store.storeId).update({
+        "receipts": currentReceipts,
+      }).then((value) => onSucess());
 
       // _addCategoryController.isLoading.value = false;
     } catch (e) {
@@ -67,7 +67,7 @@ class ReceiptFirebaseServices extends ReceiptRemoteDataBaseAdapter {
       debugPrint(
           ' Error from saveNewReceiptToDB() from ReceiptFirebaseServices ${e.toString()}');
       spaceMallSnackBar(
-        'Error Receipt to server',
+        'Error Adding Receipt to server',
         e.toString(),
         kWhiteLight,
         kRedColor,

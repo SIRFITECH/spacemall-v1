@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:flutter/material.dart';
+// import 'package:spacemall/src/features/core_app/check_out/data/check_out_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/application/receipts_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/screens/receipt_view.dart';
@@ -49,6 +50,8 @@ class ReceiptListScreen extends StatelessWidget {
     );
 
     List<ReceiptsModel> receipstList = store.receipts.toList();
+
+    // var cart = CheckOutRepo.instance.getCheckOutCartFromBox();
 
     receiptController.fromSelectedDate.value =
         DateFormat('d MMM').format(receiptController.fromDate.value);
@@ -188,9 +191,14 @@ class ReceiptListScreen extends StatelessWidget {
                         itemCount: receipstList.length,
                         itemBuilder: (context, index) {
                           ReceiptsModel receipts = store.receipts[index];
+                          // print(receipstList[0].cart);
+
                           return GestureDetector(
                             onTap: () {
-                              Get.to(() => ReceiptView(receipt: receipts));
+                              Get.to(() => ReceiptView(
+                                    receipt: receipts,
+                                    parsedIndex: index,
+                                  ));
                             },
                             child: Card(
                               shape: RoundedRectangleBorder(

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spacemall/data/repositoies/remote_db_interface/stock_remote_db_adapter.dart';
+import 'package:spacemall/data/repositories/remote_db_interface/stock_remote_db_adapter.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 
 import '../../../constants/colors.dart';
@@ -41,11 +41,6 @@ class StockFirebaseServices extends StockRemoteDataBaseAdapter {
     _addCategoryController.isLoading.value = true;
 
     try {
-      // get the exixting store
-      // get the categories inside the store
-      // add the new category to the store
-      // update the store back
-
       final currentUserStores =
           await _fireStore.collection('stores').doc(_store.storeId).get();
 
@@ -79,6 +74,7 @@ class StockFirebaseServices extends StockRemoteDataBaseAdapter {
   }
 
   Future<void> getStockFromFirebase() async {}
+  @override
   Future<void> deleteStockFromFirebase(AddItemModel deleteItem) async {
     _addCategoryController.isLoading.value = true;
 

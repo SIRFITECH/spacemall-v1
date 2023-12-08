@@ -33,6 +33,7 @@ class CheckOut extends StatelessWidget {
     final checkOutController = Get.put(CheckOutController());
 
     int tapedIndex = -1;
+    // int tapedIndex = -1;
 
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
@@ -98,6 +99,9 @@ class CheckOut extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
+                  // var receipt = await SalesPhoneService().getSalesFromDevice(
+                  //     '4b04703c-2667-47a5-93a1-d8e624e7df82');
+                  // print('From the Checkout screen $receipt');
                   checkOutController.moveToConfirmPayment();
                 },
                 child: const Text(kCheckOutText),
@@ -147,13 +151,13 @@ class CheckOut extends StatelessWidget {
                         ),
                         child: ExpandablePanel(
                           header: ListTile(
-                            selected: AddItemController
-                                    .instance.selectedCategoryIndex.value ==
+                            selected: AddItemController.instance
+                                    .selectedAllItemsCategoryIndex.value ==
                                 -1,
                             selectedColor: Colors.green,
                             onTap: () {
-                              AddItemController.instance
-                                  .setSelectedCategoryIndex(-1);
+                              // AddItemController.instance
+                              //     .setSelectedAllItemsCategory(-1);
                             },
                             title: CheckOutCategory(
                               categoryTitle: 'All Items',
@@ -249,9 +253,11 @@ class CheckOut extends StatelessWidget {
                                   );
                                 } else {
                                   return GestureDetector(
+                                    // this tap event registers a tap on the item in the allItem section of the cart
                                     onTap: () {
                                       int costOfItem = 1;
                                       tapedIndex = index;
+
                                       if (index == tapedIndex) {
                                         cartItemController.increamentItems(
                                           index,
@@ -262,14 +268,18 @@ class CheckOut extends StatelessWidget {
 
                                           if (stockItem.itemCount <
                                               int.parse(
-                                                  stockItem.itemQuantity)) {
+                                                stockItem.itemQuantity,
+                                              )) {
                                             CartItemController.instance.items
                                                 .value = stockItem.itemCount++;
                                             CartItemController
                                                 .instance.items.value++;
                                           }
-                                          nairaFormat.format(int.parse(
-                                              stockItem.itemSellingPrice));
+                                          nairaFormat.format(
+                                            int.parse(
+                                              stockItem.itemSellingPrice,
+                                            ),
+                                          );
 
                                           costOfItem = CartItemController
                                                       .instance.items.value <=
@@ -280,7 +290,6 @@ class CheckOut extends StatelessWidget {
                                                           .itemSellingPrice) *
                                                       stockItem.itemCount)
                                                   .toInt();
-
                                           CheckOutController.instance.addToCart(
                                             CartItemModel(
                                               itemId: stockItem.itemId,
@@ -384,7 +393,7 @@ class CheckOut extends StatelessWidget {
                                                       shape: BoxShape.rectangle,
                                                       borderRadius:
                                                           const BorderRadius
-                                                                  .all(
+                                                              .all(
                                                               Radius.circular(
                                                                   5)),
                                                     ),
@@ -436,7 +445,6 @@ class CheckOut extends StatelessWidget {
                           color: isDarkMood
                               ? Colors.white.withOpacity(0.1)
                               : Colors.black.withOpacity(0.1),
-                          // kBlack.withOpacity(0.2),
                         ),
                         child: ExpandableTheme(
                           data: ExpandableThemeData(
@@ -450,7 +458,7 @@ class CheckOut extends StatelessWidget {
                                 selectedColor: Colors.green,
                                 onTap: () {
                                   AddItemController.instance
-                                      .setSelectedCategoryIndex(-1);
+                                      .setSelectedCategoryIndex(categoryIndex);
                                 },
                                 title: CheckOutCategory(
                                   categoryTitle: store
@@ -561,10 +569,14 @@ class CheckOut extends StatelessWidget {
                                       ],
                                     );
                                   } else {
+                                    // var category = store
+                                    //     .categories[categoryIndex].categoryName;
+
                                     return GestureDetector(
                                       onTap: () {
                                         int costOfItem = 1;
                                         tapedIndex = index;
+
                                         if (index == tapedIndex) {
                                           cartItemController.increamentItems(
                                             index,

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:spacemall/data/repositoies/local_db_inteface/user_local_db_adapter.dart';
+import 'package:spacemall/data/repositories/local_db_inteface/user_local_db_adapter.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
@@ -76,6 +76,7 @@ class UserPhoneServices extends UserLocalDataBaseAdapter {
         uid: '',
         userName: '',
         profilePicRemotePath: '',
+        storeUIDs: []
       ); // Replace with an appropriate default user model.
     }
   }

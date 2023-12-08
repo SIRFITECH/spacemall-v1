@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/application/dash_baord_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_item_model.dart';
 import 'package:spacemall/src/repository/services/network_connectivity/sales_firebase_services.dart';
 import 'package:spacemall/src/repository/services/phone_storage/sales_phone_services.dart';
 
@@ -117,7 +118,7 @@ class SalesController extends GetxController {
     return cart.map((item) => item.toMap()).toList();
   }
 
-  addNewSales() async {
+  Future<void> addNewSales(String paymentMood) async {
     final StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
@@ -140,29 +141,43 @@ class SalesController extends GetxController {
 
     UserModel? user = await userBox.get('user_profile');
 
+    List cart = [];
+
+    if (checkOutController.cartItems.isNotEmpty) {
+      List modifiedCart = [];
+      for (var i = 0; i < checkOutController.cartItems.length; i++) {
+        SalesItemModel newSalesItem = SalesItemModel(
+          itemId: checkOutController.cartItems[i].itemId,
+          itemName: checkOutController.cartItems[i].itemName,
+          itemPrice: checkOutController.cartItems[i].price,
+          quantityInCart: checkOutController.cartItems[i].quantityInCart.value,
+          discount: checkOutController.cartItems[i].discount,
+          subTotal: checkOutController.cartItems[i].subTotal.value,
+          tax: checkOutController.cartItems[i].tax,
+          totalItemPrice: checkOutController.cartItems[i].totalItemPrice,
+        );
+
+        modifiedCart.add(newSalesItem.toMap());
+      }
+      cart = modifiedCart;
+    } else {
+      cart = [];
+    }
+
     // Create a new sale
     SalesModel newSale = SalesModel(
       customerName: 'New Customer',
       saleId: const Uuid().v4(),
       attendant: user!.userName,
       date: DateTime.now(),
-      cart: [
-        // CartItemModel(
-        //   itemId: 'itemId',
-        //   itemName: 'itemName',
-        //   quantityInCart: RxInt(1),
-        //   price: '2',
-        //   totalItemPrice: '3',
-        //   subTotal: RxDouble(2),
-        //   discount: 2,
-        //   tax: 5,
-        // ).toMap()
-      ],
-      // [user.cart],
-      // user.cart,
-      //  totalCartTotal.value = 0.0;
+      cart: cart,
       cartTotal: checkOutController.totalCartTotal.value.toString(),
-      storeId: store.storeId,
+      storeName: store.storeName,
+      discount: checkOutController.totalCartDiscount.value.toString(),
+      paymentMode: paymentMood,
+      salesChannel: 'In-store',
+      subTotal: checkOutController.totalCartSubTotal.value.toString(),
+      tax: checkOutController.totalCartTax.value.toString(),
     );
 
     SalesFirebaseServices().saveNewSalesToDB(

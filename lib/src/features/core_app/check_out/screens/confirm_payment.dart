@@ -155,7 +155,7 @@ class ConfirmPayment extends StatelessWidget {
                                                   () => Text(
                                                     '${stockList.quantityInCart} x ${stockList.price}',
                                                     style: const TextStyle(
-                                                        fontSize: 12),
+                                                        fontSize: 11),
                                                   ),
                                                 ),
                                               ],

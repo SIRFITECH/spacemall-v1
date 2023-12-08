@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -87,19 +89,19 @@ void main() async {
             userBox.get(
               'user',
               defaultValue: UserModel(
-                cart: [],
-                stores: RxList([]),
-                profilePicLocalPath: '',
-                bio: '',
-                createdAt: '',
-                email: '',
-                contactNumber: '',
-                country: '',
-                role: '',
-                uid: '',
-                userName: '',
-                profilePicRemotePath: '',
-              ),
+                  cart: [],
+                  stores: RxList([]),
+                  profilePicLocalPath: '',
+                  bio: '',
+                  createdAt: '',
+                  email: '',
+                  contactNumber: '',
+                  country: '',
+                  role: '',
+                  uid: '',
+                  userName: '',
+                  profilePicRemotePath: '',
+                  storeUIDs: []),
             )),
       );
       Get.put(
@@ -144,6 +146,18 @@ void main() async {
       );
     },
   );
+
+  // for crash analytics
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
   runApp(const SpacemallApp());
 }

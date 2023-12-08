@@ -32,6 +32,9 @@ class ReceiptsRepo extends GetxController {
     UserModel? user = await userBox.get('user_profile');
     String staffNumber = user!.contactNumber;
 
+    // List<CartItemModel> userCart =
+    //     CheckOutController.instance.cartItems.toList();
+
     // create a new receipt
     ReceiptsModel newReceipt = ReceiptsModel(
       logo: null,
@@ -45,7 +48,6 @@ class ReceiptsRepo extends GetxController {
       cartId: '',
       itemsInCart: CheckOutController.instance.cartItems.length.toString(),
       cart: [],
-      // convertCartItems()
       paymentMethod: paymentMood,
       staffId: staffNumber.substring(4),
     );

@@ -67,11 +67,9 @@ class AddStock extends StatelessWidget {
         automaticallyImplyLeading: true,
       ),
       drawer: const SpacemallDrawer(),
-      body:
-      
-       Stack(
-         children: [
-           Padding(
+      body: Stack(
+        children: [
+          Padding(
             padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 7),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(6),
@@ -82,35 +80,6 @@ class AddStock extends StatelessWidget {
                 height: screenSize.height * 0.85,
                 child: GetBuilder<AddCategoryController>(
                   builder: (addCategoryController) {
-                    // if (
-                    //     // store.categories.toList().isEmpty &&
-                    //     addCategoryController.noCategory.value == true) {
-                    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    //     Get.defaultDialog(
-                    //       backgroundColor: !isDarkMood
-                    //           ? kDarkModeBackgroundColor.withOpacity(0.1)
-                    //           : kWhiteDark.withOpacity(0.1),
-                    //       title: kAddCategoryText,
-                    //       titleStyle: const TextStyle(
-                    //         color: kWhiteLight,
-                    //       ),
-                    //       content: const Text(
-                    //         kAddCategoryAlertBodyText,
-                    //         style: TextStyle(
-                    //           color: kWhiteLight,
-                    //         ),
-                    //       ),
-                    //       confirm: ElevatedButton(
-                    //         onPressed: () {
-                    //           Get.to(() => const AddCategory());
-                    //         },
-                    //         child: const Text(kOkayText),
-                    //       ),
-                    //     );
-                    //   });
-                    //   addCategoryController.noCategory.value = false;
-                    // }
-
                     return Padding(
                       padding: EdgeInsets.all(screenSize.width * 0.025),
                       child: ListView(
@@ -120,46 +89,6 @@ class AddStock extends StatelessWidget {
                               // Circular avartar for the item pic
                               Column(
                                 children: [
-                                  // GetX<AddItemController>(
-                                  //     init: AddItemController(),
-                                  //     builder: (addItemController) {
-                                  //       return GestureDetector(
-                                  //         onTap: () => addItemController
-                                  //             .selectItemImage(context),
-                                  //         child: itemPic.value == null
-                                  //             ? CircleAvatar(
-                                  //                 radius: 40,
-                                  //                 backgroundColor:
-                                  //                     kDarkComplementColor
-                                  //                         .withOpacity(0.2),
-                                  //                 child: SizedBox(
-                                  //                   child: ClipOval(
-                                  //                     child: Padding(
-                                  //                       padding:
-                                  //                           const EdgeInsets.all(
-                                  //                               20.0),
-                                  //                       child: SvgPicture.asset(
-                                  //                         kImageIcon,
-                                  //                         // ignore: deprecated_member_use
-                                  //                         color: isDarkMood
-                                  //                             ? kDarkModeIconColor
-                                  //                             : kMainColorLight,
-                                  //                         width: 200,
-                                  //                         height: 200,
-                                  //                         fit: BoxFit.scaleDown,
-                                  //                       ),
-                                  //                     ),
-                                  //                   ),
-                                  //                 ),
-                                  //               )
-                                  //             : CircleAvatar(
-                                  //                 radius: 40,
-                                  //                 backgroundImage:
-                                  //                     FileImage(itemPic.value!),
-                                  //               ),
-                                  //       );
-                                  //     }),
-
                                   Obx(
                                     () => GestureDetector(
                                       onTap: () => addItemController
@@ -167,13 +96,15 @@ class AddStock extends StatelessWidget {
                                       child: itemPic.value == null
                                           ? CircleAvatar(
                                               radius: 40,
-                                              backgroundColor: kDarkComplementColor
-                                                  .withOpacity(0.2),
+                                              backgroundColor:
+                                                  kDarkComplementColor
+                                                      .withOpacity(0.2),
                                               child: SizedBox(
                                                 child: ClipOval(
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(20.0),
+                                                        const EdgeInsets.all(
+                                                            20.0),
                                                     child: SvgPicture.asset(
                                                       kImageIcon,
                                                       // ignore: deprecated_member_use
@@ -199,7 +130,9 @@ class AddStock extends StatelessWidget {
                                     padding: const EdgeInsets.all(8.0),
                                     child: Text(
                                       kProductPicText,
-                                      style: Theme.of(context).textTheme.labelSmall,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
                                     ),
                                   ),
                                 ],
@@ -217,7 +150,8 @@ class AddStock extends StatelessWidget {
                                         child: TextFeildWidget(
                                           screenSize: screenSize,
                                           isDarkMood: isDarkMood,
-                                          controller: addItemController.itemName,
+                                          controller:
+                                              addItemController.itemName,
                                           keyboardType: TextInputType.text,
                                           hintText: '',
                                           labelText: kProductNameText,
@@ -244,9 +178,11 @@ class AddStock extends StatelessWidget {
                                             Obx(
                                               () => Container(
                                                 padding: EdgeInsets.symmetric(
-                                                    horizontal: screenSize.height *
-                                                        0.024.toDouble()),
-                                                height: screenSize.height * 0.04,
+                                                    horizontal:
+                                                        screenSize.height *
+                                                            0.024.toDouble()),
+                                                height:
+                                                    screenSize.height * 0.04,
                                                 decoration: BoxDecoration(
                                                   border: Border.all(
                                                     color: isDarkMood
@@ -255,16 +191,18 @@ class AddStock extends StatelessWidget {
                                                     width: 1.0,
                                                   ),
                                                   borderRadius:
-                                                      BorderRadius.circular(4.0),
+                                                      BorderRadius.circular(
+                                                          4.0),
                                                 ),
-                                                child:
-                                                    DropdownButton<CategoryModel>(
+                                                child: DropdownButton<
+                                                    CategoryModel>(
                                                   underline: Container(
                                                     height: 0,
                                                   ),
                                                   iconSize: 32,
                                                   icon: Icon(
-                                                    Icons.arrow_drop_down_circle,
+                                                    Icons
+                                                        .arrow_drop_down_circle,
                                                     size: 10,
                                                     color: isDarkMood
                                                         ? kDarkModeIconColor
@@ -272,10 +210,12 @@ class AddStock extends StatelessWidget {
                                                   ),
                                                   value: addCategoryController
                                                       .categoryValue.value,
-                                                  hint: categoriesFromBox.isNotEmpty
+                                                  hint: categoriesFromBox
+                                                          .isNotEmpty
                                                       ? Text(
                                                           truncateString(
-                                                              'Choose Category', 9),
+                                                              'Choose Category',
+                                                              9),
                                                         )
                                                       : GestureDetector(
                                                           onTap: () {
@@ -287,7 +227,8 @@ class AddStock extends StatelessWidget {
                                                           },
                                                           child: Text(
                                                             truncateString(
-                                                                'Add Category', 9),
+                                                                'Add Category',
+                                                                9),
                                                           ),
                                                         ),
                                                   style: textTheme.labelSmall,
@@ -310,13 +251,16 @@ class AddStock extends StatelessWidget {
                                                       value: value,
                                                       child: Text(
                                                         truncateString(
-                                                            value.categoryName, 9),
-                                                        style: textTheme.labelSmall,
+                                                            value.categoryName,
+                                                            9),
+                                                        style: textTheme
+                                                            .labelSmall,
                                                       ),
                                                     );
                                                   }).toList(),
-                                                  onChanged: addCategoryController
-                                                      .setCategory,
+                                                  onChanged:
+                                                      addCategoryController
+                                                          .setCategory,
                                                 ),
                                               ),
                                             ),
@@ -334,7 +278,8 @@ class AddStock extends StatelessWidget {
                                         child: TextFeildWidget(
                                           screenSize: screenSize,
                                           isDarkMood: isDarkMood,
-                                          controller: addItemController.costPrice,
+                                          controller:
+                                              addItemController.costPrice,
                                           keyboardType: TextInputType.number,
                                           hintText: '',
                                           labelText: kCostPriceText,
@@ -346,7 +291,8 @@ class AddStock extends StatelessWidget {
                                       TextFeildWidget(
                                         screenSize: screenSize,
                                         isDarkMood: isDarkMood,
-                                        controller: addItemController.sellingPrice,
+                                        controller:
+                                            addItemController.sellingPrice,
                                         keyboardType: TextInputType.number,
                                         hintText: '',
                                         labelText: kSellingPriceText,
@@ -358,14 +304,15 @@ class AddStock extends StatelessWidget {
                                         children: [
                                           Obx(
                                             () => Padding(
-                                              padding:
-                                                  const EdgeInsets.only(top: 10.0),
+                                              padding: const EdgeInsets.only(
+                                                  top: 10.0),
                                               child: CustomRadio(
                                                 onChange: (bool? value) =>
                                                     addItemController
                                                         .setProfitTracking(),
                                                 color: addItemController
-                                                            .trackProfit.value ==
+                                                            .trackProfit
+                                                            .value ==
                                                         true
                                                     ? isDarkMood
                                                         ? kDarkModeIconColor
@@ -411,7 +358,8 @@ class AddStock extends StatelessWidget {
                                   TextFeildWidget(
                                     screenSize: screenSize,
                                     isDarkMood: isDarkMood,
-                                    controller: addItemController.stockAvailable,
+                                    controller:
+                                        addItemController.stockAvailable,
                                     keyboardType: TextInputType.number,
                                     hintText: '',
                                     labelText: kStockAvalableText,
@@ -433,10 +381,10 @@ class AddStock extends StatelessWidget {
                                                   ? kDarkModeIconColor
                                                   : kMainColorDark
                                               : kGreyColor,
-                                          groupValue:
-                                              addItemController.trackLowStock.value,
-                                          value:
-                                              addItemController.trackLowStock.value,
+                                          groupValue: addItemController
+                                              .trackLowStock.value,
+                                          value: addItemController
+                                              .trackLowStock.value,
                                         ),
                                       ),
                                       Padding(
@@ -478,7 +426,9 @@ class AddStock extends StatelessWidget {
                                         left: screenSize.width * 0.025),
                                     child: Text(
                                       kPreventSalesOnLowStockText,
-                                      style: Theme.of(context).textTheme.labelSmall,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall,
                                     ),
                                   ),
                                 ],
@@ -510,7 +460,8 @@ class AddStock extends StatelessWidget {
                                     ),
                                     itemCount:
                                         addItemController.moreImages.length + 1,
-                                    itemBuilder: (BuildContext context, int index) {
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
                                       if (index <
                                           addItemController.moreImages.length) {
                                         File image =
@@ -525,7 +476,8 @@ class AddStock extends StatelessWidget {
                                           //   );
                                           // },
                                           onTap: () {
-                                            addItemController.showDeleteImageAlert(
+                                            addItemController
+                                                .showDeleteImageAlert(
                                               context,
                                               isDarkMood,
                                               () {
@@ -535,7 +487,8 @@ class AddStock extends StatelessWidget {
                                             );
                                           },
                                           child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(10),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                             child: Container(
                                               height: screenSize.height * 0.07,
                                               width: screenSize.width * 0.15,
@@ -544,8 +497,8 @@ class AddStock extends StatelessWidget {
                                                     BorderRadius.circular(10),
                                                 border: Border.all(
                                                   style: BorderStyle.solid,
-                                                  color:
-                                                      kGreyColor.withOpacity(0.3),
+                                                  color: kGreyColor
+                                                      .withOpacity(0.3),
                                                 ),
                                               ),
                                               child: Image.file(
@@ -569,13 +522,15 @@ class AddStock extends StatelessWidget {
                                                   BorderRadius.circular(10),
                                               border: Border.all(
                                                 style: BorderStyle.solid,
-                                                color: kGreyColor.withOpacity(0.3),
+                                                color:
+                                                    kGreyColor.withOpacity(0.3),
                                               ),
                                             ),
                                             child: Icon(
                                               Icons.add,
                                               size: 30,
-                                              color: kGreyColor.withOpacity(0.3),
+                                              color:
+                                                  kGreyColor.withOpacity(0.3),
                                             ),
                                           ),
                                         );
@@ -641,9 +596,8 @@ class AddStock extends StatelessWidget {
                                 onPress: ()
                                     // =>
                                     {
-                                  AddItemController.instance.addItemToPhone();
-
-                              },
+                                  AddItemController.instance.addNewItem();
+                                },
                                 title: kAddStockAppBarText,
                                 width: screenSize.width * 0.3,
                               ),
@@ -666,8 +620,8 @@ class AddStock extends StatelessWidget {
                 ),
               ),
             ),
-      ),
-           Obx(
+          ),
+          Obx(
             () => addItemController.isLoading.value
                 ? Positioned(
                     child: Container(
@@ -683,8 +637,8 @@ class AddStock extends StatelessWidget {
                   )
                 : Container(),
           )
-         ],
-       ),
+        ],
+      ),
     );
   }
 }

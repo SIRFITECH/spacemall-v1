@@ -24,8 +24,6 @@ class AddCategory extends StatelessWidget {
 
     final AddCategoryController addCategoryController = Get.find();
 
-    // StoreController storeController = Get.find();
-
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
@@ -127,7 +125,13 @@ class AddCategory extends StatelessWidget {
                           ),
                           ElevatedButton(
                               onPressed: () {
-                                addCategoryController.addNewCategory(context);
+                                addCategoryController
+                                    .addNewCategory(context)
+                                    .then(
+                                      (value) => addCategoryController
+                                          .categoryName
+                                          .clear(),
+                                    );
                               },
                               child: const Text(kAddCategoryText))
                         ],

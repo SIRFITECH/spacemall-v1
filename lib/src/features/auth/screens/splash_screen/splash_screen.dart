@@ -3,9 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/auth/application/splash_controller/splash_controller.dart';
+import 'package:spacemall/src/features/auth/screens/auth_check/auth_check.dart';
 import 'package:spacemall/src/features/core_app/mall/screens/mall_screen.dart';
-
-import '../on_boarding/on_boarding_screen.dart';
 
 class ChooseUserType extends StatelessWidget {
   const ChooseUserType({super.key});
@@ -31,9 +30,7 @@ class ChooseUserType extends StatelessWidget {
                   onTap: (() {
                     if (index == 0) {
                       Get.offAll(
-                        () => const
-                            // Login(),
-                            OnBoarding(),
+                        () => const AuthCheckScreen(),
                       );
                     }
                   }),
@@ -42,9 +39,7 @@ class ChooseUserType extends StatelessWidget {
                       switch (index) {
                         case 0:
                           Get.offAll(
-                            () => const
-                                // Login(),
-                                OnBoarding(),
+                            () => const AuthCheckScreen(),
                           );
                           splashController.userRole.value = 'Store Owner';
 

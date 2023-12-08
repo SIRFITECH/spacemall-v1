@@ -34,6 +34,8 @@ class UserModel {
   String createdAt;
   @HiveField(11)
   String profilePicRemotePath;
+  @HiveField(12)
+  List storeUIDs;
 
   UserModel({
     required this.profilePicLocalPath,
@@ -48,6 +50,7 @@ class UserModel {
     required this.country,
     required this.createdAt,
     required this.profilePicRemotePath,
+    required this.storeUIDs,
   });
 
   // populated from map, that is serializing the user object from server
@@ -66,10 +69,27 @@ class UserModel {
       bio: map['bio'] ?? '',
       createdAt: map['createdAt'] ?? '',
       profilePicRemotePath: map['profilePicLocalPath'] ?? '',
+      storeUIDs: map['storeUIDs'] ?? [],
     );
   }
 
- 
+  // // Factory method to create UserModel from Firebase User
+  // factory UserModel.fromFirebaseUser(User firebaseUser) {
+  //   return UserModel(
+  //       profilePicLocalPath: firebaseUser,
+  //       userName: userName,
+  //       email: email,
+  //       contactNumber: contactNumber,
+  //       uid: firebaseUser.uid,
+  //       role: role,
+  //       bio: bio,
+  //       cart: cart,
+  //       stores: stores,
+  //       country: country,
+  //       createdAt: createdAt,
+  //       profilePicRemotePath: profilePicRemotePath,
+  //       storeUIDs: storeUIDs);
+  // }
 
   // populated to map, that is serializing the user object to string for server use
   Map<String, dynamic> toMap() {
@@ -86,6 +106,7 @@ class UserModel {
       "bio": bio,
       "createdAt": createdAt,
       "profilePicRemotePath": profilePicRemotePath,
+      "storeUIDs": storeUIDs,
     };
   }
 }

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:spacemall/data/repositoies/remote_db_interface/sales_remote_db_adapter.dart';
+import 'package:spacemall/data/repositories/remote_db_interface/sales_remote_db_adapter.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_model.dart';
 
 import '../../../constants/colors.dart';
@@ -53,6 +53,9 @@ class SalesFirebaseServices extends SalesRemoteDataBaseAdapter {
       List<dynamic> currentSales = currentUserStoresMap['sales'];
 
       currentSales.add(newSales.toMap());
+      await _fireStore.collection('carts').doc(newSales.saleId).set(
+            newSales.toMap(),
+          );
 
       await _fireStore
           .collection('stores')

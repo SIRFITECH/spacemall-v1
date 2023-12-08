@@ -7,7 +7,7 @@ class ReceiptPDFModel {
   StoreModel seller;
   CustomerModel customer;
   ReceiptsModel recieptInfo;
-  CartItemModel cartItem;
+  List<CartItemModel> cartItem;
   String cartId;
   String totalCartPrice;
   String subTotal;

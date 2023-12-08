@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:spacemall/data/repositoies/remote_db_interface/user_remote_db_adapter.dart';
+import 'package:spacemall/data/repositories/remote_db_interface/user_remote_db_adapter.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 
 import '../../../constants/colors.dart';
@@ -44,7 +44,7 @@ class UserFirebaseServices extends UserRemoteDataBaseAdapter {
         user.uid = userId;
       });
       _profileController.setUser(user);
-
+      debugPrint('UID here is $userId');
       await _fireStore.collection('users').doc(userId).set(user.toMap()).then(
             (value) => onSucess(),
           );

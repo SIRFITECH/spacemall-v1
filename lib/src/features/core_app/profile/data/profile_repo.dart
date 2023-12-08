@@ -55,6 +55,7 @@ class ProfileRepo extends GetxController {
         bio: _profileController.tBio.text.trim(),
         createdAt: DateFormat('d MMM, yyyy').format(DateTime.now()),
         profilePicRemotePath: '',
+        storeUIDs: [],
       );
       const Center(
         child: CircularProgressIndicator(),

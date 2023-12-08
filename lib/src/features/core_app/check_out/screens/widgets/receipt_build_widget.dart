@@ -3,9 +3,14 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
-import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
+// import 'package:spacemall/src/features/core_app/check_out/data/check_out_repo.dart';
+// import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_item_model.dart';
+// import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/localizations/currency.dart';
+import 'package:spacemall/src/repository/services/phone_storage/sales_phone_services.dart';
+// import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/helpers/helper.dart';
 
 import '../../../dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipt_pdf.dart';
@@ -66,17 +71,17 @@ TextStyle headerTextStyle = TextStyle(
   fontSize: 14,
 );
 // take a list of cartItems and generate a list of string
-List<List<String>> mapCartItemsToStringList(List<CartItemModel> cartItems) {
+List<List<String>> mapCartItemsToStringList(List<SalesItemModel> cart) {
   List<List<String>> result = [];
 
-  for (var item in cartItems) {
+  for (var item in cart) {
     List<String> itemInfo = [
       item.itemName,
       item.quantityInCart.toString(),
-      item.price.toString(),
+      item.itemPrice.toString(),
       nairaFormat.format(
         double.parse(
-          item.subTotal.value.toString(),
+          item.subTotal.toString(),
         ),
       ),
     ];
@@ -148,8 +153,12 @@ Widget buildTitle(ReceiptPDFModel receipt) => Column(
 
 // build a body line
 Widget buildBody(ReceiptPDFModel receipt) {
-  List<List<String>> bodyList =
-      mapCartItemsToStringList(CheckOutController.instance.cartItems);
+  var cart = SalesPhoneService()
+      .getSalesFromDevice('4b04703c-2667-47a5-93a1-d8e624e7df82');
+
+  List<List<String>> bodyList = mapCartItemsToStringList(cart
+      // receipt
+      );
 
   TableRow headers = createHeaderRow(
     [
@@ -390,28 +399,6 @@ Widget buildCustomer({
     ],
   );
 }
-
-// // build a receipt details line
-// Widget buildReceiptInfo({
-//   required String receiptId,
-//   required String date,
-// }) {
-//   return Column(
-//     mainAxisSize: MainAxisSize.min,
-//     crossAxisAlignment: pw.CrossAxisAlignment.start,
-//     children: [
-//       Text(
-//         receiptId,
-//         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-//       ),
-//       SizedBox(height: 1 * PdfPageFormat.mm),
-//       Text(
-//         date,
-//       ),
-//       SizedBox(height: 3 * PdfPageFormat.mm),
-//     ],
-//   );
-// }
 
 // build a receipt details line
 Widget buildReceiptInfo(ReceiptPDFModel receipt, int index) {

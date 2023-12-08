@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spacemall/data/repositoies/local_db_inteface/receipt_local_db_adapter.dart';
+import 'package:spacemall/data/repositories/local_db_inteface/receipt_local_db_adapter.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
@@ -68,4 +68,5 @@ class ReceiptPhoneService extends ReceiptLocalDataBaseAdapter {
       );
     }
   }
+
 }

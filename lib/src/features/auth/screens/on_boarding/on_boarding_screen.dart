@@ -31,7 +31,7 @@ class OnBoarding extends StatelessWidget {
             child: OutlinedButton(
               onPressed: () => obController.animateToNextSlide(),
               style: ElevatedButton.styleFrom(
-                side: const BorderSide(color: kDefaultIconDarkColor),
+                side: BorderSide(color: kDefaultIconDarkColor),
                 shape: const CircleBorder(),
                 padding: const EdgeInsets.all(20),
                 foregroundColor: kWhiteLight,

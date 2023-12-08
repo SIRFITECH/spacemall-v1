@@ -72,6 +72,7 @@ class ProfileController extends GetxController {
         uid: '',
         userName: '',
         profilePicRemotePath: '',
+        storeUIDs: [],
       );
     }
   }

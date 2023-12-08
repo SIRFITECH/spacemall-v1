@@ -1,8 +1,14 @@
+// import 'package:esc_pos_printer/esc_pos_printer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
 
 import '../../../../../../repository/hive_boxes.dart';
+
+// import 'package:image/image.dart';
+// import 'dart:typed_data';
+// import 'package:flutter/services.dart';
+// import 'package:esc_pos_utils/esc_pos_utils.dart';
 
 class ReceiptsController extends GetxController {
   // The purpose of this class is to hold and manipulate the receipt state

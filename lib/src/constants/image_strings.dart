@@ -1,4 +1,4 @@
-/// --- APP IMAGE TEXT STRING ---
+// --- APP IMAGE TEXT STRING ---
 
 const String kTrialImage1 = 'assets/images/welcome_image/mosnyik.jpeg';
 const String kTrailImage2 = 'assets/images/welcome_image/mos.jpg';
@@ -12,6 +12,12 @@ const String kBackGroundCartDarkMood =
 const String kBackGroundAfrica = 'assets/images/backgroung_images/bckgrd.png';
 const String kDashboardBackGround =
     'assets/images/backgroung_images/dashboard.png';
+const String kSpacemallLogoColored =
+    'assets/images/backgroung_images/sMallLogoColored.png';
+const String kSpacemallLogoWhite =
+    'assets/images/backgroung_images/sMallLogoWhite.png';
+const String kSpacemallLogoStandAlone =
+    'assets/images/backgroung_images/LogoAloneWhite.png';
 
 // ONBOARDING IMAGE STRINGS
 const String kOnBoardingImage1 = 'assets/images/on_boarding_images/open.png';
@@ -19,13 +25,10 @@ const String kOnBoardingImage2 = 'assets/images/on_boarding_images/bns.png';
 const String kOnBoardingImage3 = 'assets/images/on_boarding_images/welcome.png';
 
 // PAYMENT IMAGE STRINGS
-const String kPaymentBank = 'assets/images/navbar_images/bank.svg'
-// 'assets/images/dashboard_icons/calender.svg';
-    'assets/images/payment_images/bank.svg';
-const String kPaymentCard = 'assets/images/payment_images/card.svg';
-const String kPaymentCash = 'assets/images/welcome_image/welcome.png';
-// 'assets/images/payment_images/cash.png';
-const String kPaymentPOD = 'assets/images/payment_images/pod.svg';
+const String kPaymentBank = 'assets/images/payment_images/bank.png';
+const String kPaymentCard = 'assets/images/payment_images/card.png';
+const String kPaymentCash = 'assets/images/payment_images/cash.png';
+const String kPaymentPOD = 'assets/images/payment_images/pod.png';
 
 /// --- WELCOME SCREEN IMAGE STRINGS ---
 const String kWelcomeIllustration = 'assets/images/welcome_image/welcome.png';

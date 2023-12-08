@@ -78,14 +78,12 @@ class AddItemRepo extends GetxController {
     );
 
     try {
-      // StockFirebaseServices().saveStockItemToDB(
-      //   stockItem: newItem,
-      //   onSucess: () {
-      //     StockPhoneServices().saveStockItemToDevice(newItem);
-      //   },
-      // );
-
-      StockPhoneServices().saveStockItemToDevice(newItem);
+      StockFirebaseServices().saveStockItemToDB(
+        stockItem: newItem,
+        onSucess: () {
+          StockPhoneServices().saveStockItemToDevice(newItem);
+        },
+      );
     } catch (e) {
       debugPrint(
           'An error occured in saveItemData() in addItemRepo: ${e.toString()}');
@@ -103,11 +101,16 @@ class AddItemRepo extends GetxController {
   Future editItemData(AddItemModel editedItem) async {
     addCategoryController.isLoading.value = true;
     StockFirebaseServices().editStockInFirebase(editedItem).then((value) {
-      StockPhoneServices().editStockInDevice(editedItem);
-      AddItemRepo.instance.clearControllers();
-      AddItemController.instance.clearImages();
-      addCategoryController.isLoading.value = false;
-    }).then((value) => Get.to(() => Stock()));
+      StockPhoneServices().editStockInDevice(editedItem).then((value) {
+        AddItemRepo.instance.clearControllers();
+        AddItemController.instance.clearImages();
+        addCategoryController.isLoading.value = false;
+      });
+    }).then(
+      (value) => Get.to(
+        () => Stock(),
+      ),
+    );
 
     // StockPhoneServices().editStockInDevice(editedItem);
   }

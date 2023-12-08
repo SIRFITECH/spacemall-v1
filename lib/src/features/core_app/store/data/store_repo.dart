@@ -56,6 +56,7 @@ class StoreRepo extends GetxController {
                     StorePhoneServices().saveStoreDataToDevice(newStore);
                   })
               .then((value) {
+            clearControllers();
             spaceMallSnackBar(
               'Success!!',
               'You have added a store with  store name ${newStore.storeName.toUpperCase()}',

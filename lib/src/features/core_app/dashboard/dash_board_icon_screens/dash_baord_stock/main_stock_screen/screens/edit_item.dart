@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
 import '../../../../../../../constants/colors.dart';
 import '../../../../../../../constants/image_strings.dart';
 import '../../../../../../../constants/sizes.dart';
@@ -21,9 +20,9 @@ import '../../add_item/domain/add_item_model.dart';
 
 class EditItem extends StatelessWidget {
   const EditItem({
-    Key? key,
+    super.key,
     required this.item,
-  }) : super(key: key);
+  });
 
   final AddItemModel item;
 
@@ -37,7 +36,7 @@ class EditItem extends StatelessWidget {
 
     final AddItemController addItemController = Get.find();
     final AddCategoryController addCategoryController = Get.find();
-  
+
     List<CategoryModel> categoriesFromBox =
         addCategoryController.getCategoriesFromBox();
 

@@ -1,4 +1,3 @@
-import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:hive/hive.dart';
 
 part 'sales_model.g.dart';
@@ -6,20 +5,35 @@ part 'sales_model.g.dart';
 @HiveType(typeId: 11)
 class SalesModel {
   @HiveField(0)
-  String saleId; //Unique identifier for the receipt
+  String saleId;
   @HiveField(1)
   String attendant;
   @HiveField(2)
   DateTime date;
   @HiveField(3)
-  List
-      cart; // List of items purchased, each item may have product details (e.g., name, price, quantity)
+  List<dynamic> cart;
   @HiveField(4)
-  String customerName; // Identifier for the user making the purchase
+  String customerName;
   @HiveField(5)
   String cartTotal;
   @HiveField(6)
-  String storeId; // Identifier for the business owner
+  String storeName;
+  @HiveField(7)
+  String subTotal;
+  @HiveField(8)
+  String discount;
+  @HiveField(9)
+  String tax;
+  @HiveField(10)
+  String paymentMode;
+  @HiveField(11)
+  String salesChannel;
+  // @HiveField(7)
+  // int quantityInCart;
+  // @HiveField(8)
+  // String itemPrice;
+  // @HiveField(9)
+  // String totalItemPrice;
 
   SalesModel({
     required this.saleId,
@@ -28,7 +42,12 @@ class SalesModel {
     required this.cart,
     required this.customerName,
     required this.cartTotal,
-    required this.storeId,
+    required this.storeName,
+    required this.discount,
+    required this.paymentMode,
+    required this.salesChannel,
+    required this.subTotal,
+    required this.tax,
   });
 
   // populated from map, that is serializing the stock object from server
@@ -40,7 +59,15 @@ class SalesModel {
       cart: map['cart'] ?? [],
       customerName: map['customerName'] ?? '',
       cartTotal: map['cartTotal'] ?? '',
-      storeId: map['storeId'] ?? '',
+      storeName: map['storeName'] ?? '',
+      discount: map['discount'] ?? 0,
+      // itemPrice: map['itemPrice'] ?? '',
+      paymentMode: map['paymentMode'] ?? '',
+      // quantityInCart: map['quantityInCart'] ?? 0,
+      salesChannel: map['salesChannel'] ?? '',
+      subTotal: map['subTotal'] ?? 0,
+      tax: map['tax'] ?? 0,
+      // totalItemPrice: map['totalItemPrice'] ?? '',
     );
   }
 
@@ -53,7 +80,15 @@ class SalesModel {
       "cart": cart,
       "customerName": customerName,
       "cartTotal": cartTotal,
-      "storeId": storeId,
+      "storeName": storeName,
+      "discount": discount,
+      // "itemPrice": itemPrice,
+      "paymentMode": paymentMode,
+      // "quantityInCart": quantityInCart,
+      "salesChannel": salesChannel,
+      " subTotal": subTotal,
+      "tax": tax,
+      // "totalItemPrice": totalItemPrice,
     };
   }
 }

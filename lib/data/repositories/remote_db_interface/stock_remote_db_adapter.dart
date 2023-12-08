@@ -7,6 +7,5 @@ abstract class StockRemoteDataBaseAdapter {
   });
   Future<void> editStockInFirebase(AddItemModel editedItem);
 
-  Future<void> deleteStockFromFirebase(AddItemModel editedItem);
-  
+  Future<void> deleteStockFromFirebase(AddItemModel deleteItem);
 }

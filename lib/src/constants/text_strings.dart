@@ -1,4 +1,4 @@
-/// --- APP TEXT STRING ---
+// --- APP TEXT STRING ---
 
 /// --- GENERIC TEXTS ---
 const String kLogin = 'Login';
@@ -210,6 +210,7 @@ const String kAddStaffEmailHintText = 'spacemall@sirfitech.com';
 const String kReceiptsAppBarText = 'Receipts';
 const String kReceiptsLoadMoreText = 'Load More';
 const String kReceiptsSettingsAppBarText = 'Receipts Settings';
+const String kCompletedText = 'Completed';
 
 /// --- DEBTS SCREEN TEXT ---
 

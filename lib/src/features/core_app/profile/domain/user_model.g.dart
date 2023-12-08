@@ -32,13 +32,14 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       country: fields[6] as String,
       createdAt: fields[10] as String,
       profilePicRemotePath: fields[11] as String,
+      storeUIDs: fields[12] as List<dynamic>,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserModel obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.profilePicLocalPath)
       ..writeByte(1)
@@ -62,7 +63,9 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       ..writeByte(10)
       ..write(obj.createdAt)
       ..writeByte(11)
-      ..write(obj.profilePicRemotePath);
+      ..write(obj.profilePicRemotePath)
+      ..writeByte(12)
+      ..write(obj.storeUIDs);
   }
 
   @override

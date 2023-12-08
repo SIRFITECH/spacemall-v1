@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
-import 'package:spacemall/data/repositoies/local_db_inteface/stock_local_db_adapter.dart';
+import 'package:spacemall/data/repositories/local_db_inteface/stock_local_db_adapter.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
@@ -14,7 +14,7 @@ import '../../hive_boxes.dart';
 
 class StockPhoneServices extends StockLocalDataBaseAdapter {
   final AddItemRepo addItemRepo = AddItemRepo();
-  // final AddCategoryController addCategoryController = AddCategoryController();
+
   static AddCategoryController addCategoryController = Get.find();
   final AddItemController addItemController = AddItemController();
 
@@ -39,7 +39,6 @@ class StockPhoneServices extends StockLocalDataBaseAdapter {
     ),
   );
 
-  // void saveStockToPhone() {}
   void getStocksFromDevice() {}
 
   @override
@@ -49,6 +48,8 @@ class StockPhoneServices extends StockLocalDataBaseAdapter {
     try {
       // increament the category count and Add the new stock item to the store's category list
       addCategoryController.categoryValue.value?.itemsInCategory++;
+      print(
+          'we have ${addCategoryController.categoryValue.value} stock in the category');
 
       addCategoryController.categoryValue.value?.items.add(stockItem);
 
@@ -104,18 +105,19 @@ class StockPhoneServices extends StockLocalDataBaseAdapter {
 
       store.stock[itemIndex] = editedItem;
 
-      await storeBox.put(
+      await storeBox
+          .put(
         addItemRepo.currentStore.value,
         store,
-      );
-      spaceMallSnackBar(
-        'Edited',
-        '${editedItem.itemName} edited',
-        Colors.green,
-        kWhiteLight,
-      );
-
-      Get.back();
+      )
+          .then((value) {
+        spaceMallSnackBar(
+          'Edited',
+          '${editedItem.itemName} edited',
+          kWhiteLight,
+          kGreenColor,
+        );
+      });
     } catch (e) {
       debugPrint('error editing stock: ${e.toString()}');
       spaceMallSnackBar('Error Editing', e.toString(), kWhiteLight, kRedColor);
