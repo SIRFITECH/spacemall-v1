@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/general/custom_button.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
@@ -86,12 +87,15 @@ class SetProfile extends StatelessWidget {
                           ),
                           Text(
                             kChangePhotoText,
-                            style: Theme.of(context).textTheme.labelSmall,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(fontSize: kBodyTextFont),
                           )
                         ],
                       ),
                     ),
-                      // username input
+                    // username input
 
                     TextFeildWidget(
                       screenSize: screenSize,
@@ -300,10 +304,10 @@ class SetProfile extends StatelessWidget {
                         header: Text(
                           'Advanced Details',
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color:
-                                isDarkMood ? kGreyColor.shade600 : kBlackDark,
-                          ),
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  isDarkMood ? kGreyColor.shade600 : kBlackDark,
+                              fontSize: kBodyTextFont),
                         ),
                         expanded: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

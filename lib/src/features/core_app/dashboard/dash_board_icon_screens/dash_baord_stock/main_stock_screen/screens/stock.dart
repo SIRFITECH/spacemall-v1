@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/screens/login/login_divider_widget.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
@@ -66,7 +67,11 @@ class Stock extends StatelessWidget {
       body: storeController.noStoreYet.value == true && store.storeName == ''
           ? const Center(
               child: Text(
-                  'Please choose a store \n Or add store from the menu icon \n On your top left hand to continue'),
+                'Please choose a store \n Or add store from the menu icon \n On your top left hand to continue',
+                style: TextStyle(
+                  fontSize: kBodyTextFont,
+                ),
+              ),
             )
           : Container(
               decoration: BoxDecoration(
@@ -95,7 +100,7 @@ class Stock extends StatelessWidget {
                                   ? kWhiteLight
                                   : kDarkComplementColor,
                               fontWeight: FontWeight.bold,
-                              fontSize: 30,
+                              fontSize: kHeaderTextFont,
                             ),
                           ),
                         ),

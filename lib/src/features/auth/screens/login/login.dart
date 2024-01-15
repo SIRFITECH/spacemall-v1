@@ -23,7 +23,6 @@ class Login extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
 
-    // Get.put(StoreController());
     final LoginController loginController = Get.find();
 
     return Scaffold(
@@ -63,7 +62,7 @@ class Login extends StatelessWidget {
                     ),
                     const LoginText(),
                     Padding(
-                      padding: const EdgeInsets.all(kFormHeight - 10),
+                      padding: const EdgeInsets.all(kFormHeight - 20),
                       // login FOrm
                       child: Form(
                         key: _formKey,
@@ -79,7 +78,10 @@ class Login extends StatelessWidget {
                           keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                             hintText: kLoginPlaceHolderText.toUpperCase(),
-                            hintStyle: Theme.of(context).textTheme.labelSmall,
+                            hintStyle: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(fontSize: kBodyTextFont),
                             border:
                                 Theme.of(context).inputDecorationTheme.border,
                             prefixIcon: Padding(
@@ -95,7 +97,8 @@ class Login extends StatelessWidget {
                                       '${loginController.country.value.flagEmoji} + ${loginController.country.value.phoneCode} |',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .labelSmall,
+                                          .labelSmall
+                                          ?.copyWith(fontSize: kBodyTextFont),
                                     ),
                                   )),
                             ),

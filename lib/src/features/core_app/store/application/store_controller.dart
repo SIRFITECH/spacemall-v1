@@ -105,17 +105,21 @@ class StoreController extends GetxController {
   Future<void> addNewStoreToPhone(BuildContext context) async {
     if (StoreController.instance.logo.value == null ||
         StoreController.instance.storeName.text == '') {
-      Get.snackbar(
-          'Bad Store', 'You can not add a store without logo or a name',
-          backgroundColor: kRedColor, colorText: kWhiteLight);
+      spaceMallSnackBar(
+          'Bad Store',
+          'You can not add a store without logo or a name',
+          kWhiteLight,
+          kRedColor);
     } else {
       isLoading.value = true;
       storeRepo.saveStore(context);
-      Get.snackbar(
+
+      // Get.snackbar
+      spaceMallSnackBar(
         '${storeName.text.trim()} created',
         '${storeName.text.trim()} store created successfully',
-        backgroundColor: kWhiteLight,
-        colorText: kBlack,
+        kWhiteLight,
+        kBlack,
       );
       isStoreAdded.value = true;
 

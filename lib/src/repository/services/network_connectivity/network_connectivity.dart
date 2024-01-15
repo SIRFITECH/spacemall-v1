@@ -22,10 +22,11 @@ class NetworkConnectivity {
     if (!deviceHasConnection && !internetConnection) {
       spaceMallSnackBar(
           'Notice', 'You are working offline', kWhiteLight, kRedColor);
-    } else {
-      spaceMallSnackBar(
-          'Network alert', 'Welcome back online', kBlackDark, kGreyColor[400]);
     }
+    // else {
+    //   spaceMallSnackBar(
+    //       'Network alert', 'Welcome back online', kBlackDark, kGreyColor[400]);
+    // }
     return deviceHasConnection;
   }
 

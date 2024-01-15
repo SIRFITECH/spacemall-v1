@@ -16,7 +16,10 @@ class FLogin extends StatelessWidget {
       children: [
         Text(
           'Sign in with:',
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: Theme.of(context)
+              .textTheme
+              .headlineMedium
+              ?.copyWith(fontSize: kBodyTextFont),
           textAlign: TextAlign.center,
         ),
         Padding(

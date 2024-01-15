@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/application/date_widget_controller.dart';
 
@@ -41,7 +42,10 @@ class TextFeildWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: screenSize.width * 0.02),
           child: Text(
             labelText,
-            style: Theme.of(context).textTheme.labelSmall,
+            style: Theme.of(context)
+                .textTheme
+                .labelSmall
+                ?.copyWith(fontSize: kBodyTextFont),
           ),
         ),
         SizedBox(
@@ -65,7 +69,10 @@ class TextFeildWidget extends StatelessWidget {
                     .labelSmall!
                     .copyWith(color: kGreyColor),
               ),
-              style: Theme.of(context).textTheme.labelSmall,
+              style: Theme.of(context)
+                  .textTheme
+                  .labelSmall
+                  ?.copyWith(fontSize: kBodyTextFont),
               keyboardType: keyboardType,
               controller: controller,
               maxLines: maxLines),
@@ -112,7 +119,10 @@ class DateFeildWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: screenSize.width * 0.02),
           child: Text(
             labelText,
-            style: Theme.of(context).textTheme.labelSmall,
+            style: Theme.of(context)
+                .textTheme
+                .labelSmall
+                ?.copyWith(fontSize: kBodyTextFont),
           ),
         ),
         SizedBox(
@@ -161,7 +171,10 @@ class DateFeildWidget extends StatelessWidget {
                   hintText: hintText,
                   hintStyle: Theme.of(context).textTheme.labelSmall,
                 ),
-                style: Theme.of(context).textTheme.labelSmall,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelSmall
+                    ?.copyWith(fontSize: kBodyTextFont),
                 keyboardType: keyboardType,
                 controller: controller,
               ),

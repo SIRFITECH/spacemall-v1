@@ -21,14 +21,14 @@ class UserPhoneServices extends UserLocalDataBaseAdapter {
     final appDocumentDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
 
-    await userBox.put('user_profile', user);
-
-    Get.snackbar(
-      'User created',
-      'User with username ${_profileController.tUserName.text.toUpperCase()} created successfully',
-      backgroundColor: kWhiteLight,
-      colorText: kBlack,
-    );
+    await userBox.put('user_profile', user).then(
+          (value) => Get.snackbar(
+            'User created',
+            'User with username ${_profileController.tUserName.text.toUpperCase()} created successfully',
+            backgroundColor: kWhiteLight,
+            colorText: kBlack,
+          ),
+        );
   }
 
   @override
@@ -64,20 +64,19 @@ class UserPhoneServices extends UserLocalDataBaseAdapter {
       spaceMallSnackBar('Error', 'Error getting user data from Hive: $e',
           kWhiteLight, kRedColor);
       return UserModel(
-        cart: [],
-        stores: RxList([]),
-        profilePicLocalPath: '',
-        bio: '',
-        createdAt: '',
-        email: '',
-        contactNumber: '',
-        country: '',
-        role: '',
-        uid: '',
-        userName: '',
-        profilePicRemotePath: '',
-        storeUIDs: []
-      ); // Replace with an appropriate default user model.
+          cart: [],
+          stores: RxList([]),
+          profilePicLocalPath: '',
+          bio: '',
+          createdAt: '',
+          email: '',
+          contactNumber: '',
+          country: '',
+          role: '',
+          uid: '',
+          userName: '',
+          profilePicRemotePath: '',
+          storeUIDs: []); // Replace with an appropriate default user model.
     }
   }
 

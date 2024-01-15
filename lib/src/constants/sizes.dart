@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 const kDefaultSize = 30.0;
 const kButtonHeight = 15.0;
 
+/// ---- FONTS
+const kBodyTextFont = 11.0;
+const kHeaderTextFont = 24.0;
+
 /// ---- LOGIN SIZES
 const kFormHeight = 30.0;
 const kFormPadding = 8.0;

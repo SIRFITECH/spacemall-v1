@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_tag/application/add_tag_controller.dart';
 
@@ -28,6 +29,7 @@ final AddTagController addTagController = Get.find();
 SnackbarController spaceMallSnackBar(
     String title, String message, Color? textColor, Color? bgColor) {
   return Get.snackbar(
+ 
     title,
     message,
     colorText: textColor,
@@ -35,7 +37,10 @@ SnackbarController spaceMallSnackBar(
     // FIXME: adjust the font of the snackbar
     messageText: Text(
       message,
-      style: const TextStyle(fontSize: 12.0),
+      style: TextStyle(
+        fontSize: kBodyTextFont,
+        color: textColor,
+      ),
     ),
   );
 }

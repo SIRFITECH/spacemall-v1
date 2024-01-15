@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:spacemall/data/repositories/remote_db_interface/user_remote_db_adapter.dart';
+import 'package:spacemall/src/features/auth/screens/login/login.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 
 import '../../../constants/colors.dart';
@@ -33,23 +34,37 @@ class UserFirebaseServices extends UserRemoteDataBaseAdapter {
     try {
       _profileController.isLoading.value = true;
       userId = user.uid;
-      // SharedPreferences access = await SharedPreferences.getInstance();
-      // userId = access.getString('uid') ?? '';
 
-      await saveImageToDB('$userId/profilePic/${user.userName}', dp)
-          .then((value) {
-        user.profilePicLocalPath = _profileController.profilePicLocalPath;
-        user.profilePicRemotePath = value;
-        user.createdAt = DateFormat('d MMM, yyyy').format(DateTime.now());
-        user.uid = userId;
-      });
-      _profileController.setUser(user);
-      debugPrint('UID here is $userId');
-      await _fireStore.collection('users').doc(userId).set(user.toMap()).then(
-            (value) => onSucess(),
-          );
+      if (userId != '') {
+        await saveImageToDB('$userId/profilePic/${user.userName}', dp)
+            .then((value) {
+          user.profilePicLocalPath = _profileController.profilePicLocalPath;
+          user.profilePicRemotePath = value;
+          user.createdAt = DateFormat('d MMM, yyyy').format(DateTime.now());
+          user.uid = userId;
+        });
+        _profileController.setUser(user);
+        debugPrint('UID here is $userId');
+        await _fireStore.collection('users').doc(userId).set(user.toMap()).then(
+              (value) => onSucess(),
+            );
 
-      _profileController.isLoading.value = false;
+        _profileController.isLoading.value = false;
+      } else {
+          _profileController.isLoading.value = false;
+          
+        spaceMallSnackBar(
+          'You need to Login again',
+          'We can not create profile now, Please Login again',
+          kWhiteLight,
+          kRedColor,
+        );
+
+        Get.off(
+          () => const Login(),
+        );
+        return;
+      }
     } on FirebaseAuthException catch (e) {
       debugPrint('From saveUserToDB(), an error occured ${e.message}');
       spaceMallSnackBar(

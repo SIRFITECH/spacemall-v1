@@ -65,33 +65,6 @@ class StockPhoneServices extends StockLocalDataBaseAdapter {
       Get.back();
       addItemController.isItemAdded.value = true;
       AddItemController.instance.clearImages();
-
-      // if (category != null) {
-      //   // increament the category count and Add the new stock item to the store's category list
-      //   addCategoryController.categoryValue.value?.itemsInCategory++;
-      //   print(
-      //       'we have ${addCategoryController.categoryValue.value} stock in the category');
-
-      //   addCategoryController.categoryValue.value?.items.add(stockItem);
-
-      //   // Add the new stock item to the store's stock list
-      //   _storeList.stock.add(stockItem);
-
-      //   // update the storeBox
-      //   await storeBox.put(
-      //     AddItemRepo.instance.currentStore.value,
-      //     _storeList,
-      //   );
-      //   print('FIRST TIME NA ${addItemController.isItemAdded.value}');
-
-      //   Get.back();
-      //   addItemController.isItemAdded.value = true;
-      //   AddItemController.instance.clearImages();
-
-      //   print('SENCOND TIME NA ${addItemController.isItemAdded.value}');
-      // } else {
-      //   debugPrint('We can not access the category');
-      // }
     } catch (e) {
       debugPrint(
           'error from saveStockItemToDevice() in StockPhoneServices add stockItem to device: ${e.toString()}');

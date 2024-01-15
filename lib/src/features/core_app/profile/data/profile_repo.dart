@@ -66,30 +66,21 @@ class ProfileRepo extends GetxController {
               await NetworkConnectivity().deviceHasInternet();
 
           if (internetAvailable == true) {
-            UserFirebaseServices()
-                .saveUserToDB(
-                  user: user,
-                  dp: dp!,
-                  onSucess: () {
-                    UserPhoneServices().saveUserDataToDevice(user).then(
-                          (value) => AuthRepo.instance.setSignedIn().then(
-                            (value) {
-                              Get.offAll(
-                                DashBoard(),
-                              );
-                            },
-                          ),
-                        );
-                  },
-                )
-                .then(
-                  (value) => spaceMallSnackBar(
-                    'Success!!',
-                    'You have created a profile with the username ${user.userName.toUpperCase()}',
-                    kWhiteLight,
-                    kGreenColor,
-                  ),
-                );
+            await UserFirebaseServices().saveUserToDB(
+              user: user,
+              dp: dp!,
+              onSucess: () {
+                UserPhoneServices().saveUserDataToDevice(user).then(
+                      (value) => AuthRepo.instance.setSignedIn().then(
+                        (value) {
+                          Get.offAll(
+                            DashBoard(),
+                          );
+                        },
+                      ),
+                    );
+              },
+            );
           } else {
             spaceMallSnackBar(
               'Error Creating Profile',
@@ -103,15 +94,20 @@ class ProfileRepo extends GetxController {
           Get.back();
         }
       } else {
-        Get.snackbar('Profile photo needed', 'You have to add a profile photo',
-            backgroundColor: kRedColor, colorText: kWhiteLight);
+        spaceMallSnackBar(
+          'Profile photo needed',
+          'You have to add a profile photo',
+          kWhiteLight,
+          kRedColor,
+        );
       }
     } else {
       spaceMallSnackBar(
-          'Save User Error',
-          'Seems you lost connection, please check you internet',
-          kWhiteDark,
-          kRedColor);
+        'Save User Error',
+        'Seems you lost connection, please check you internet',
+        kWhiteDark,
+        kRedColor,
+      );
     }
   }
 

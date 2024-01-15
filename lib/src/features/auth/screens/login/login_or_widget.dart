@@ -22,7 +22,10 @@ class LoginOr extends StatelessWidget {
           ),
           Text(
             kDividerText.toUpperCase(),
-            style: Theme.of(context).textTheme.headlineLarge,
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge
+                ?.copyWith(fontSize: kHeaderTextFont),
           ),
           const LoginDivider(
             height: kDividerHeight,

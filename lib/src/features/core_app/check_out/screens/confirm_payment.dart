@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/cart_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
@@ -192,7 +193,7 @@ class ConfirmPayment extends StatelessWidget {
                   color: isDarkMood
                       ? kDarkModeIconColor
                       : kLightModeBackgroundColor,
-                  height: screenSize.height * 0.23,
+                  height: screenSize.height * 0.25,
                   child: Obx(
                     () => Column(
                       children: [
@@ -223,7 +224,7 @@ class ConfirmPayment extends StatelessWidget {
                                     checkOutController.totalCartSubTotal.value,
                                   ),
                                   style: const TextStyle(
-                                    fontSize: 20,
+                                    fontSize: kHeaderTextFont,
                                     color: kWhiteLight,
                                     fontWeight: FontWeight.bold,
                                   ),

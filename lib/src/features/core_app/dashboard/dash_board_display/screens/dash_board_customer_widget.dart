@@ -69,7 +69,8 @@ class DashBoardCustomerWidget extends StatelessWidget {
               children: [
                 Text(
                   '$kCustomersOfTheDayText / $kLastHighestCustomerText',
-                  style: textTheme.titleMedium,
+                  style:
+                      textTheme.titleMedium?.copyWith(fontSize: kBodyTextFont),
                 ),
                 LinearBarIndicator(
                   isDarkMood: isDarkMood,
@@ -91,7 +92,8 @@ class DashBoardCustomerWidget extends StatelessWidget {
                     ),
                     Text(
                       kCustomerCommentText,
-                      style: textTheme.titleSmall,
+                      style: textTheme.titleSmall
+                          ?.copyWith(fontSize: kBodyTextFont),
                     ),
                   ],
                 ),
@@ -99,7 +101,7 @@ class DashBoardCustomerWidget extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: screenSize.width * 0.23,
+            width: screenSize.width * 0.20,
           ),
           Obx(() => Center(
                 child: DropdownButton<StoreModel>(
@@ -110,9 +112,10 @@ class DashBoardCustomerWidget extends StatelessWidget {
                   ),
                   value: storeController.selectedStore.value,
                   hint: Text(
-                    'Add a Store',
+                    kAddNewStoreText,
                     style: TextStyle(
                       color: isDarkMood ? kWhiteDark : kWhiteLight,
+                      fontSize: kBodyTextFont,
                     ),
                   ),
                   elevation: 0,

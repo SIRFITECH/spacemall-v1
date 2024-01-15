@@ -34,7 +34,10 @@ class OTPFooter extends StatelessWidget {
         ),
         Text(
           kVDidntReciveCodeText,
-          style: Theme.of(context).textTheme.labelMedium,
+          style: Theme.of(context)
+              .textTheme
+              .labelMedium
+              ?.copyWith(fontSize: kBodyTextFont),
         ),
         Obx(
           () => RichText(

@@ -132,7 +132,8 @@ class AddStock extends StatelessWidget {
                                       kProductPicText,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .labelSmall,
+                                          .labelSmall
+                                          ?.copyWith(fontSize: kBodyTextFont),
                                     ),
                                   ),
                                 ],
@@ -172,7 +173,10 @@ class AddStock extends StatelessWidget {
                                                   top: 10.0, bottom: 6),
                                               child: Text(
                                                 kProductCategoryText,
-                                                style: textTheme.labelSmall,
+                                                style: textTheme.labelSmall
+                                                    ?.copyWith(
+                                                        fontSize:
+                                                            kBodyTextFont),
                                               ),
                                             ),
                                             Obx(
@@ -231,7 +235,10 @@ class AddStock extends StatelessWidget {
                                                                 9),
                                                           ),
                                                         ),
-                                                  style: textTheme.labelSmall,
+                                                  style: textTheme.labelSmall
+                                                      ?.copyWith(
+                                                          fontSize:
+                                                              kBodyTextFont),
                                                   elevation: 0,
                                                   dropdownColor: MediaQuery.of(
                                                                   context)
@@ -332,7 +339,9 @@ class AddStock extends StatelessWidget {
                                               kTrackProfitText,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .labelSmall,
+                                                  .labelSmall
+                                                  ?.copyWith(
+                                                      fontSize: kBodyTextFont),
                                             ),
                                           ),
                                         ],
@@ -390,12 +399,12 @@ class AddStock extends StatelessWidget {
                                       Padding(
                                         padding: EdgeInsets.only(
                                             left: screenSize.width * 0.025),
-                                        child: Text(
-                                          kTrackLowStockText,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelSmall,
-                                        ),
+                                        child: Text(kTrackLowStockText,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelSmall
+                                                ?.copyWith(
+                                                    fontSize: kBodyTextFont)),
                                       ),
                                     ],
                                   ),
@@ -428,7 +437,8 @@ class AddStock extends StatelessWidget {
                                       kPreventSalesOnLowStockText,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .labelSmall,
+                                          .labelSmall
+                                          ?.copyWith(fontSize: kBodyTextFont),
                                     ),
                                   ),
                                 ],
@@ -446,7 +456,13 @@ class AddStock extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(kAddMoreImagesText),
+                              Text(
+                                kAddMoreImagesText,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.copyWith(fontSize: kBodyTextFont),
+                              ),
                               Obx(() {
                                 return SizedBox(
                                   height: screenSize.height * 0.08,

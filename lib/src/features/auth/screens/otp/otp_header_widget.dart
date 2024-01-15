@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 
 class OTPHeader extends StatelessWidget {
@@ -20,7 +21,10 @@ class OTPHeader extends StatelessWidget {
         ),
         Text(
           kVerifyOTPText,
-          style: Theme.of(context).textTheme.headlineLarge,
+          style: Theme.of(context)
+              .textTheme
+              .headlineLarge
+              ?.copyWith(fontSize: kHeaderTextFont),
         )
       ],
     );

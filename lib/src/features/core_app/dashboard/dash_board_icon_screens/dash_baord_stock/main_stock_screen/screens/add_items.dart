@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/screens/add_category_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/screens/add_stock_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_modifier/screens/add_modifier_screen.dart';
@@ -57,8 +58,8 @@ class AddItemsCard extends StatelessWidget {
                     child: Stack(
                       children: [
                         Positioned(
-                          left: screenSize.width * 0.135,
-                          bottom: screenSize.height * 0.0475,
+                          left: screenSize.width * 0.14,
+                          bottom: screenSize.height * 0.06,
                           child: GestureDetector(
                             onTap: () {
                               switch (index) {
@@ -116,11 +117,11 @@ class AddItemsCard extends StatelessWidget {
                               items[index],
                               style: index == 0
                                   ? const TextStyle(
-                                      fontSize: 12,
+                                      fontSize: kBodyTextFont,
                                       color: kWhiteLight,
                                     )
                                   : const TextStyle(
-                                      fontSize: 12,
+                                      fontSize: kBodyTextFont,
                                       color: kDarkComplementColor),
                             ),
                           ),
