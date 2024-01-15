@@ -27,9 +27,31 @@ class AddCategoryController extends GetxController {
   RxBool noCategory = true.obs;
 
   // category dropdown
-  Rx<CategoryModel?> categoryValue = Rx<CategoryModel?>(
-    null,
-  );
+  Rx<CategoryModel?> categoryValue = Rx<CategoryModel?>(null
+      // CategoryModel(
+      //   categoryName: '',
+      //   categoryId: '',
+      //   items: RxList<AddItemModel>([
+      //     AddItemModel(
+      //       itemPic: null,
+      //       itemName: '',
+      //       itemSellingPrice: '',
+      //       itemCategory: '',
+      //       itemQuantity: '',
+      //       itemCostPrice: '',
+      //       trackProfit: false,
+      //       trackLowStock: false,
+      //       preventItemSalesWhenOutOfStock: false,
+      //       trackExpiry: '',
+      //       expiryAlert: '',
+      //       itemCount: 0,
+      //       itemId: '',
+      //       morePics: RxList<File>(),
+      //     ),
+      //   ]),
+      //   itemsInCategory: 0,
+      // ),
+      );
 
   void setCategory(CategoryModel? newValue) {
     if (newValue?.categoryId == newValue?.categoryId) {
@@ -59,7 +81,6 @@ class AddCategoryController extends GetxController {
       );
     } else {
       _addCategoryRepo.saveCategory(context, newCategory);
-
     }
   }
 

@@ -54,6 +54,7 @@ dependencies:
   http: ^1.1.0
   bluetooth_print: ^4.3.0
   firebase_crashlytics: ^3.4.6
+  firebase_app_check: ^0.2.1+8
 
 dev_dependencies:
   # flutter_driver:
@@ -88,6 +89,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/
     - assets/images/
     - assets/images/on_boarding_images/
     - assets/images/welcome_image/

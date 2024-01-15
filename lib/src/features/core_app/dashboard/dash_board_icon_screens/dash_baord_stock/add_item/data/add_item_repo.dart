@@ -82,6 +82,9 @@ class AddItemRepo extends GetxController {
         stockItem: newItem,
         onSucess: () {
           StockPhoneServices().saveStockItemToDevice(newItem);
+          addCategoryController.categoryValue.value?.itemsInCategory++;
+
+          addCategoryController.categoryValue.value?.items.add(newItem);
         },
       );
     } catch (e) {

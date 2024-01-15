@@ -14,15 +14,16 @@ class ChooseUserType extends StatelessWidget {
     final media = MediaQuery.of(context);
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
-    // final screenSize = media.size;
+    final screenSize = media.size;
     final SplashController splashController = Get.find();
     return Scaffold(
       backgroundColor:
           isDarkMood ? kDarkModeBackgroundColor : kLightModeBackgroundColor,
       body: Padding(
-        padding: const EdgeInsets.only(top: 340.0, left: 120),
+        padding: EdgeInsets.only(
+            top: screenSize.height * 0.4, left: screenSize.width * 0.28),
         child: SizedBox(
-            height: 100,
+            height: screenSize.height * 0.2,
             width: double.infinity,
             child: ListView.builder(
               itemBuilder: ((context, index) {
@@ -90,7 +91,8 @@ class ChooseUserType extends StatelessWidget {
                           padding: const EdgeInsets.only(right: 12.0),
                           child: Text(
                             splashController.role[index],
-                            style: const TextStyle(color: kWhiteLight),
+                            style: const TextStyle(
+                                color: kWhiteLight, fontSize: 12),
                           ),
                         )
                       ],

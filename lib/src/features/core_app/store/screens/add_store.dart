@@ -1,9 +1,7 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
-import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/general/custom_button.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
@@ -60,21 +58,23 @@ class AddStore extends StatelessWidget {
                                         ? kDarkComplementColor.withOpacity(0.2)
                                         : kMainComplimemtColorLight
                                             .withOpacity(0.2),
-                                    child: SizedBox(
+                                    child: const SizedBox(
                                       child: ClipOval(
                                         child: Padding(
-                                          padding: const EdgeInsets.all(34.0),
-                                          child: SvgPicture.asset(
-                                            kMallIcon,
-                                            // ignore: deprecated_member_use
-                                            color: isDarkMood
-                                                ? kMainComplimemtColorLight
-                                                : kMainColorLight,
-                                            width: 100,
-                                            height: 100,
-                                            fit: BoxFit.scaleDown,
-                                          ),
-                                        ),
+                                            padding: EdgeInsets.all(34.0),
+                                            child: Text('Logo')
+                                            // SvgPicture.asset(
+                                            //       kMallIcon,
+                                            //       // ignore: deprecated_member_use
+                                            //       color: isDarkMood
+                                            //           ? kMainComplimemtColorLight
+                                            //           : kMainColorLight,
+                                            //       width: 100,
+                                            //       height: 100,
+                                            //       fit: BoxFit.scaleDown,
+                                            //     ),
+
+                                            ),
                                       ),
                                     ),
                                   ),

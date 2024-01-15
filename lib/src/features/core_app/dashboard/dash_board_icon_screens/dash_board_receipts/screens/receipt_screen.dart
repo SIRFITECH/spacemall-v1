@@ -51,8 +51,6 @@ class ReceiptListScreen extends StatelessWidget {
 
     List<ReceiptsModel> receipstList = store.receipts.toList();
 
-    // var cart = CheckOutRepo.instance.getCheckOutCartFromBox();
-
     receiptController.fromSelectedDate.value =
         DateFormat('d MMM').format(receiptController.fromDate.value);
 
@@ -188,10 +186,10 @@ class ReceiptListScreen extends StatelessWidget {
                   height: screenSize.height * 0.6,
                   child: Scrollbar(
                     child: ListView.builder(
+                        reverse: true,
                         itemCount: receipstList.length,
                         itemBuilder: (context, index) {
                           ReceiptsModel receipts = store.receipts[index];
-                          // print(receipstList[0].cart);
 
                           return GestureDetector(
                             onTap: () {

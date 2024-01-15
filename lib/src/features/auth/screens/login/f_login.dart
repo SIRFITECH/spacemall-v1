@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/sizes.dart';
-import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
+import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
 import '../../../../constants/image_strings.dart';
 
@@ -28,7 +29,12 @@ class FLogin extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  AuthRepo.instance.signInWithGoogle();
+                  spaceMallSnackBar(
+                      'Coming soon...',
+                      'Please Login Using your Phone number',
+                      kWhiteLight,
+                      kRedColor);
+                  // AuthRepo.instance.signInWithGoogle();
                 },
                 child:
                     // Text('Google')
@@ -40,7 +46,12 @@ class FLogin extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  AuthRepo.instance.signInWithFacebook();
+                  spaceMallSnackBar(
+                      'Coming soon...',
+                      'Please Login Using your Phone number',
+                      kWhiteLight,
+                      kRedColor);
+                  // AuthRepo.instance.signInWithFacebook();
                 },
                 child:
                     // Text('Facebook'),
@@ -52,7 +63,12 @@ class FLogin extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  AuthRepo.instance.signInWithTwitter();
+                  spaceMallSnackBar(
+                      'Coming soon...',
+                      'Please Login Using your Phone number',
+                      kWhiteLight,
+                      kRedColor);
+                  // AuthRepo.instance.signInWithTwitter();
                 },
                 child: const Image(
                   height: kFImageHeight,
@@ -62,7 +78,12 @@ class FLogin extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  AuthRepo.instance.signInWithInsta();
+                  spaceMallSnackBar(
+                      'Coming soon...',
+                      'Please Login Using your Phone number',
+                      kWhiteLight,
+                      kRedColor);
+                  // AuthRepo.instance.signInWithInsta();
                 },
                 // child: Text('Instagram'),
                 child: const Image(
@@ -73,7 +94,12 @@ class FLogin extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  AuthRepo.instance.signInWithMetaMask();
+                  spaceMallSnackBar(
+                      'Coming soon...',
+                      'Please Login Using your Phone number',
+                      kWhiteLight,
+                      kRedColor);
+                  // AuthRepo.instance.signInWithMetaMask();
                 },
                 child: const Image(
                   height: kFImageHeight,

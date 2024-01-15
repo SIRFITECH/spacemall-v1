@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_customers/domain/customer_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/domain/debts_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipt_pdf.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/screens/receipt_view.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/screens/receipt_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
@@ -181,29 +182,100 @@ class CheckOutController extends GetxController {
                               setSale(totalCartTotal.value.toString());
                               updateItemQuantities();
                               updateCartState();
-                              Get.to(
-                                () => ReceiptView(
-                                  receipt: ReceiptsModel(
-                                    logo: null,
-                                    customerName: 'customerName',
-                                    businessEmail: 'businessEmail',
-                                    cartTotal: ReceiptsController
-                                        .instance.cartTotal.value,
-                                    date: DateTime.now(),
-                                    receiptNo: 'receiptNo',
-                                    attendant: 'attendant',
-                                    receiptId: 'receiptId',
-                                    cartId: 'cartId',
-                                    itemsInCart: 'itemsInCart',
-                                    paymentMethod: paymentMethod,
-                                    staffId: 'staffId',
-                                    cart: cart,
-                                  ),
-                                ),
-                              );
                             });
                           },
                         ).then((value) {
+                          StoreModel store = storeBox.get(
+                            AddItemRepo.instance.currentStore.value,
+                            defaultValue: StoreModel(
+                              logoLocalPath: '',
+                              logoRemotePath: '',
+                              storeName: '',
+                              bankName: '',
+                              accountNumber: '',
+                              contact: '',
+                              stock: [],
+                              receipts: [],
+                              debts: [],
+                              staff: [],
+                              sales: [],
+                              customer: [],
+                              storeId: '',
+                              categories: [],
+                            ),
+                          );
+                          List<ReceiptsModel> receipstList =
+                              store.receipts.toList();
+
+                          //TODO: flesh up the ReceiptView() with right data
+                          Get.defaultDialog(
+                            backgroundColor: !isDarkMood
+                                ? kDarkModeBackgroundColor
+                                // .withOpacity(0.1)
+                                : kWhiteDark
+                            // .withOpacity(0.1)
+                            ,
+                            title: 'Success!!!',
+                            titleStyle: const TextStyle(
+                              color: kWhiteLight,
+                            ),
+                            content: const Text(
+                              // 'You are recieving $cartTotal by $paymentMethod',
+                              'Do you want to print the receipt?',
+                              style: TextStyle(
+                                color: kWhiteLight,
+                              ),
+                            ),
+                            confirm: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 25.0),
+                              child: Row(
+                                children: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Get.off(() => Stock());
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: kGreyColor,
+                                    ),
+                                    child: const Text('Go Back'),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Get.off(() => const ReceiptListScreen());
+                                    },
+                                    child: const Text('Print Receipt'),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+
+                          // Get.to(
+                          //   () => ReceiptView(
+                          //     receipt: ReceiptsModel(
+                          //       logo: null,
+                          //       customerName: receipstList.last.customerName,
+                          //       businessEmail: receipstList.last.businessEmail,
+                          //       cartTotal:
+                          //           ReceiptsController.instance.cartTotal.value,
+                          //       date: receipstList.last.date,
+                          //       receiptNo: receipstList.last.receiptNo,
+                          //       attendant: receipstList.last.attendant,
+                          //       receiptId: receipstList.last.receiptId,
+                          //       cartId: receipstList.last.cartId,
+                          //       itemsInCart: receipstList.last.itemsInCart,
+                          //       paymentMethod: receipstList.last.paymentMethod,
+                          //       staffId: receipstList.last.staffId,
+                          //       cart: cart,
+                          //     ),
+                          //     fromCart: false,
+                          //   ),
+                          // );
+
                           ReceiptsRepo.instance.paymentMood = '';
                           clearCart();
                         }),
@@ -245,29 +317,34 @@ class CheckOutController extends GetxController {
     }
   }
 
-  Future previewReceipt() async {
-    
-    StoreModel store = storeBox.get(
-      AddItemRepo.instance.currentStore.value,
-      defaultValue: StoreModel(
-        logoLocalPath: '',
-        logoRemotePath: '',
-        storeName: '',
-        bankName: '',
-        accountNumber: '',
-        contact: '',
-        stock: [],
-        receipts: [],
-        debts: [],
-        staff: [],
-        sales: [],
-        customer: [],
-        storeId: '',
-        categories: [],
-      ),
-    );
-var cart = await SalesPhoneService()
-        .getSalesFromDevice('4b04703c-2667-47a5-93a1-d8e624e7df82');
+  Future previewReceipt(String saleId) async {
+    List<dynamic> cart = await SalesPhoneService().getSalesFromDevice(saleId);
+    List<CartItemModel> receiptList = [];
+    double total = 0.0;
+    double subTotal = 0.0;
+    double discount = 0.0;
+    double tax = 0.0;
+    for (var i = 0; i < cart.length; i++) {
+      String itemPrice = cart[i]['itemPrice'];
+      CartItemModel cartItem = CartItemModel(
+        itemId: cart[i]['itemId'],
+        itemName: cart[i]['itemName'],
+        quantityInCart: RxInt(cart[i]['quantityInCart']),
+        price: cart[i]['itemPrice'],
+        totalItemPrice: cart[i]['totalItemPrice'],
+        subTotal: RxDouble(cart[i]['subTotal']),
+        discount: cart[i]['discount'],
+        tax: cart[i]['tax'],
+      );
+      subTotal += int.parse(itemPrice.replaceAll(RegExp(r'[^\d]'), ''));
+      receiptList.add(cartItem);
+    }
+
+    discount = subTotal * 0.1;
+
+    tax = subTotal * 0.075;
+    total = (subTotal + tax) - discount;
+
     final receipt = ReceiptPDFModel(
       seller: store,
       customer: CustomerModel(
@@ -299,7 +376,9 @@ var cart = await SalesPhoneService()
           customerName: '',
           businessEmail: '',
           cartTotal: '',
-          date: DateTime.now(),
+          date:
+              // cart[i]['tax'],
+              DateTime.now(),
           receiptNo: '',
           attendant: '',
           receiptId: '',
@@ -325,24 +404,14 @@ var cart = await SalesPhoneService()
         paymentMethod: '',
         staffId: '',
       ),
-      cartItem: cart,
-      // CartItemModel(
-      //   itemId: '',
-      //   itemName: '',
-      //   quantityInCart: RxInt(0),
-      //   price: '',
-      //   totalItemPrice: '',
-      //   subTotal: RxDouble(0.0),
-      //   discount: 0.0,
-      //   tax: 0.0,
-      // ),
-      totalCartPrice: '',
+      cartItem: receiptList,
+      totalCartPrice: total.toString(),
       cartId: '',
-      subTotal: '',
-      discount: '',
-      tax: '',
+      subTotal: subTotal.toString(),
+      discount: discount.toString(),
+      tax: tax.toString(),
     );
-
+    print('lets see the cart: $cart');
     CheckOutRepo.instance.generatePDFReceipt(receipt, indexValue);
   }
 
@@ -401,8 +470,9 @@ var cart = await SalesPhoneService()
     update();
   }
 
-  _setCartDiscount(double discount) {
-    double discountedAmount = totalCartSubTotal.value * (discount / 100);
+  _setCartDiscount(double discountPacentage) {
+    double discountedAmount =
+        totalCartSubTotal.value * (discountPacentage / 100);
     totalCartDiscount.value = discountedAmount;
   }
 

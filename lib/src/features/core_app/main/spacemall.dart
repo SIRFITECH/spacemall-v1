@@ -12,7 +12,7 @@ class SpacemallApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final profileController = Get.put(ProfileController());
+
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,

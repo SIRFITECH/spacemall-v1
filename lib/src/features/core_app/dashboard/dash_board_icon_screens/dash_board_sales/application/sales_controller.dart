@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/application/dash_baord_controller.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/data/receipts_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_item_model.dart';
 import 'package:spacemall/src/repository/services/network_connectivity/sales_firebase_services.dart';
 import 'package:spacemall/src/repository/services/phone_storage/sales_phone_services.dart';
@@ -179,7 +180,7 @@ class SalesController extends GetxController {
       subTotal: checkOutController.totalCartSubTotal.value.toString(),
       tax: checkOutController.totalCartTax.value.toString(),
     );
-
+    ReceiptsRepo.instance.receiptId = newSale.saleId;
     SalesFirebaseServices().saveNewSalesToDB(
         newSales: newSale,
         onSucess: () {

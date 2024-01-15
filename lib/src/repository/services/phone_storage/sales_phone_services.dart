@@ -58,7 +58,7 @@ class SalesPhoneService extends SalesLocalDataBaseAdapter {
     return salesItems;
   }
 
-   getSalesFromDevice(String saleId) async {
+  getSalesFromDevice(String saleId) async {
     try {
       StoreModel store = storeBox.get(
         AddItemRepo.instance.currentStore.value,
@@ -92,27 +92,13 @@ class SalesPhoneService extends SalesLocalDataBaseAdapter {
           List cartItems = [];
           for (var cart in sales['cart']) {
             cartItems.add(cart);
-            // print(cart);
           }
 
           return cartItems;
         }
+        print('the full sale is : $salesList');
+        // return salesList;
       }
-
-      // for (var sales in mappedSales) {
-      //   if (sales['saleId'] == saleId) {
-      //     List<SalesItemModel> cartItems =
-      //         convertCartToSalesItems(sales['cart']);
-      //     for (var cartItem in cartItems) {
-      //       print(cartItem);
-      //     }
-
-      //     return cartItems;
-      //   }
-      // }
-      // '4b04703c-2667-47a5-93a1-d8e624e7df82'
-      // 7414ccff-1397-422e-afa7-321354c2bdca
-      // print(salesList[12]);
     } catch (e) {
       debugPrint(
           'Error from the getSalesFromDevice() in SalesPhoneService: ${e.toString()}');

@@ -3,14 +3,9 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
-// import 'package:spacemall/src/features/core_app/check_out/data/check_out_repo.dart';
-// import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_item_model.dart';
-// import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
+import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/localizations/currency.dart';
-import 'package:spacemall/src/repository/services/phone_storage/sales_phone_services.dart';
-// import 'package:spacemall/src/repository/hive_boxes.dart';
 import 'package:spacemall/src/utils/helpers/helper.dart';
 
 import '../../../dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipt_pdf.dart';
@@ -71,21 +66,20 @@ TextStyle headerTextStyle = TextStyle(
   fontSize: 14,
 );
 // take a list of cartItems and generate a list of string
-List<List<String>> mapCartItemsToStringList(List<SalesItemModel> cart) {
+List<List<String>> mapCartItemsToStringList(List<CartItemModel> cart) {
   List<List<String>> result = [];
 
-  for (var item in cart) {
+  for (var i = 0; i < cart.length; i++) {
     List<String> itemInfo = [
-      item.itemName,
-      item.quantityInCart.toString(),
-      item.itemPrice.toString(),
+      cart[i].itemName,
+      cart[i].quantityInCart.toString(),
+      cart[i].price,
       nairaFormat.format(
         double.parse(
-          item.subTotal.toString(),
+          cart[i].subTotal.toString(),
         ),
       ),
     ];
-
     result.add(itemInfo);
   }
 
@@ -152,13 +146,8 @@ Widget buildTitle(ReceiptPDFModel receipt) => Column(
     );
 
 // build a body line
-Widget buildBody(ReceiptPDFModel receipt) {
-  var cart = SalesPhoneService()
-      .getSalesFromDevice('4b04703c-2667-47a5-93a1-d8e624e7df82');
-
-  List<List<String>> bodyList = mapCartItemsToStringList(cart
-      // receipt
-      );
+Widget buildBody(List<CartItemModel> cart) {
+  List<List<String>> bodyList = mapCartItemsToStringList(cart);
 
   TableRow headers = createHeaderRow(
     [
@@ -195,10 +184,18 @@ Widget buildTotal(ReceiptPDFModel receipt) => Container(
               children: [
                 buildText(
                   title: 'Subtotal',
-                  value: nairaFormat.format(
+                  value:
+                      // nairaFormat.format(
+                      //   double.parse(
+                      //     CheckOutController.instance.totalCartSubTotal.value
+                      //         .toString(),
+                      //   ),
+                      // ),
+                      nairaFormat.format(
                     double.parse(
-                      CheckOutController.instance.totalCartSubTotal.value
-                          .toString(),
+                      receipt.subTotal
+                      // 0.0.toString()
+                      ,
                     ),
                   ),
                   unit: true,
@@ -207,19 +204,33 @@ Widget buildTotal(ReceiptPDFModel receipt) => Container(
                   title: 'Discount',
                   value: nairaFormat.format(
                     double.parse(
-                      CheckOutController.instance.totalCartDiscount.value
-                          .toString(),
+                      receipt.discount
+                      // 0.0.toString()
+                      ,
                     ),
                   ),
+                  // nairaFormat.format(
+                  //   double.parse(
+                  //     CheckOutController.instance.totalCartDiscount.value
+                  //         .toString(),
+                  //   ),
+                  // ),
                   unit: true,
                 ),
                 buildText(
                   title: 'Tax',
                   value: nairaFormat.format(
                     double.parse(
-                      CheckOutController.instance.totalCartTax.value.toString(),
+                      receipt.tax
+                      // 0.0.toString()
+                      ,
                     ),
                   ),
+                  // nairaFormat.format(
+                  //   double.parse(
+                  //     CheckOutController.instance.totalCartTax.value.toString(),
+                  //   ),
+                  // ),
                   unit: true,
                 ),
                 Divider(),
@@ -227,8 +238,8 @@ Widget buildTotal(ReceiptPDFModel receipt) => Container(
                   title: 'Total',
                   value: nairaFormat.format(
                     double.parse(
-                      CheckOutController.instance.totalCartTotal.value
-                          .toString(),
+                      // CheckOutController.instance.totalCartTotal.value
+                      receipt.totalCartPrice.toString(),
                     ),
                   ),
                   unit: true,
@@ -281,6 +292,7 @@ Widget buildHeader(ReceiptPDFModel receipt) => Column(
             buildSupplier(
                 storeName: receipt.seller.storeName,
                 contact: receipt.seller.contact),
+            // pw.Image(image),
             Text('Store Logo '),
           ],
         ),
@@ -408,7 +420,7 @@ Widget buildReceiptInfo(ReceiptPDFModel receipt, int index) {
   ];
   final data = <String>[
     truncateString(receipt.recieptInfo.receiptId, 12),
-    DateFormat('d MMM, yyyy').format(DateTime.now()),
+    DateFormat('d MMM, yyyy').format(receipt.recieptInfo.date),
   ];
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,

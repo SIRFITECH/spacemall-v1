@@ -27,8 +27,17 @@ final AddTagController addTagController = Get.find();
 
 SnackbarController spaceMallSnackBar(
     String title, String message, Color? textColor, Color? bgColor) {
-  return Get.snackbar(title, message,
-      colorText: textColor, backgroundColor: bgColor);
+  return Get.snackbar(
+    title,
+    message,
+    colorText: textColor,
+    backgroundColor: bgColor,
+    // FIXME: adjust the font of the snackbar
+    messageText: Text(
+      message,
+      style: const TextStyle(fontSize: 12.0),
+    ),
+  );
 }
 
 Future<File?> pickImage(BuildContext context) async {

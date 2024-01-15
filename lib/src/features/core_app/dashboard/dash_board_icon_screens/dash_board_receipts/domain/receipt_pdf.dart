@@ -32,7 +32,7 @@ class ReceiptPDFModel {
       seller: map['seller'] ?? '',
       customer: map['customer'] ?? '',
       recieptInfo: map['recieptInfo'] ?? '',
-      cartItem: map['cartItem'] ?? 0,
+      cartItem: map['cartItem'] ?? [],
       totalCartPrice: map['totalCartPrice'] ?? '0.0',
       cartId: map['cartId'] ?? '',
       subTotal: map['subTotal'] ?? '0.0',

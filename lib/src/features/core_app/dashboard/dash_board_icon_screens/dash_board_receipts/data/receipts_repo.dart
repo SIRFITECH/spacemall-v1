@@ -21,6 +21,7 @@ class ReceiptsRepo extends GetxController {
   final AddItemRepo addItemRepo = Get.put(AddItemRepo());
   final ReceiptsController receiptsController = Get.put(ReceiptsController());
   String paymentMood = '';
+  String receiptId = '';
 
   Future saveReceipt() async {
     // The onlt thing we want to do here is:
@@ -45,7 +46,7 @@ class ReceiptsRepo extends GetxController {
       receiptNo: receiptNo.toString().padLeft(8, '0'),
       attendant: user.userName,
       receiptId: const Uuid().v4(),
-      cartId: '',
+      cartId: receiptId,
       itemsInCart: CheckOutController.instance.cartItems.length.toString(),
       cart: [],
       paymentMethod: paymentMood,
