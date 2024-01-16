@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
@@ -51,10 +52,16 @@ class SpacemallDrawer extends StatelessWidget {
                         user!.userName,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                          fontSize: kHeaderTextFont,
                         ),
                       ),
-                      accountEmail: Text(user.email),
+                      accountEmail: Text(
+                        user.email,
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              fontSize: kBodyTextFont,
+                              color: kWhiteLight,
+                            ),
+                      ),
                       currentAccountPicture: CircleAvatar(
                         radius: 100,
                         backgroundColor: Colors.transparent,
@@ -96,14 +103,14 @@ class SpacemallDrawer extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ListTile(
-                          horizontalTitleGap: 0,
+                          horizontalTitleGap: kHorizontalTitleGap,
                           onTap: () {
                             Get.off(() => DashBoard());
                           },
                           leading: const Icon(
                             Icons.home_sharp,
                             color: kWhiteLight,
-                            size: 27,
+                            size: kHeaderTextFont,
                           ),
                           title: const Text(
                             kDashBoardIconText,
@@ -111,7 +118,7 @@ class SpacemallDrawer extends StatelessWidget {
                           ),
                         ),
                         ListTile(
-                          horizontalTitleGap: 0,
+                          horizontalTitleGap: kHorizontalTitleGap,
                           onTap: () {
                             Get.to(
                               () => const ProfileScreen(),
@@ -120,6 +127,7 @@ class SpacemallDrawer extends StatelessWidget {
                           leading: const Icon(
                             Icons.person,
                             color: kWhiteLight,
+                            size: kHeaderTextFont,
                           ),
                           title: const Text(
                             kProfileIconText,
@@ -127,13 +135,14 @@ class SpacemallDrawer extends StatelessWidget {
                           ),
                         ),
                         ListTile(
-                          horizontalTitleGap: 0,
+                          horizontalTitleGap: kHorizontalTitleGap,
                           onTap: () {
                             Get.off(() => const SettingsScreen());
                           },
                           leading: const Icon(
                             Icons.settings,
                             color: kWhiteLight,
+                            size: kHeaderTextFont,
                           ),
                           title: const Text(
                             kSettingIconText,
@@ -141,13 +150,14 @@ class SpacemallDrawer extends StatelessWidget {
                           ),
                         ),
                         ListTile(
-                          horizontalTitleGap: 0,
+                          horizontalTitleGap: kHorizontalTitleGap,
                           onTap: () {
                             Get.to(() => const AddStore());
                           },
                           leading: const Icon(
                             Icons.storefront_rounded,
                             color: kWhiteLight,
+                            size: kHeaderTextFont,
                           ),
                           title: const Text(
                             kAddNewStoreText,
@@ -155,7 +165,7 @@ class SpacemallDrawer extends StatelessWidget {
                           ),
                         ),
                         ListTile(
-                          horizontalTitleGap: 0,
+                          horizontalTitleGap: kHorizontalTitleGap,
                           onTap: () {},
                           leading: const Icon(
                             Icons.contact_support_rounded,
@@ -167,13 +177,14 @@ class SpacemallDrawer extends StatelessWidget {
                           ),
                         ),
                         ListTile(
-                          horizontalTitleGap: 0,
+                          horizontalTitleGap: kHorizontalTitleGap,
                           onTap: () async {
                             await AuthRepo.instance.signOut();
                           },
                           leading: const Icon(
                             Icons.logout_sharp,
                             color: kWhiteLight,
+                            size: kHeaderTextFont,
                           ),
                           title: const Text(
                             kSignOutText,

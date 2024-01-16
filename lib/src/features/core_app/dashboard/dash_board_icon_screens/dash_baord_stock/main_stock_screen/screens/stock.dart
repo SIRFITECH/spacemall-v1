@@ -384,28 +384,31 @@ class Stock extends StatelessWidget {
                 ],
               ),
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          Get.to(() => const CheckOut());
-        },
-        // => addItemRepo.printHiveBox(stockBox),
-        //     {
-        //   print(
-        //       'there are ${stockBox.length} items saved in the phone storage ');
-        //   print(
-        //       'The observable list has ${addItemController.itemList.length} items, ');
-        // },
-        // =>
-        // addItemRepo.deleteLastItemFromPhone(),
-        backgroundColor:
-            isDarkMood ? kMainComplimemtColorLight : kMainColorDark,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15.0),
-          child: Iconz(
-            isDarkMood: isDarkMood,
-            image: kCheckOutIcon,
-            color: kWhiteLight,
-            height: 25,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: FloatingActionButton(
+          onPressed: () async {
+            Get.to(() => const CheckOut());
+          },
+          // => addItemRepo.printHiveBox(stockBox),
+          //     {
+          //   print(
+          //       'there are ${stockBox.length} items saved in the phone storage ');
+          //   print(
+          //       'The observable list has ${addItemController.itemList.length} items, ');
+          // },
+          // =>
+          // addItemRepo.deleteLastItemFromPhone(),
+          backgroundColor:
+              isDarkMood ? kMainComplimemtColorLight : kMainColorDark,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: Iconz(
+              isDarkMood: isDarkMood,
+              image: kCheckOutIcon,
+              color: kWhiteLight,
+              height: 25,
+            ),
           ),
         ),
       ),
