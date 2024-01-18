@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 
 import '../constants/colors.dart';
 
@@ -19,6 +20,7 @@ class ClickableText extends StatelessWidget {
       style: TextStyle(
         decoration: TextDecoration.underline,
         color: !isDarkMood ? kMainComplimemtColorLight : kMainColorLight,
+        fontSize: kBodyTextFont,
       ),
     );
   }

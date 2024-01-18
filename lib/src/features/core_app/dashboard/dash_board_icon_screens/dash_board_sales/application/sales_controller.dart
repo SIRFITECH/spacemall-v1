@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/application/dash_baord_controller.dart';
@@ -43,6 +44,25 @@ class SalesController extends GetxController {
       initialDate: DateTime.now(),
       firstDate: DateTime(1900),
       lastDate: DateTime(2100),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor:
+                PaletteLight.kThemeColor, // Set your desired theme color
+            colorScheme: const ColorScheme.light(
+              primary: PaletteLight.kThemeColor,
+            ),
+            buttonTheme:
+                const ButtonThemeData(textTheme: ButtonTextTheme.primary),
+            textTheme: TextTheme(
+              bodyMedium: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    fontSize: kBodyTextFont,
+                  ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     return pickedDate ?? DateTime.now();

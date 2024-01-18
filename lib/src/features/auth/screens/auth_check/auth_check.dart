@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/auth/screens/login/login.dart';
+import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_screen.dart';
 import 'package:spacemall/src/features/auth/screens/splash_screen/splash_screen_loader.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
-import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
 
 // class AuthCheckScreen extends StatelessWidget {
 //   const AuthCheckScreen({super.key});
@@ -86,7 +86,7 @@ class AuthCheckScreen extends StatelessWidget {
 
                 return DashBoard();
               } else {
-                return const SetProfile();
+                return const OnBoarding();
               }
             },
           );

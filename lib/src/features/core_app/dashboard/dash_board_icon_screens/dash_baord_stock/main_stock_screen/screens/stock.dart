@@ -99,8 +99,8 @@ class Stock extends StatelessWidget {
                               color: isDarkMood
                                   ? kWhiteLight
                                   : kDarkComplementColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: kHeaderTextFont,
+                              fontWeight: FontWeight.w900,
+                              fontSize: kLiquidSwipeHeader,
                             ),
                           ),
                         ),
@@ -219,13 +219,14 @@ class Stock extends StatelessWidget {
                                                         Text(
                                                           stockItem.itemName,
                                                           style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              color: isDarkMood
-                                                                  ? kWhiteLight
-                                                                  : kBlackDark,
-                                                              fontSize: 19),
+                                                            fontWeight:
+                                                                FontWeight.w900,
+                                                            color: isDarkMood
+                                                                ? kWhiteLight
+                                                                : kBlackDark,
+                                                            fontSize:
+                                                                kBodyTextFont,
+                                                          ),
                                                         ),
                                                         Text(
                                                           stockItem
@@ -234,10 +235,13 @@ class Stock extends StatelessWidget {
                                                               TextAlign.left,
                                                           style: TextStyle(
                                                             fontWeight:
-                                                                FontWeight.bold,
+                                                                FontWeight
+                                                                    .normal,
                                                             color: isDarkMood
                                                                 ? kGreyColor
                                                                 : kBlackDark,
+                                                            fontSize:
+                                                                kBodyTextFont,
                                                           ),
                                                         ),
                                                       ],
@@ -259,8 +263,9 @@ class Stock extends StatelessWidget {
                                                             .itemSellingPrice)),
                                                     style: const TextStyle(
                                                       fontWeight:
-                                                          FontWeight.bold,
+                                                          FontWeight.w900,
                                                       color: kMainColorLight,
+                                                      fontSize: kBodyTextFont,
                                                     ),
                                                   ),
                                                   int.parse(stockItem
@@ -276,7 +281,8 @@ class Stock extends StatelessWidget {
                                                             //     ? kGreyColor
                                                             //     : kBlackDark,
                                                             color: kRedColor,
-                                                            fontSize: 15,
+                                                            fontSize:
+                                                                kBodyTextFont,
                                                           ),
                                                         )
                                                       : Text(
@@ -287,7 +293,8 @@ class Stock extends StatelessWidget {
                                                             color: isDarkMood
                                                                 ? kGreyColor
                                                                 : kBlackDark,
-                                                            fontSize: 15,
+                                                            fontSize:
+                                                                kBodyTextFont,
                                                           ),
                                                         ),
                                                 ],

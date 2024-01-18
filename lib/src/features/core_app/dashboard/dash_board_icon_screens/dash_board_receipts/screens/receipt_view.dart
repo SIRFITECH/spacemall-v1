@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/screens/splash_screen/splash_screen_loader.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
@@ -66,11 +67,11 @@ class ReceiptView extends StatelessWidget {
                   } else {
                     List<dynamic> cart = cartSnapshot.data as List;
 
-                    var seller = user!.userName;
+                    // var seller = user!.userName;
                     var userPhoneNo = user!.contactNumber;
                     // the last 6 digits of the user contact number
-                    var sellerID =
-                        userPhoneNo.substring(userPhoneNo.length - 6);
+                    // var sellerID =
+                    userPhoneNo.substring(userPhoneNo.length - 6);
 
                     return Scaffold(
                       appBar: MyAppBar(
@@ -101,6 +102,7 @@ class ReceiptView extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
+                                        // first row on the page with cart total and share/print icon
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -116,7 +118,9 @@ class ReceiptView extends StatelessWidget {
                                                     ),
                                                   ),
                                                   style: const TextStyle(
-                                                      fontSize: 27),
+                                                    fontSize: kBodyTextFont,
+                                                    fontWeight: FontWeight.w900,
+                                                  ),
                                                 ),
                                                 const SizedBox(
                                                   height: 10,
@@ -127,14 +131,17 @@ class ReceiptView extends StatelessWidget {
                                                   ),
                                                   style: const TextStyle(
                                                     color: kGreyColor,
-                                                    fontSize: 13,
+                                                    fontSize: kBodyTextFont,
                                                   ),
                                                 ),
                                               ],
                                             ),
+                                            // save or share receipt
+
                                             Row(
                                               children: [
                                                 // container for saving receipt
+
                                                 fromCart != null &&
                                                         fromCart == true
                                                     ? Container(
@@ -195,6 +202,11 @@ class ReceiptView extends StatelessWidget {
                                                                   const TextStyle(
                                                                 color:
                                                                     kWhiteLight,
+                                                                fontSize:
+                                                                    kBodyTextFont,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w900,
                                                               ),
                                                               content:
                                                                   const Text(
@@ -203,6 +215,8 @@ class ReceiptView extends StatelessWidget {
                                                                     TextStyle(
                                                                   color:
                                                                       kWhiteLight,
+                                                                  fontSize:
+                                                                      kBodyTextFont,
                                                                 ),
                                                               ),
                                                               confirm: Padding(
@@ -216,16 +230,24 @@ class ReceiptView extends StatelessWidget {
                                                                     ElevatedButton(
                                                                       onPressed:
                                                                           () {
-                                                                        checkOutController
-                                                                            .previewReceipt(receipt.cartId);
+                                                                        checkOutController.previewReceipt(
+                                                                            receipt.cartId,
+                                                                            screenSize);
                                                                       },
                                                                       style: ElevatedButton
                                                                           .styleFrom(
                                                                         backgroundColor:
                                                                             kGreyColor,
                                                                       ),
-                                                                      child: const Text(
-                                                                          'Share Reciept'),
+                                                                      child:
+                                                                          const Text(
+                                                                        'Share Reciept',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              kBodyTextFont,
+                                                                        ),
+                                                                      ),
                                                                     ),
                                                                     const SizedBox(
                                                                       width: 20,
@@ -246,8 +268,15 @@ class ReceiptView extends StatelessWidget {
                                                                           kGreenColor,
                                                                         );
                                                                       },
-                                                                      child: const Text(
-                                                                          'Print Receipt'),
+                                                                      child:
+                                                                          const Text(
+                                                                        'Print Receipt',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              kBodyTextFont,
+                                                                        ),
+                                                                      ),
                                                                     ),
                                                                   ],
                                                                 ),
@@ -267,26 +296,40 @@ class ReceiptView extends StatelessWidget {
                                             ),
                                           ],
                                         ),
-                                        const SizedBox(
-                                          height: 10,
+                                        SizedBox(
+                                          height: screenSize.height * 0.01,
                                         ),
+                                        // Staff and attendant
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            const Text('Staff - Attendant'),
+                                            const Text(
+                                              'Staff - Attendant',
+                                              style: TextStyle(
+                                                fontSize: kBodyTextFont,
+                                              ),
+                                            ),
                                             Text(
-                                                '${receipt.attendant} - ${receipt.staffId}'),
+                                              '${receipt.attendant} - ${receipt.staffId}',
+                                              style: const TextStyle(
+                                                fontSize: kBodyTextFont,
+                                              ),
+                                            ),
                                             // Text('$seller -  $sellerID'),
                                           ],
                                         ),
-                                        const SizedBox(
-                                          height: 10,
+                                        SizedBox(
+                                          height: screenSize.height * 0.01,
                                         ),
                                         const Text(
                                           "Details",
-                                          style: TextStyle(fontSize: 27),
+                                          style: TextStyle(
+                                            fontSize: kBodyTextFont,
+                                            fontWeight: FontWeight.w900,
+                                          ),
                                         ),
+                                        // List view of items in cart
                                         Container(
                                           height: screenSize.height * 0.6,
                                           width: double.infinity,
@@ -333,26 +376,38 @@ class ReceiptView extends StatelessWidget {
                                                         Text(
                                                           cart[index]
                                                               ['itemName'],
+                                                          style: const TextStyle(
+                                                              fontSize:
+                                                                  kBodyTextFont),
                                                         ),
                                                         Text(
                                                           '${cart[index]['quantityInCart'].toString()} x ${cart[index]['itemPrice']} ',
                                                           style:
                                                               const TextStyle(
-                                                                  fontSize: 12),
+                                                            fontSize:
+                                                                kBodyTextFont,
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
                                                     Text(
-                                                      nairaFormat.format(
-                                                        cart[index]['subTotal'],
-                                                      ),
-                                                    ),
+                                                        nairaFormat.format(
+                                                          cart[index]
+                                                              ['subTotal'],
+                                                        ),
+                                                        style: const TextStyle(
+                                                          fontSize:
+                                                              kBodyTextFont,
+                                                          fontWeight:
+                                                              FontWeight.w900,
+                                                        )),
                                                   ],
                                                 ),
                                               );
                                             },
                                           ),
                                         ),
+                                        // total summary
                                         Padding(
                                           padding: EdgeInsets.only(
                                             right: 8.0,
@@ -362,7 +417,13 @@ class ReceiptView extends StatelessWidget {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.end,
                                             children: [
-                                              const Text('Total'),
+                                              const Text(
+                                                'Total',
+                                                style: TextStyle(
+                                                  fontSize: kBodyTextFont,
+                                                  fontWeight: FontWeight.w900,
+                                                ),
+                                              ),
                                               const SizedBox(
                                                 width: 10,
                                               ),
@@ -373,7 +434,9 @@ class ReceiptView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 style: const TextStyle(
-                                                    fontSize: 20),
+                                                  fontSize: kBodyTextFont,
+                                                  fontWeight: FontWeight.w900,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -385,18 +448,24 @@ class ReceiptView extends StatelessWidget {
                           ),
                         ],
                       ),
+                      // "completed" button
                       floatingActionButton: Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 15,
                         ),
                         width: double.infinity,
-                        height: screenSize.height * 0.05,
+                        height: screenSize.height * 0.06,
                         child: ElevatedButton(
                           onPressed: () {
                             checkOutController.clearCheckOutCart;
                             Get.offAll(() => DashBoard());
                           },
-                          child: const Text(kCompletedText),
+                          child: const Text(
+                            kCompletedText,
+                            style: TextStyle(
+                              fontSize: kBodyTextFont,
+                            ),
+                          ),
                         ),
                       ),
                       floatingActionButtonLocation:

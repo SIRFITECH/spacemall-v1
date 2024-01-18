@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/screens/add_category_screen.dart';
 import '../../../../../../../constants/colors.dart';
 import '../../../../../../../constants/image_strings.dart';
 import '../../../../../../../constants/sizes.dart';
@@ -119,7 +120,12 @@ class EditItem extends StatelessWidget {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   kProductPicText,
-                                  style: Theme.of(context).textTheme.labelSmall,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelSmall
+                                      ?.copyWith(
+                                        fontSize: kBodyTextFont,
+                                      ),
                                 ),
                               ),
                             ],
@@ -159,7 +165,10 @@ class EditItem extends StatelessWidget {
                                               top: 10.0, bottom: 6),
                                           child: Text(
                                             kProductCategoryText,
-                                            style: textTheme.labelSmall,
+                                            style:
+                                                textTheme.labelSmall?.copyWith(
+                                              fontSize: kBodyTextFont,
+                                            ),
                                           ),
                                         ),
                                         Obx(
@@ -200,18 +209,22 @@ class EditItem extends StatelessWidget {
                                                     )
                                                   : GestureDetector(
                                                       onTap: () {
-                                                        print(
+                                                        //FIXME: add categotry function
+                                                        debugPrint(
                                                             'Add Categroy tapped');
 
-                                                        // Get.to(() =>
-                                                        //     const AddCategory());
+                                                        Get.to(() =>
+                                                            const AddCategory());
                                                       },
                                                       child: Text(
                                                         truncateString(
                                                             'Add Category', 9),
                                                       ),
                                                     ),
-                                              style: textTheme.labelSmall,
+                                              style: textTheme.labelSmall
+                                                  ?.copyWith(
+                                                fontSize: kBodyTextFont,
+                                              ),
                                               elevation: 0,
                                               dropdownColor: MediaQuery.of(
                                                               context)
@@ -307,7 +320,9 @@ class EditItem extends StatelessWidget {
                                           kTrackProfitText,
                                           style: Theme.of(context)
                                               .textTheme
-                                              .labelSmall,
+                                              .labelSmall
+                                              ?.copyWith(
+                                                  fontSize: kBodyTextFont),
                                         ),
                                       ),
                                     ],
@@ -328,6 +343,7 @@ class EditItem extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // stock available and track low stock
                           Row(
                             children: [
                               TextFeildWidget(
@@ -368,7 +384,10 @@ class EditItem extends StatelessWidget {
                                       kTrackLowStockText,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .labelSmall,
+                                          .labelSmall
+                                          ?.copyWith(
+                                            fontSize: kBodyTextFont,
+                                          ),
                                     ),
                                   ),
                                 ],
@@ -400,7 +419,10 @@ class EditItem extends StatelessWidget {
                                     left: screenSize.width * 0.025),
                                 child: Text(
                                   kPreventSalesOnLowStockText,
-                                  style: Theme.of(context).textTheme.labelSmall,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelSmall
+                                      ?.copyWith(fontSize: kBodyTextFont),
                                 ),
                               ),
                             ],
@@ -417,7 +439,13 @@ class EditItem extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(kAddMoreImagesText),
+                          Text(
+                            kAddMoreImagesText,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(fontSize: kBodyTextFont),
+                          ),
                           Obx(() {
                             List<File> imagesToDisplay =
                                 addItemController.moreImages.isEmpty

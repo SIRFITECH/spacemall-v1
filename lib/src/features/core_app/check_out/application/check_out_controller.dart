@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
@@ -111,11 +112,11 @@ class CheckOutController extends GetxController {
   }
 
   deleteItemFromCart(index) {
-    Get.snackbar(
+    spaceMallSnackBar(
       '${cartItems[index].itemName}  Deleted ',
       '${cartItems[index].itemName} deleted successfully from cart',
-      backgroundColor: kWhiteLight,
-      colorText: kBlack,
+      kWhiteLight,
+      kBlack,
     );
 
     // existingItem.quantityInCart.value = 0;
@@ -130,7 +131,8 @@ class CheckOutController extends GetxController {
     SalesController.instance.salesForTheDay.value = saleAmount;
   }
 
-  void completeSale(String paymentMode, bool isDarkMood) async {
+  void completeSale(
+      String paymentMode, bool isDarkMood, Size screenSize) async {
     ReceiptsRepo.instance.paymentMood = paymentMode;
     ReceiptsController.instance.cartTotal.value =
         totalCartTotal.value.toString();
@@ -141,22 +143,29 @@ class CheckOutController extends GetxController {
     String paymentMethod = ReceiptsRepo.instance.paymentMood;
 
     cartItems.isNotEmpty
-        ? Get.defaultDialog(
+        ?
+        // dialogBox(isDarkMood, 'Confirm Payment','You are recieving $cartTotal by $paymentMethod',)
+
+        Get.defaultDialog(
             backgroundColor: !isDarkMood
                 ? kDarkModeBackgroundColor.withOpacity(0.1)
                 : kWhiteDark.withOpacity(0.1),
             title: 'Confirm Payment',
             titleStyle: const TextStyle(
               color: kWhiteLight,
+              fontSize: kBodyTextFont,
+              fontWeight: FontWeight.w900,
             ),
             content: Text(
               'You are recieving $cartTotal by $paymentMethod',
               style: const TextStyle(
                 color: kWhiteLight,
+                fontSize: kBodyTextFont,
               ),
             ),
             confirm: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 65.0),
+              padding:
+                  EdgeInsets.symmetric(horizontal: screenSize.width * .135),
               child: Row(
                 children: [
                   ElevatedButton(
@@ -166,10 +175,15 @@ class CheckOutController extends GetxController {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: kGreyColor,
                     ),
-                    child: const Text('Cancel'),
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(
+                        fontSize: kBodyTextFont,
+                      ),
+                    ),
                   ),
-                  const SizedBox(
-                    width: 20,
+                  SizedBox(
+                    width: screenSize.width * 0.05,
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -185,28 +199,6 @@ class CheckOutController extends GetxController {
                             });
                           },
                         ).then((value) {
-                          StoreModel store = storeBox.get(
-                            AddItemRepo.instance.currentStore.value,
-                            defaultValue: StoreModel(
-                              logoLocalPath: '',
-                              logoRemotePath: '',
-                              storeName: '',
-                              bankName: '',
-                              accountNumber: '',
-                              contact: '',
-                              stock: [],
-                              receipts: [],
-                              debts: [],
-                              staff: [],
-                              sales: [],
-                              customer: [],
-                              storeId: '',
-                              categories: [],
-                            ),
-                          );
-                          List<ReceiptsModel> receipstList =
-                              store.receipts.toList();
-
                           //TODO: flesh up the ReceiptView() with right data
                           Get.defaultDialog(
                             backgroundColor: !isDarkMood
@@ -218,12 +210,15 @@ class CheckOutController extends GetxController {
                             title: 'Success!!!',
                             titleStyle: const TextStyle(
                               color: kWhiteLight,
+                              fontSize: kBodyTextFont,
+                              fontWeight: FontWeight.w900,
                             ),
                             content: const Text(
                               // 'You are recieving $cartTotal by $paymentMethod',
                               'Do you want to print the receipt?',
                               style: TextStyle(
                                 color: kWhiteLight,
+                                fontSize: kBodyTextFont,
                               ),
                             ),
                             confirm: Padding(
@@ -238,16 +233,27 @@ class CheckOutController extends GetxController {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: kGreyColor,
                                     ),
-                                    child: const Text('Go Back'),
+                                    child: const Text(
+                                      'Go Back',
+                                      style: TextStyle(
+                                        fontSize: kBodyTextFont,
+                                      ),
+                                    ),
                                   ),
                                   const SizedBox(
-                                    width: 20,
+                                    width: 10,
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
                                       Get.off(() => const ReceiptListScreen());
                                     },
-                                    child: const Text('Print Receipt'),
+                                    child: const Text(
+                                      'Print Receipt',
+                                      style: TextStyle(
+                                        color: kWhiteLight,
+                                        fontSize: kBodyTextFont,
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -281,7 +287,12 @@ class CheckOutController extends GetxController {
                         }),
                       );
                     },
-                    child: const Text('Proceed'),
+                    child: const Text(
+                      'Proceed',
+                      style: TextStyle(
+                        fontSize: kBodyTextFont,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -308,16 +319,16 @@ class CheckOutController extends GetxController {
       totalCartDiscount.value = 0.0;
       totalCartTax.value = 0.0;
     } else {
-      Get.snackbar(
+      spaceMallSnackBar(
         'Error',
         'Unable to clear cart',
-        backgroundColor: kRedColor,
-        colorText: kWhiteLight,
+        kWhiteLight,
+        kRedColor,
       );
     }
   }
 
-  Future previewReceipt(String saleId) async {
+  Future previewReceipt(String saleId, Size screenSize) async {
     List<dynamic> cart = await SalesPhoneService().getSalesFromDevice(saleId);
     List<CartItemModel> receiptList = [];
     double total = 0.0;
@@ -411,8 +422,8 @@ class CheckOutController extends GetxController {
       discount: discount.toString(),
       tax: tax.toString(),
     );
-    print('lets see the cart: $cart');
-    CheckOutRepo.instance.generatePDFReceipt(receipt, indexValue);
+    // print('lets see the cart: $cart');
+    CheckOutRepo.instance.generatePDFReceipt(receipt, indexValue, screenSize);
   }
 
   void updateCartState() async {
@@ -444,11 +455,11 @@ class CheckOutController extends GetxController {
         store.stock[index].itemCount = 0;
         CartItemController.instance.items.value = 0;
       } else {
-        Get.snackbar(
+        spaceMallSnackBar(
           'Error',
           'Item not found in store',
-          backgroundColor: kRedColor,
-          colorText: kWhiteLight,
+          kWhiteLight,
+          kRedColor,
         );
       }
     }
@@ -545,11 +556,11 @@ class CheckOutController extends GetxController {
         cart.add(newItem);
         cartItems.value = [...user.cart];
 
-        Get.snackbar(
+        spaceMallSnackBar(
           'Operation Successful',
           'Item added to cart successfully',
-          backgroundColor: kWhiteLight,
-          colorText: kBlack,
+          kBlack,
+          kWhiteLight,
         );
       } else {
         // Item already exists in cart, update quantity and subtotal
@@ -576,21 +587,21 @@ class CheckOutController extends GetxController {
           existingItem.subTotal.value = cost;
           setCartTransactionData();
         } else {
-          Get.snackbar(
+          spaceMallSnackBar(
             'An Error Occured',
             'Item not found in cart',
-            backgroundColor: kRedColor,
-            colorText: kWhiteLight,
+            kWhiteLight,
+            kRedColor,
           );
         }
       }
     } else {
       // Item quantity is not enough, print error message
-      Get.snackbar(
+      spaceMallSnackBar(
         'Limit Warning',
         'You have reach the item limit, you can only add $itemQuantityInStore units to cart',
-        backgroundColor: kRedColor,
-        colorText: kWhiteLight,
+        kWhiteLight,
+        kRedColor,
       );
     }
   }
@@ -855,7 +866,13 @@ class CheckOutController extends GetxController {
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               child: Column(
                 children: [
-                  const Text('SELECT PAYMENT MODE'),
+                  const Text(
+                    'SELECT PAYMENT MODE',
+                    style: TextStyle(
+                      fontSize: kBodyTextFont,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
                   cartIsEmpty.isNotEmpty
                       ? RichText(
                           text: TextSpan(
@@ -864,20 +881,27 @@ class CheckOutController extends GetxController {
                                 text: 'The cart total is ',
                                 style: TextStyle(
                                   color: isDarkMood ? kWhiteLight : kBlackDark,
+                                  fontSize: kBodyTextFont,
                                 ),
                               ),
                               TextSpan(
                                 text: nairaFormat.format(CheckOutController
                                     .instance.totalCartTotal.value),
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w900,
                                   color: isDarkMood ? kWhiteLight : kBlackDark,
+                                  fontSize: kBodyTextFont,
                                 ),
                               ),
                             ],
                           ),
                         )
-                      : const Text('The cart is empty'),
+                      : const Text(
+                          'The cart is empty',
+                          style: TextStyle(
+                            fontSize: kBodyTextFont,
+                          ),
+                        ),
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 32.0,
@@ -890,66 +914,24 @@ class CheckOutController extends GetxController {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            completeSale('Cash', isDarkMood);
+                            completeSale('Cash', isDarkMood, screenSize);
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                width: 1,
-                                color: !isDarkMood
-                                    ? kMainColorLight.withOpacity(0.6)
-                                    : kMainComplimemtColorLight
-                                        .withOpacity(0.8),
-                              ),
-                            ),
-                            height: screenSize.height * 0.1,
-                            width: screenSize.width * 0.35,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image.asset(
-                                    kPaymentCash,
-                                    width: 50,
-                                    height: 40,
-                                  ),
-                                ),
-                                const Center(child: Text('cash')),
-                              ],
-                            ),
+                          child: PaymentModeCard(
+                            isDarkMood: isDarkMood,
+                            screenSize: screenSize,
+                            paymentMethod: 'Cash',
+                            paymentIcon: kPaymentCash,
                           ),
                         ),
                         GestureDetector(
                           onTap: () {
-                            completeSale('Card', isDarkMood);
+                            completeSale('Card', isDarkMood, screenSize);
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                width: 1,
-                                color: !isDarkMood
-                                    ? kMainColorLight.withOpacity(0.6)
-                                    : kMainComplimemtColorLight
-                                        .withOpacity(0.8),
-                              ),
-                            ),
-                            height: screenSize.height * 0.1,
-                            width: screenSize.width * 0.35,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image.asset(
-                                    kPaymentCard,
-                                    width: 50,
-                                    height: 40,
-                                  ),
-                                ),
-                                const Center(child: Text('Card')),
-                              ],
-                            ),
+                          child: PaymentModeCard(
+                            isDarkMood: isDarkMood,
+                            screenSize: screenSize,
+                            paymentMethod: 'Card',
+                            paymentIcon: kPaymentCard,
                           ),
                         ),
                       ],
@@ -966,68 +948,25 @@ class CheckOutController extends GetxController {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            completeSale('Bank Transfer', isDarkMood);
+                            completeSale(
+                                'Bank Transfer', isDarkMood, screenSize);
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                width: 1,
-                                color: !isDarkMood
-                                    ? kMainColorLight.withOpacity(0.6)
-                                    : kMainComplimemtColorLight
-                                        .withOpacity(0.8),
-                              ),
-                            ),
-                            height: screenSize.height * 0.1,
-                            width: screenSize.width * 0.35,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image.asset(
-                                    kPaymentBank,
-                                    width: 50,
-                                    height: 40,
-                                  ),
-                                ),
-                                const Center(child: Text('Transfer')),
-                              ],
-                            ),
+                          child: PaymentModeCard(
+                            isDarkMood: isDarkMood,
+                            screenSize: screenSize,
+                            paymentMethod: 'Transfer',
+                            paymentIcon: kPaymentBank,
                           ),
                         ),
                         GestureDetector(
                           onTap: () {
-                            completeSale('POD', isDarkMood);
+                            completeSale('POD', isDarkMood, screenSize);
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                width: 1,
-                                color: !isDarkMood
-                                    ? kMainColorLight.withOpacity(0.6)
-                                    : kMainComplimemtColorLight
-                                        .withOpacity(0.8),
-                              ),
-                            ),
-                            height: screenSize.height * 0.1,
-                            width: screenSize.width * 0.35,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Image.asset(
-                                    kPaymentPOD,
-                                    width: 50,
-                                    height: 40,
-                                  ),
-                                ),
-                                const Center(
-                                  child: Text('Pay On Delivery'),
-                                ),
-                              ],
-                            ),
+                          child: PaymentModeCard(
+                            isDarkMood: isDarkMood,
+                            screenSize: screenSize,
+                            paymentMethod: 'Pay On Delivery',
+                            paymentIcon: kPaymentPOD,
                           ),
                         ),
                       ],
@@ -1057,13 +996,57 @@ class CheckOutController extends GetxController {
               .contains(searchText.toLowerCase()),
         ),
       );
-
-      // for (var stock in filteredStocks) {
-      //   print(stock.itemName);
-      //   print(stock.itemSellingPrice);
-      //   print(stock.itemQuantity);
-      // }
     }
-    // stockSearchController.clear();
+  }
+}
+
+class PaymentModeCard extends StatelessWidget {
+  final bool isDarkMood;
+  final Size screenSize;
+  final String paymentMethod;
+  final String paymentIcon;
+
+  const PaymentModeCard({
+    super.key,
+    required this.isDarkMood,
+    required this.screenSize,
+    required this.paymentMethod,
+    required this.paymentIcon,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          width: 1,
+          color: !isDarkMood
+              ? kMainColorLight.withOpacity(0.6)
+              : kMainComplimemtColorLight.withOpacity(0.8),
+        ),
+      ),
+      height: screenSize.height * 0.1,
+      width: screenSize.width * 0.35,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(
+              paymentIcon,
+              width: 50,
+              height: 40,
+            ),
+          ),
+          Center(
+              child: Text(
+            paymentMethod,
+            style: const TextStyle(
+              fontSize: kBodyTextFont,
+            ),
+          )),
+        ],
+      ),
+    );
   }
 }

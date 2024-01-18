@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/auth/application/otp_controller/otp_controller.dart';
 import 'package:spacemall/src/features/auth/screens/login/login.dart';
 import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_screen.dart';
@@ -206,8 +207,12 @@ class AuthRepo extends GetxController {
       );
     } else if (e.code == 'invalid-verification-code') {
       OtpController.instance.isLoading.value = false;
-      Get.snackbar('Invalid Code', 'You have an invalid verification code',
-          colorText: Colors.white, backgroundColor: Colors.red);
+      spaceMallSnackBar(
+        'Invalid Code',
+        'You have an invalid verification code',
+        kWhiteLight,
+        kRedColor,
+      );
 
       // Get.dialog(
       //   AlertDialog(
@@ -237,11 +242,18 @@ class AuthRepo extends GetxController {
         AlertDialog(
           title: const Text(
             'You have an invalid verification id',
-            style: TextStyle(color: kBlack),
+            style: TextStyle(
+              color: kBlack,
+              fontSize: kBodyTextFont,
+              fontWeight: FontWeight.w900,
+            ),
           ),
           content: const Text(
             'Please re try the login',
-            style: TextStyle(color: kBlack),
+            style: TextStyle(
+              color: kBlack,
+              fontSize: kBodyTextFont,
+            ),
           ),
           actions: [
             TextButton(
@@ -250,7 +262,12 @@ class AuthRepo extends GetxController {
                   () => const Login(),
                 );
               },
-              child: const Text('Ok'),
+              child: const Text(
+                'Ok',
+                style: TextStyle(
+                  fontSize: kBodyTextFont,
+                ),
+              ),
             ),
           ],
         ),
@@ -260,11 +277,18 @@ class AuthRepo extends GetxController {
         AlertDialog(
           title: const Text(
             'Your session has expired',
-            style: TextStyle(color: kBlack),
+            style: TextStyle(
+              color: kBlack,
+              fontSize: kBodyTextFont,
+              fontWeight: FontWeight.w900,
+            ),
           ),
           content: const Text(
             'Please re try the login',
-            style: TextStyle(color: kBlack),
+            style: TextStyle(
+              color: kBlack,
+              fontSize: kBodyTextFont,
+            ),
           ),
           actions: [
             TextButton(
@@ -273,7 +297,13 @@ class AuthRepo extends GetxController {
                   () => const Login(),
                 );
               },
-              child: const Text('Ok'),
+              child: const Text(
+                'Ok',
+                style: TextStyle(
+                  color: kBlack,
+                  fontSize: kBodyTextFont,
+                ),
+              ),
             ),
           ],
         ),
@@ -286,8 +316,12 @@ class AuthRepo extends GetxController {
       phoneAuth(ProfileController.instance.contactNumber!);
       OtpController.instance.setTimer();
     } else {
-      Get.snackbar('No phone number',
-          'Please go back to Login page and add your phone number');
+      spaceMallSnackBar(
+        'No phone number',
+        'Please go back to Login page and add your phone number',
+        kWhiteLight,
+        kRedColor,
+      );
     }
   }
 
@@ -327,12 +361,14 @@ class AuthRepo extends GetxController {
         ProfileController.instance.tEmail.text =
             userCredential.user?.email ?? '';
         // ProfileController.instance.profilePic.value = photoURL as File?;
-        Get.snackbar(
+
+        spaceMallSnackBar(
           'Login successful',
           'What is left is to go to profile to add your number and bio',
-          backgroundColor: kWhiteDark,
-          colorText: kBlackDark,
+          kBlackDark,
+          kWhiteDark,
         );
+
         ProfileController.instance.contactNumber = '';
 
         var exists = AuthRepo.instance.profilePic.isNotEmpty;
@@ -348,22 +384,21 @@ class AuthRepo extends GetxController {
               );
         OtpController.instance.isLoading.value = false;
       } else {
-        Get.snackbar(
+        spaceMallSnackBar(
           'Login Error',
           'Something went wrong, check your connection',
-          backgroundColor: kRedColor,
-          colorText: kWhiteLight,
+          kWhiteLight,
+          kRedColor,
         );
       }
     } catch (e) {
       OtpController.instance.isLoading.value = false;
-      Get.snackbar(
+      spaceMallSnackBar(
         'Login Cancelled',
         'Login terminated',
-        backgroundColor: kRedColor,
-        colorText: kWhiteLight,
+        kWhiteLight,
+        kRedColor,
       );
-      // catchLoginError(e);
     }
   }
 
@@ -381,12 +416,11 @@ class AuthRepo extends GetxController {
       ProfileController.instance.tUserName.text =
           userCredential.user?.displayName ?? '';
       ProfileController.instance.tEmail.text = userCredential.user?.email ?? '';
-
-      Get.snackbar(
+      spaceMallSnackBar(
         'Login successful',
         'What is left is to go to profile to add your number and bio',
-        backgroundColor: kWhiteDark,
-        colorText: kBlackDark,
+        kBlackDark,
+        kWhiteDark,
       );
 
       ProfileController.instance.contactNumber = '';
@@ -408,8 +442,13 @@ class AuthRepo extends GetxController {
   }
 
   Future<void> signInWithTwitter() async {
-    Get.snackbar('Login Mode Down', 'Please try another login method',
-        colorText: Colors.white, backgroundColor: Colors.red);
+    spaceMallSnackBar(
+      'Login Mode Down',
+      'Please try another login method',
+      kWhiteLight,
+      kRedColor,
+    );
+
     // OtpController.instance.isLoading.value = true;
     // // Create a TwitterLogin instance
     // try {
@@ -439,8 +478,13 @@ class AuthRepo extends GetxController {
   }
 
   Future<void> signInWithInsta() async {
-    Get.snackbar('Login Mode Down', 'Please try another login method',
-        colorText: Colors.white, backgroundColor: Colors.red);
+    spaceMallSnackBar(
+      'Login Mode Down',
+      'Please try another login method',
+      kWhiteLight,
+      kRedColor,
+    );
+
     // OtpController.instance.isLoading.value = true;
     // // Create a TwitterLogin instance
     // try {
@@ -470,8 +514,13 @@ class AuthRepo extends GetxController {
   }
 
   Future<void> signInWithMetaMask() async {
-    Get.snackbar('Login Mode Down', 'Please try another login method',
-        colorText: Colors.white, backgroundColor: Colors.red);
+    spaceMallSnackBar(
+      'Login Mode Down',
+      'Please try another login method',
+      kWhiteLight,
+      kRedColor,
+    );
+
     // OtpController.instance.isLoading.value = true;
     // // Create a TwitterLogin instance
     // try {
@@ -543,8 +592,13 @@ class AuthRepo extends GetxController {
         },
 
         codeSent: (String verificationId, int? resendToken) async {
-          Get.snackbar('Code sent', 'You should',
-              colorText: Colors.white, backgroundColor: Colors.green);
+          spaceMallSnackBar(
+            'Code sent',
+            'You should',
+            kWhiteLight,
+            kGreenColor,
+          );
+
           // String smsCode = OtpController.instance.otp.value;
           resendToken = OtpController.instance.resendToken.value;
           this.verificationId.value = verificationId;
@@ -577,8 +631,12 @@ class AuthRepo extends GetxController {
       OtpController.instance.isLoading.value = false;
       return 'success';
     } on FirebaseAuthException catch (e) {
-      Get.snackbar('Login Error', e.toString(),
-          colorText: Colors.white, backgroundColor: Colors.red);
+      spaceMallSnackBar(
+        'Login Error',
+        e.toString(),
+        kWhiteLight,
+        kRedColor,
+      );
     }
     OtpController.instance.isLoading.value = false;
     return 'error';
@@ -700,8 +758,12 @@ class AuthRepo extends GetxController {
         connectivityStatus != ConnectivityResult.wifi ||
         connectivityStatus != ConnectivityResult.ethernet) {
     } else {
-      Get.snackbar('No internet connection',
-          'Please make sufe you are connected to internet');
+      spaceMallSnackBar(
+        'No internet connection',
+        'Please make sure you are connected to internet',
+        kWhiteLight,
+        kRedColor,
+      );
     }
   }
 }

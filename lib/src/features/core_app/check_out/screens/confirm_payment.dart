@@ -72,18 +72,26 @@ class ConfirmPayment extends StatelessWidget {
                           title: kAdjustCartItemText,
                           titleStyle: const TextStyle(
                             color: kWhiteLight,
+                            fontWeight: FontWeight.w900,
+                            fontSize: kBodyTextFont,
                           ),
                           content: const Text(
                             kAlertBodyText,
                             style: TextStyle(
                               color: kWhiteLight,
+                              fontSize: kBodyTextFont,
                             ),
                           ),
                           confirm: ElevatedButton(
                             onPressed: () {
                               Get.back();
                             },
-                            child: const Text(kOkayText),
+                            child: const Text(
+                              kOkayText,
+                              style: TextStyle(
+                                fontSize: kBodyTextFont,
+                              ),
+                            ),
                           ),
                         );
                       });
@@ -134,7 +142,7 @@ class ConfirmPayment extends StatelessWidget {
                                         ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(6.0),
                                         child: Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
@@ -151,12 +159,15 @@ class ConfirmPayment extends StatelessWidget {
                                                   checkOutController
                                                       .cartItems[index]
                                                       .itemName,
+                                                  style: const TextStyle(
+                                                      fontSize: kBodyTextFont),
                                                 ),
                                                 Obx(
                                                   () => Text(
                                                     '${stockList.quantityInCart} x ${stockList.price}',
                                                     style: const TextStyle(
-                                                        fontSize: 11),
+                                                      fontSize: kBodyTextFont,
+                                                    ),
                                                   ),
                                                 ),
                                               ],
@@ -165,6 +176,10 @@ class ConfirmPayment extends StatelessWidget {
                                               () => Text(
                                                 nairaFormat.format(
                                                   stockList.subTotal.value,
+                                                ),
+                                                style: const TextStyle(
+                                                  fontSize: kBodyTextFont,
+                                                  fontWeight: FontWeight.w900,
                                                 ),
                                               ),
                                             ),
@@ -193,7 +208,7 @@ class ConfirmPayment extends StatelessWidget {
                   color: isDarkMood
                       ? kDarkModeIconColor
                       : kLightModeBackgroundColor,
-                  height: screenSize.height * 0.25,
+                  height: screenSize.height * 0.18,
                   child: Obx(
                     () => Column(
                       children: [
@@ -214,9 +229,9 @@ class ConfirmPayment extends StatelessWidget {
                                 const Text(
                                   kSubTotalText,
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: kBodyTextFont,
                                     color: kWhiteLight,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w900,
                                   ),
                                 ),
                                 Text(
@@ -224,9 +239,9 @@ class ConfirmPayment extends StatelessWidget {
                                     checkOutController.totalCartSubTotal.value,
                                   ),
                                   style: const TextStyle(
-                                    fontSize: kHeaderTextFont,
+                                    fontSize: kBodyTextFont,
                                     color: kWhiteLight,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w900,
                                   ),
                                 ),
                               ],
@@ -250,9 +265,9 @@ class ConfirmPayment extends StatelessWidget {
                                 const Text(
                                   kDiscountText,
                                   style: TextStyle(
-                                    fontSize: 20,
+                                    fontSize: kBodyTextFont,
                                     color: kWhiteLight,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w900,
                                   ),
                                 ),
                                 Text(
@@ -260,9 +275,9 @@ class ConfirmPayment extends StatelessWidget {
                                     checkOutController.totalCartDiscount.value,
                                   ),
                                   style: const TextStyle(
-                                    fontSize: 20,
+                                    fontSize: kBodyTextFont,
                                     color: kWhiteLight,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w900,
                                   ),
                                 ),
                               ],
@@ -283,20 +298,22 @@ class ConfirmPayment extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(kTaxText,
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: kWhiteLight,
-                                      fontWeight: FontWeight.bold,
-                                    )),
+                                const Text(
+                                  kTaxText,
+                                  style: TextStyle(
+                                    fontSize: kBodyTextFont,
+                                    color: kWhiteLight,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
                                 Text(
                                   nairaFormat.format(
                                     checkOutController.totalCartTax.value,
                                   ),
                                   style: const TextStyle(
-                                    fontSize: 20,
+                                    fontSize: kBodyTextFont,
                                     color: kWhiteLight,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w900,
                                   ),
                                 ),
                               ],
@@ -323,20 +340,22 @@ class ConfirmPayment extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(kTotalText,
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: kWhiteLight,
-                                      fontWeight: FontWeight.bold,
-                                    )),
+                                const Text(
+                                  kTotalText,
+                                  style: TextStyle(
+                                    fontSize: kBodyTextFont,
+                                    color: kWhiteLight,
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
                                 Text(
                                   nairaFormat.format(
                                     checkOutController.totalCartTotal.value,
                                   ),
                                   style: const TextStyle(
-                                    fontSize: 20,
+                                    fontSize: kBodyTextFont,
                                     color: kWhiteLight,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w900,
                                   ),
                                 ),
                               ],
@@ -391,7 +410,7 @@ class ConfirmPayment extends StatelessWidget {
                 },
                 child: const Text(
                   kConfirmPaymentText,
-                  style: TextStyle(fontSize: 15, color: kWhiteLight),
+                  style: TextStyle(fontSize: kBodyTextFont, color: kWhiteLight),
                 ),
               ),
             ),

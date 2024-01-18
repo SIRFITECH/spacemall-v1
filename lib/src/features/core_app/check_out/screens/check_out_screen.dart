@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/check_out/application/cart_item_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
@@ -172,7 +173,11 @@ class CheckOut extends StatelessWidget {
                                                         stockItem.itemName,
                                                         style: Theme.of(context)
                                                             .textTheme
-                                                            .labelMedium,
+                                                            .labelMedium
+                                                            ?.copyWith(
+                                                              fontSize:
+                                                                  kBodyTextFont,
+                                                            ),
                                                       ),
                                                       const SizedBox(
                                                         height: 7,
@@ -269,9 +274,13 @@ class CheckOut extends StatelessWidget {
                                                         quantityInCart: RxInt(
                                                             stockItem
                                                                 .itemCount),
-                                                        price: nairaFormat.format(
-                                                            int.parse(stockItem
-                                                                .itemSellingPrice)),
+                                                        price:
+                                                            nairaFormat.format(
+                                                          int.parse(
+                                                            stockItem
+                                                                .itemSellingPrice,
+                                                          ),
+                                                        ),
                                                         totalItemPrice:
                                                             nairaFormat.format(
                                                                 costOfItem),
@@ -304,39 +313,52 @@ class CheckOut extends StatelessWidget {
                                                     child: Column(
                                                       children: [
                                                         SizedBox(
-                                                            width: screenSize
-                                                                    .width *
-                                                                0.5,
-                                                            height: screenSize
-                                                                    .height *
-                                                                0.039,
-                                                            child: stockItem
-                                                                        .itemPic ==
-                                                                    null
-                                                                ? SvgPicture
-                                                                    .asset(
-                                                                    kImageIcon,
-                                                                    // ignore: deprecated_member_use
-                                                                    color:
-                                                                        kMainColorDark,
-                                                                    width: 50,
-                                                                    height: 70,
-                                                                    fit: BoxFit
-                                                                        .scaleDown,
-                                                                  )
-                                                                : ClipRRect(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10),
-                                                                    child: Image.file(
-                                                                        stockItem
-                                                                            .itemPic!))),
+                                                          width:
+                                                              screenSize.width *
+                                                                  0.5,
+                                                          height: screenSize
+                                                                  .height *
+                                                              0.039,
+                                                          child: stockItem
+                                                                      .itemPic ==
+                                                                  null
+                                                              ? SvgPicture
+                                                                  .asset(
+                                                                  kImageIcon,
+                                                                  // ignore: deprecated_member_use
+                                                                  color:
+                                                                      kMainColorDark,
+                                                                  width: 50,
+                                                                  height: 70,
+                                                                  fit: BoxFit
+                                                                      .scaleDown,
+                                                                )
+                                                              : ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              10),
+                                                                  child: Image.file(
+                                                                      stockItem
+                                                                          .itemPic!),
+                                                                ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: 10,
+                                                        ),
                                                         Text(
                                                           stockItem.itemName,
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
-                                                                  .labelMedium,
+                                                                  .labelMedium
+                                                                  ?.copyWith(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w900,
+                                                                    fontSize:
+                                                                        kBodyTextFont,
+                                                                  ),
                                                         ),
                                                         const SizedBox(
                                                           height: 7,
@@ -349,7 +371,11 @@ class CheckOut extends StatelessWidget {
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
-                                                                  .labelMedium,
+                                                                  .labelMedium
+                                                                  ?.copyWith(
+                                                                    fontSize:
+                                                                        kBodyTextFont,
+                                                                  ),
                                                         ),
                                                       ],
                                                     ),
@@ -400,7 +426,8 @@ class CheckOut extends StatelessWidget {
                                                                     const TextStyle(
                                                                   color: Colors
                                                                       .white,
-                                                                  fontSize: 18,
+                                                                  fontSize:
+                                                                      kBodyTextFont,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
@@ -929,7 +956,10 @@ class CheckOut extends StatelessWidget {
                                               stockItem.itemName,
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .labelMedium,
+                                                  .labelMedium
+                                                  ?.copyWith(
+                                                    fontSize: kBodyTextFont,
+                                                  ),
                                             ),
                                             const SizedBox(
                                               height: 7,
@@ -941,7 +971,10 @@ class CheckOut extends StatelessWidget {
                                               ),
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .labelMedium,
+                                                  .labelMedium
+                                                  ?.copyWith(
+                                                    fontSize: kBodyTextFont,
+                                                  ),
                                             ),
                                           ],
                                         ),

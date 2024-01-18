@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 
 class DashBoardIcon extends StatelessWidget {
   const DashBoardIcon({
@@ -27,7 +28,7 @@ class DashBoardIcon extends StatelessWidget {
         Text(
           title,
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontSize: 13,
+                fontSize: kBodyTextFont,
                 fontWeight: FontWeight.normal,
               ),
         )

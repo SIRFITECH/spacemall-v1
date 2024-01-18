@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 
 // ignore: must_be_immutable
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -32,9 +33,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       title: Text(title.toUpperCase()),
       titleTextStyle: TextStyle(
-          color: isDarkMood ? kWhiteLight : kMainComplimemtColorLight,
-          fontSize: 23,
-          fontWeight: FontWeight.bold),
+        color: isDarkMood ? kWhiteLight : kMainComplimemtColorLight,
+        fontSize: kLiquidSwipeHeader,
+        fontWeight: FontWeight.w900,
+      ),
       backgroundColor: isDarkMood
           ? kDarkModeBackgroundColor.withAlpha(2)
           : kWhiteLight.withAlpha(2),
@@ -60,7 +62,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                 Text(
                   'Back',
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: kBodyTextFont,
                     color: isDarkMood ? kWhiteLight : kBlackDark,
                     fontWeight: FontWeight.bold,
                   ),

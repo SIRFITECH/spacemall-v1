@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
+import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/localizations/currency.dart';
@@ -26,7 +28,8 @@ class _SelectPrinterState extends State<SelectPrinter> {
 
   bool _connected = false;
   BluetoothDevice? _device;
-  String tips = 'no printer connected';
+
+  String tips = 'No printer connected';
 
   @override
   void initState() {
@@ -121,15 +124,32 @@ class _SelectPrinterState extends State<SelectPrinter> {
                 ],
               ),
               // first divider on the screen
-              const Divider(),
+              CustomDivider(
+                height: screenSize.width * 0.025,
+                thickness: screenSize.width * 0.004,
+                color: kGreyColor,
+                margin: const EdgeInsets.all(kDividerMargin),
+              ),
+              // const Divider(),
               StreamBuilder<List<BluetoothDevice>>(
                 stream: bluetoothPrint.scanResults,
                 initialData: const [],
                 builder: (context, snapshot) => Column(
                   children: snapshot.data!
                       .map((device) => ListTile(
-                            title: Text(device.name ?? ''),
-                            subtitle: Text(device.address ?? ''),
+                            title: Text(
+                              device.name ?? '',
+                              style: const TextStyle(
+                                fontSize: kBodyTextFont,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            subtitle: Text(
+                              device.address ?? '',
+                              style: const TextStyle(
+                                fontSize: kBodyTextFont,
+                              ),
+                            ),
                             onTap: () async {
                               setState(() {
                                 _device = device;
@@ -147,7 +167,13 @@ class _SelectPrinterState extends State<SelectPrinter> {
                 ),
               ),
               // Second divider on the screen
-              const Divider(),
+
+              CustomDivider(
+                height: screenSize.width * 0.025,
+                thickness: screenSize.width * 0.004,
+                color: kGreyColor,
+                margin: const EdgeInsets.all(kDividerMargin),
+              ),
               Container(
                 padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
                 child: Column(children: <Widget>[
@@ -177,9 +203,14 @@ class _SelectPrinterState extends State<SelectPrinter> {
                                   debugPrint('please select printer');
                                 }
                               },
-                        child: const Text('connect'),
+                        child: const Text(
+                          'connect',
+                          style: TextStyle(
+                            fontSize: kBodyTextFont,
+                          ),
+                        ),
                       ),
-                      const SizedBox(width: 10.0),
+                      SizedBox(width: screenSize.width * .05),
                       ElevatedButton(
                         onPressed: _connected
                             ? () async {
@@ -189,12 +220,22 @@ class _SelectPrinterState extends State<SelectPrinter> {
                                 await bluetoothPrint.disconnect();
                               }
                             : null,
-                        child: const Text('disconnect'),
+                        child: const Text(
+                          'disconnect',
+                          style: TextStyle(
+                            fontSize: kBodyTextFont,
+                          ),
+                        ),
                       ),
                     ],
                   ),
                   // Third divider
-                  const Divider(),
+                  CustomDivider(
+                    height: screenSize.width * 0.025,
+                    thickness: screenSize.width * 0.004,
+                    color: kGreyColor,
+                    margin: const EdgeInsets.all(kDividerMargin),
+                  ),
                   ElevatedButton(
                     onPressed: _connected
                         ? () async {
@@ -317,29 +358,38 @@ class _SelectPrinterState extends State<SelectPrinter> {
                             await bluetoothPrint.printReceipt(config, list);
                           }
                         : null,
-                    child: const Text('print receipt'),
+                    child: const Text('print receipt',
+                        style: TextStyle(
+                          fontSize: kBodyTextFont,
+                        )),
                   ),
 
-                  StreamBuilder<bool>(
-                    stream: bluetoothPrint.isScanning,
-                    initialData: false,
-                    builder: (context, snapshot) {
-                      if (snapshot.data == true) {
-                        return ElevatedButton(
-                          onPressed: () => bluetoothPrint.stopScan(),
-                          child: const Text(
-                            'Stop Search',
-                          ),
-                        );
-                      } else {
-                        return ElevatedButton(
-                          onPressed: () => bluetoothPrint.startScan(
-                            timeout: const Duration(seconds: 4),
-                          ),
-                          child: const Text('Search Printer'),
-                        );
-                      }
-                    },
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: StreamBuilder<bool>(
+                      stream: bluetoothPrint.isScanning,
+                      initialData: false,
+                      builder: (context, snapshot) {
+                        if (snapshot.data == true) {
+                          return ElevatedButton(
+                            onPressed: () => bluetoothPrint.stopScan(),
+                            child: const Text(
+                              'Stop Search',
+                            ),
+                          );
+                        } else {
+                          return ElevatedButton(
+                            onPressed: () => bluetoothPrint.startScan(
+                              timeout: const Duration(seconds: 4),
+                            ),
+                            child: const Text('Search Printer',
+                                style: TextStyle(
+                                  fontSize: kBodyTextFont,
+                                )),
+                          );
+                        }
+                      },
+                    ),
                   ),
 
                   SizedBox(
@@ -349,7 +399,12 @@ class _SelectPrinterState extends State<SelectPrinter> {
                       onPressed: () {
                         Get.off(() => DashBoard());
                       },
-                      child: const Text('Finished Printing'))
+                      child: const Text(
+                        'Finished Printing',
+                        style: TextStyle(
+                          fontSize: kBodyTextFont,
+                        ),
+                      ))
                 ]),
               )
             ],

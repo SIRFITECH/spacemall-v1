@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 // import 'package:spacemall/src/features/core_app/check_out/data/check_out_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/application/receipts_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
@@ -75,10 +76,11 @@ class ReceiptListScreen extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 4.0,
-                vertical: 4.0,
+              padding: EdgeInsets.symmetric(
+                horizontal: screenSize.width * 0.03,
+                vertical: screenSize.height * 0.01,
               ),
+              // the from and to clickable cards
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -121,8 +123,8 @@ class ReceiptListScreen extends StatelessWidget {
                             'From',
                             style: TextStyle(fontSize: 12, color: kWhiteLight),
                           ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: screenSize.height * 0.013,
                           ),
                           Obx(() => Text(
                                 receiptController.fromDate.value ==
@@ -133,7 +135,9 @@ class ReceiptListScreen extends StatelessWidget {
                                     : DateFormat('dd-MM-yyyy').format(
                                         receiptController.fromDate.value),
                                 style: const TextStyle(
-                                    fontSize: 15, color: kWhiteLight),
+                                    fontSize: kBodyTextFont,
+                                    color: kWhiteLight,
+                                    fontWeight: FontWeight.w900),
                               )),
                         ],
                       ),
@@ -156,8 +160,8 @@ class ReceiptListScreen extends StatelessWidget {
                             'To',
                             style: TextStyle(fontSize: 12, color: kWhiteLight),
                           ),
-                          const SizedBox(
-                            height: 10,
+                          SizedBox(
+                            height: screenSize.height * 0.013,
                           ),
                           Obx(() => Text(
                                 receiptController.selectedDateTime.value ==
@@ -168,7 +172,10 @@ class ReceiptListScreen extends StatelessWidget {
                                     : DateFormat('dd-MM-yyyy')
                                         .format(receiptController.toDate.value),
                                 style: const TextStyle(
-                                    fontSize: 15, color: kWhiteLight),
+                                  fontSize: kBodyTextFont,
+                                  color: kWhiteLight,
+                                  fontWeight: FontWeight.w900,
+                                ),
                               )),
                         ],
                       ),
@@ -177,6 +184,7 @@ class ReceiptListScreen extends StatelessWidget {
                 ],
               ),
             ),
+            // the body of the receipt screen
             ClipRRect(
               borderRadius: BorderRadius.circular(6),
               child: Container(
@@ -198,87 +206,112 @@ class ReceiptListScreen extends StatelessWidget {
                                     parsedIndex: index,
                                   ));
                             },
-                            child: Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(5),
+                            child: SizedBox(
+                              width: double.infinity,
+                              height: screenSize.height * 0.1,
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(5),
+                                  ),
+                                  side: BorderSide(
+                                    color: !isDarkMood
+                                        ? kTextFieldLightBorderColor
+                                            .withOpacity(0.5)
+                                        : kTextFieldDarkBorderColor
+                                            .withOpacity(0.5),
+                                    width: 1.0,
+                                  ),
                                 ),
-                                side: BorderSide(
-                                  color: !isDarkMood
-                                      ? kTextFieldLightBorderColor
-                                          .withOpacity(0.5)
-                                      : kTextFieldDarkBorderColor
-                                          .withOpacity(0.5),
-                                  width: 1.0,
-                                ),
-                              ),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          receipts.customerName,
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 8.0),
-                                          child: Column(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenSize.width * 0.05),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.end,
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                nairaFormat.format(
-                                                  double.parse(
-                                                    receipts.cartTotal,
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: screenSize.height *
+                                                        0.015),
+                                                child: Text(
+                                                  receipts.customerName,
+                                                  style: const TextStyle(
+                                                    fontSize: kBodyTextFont,
+                                                    fontWeight: FontWeight.w900,
                                                   ),
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 8.0, bottom: 8),
-                                                child: Text(
-                                                  'by ${receipts.paymentMethod}',
-                                                  style: const TextStyle(
-                                                      fontSize: 12),
-                                                ),
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    '${receipts.itemsInCart.length} item(s),',
+                                                    style: const TextStyle(
+                                                      fontSize: kBodyTextFont,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(
+                                                    DateFormat('d MMM, yyyy')
+                                                        .format(
+                                                      receipts.date,
+                                                    ),
+                                                    style: const TextStyle(
+                                                      fontSize: kBodyTextFont,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 8.0),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            '${receipts.itemsInCart.length} items',
-                                            style:
-                                                const TextStyle(fontSize: 12),
-                                          ),
-                                          const SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            DateFormat('d MMM, yyyy').format(
-                                              receipts.date,
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: screenSize.height * 0.015),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                  nairaFormat.format(
+                                                    double.parse(
+                                                      receipts.cartTotal,
+                                                    ),
+                                                  ),
+                                                  style: const TextStyle(
+                                                    fontSize: kBodyTextFont,
+                                                    fontWeight: FontWeight.w900,
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 8.0, bottom: 8),
+                                                  child: Text(
+                                                    'by ${receipts.paymentMethod}',
+                                                    style: const TextStyle(
+                                                      fontSize: kBodyTextFont,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            style:
-                                                const TextStyle(fontSize: 12),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -301,6 +334,9 @@ class ReceiptListScreen extends StatelessWidget {
                   },
                   child: const Text(
                     kReceiptsLoadMoreText,
+                    style: TextStyle(
+                      fontSize: kBodyTextFont,
+                    ),
                   ),
                 ),
               ),

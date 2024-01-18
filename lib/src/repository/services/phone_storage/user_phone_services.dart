@@ -21,14 +21,16 @@ class UserPhoneServices extends UserLocalDataBaseAdapter {
     final appDocumentDir = await getApplicationDocumentsDirectory();
     Hive.init(appDocumentDir.path);
 
-    await userBox.put('user_profile', user).then(
-          (value) => Get.snackbar(
-            'User created',
-            'User with username ${_profileController.tUserName.text.toUpperCase()} created successfully',
-            backgroundColor: kWhiteLight,
-            colorText: kBlack,
-          ),
-        );
+    await userBox.put('user_profile', user)
+        // .then(
+        //       (value) => Get.snackbar(
+        //         'User created',
+        //         'User with username ${_profileController.tUserName.text.toUpperCase()} created successfully',
+        //         backgroundColor: kWhiteLight,
+        //         colorText: kBlack,
+        //       ),
+        //     )
+        ;
   }
 
   @override

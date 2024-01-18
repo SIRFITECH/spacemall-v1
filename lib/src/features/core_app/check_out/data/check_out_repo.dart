@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
@@ -46,7 +47,8 @@ class CheckOutRepo extends GetxController {
     }
   }
 
-  Future<File> generatePDFReceipt(ReceiptPDFModel receipt, int index) async {
+  Future<File> generatePDFReceipt(
+      ReceiptPDFModel receipt, int index, Size screenSize) async {
     final receiptPDF = pw.Document();
     int receiptNo = ReceiptsController.instance.receiptNo.value;
     receiptPDF.addPage(

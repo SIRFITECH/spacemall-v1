@@ -96,7 +96,6 @@ class SalesPhoneService extends SalesLocalDataBaseAdapter {
 
           return cartItems;
         }
-        print('the full sale is : $salesList');
         // return salesList;
       }
     } catch (e) {

@@ -51,11 +51,11 @@ class ReceiptPhoneService extends ReceiptLocalDataBaseAdapter {
       );
 
       receiptsController.receipts.add(newReceipt);
-      Get.snackbar(
+      spaceMallSnackBar(
         'Receipt created',
         'Receipt added successfully',
-        backgroundColor: kWhiteLight,
-        colorText: kBlack,
+        kBlack,
+        kWhiteLight,
       );
     } catch (e) {
       debugPrint(
@@ -68,5 +68,4 @@ class ReceiptPhoneService extends ReceiptLocalDataBaseAdapter {
       );
     }
   }
-
 }

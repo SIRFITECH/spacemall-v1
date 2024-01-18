@@ -8,6 +8,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
+import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 import 'package:spacemall/src/utils/helpers/helper.dart';
 
 import '../../../../../../constants/image_strings.dart';
@@ -230,8 +231,12 @@ class ShopFrontScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Clipboard.setData(copyText).then(
-                            (value) => Get.snackbar('Copy Successful',
-                                'Store Link copied to clipboard'),
+                            (value) => spaceMallSnackBar(
+                              'Copy Successful',
+                              'Store Link copied to clipboard',
+                              kWhiteLight,
+                              kGreyColor,
+                            ),
                           );
                         },
                         child: Container(

@@ -16,6 +16,7 @@ import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
+import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
 class OtpController extends GetxController {
   static OtpController get instance => Get.find();
@@ -35,7 +36,12 @@ class OtpController extends GetxController {
     Timer.periodic(onsec, (time) {
       if (timer.value == 0) {
         time.cancel();
-        Get.snackbar('Request resend', 'You can request OTP resend now');
+        spaceMallSnackBar(
+          'Request resend',
+          'You can request OTP resend now',
+          kWhiteLight,
+          kGreyColor,
+        );
       } else {
         timer.value--;
       }

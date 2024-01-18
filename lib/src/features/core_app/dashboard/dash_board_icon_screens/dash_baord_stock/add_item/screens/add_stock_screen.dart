@@ -261,7 +261,11 @@ class AddStock extends StatelessWidget {
                                                             value.categoryName,
                                                             9),
                                                         style: textTheme
-                                                            .labelSmall,
+                                                            .labelSmall
+                                                            ?.copyWith(
+                                                          fontSize:
+                                                              kBodyTextFont,
+                                                        ),
                                                       ),
                                                     );
                                                   }).toList(),

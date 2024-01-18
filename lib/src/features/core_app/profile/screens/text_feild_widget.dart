@@ -64,10 +64,10 @@ class TextFeildWidget extends StatelessWidget {
                 filled: true,
                 contentPadding: const EdgeInsets.only(top: 10, left: 10),
                 hintText: hintText,
-                hintStyle: Theme.of(context)
-                    .textTheme
-                    .labelSmall!
-                    .copyWith(color: kGreyColor),
+                hintStyle: Theme.of(context).textTheme.labelSmall!.copyWith(
+                      color: kGreyColor,
+                      fontSize: kBodyTextFont,
+                    ),
               ),
               style: Theme.of(context)
                   .textTheme
@@ -169,7 +169,9 @@ class DateFeildWidget extends StatelessWidget {
                   filled: true,
                   contentPadding: const EdgeInsets.only(top: 10, left: 10),
                   hintText: hintText,
-                  hintStyle: Theme.of(context).textTheme.labelSmall,
+                  hintStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        fontSize: kBodyTextFont,
+                      ),
                 ),
                 style: Theme.of(context)
                     .textTheme

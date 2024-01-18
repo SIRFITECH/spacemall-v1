@@ -29,12 +29,18 @@ final AddTagController addTagController = Get.find();
 SnackbarController spaceMallSnackBar(
     String title, String message, Color? textColor, Color? bgColor) {
   return Get.snackbar(
- 
     title,
+    titleText: Text(
+      title,
+      style: TextStyle(
+        fontSize: kBodyTextFont,
+        fontWeight: FontWeight.w900,
+        color: textColor,
+      ),
+    ),
     message,
     colorText: textColor,
     backgroundColor: bgColor,
-    // FIXME: adjust the font of the snackbar
     messageText: Text(
       message,
       style: TextStyle(
@@ -101,11 +107,14 @@ void dialogBox(
       title: title,
       titleStyle: const TextStyle(
         color: kWhiteLight,
+        fontWeight: FontWeight.w900,
+        fontSize: kBodyTextFont,
       ),
       content: Text(
         content,
         style: const TextStyle(
           color: kWhiteLight,
+          fontSize: kBodyTextFont,
         ),
       ),
       confirm: ElevatedButton(

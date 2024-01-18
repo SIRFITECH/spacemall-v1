@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
@@ -149,11 +150,11 @@ class AddItemController extends GetxController {
       }
     } else {
       isLoading.value = false;
-      Get.snackbar(
+      spaceMallSnackBar(
         'Error',
         'You need to add item pic',
-        backgroundColor: kRedColor,
-        colorText: kWhiteLight,
+        kWhiteLight,
+        kRedColor,
       );
     }
   }
@@ -170,12 +171,11 @@ class AddItemController extends GetxController {
       if (moreImages.length == 1) {
         moreImages.add(pickedImage);
         update();
-
-        Get.snackbar(
+        spaceMallSnackBar(
           'Notice',
           'You can delete an image by long pressing on it',
-          backgroundColor: kRedColor,
-          colorText: kWhiteLight,
+          kWhiteLight,
+          kWhiteLight,
         );
       } else {
         moreImages.add(pickedImage);
@@ -184,18 +184,18 @@ class AddItemController extends GetxController {
     } else if (pickedImage != null && moreImages.length == 4) {
       moreImages.add(pickedImage);
       update();
-      Get.snackbar(
+      spaceMallSnackBar(
         'Limit Warning',
         'You can not add more than 5 images',
-        backgroundColor: kRedColor,
-        colorText: kWhiteLight,
+        kWhiteLight,
+        kRedColor,
       );
     } else {
-      Get.snackbar(
+      spaceMallSnackBar(
         'Error',
         'You have exceeded the max images you can add',
-        backgroundColor: kRedColor,
-        colorText: kWhiteLight,
+        kWhiteLight,
+        kRedColor,
       );
     }
   }
@@ -206,11 +206,11 @@ class AddItemController extends GetxController {
       moreImages.remove(moreImages[index]);
       update();
     } else {
-      Get.snackbar(
+      spaceMallSnackBar(
         'Error',
         'Image doesn\t exist',
-        backgroundColor: kRedColor,
-        colorText: kWhiteLight,
+        kWhiteLight,
+        kRedColor,
       );
     }
   }
@@ -224,18 +224,18 @@ class AddItemController extends GetxController {
       existingImages.add(pickedImage!);
       update();
     } else if (existingImages.length == 5) {
-      Get.snackbar(
+      spaceMallSnackBar(
         'Limit Warning',
         'You can not add more than 5 images',
-        backgroundColor: kRedColor,
-        colorText: kWhiteLight,
+        kWhiteLight,
+        kRedColor,
       );
     } else {
-      Get.snackbar(
+      spaceMallSnackBar(
         'Error',
         'No images were added',
-        backgroundColor: kRedColor,
-        colorText: kWhiteLight,
+        kWhiteLight,
+        kRedColor,
       );
     }
   }
@@ -247,15 +247,20 @@ class AddItemController extends GetxController {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Delete Image'),
-          content: const Text('Are you sure you want to delete this image?'),
+          title: const Text(
+            'Delete Image',
+          ),
+          content: const Text(
+            'Are you sure you want to delete this image?',
+          ),
           contentTextStyle: TextStyle(
             color: isDarkMood ? null : kBlackDark,
+            fontSize: kBodyTextFont,
           ),
           titleTextStyle: TextStyle(
             color: isDarkMood ? null : kBlackDark,
-            fontSize: 17,
-            fontWeight: FontWeight.bold,
+            fontSize: kBodyTextFont,
+            fontWeight: FontWeight.w900,
           ),
           actions: [
             TextButton(
@@ -266,6 +271,7 @@ class AddItemController extends GetxController {
                 'Cancel',
                 style: TextStyle(
                   color: isDarkMood ? kDarkModeBrightIconColor : null,
+                  fontSize: kBodyTextFont,
                 ),
               ),
             ),
@@ -279,6 +285,7 @@ class AddItemController extends GetxController {
                 'Delete',
                 style: TextStyle(
                   color: isDarkMood ? kDarkModeBrightIconColor : null,
+                  fontSize: kBodyTextFont,
                 ),
               ),
             ),
@@ -298,12 +305,13 @@ class AddItemController extends GetxController {
 
       update();
     } else {
-      Get.snackbar(
+      spaceMallSnackBar(
         'Error',
         'Image doesn\t exist',
-        backgroundColor: kRedColor,
-        colorText: kWhiteLight,
+        kWhiteLight,
+        kRedColor,
       );
+     
     }
   }
 
@@ -354,5 +362,4 @@ class AddItemController extends GetxController {
       return [];
     }
   }
-
 }

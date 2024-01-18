@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 
 class SplascreenLoader extends StatelessWidget {
   const SplascreenLoader({super.key});
@@ -36,7 +37,10 @@ class SplascreenLoader extends StatelessWidget {
               // )
               Text(
             'Loading...',
-            style: TextStyle(color: kBlack),
+            style: TextStyle(
+              color: kBlack,
+              fontSize: kBodyTextFont,
+            ),
           ),
 
           // Column(

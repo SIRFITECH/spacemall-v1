@@ -78,8 +78,12 @@ class StoreRepo extends GetxController {
           );
         }
       } else {
-        Get.snackbar('Store must have a logo', 'You have to add a store logo',
-            backgroundColor: kRedColor, colorText: kWhiteLight);
+        spaceMallSnackBar(
+          'Store must have a logo',
+          'You have to add a store logo',
+          kWhiteLight,
+          kRedColor,
+        );
       }
     } else {
       spaceMallSnackBar(
