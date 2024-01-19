@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 
@@ -97,26 +98,32 @@ class _ShopFrontSettingsState extends State<ShopFrontSettings> {
                             title: Text(
                               'Show home screen',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: kHeaderTextFontSmall,
+                                fontWeight: FontWeight.w900,
                                 color: isDarkMood ? kWhiteLight : kBlackDark,
                               ),
                             ),
                             subtitle: Text(
                               'banners, category, group items',
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: kBodyTextFont,
                                 color: isDarkMood ? kWhiteLight : kBlackDark,
                               ),
                             ),
-                            trailing: Icon(
-                              Icons.toggle_off_outlined,
-                              size: 50,
-                              color:
-                                  // clicked ?
-                                  !isDarkMood
-                                      ? kMainColorLight.withOpacity(0.6)
-                                      : kTextFieldDarkBorderColor
-                                          .withOpacity(0.8),
+                            trailing: IconButton(
+                              onPressed: () {
+                                print('toggle clicked');
+                              },
+                              icon: Icon(
+                                Icons.toggle_off_outlined,
+                                size: 50,
+                                color:
+                                    // clicked ?
+                                    !isDarkMood
+                                        ? kMainColorLight.withOpacity(0.6)
+                                        : kTextFieldDarkBorderColor
+                                            .withOpacity(0.8),
+                              ),
                             ),
                           ),
                         ),
@@ -147,23 +154,28 @@ class _ShopFrontSettingsState extends State<ShopFrontSettings> {
                             title: Text(
                               'Show cover screen',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: kHeaderTextFontSmall,
+                                fontWeight: FontWeight.w900,
                                 color: isDarkMood ? kWhiteLight : kBlackDark,
                               ),
                             ),
                             subtitle: Text(
                               'Group all varients or sub items as single item with options',
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: kBodyTextFont,
                                 color: isDarkMood ? kWhiteLight : kBlackDark,
                               ),
                             ),
-                            trailing: Icon(
-                              Icons.toggle_on,
-                              size: 50,
-                              color: !isDarkMood
-                                  ? kMainColorLight.withOpacity(0.6)
-                                  : kTextFieldDarkBorderColor.withOpacity(0.8),
+                            trailing: IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.toggle_on,
+                                size: 50,
+                                color: !isDarkMood
+                                    ? kMainColorLight.withOpacity(0.6)
+                                    : kTextFieldDarkBorderColor
+                                        .withOpacity(0.8),
+                              ),
                             ),
                           ),
                         ),
@@ -194,23 +206,30 @@ class _ShopFrontSettingsState extends State<ShopFrontSettings> {
                             title: Text(
                               'Enable item grouping',
                               style: TextStyle(
-                                fontSize: 20,
+                                fontSize: kHeaderTextFontSmall,
+                                fontWeight: FontWeight.w900,
                                 color: isDarkMood ? kWhiteLight : kBlackDark,
                               ),
                             ),
                             subtitle: Text(
                               'Group all varients or sub items as single item with options',
                               style: TextStyle(
-                                fontSize: 10,
+                                fontSize: kBodyTextFont,
                                 color: isDarkMood ? kWhiteLight : kBlackDark,
                               ),
                             ),
-                            trailing: Icon(
-                              Icons.toggle_off_outlined,
-                              size: 50,
-                              color: !isDarkMood
-                                  ? kMainColorLight.withOpacity(0.6)
-                                  : kTextFieldDarkBorderColor.withOpacity(0.8),
+                            trailing: IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.toggle_off_outlined,
+                                size: 50,
+                                color:
+                                    // clicked ?
+                                    !isDarkMood
+                                        ? kMainColorLight.withOpacity(0.6)
+                                        : kTextFieldDarkBorderColor
+                                            .withOpacity(0.8),
+                              ),
                             ),
                           ),
                         ),
@@ -220,12 +239,18 @@ class _ShopFrontSettingsState extends State<ShopFrontSettings> {
                         child: SizedBox(
                           width: screenSize.height * 0.15,
                           child: ElevatedButton(
-                              onPressed: () {
-                                Get.to(
-                                  () => const ShopFrontSettings(),
-                                );
-                              },
-                              child: const Text(kSaveText)),
+                            onPressed: () {
+                              Get.to(
+                                () => const ShopFrontSettings(),
+                              );
+                            },
+                            child: const Text(
+                              kSaveText,
+                              style: TextStyle(
+                                fontSize: kBodyTextFont,
+                              ),
+                            ),
+                          ),
                         ),
                       )
                     ],

@@ -13,6 +13,7 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/localizations/currency.dart';
+import 'package:spacemall/src/utils/helpers/helper.dart';
 
 import '../../../../repository/hive_boxes.dart';
 import '../../store/domain/store_model.dart';
@@ -347,7 +348,10 @@ class CheckOut extends StatelessWidget {
                                                           height: 10,
                                                         ),
                                                         Text(
-                                                          stockItem.itemName,
+                                                          truncateString(
+                                                            stockItem.itemName,
+                                                            13,
+                                                          ),
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
@@ -357,7 +361,7 @@ class CheckOut extends StatelessWidget {
                                                                         FontWeight
                                                                             .w900,
                                                                     fontSize:
-                                                                        kBodyTextFont,
+                                                                        kHeaderTextFontSmallest,
                                                                   ),
                                                         ),
                                                         const SizedBox(
@@ -841,7 +845,12 @@ class CheckOut extends StatelessWidget {
                 onPressed: () async {
                   checkOutController.moveToConfirmPayment();
                 },
-                child: const Text(kCheckOutText),
+                child: const Text(
+                  kCheckOutText,
+                  style: TextStyle(
+                    fontSize: kBodyTextFont,
+                  ),
+                ),
               ),
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

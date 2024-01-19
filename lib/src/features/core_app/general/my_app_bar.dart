@@ -34,7 +34,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(title.toUpperCase()),
       titleTextStyle: TextStyle(
         color: isDarkMood ? kWhiteLight : kMainComplimemtColorLight,
-        fontSize: kLiquidSwipeHeader,
+        fontSize: kHeaderTextFontSmall,
         fontWeight: FontWeight.w900,
       ),
       backgroundColor: isDarkMood

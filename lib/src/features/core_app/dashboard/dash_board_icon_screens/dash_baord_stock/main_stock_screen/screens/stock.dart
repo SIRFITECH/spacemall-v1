@@ -100,7 +100,7 @@ class Stock extends StatelessWidget {
                                   ? kWhiteLight
                                   : kDarkComplementColor,
                               fontWeight: FontWeight.w900,
-                              fontSize: kLiquidSwipeHeader,
+                              fontSize: kHeaderTextFontSmall,
                             ),
                           ),
                         ),

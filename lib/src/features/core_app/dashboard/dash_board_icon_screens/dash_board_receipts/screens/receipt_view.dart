@@ -118,7 +118,8 @@ class ReceiptView extends StatelessWidget {
                                                     ),
                                                   ),
                                                   style: const TextStyle(
-                                                    fontSize: kBodyTextFont,
+                                                    fontSize:
+                                                        kHeaderTextFontSmallest,
                                                     fontWeight: FontWeight.w900,
                                                   ),
                                                 ),
@@ -376,9 +377,11 @@ class ReceiptView extends StatelessWidget {
                                                         Text(
                                                           cart[index]
                                                               ['itemName'],
-                                                          style: const TextStyle(
-                                                              fontSize:
-                                                                  kBodyTextFont),
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize:
+                                                                kHeaderTextFontSmallest,
+                                                          ),
                                                         ),
                                                         Text(
                                                           '${cart[index]['quantityInCart'].toString()} x ${cart[index]['itemPrice']} ',
@@ -397,7 +400,7 @@ class ReceiptView extends StatelessWidget {
                                                         ),
                                                         style: const TextStyle(
                                                           fontSize:
-                                                              kBodyTextFont,
+                                                              kHeaderTextFontSmallest,
                                                           fontWeight:
                                                               FontWeight.w900,
                                                         )),
@@ -420,7 +423,8 @@ class ReceiptView extends StatelessWidget {
                                               const Text(
                                                 'Total',
                                                 style: TextStyle(
-                                                  fontSize: kBodyTextFont,
+                                                  fontSize:
+                                                      kHeaderTextFontSmallest,
                                                   fontWeight: FontWeight.w900,
                                                 ),
                                               ),
@@ -434,7 +438,8 @@ class ReceiptView extends StatelessWidget {
                                                   ),
                                                 ),
                                                 style: const TextStyle(
-                                                  fontSize: kBodyTextFont,
+                                                  fontSize:
+                                                      kHeaderTextFontSmallest,
                                                   fontWeight: FontWeight.w900,
                                                 ),
                                               ),

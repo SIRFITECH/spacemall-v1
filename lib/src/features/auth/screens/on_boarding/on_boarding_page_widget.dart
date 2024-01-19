@@ -34,7 +34,7 @@ class OnBoardingPageWidget extends StatelessWidget {
               Text(
                 model.title,
                 style: STextTheme.lightTextTheme.headlineMedium
-                    ?.copyWith(fontSize: kLiquidSwipeHeader),
+                    ?.copyWith(fontSize: kHeaderTextFontSmall),
               ),
               Text(
                 model.subTitle,
@@ -47,7 +47,7 @@ class OnBoardingPageWidget extends StatelessWidget {
           Text(
             model.counterText,
             style: STextTheme.lightTextTheme.headlineSmall
-                ?.copyWith(fontSize: kLiquidSwipeHeader),
+                ?.copyWith(fontSize: kHeaderTextFontSmall),
           ),
           const SizedBox(
             height: 95.0,

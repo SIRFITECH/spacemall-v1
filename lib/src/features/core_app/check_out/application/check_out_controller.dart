@@ -201,12 +201,15 @@ class CheckOutController extends GetxController {
                         ).then((value) {
                           //TODO: flesh up the ReceiptView() with right data
                           Get.defaultDialog(
+                            // backgroundColor: !isDarkMood
+                            //     ? kDarkModeBackgroundColor
+                            //     // .withOpacity(0.1)
+                            //     : kWhiteDark
+                            // // .withOpacity(0.1)
+                            // ,
                             backgroundColor: !isDarkMood
-                                ? kDarkModeBackgroundColor
-                                // .withOpacity(0.1)
-                                : kWhiteDark
-                            // .withOpacity(0.1)
-                            ,
+                                ? kDarkModeBackgroundColor.withOpacity(0.1)
+                                : kWhiteDark.withOpacity(0.1),
                             title: 'Success!!!',
                             titleStyle: const TextStyle(
                               color: kWhiteLight,
@@ -214,7 +217,6 @@ class CheckOutController extends GetxController {
                               fontWeight: FontWeight.w900,
                             ),
                             content: const Text(
-                              // 'You are recieving $cartTotal by $paymentMethod',
                               'Do you want to print the receipt?',
                               style: TextStyle(
                                 color: kWhiteLight,

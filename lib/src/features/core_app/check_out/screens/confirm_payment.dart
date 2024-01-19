@@ -106,7 +106,7 @@ class ConfirmPayment extends StatelessWidget {
                         checkOutController.indexValue = index;
 
                         return SizedBox(
-                          height: screenSize.height * 0.07,
+                          height: screenSize.height * 0.09,
                           child: Column(
                             children: [
                               if (index < checkOutController.cartItems.length)
@@ -126,7 +126,7 @@ class ConfirmPayment extends StatelessWidget {
                                   },
                                   child: SizedBox(
                                     width: double.infinity,
-                                    height: screenSize.height * 0.07,
+                                    height: screenSize.height * 0.08,
                                     child: Card(
                                       shape: RoundedRectangleBorder(
                                         borderRadius: const BorderRadius.all(
@@ -160,7 +160,8 @@ class ConfirmPayment extends StatelessWidget {
                                                       .cartItems[index]
                                                       .itemName,
                                                   style: const TextStyle(
-                                                      fontSize: kBodyTextFont),
+                                                      fontSize:
+                                                          kHeaderTextFontSmallest),
                                                 ),
                                                 Obx(
                                                   () => Text(
@@ -178,7 +179,8 @@ class ConfirmPayment extends StatelessWidget {
                                                   stockList.subTotal.value,
                                                 ),
                                                 style: const TextStyle(
-                                                  fontSize: kBodyTextFont,
+                                                  fontSize:
+                                                      kHeaderTextFontSmallest,
                                                   fontWeight: FontWeight.w900,
                                                 ),
                                               ),
@@ -208,7 +210,7 @@ class ConfirmPayment extends StatelessWidget {
                   color: isDarkMood
                       ? kDarkModeIconColor
                       : kLightModeBackgroundColor,
-                  height: screenSize.height * 0.18,
+                  height: screenSize.height * 0.19,
                   child: Obx(
                     () => Column(
                       children: [
@@ -229,7 +231,7 @@ class ConfirmPayment extends StatelessWidget {
                                 const Text(
                                   kSubTotalText,
                                   style: TextStyle(
-                                    fontSize: kBodyTextFont,
+                                    fontSize: kHeaderTextFontSmallest,
                                     color: kWhiteLight,
                                     fontWeight: FontWeight.w900,
                                   ),
@@ -239,7 +241,7 @@ class ConfirmPayment extends StatelessWidget {
                                     checkOutController.totalCartSubTotal.value,
                                   ),
                                   style: const TextStyle(
-                                    fontSize: kBodyTextFont,
+                                    fontSize: kHeaderTextFontSmallest,
                                     color: kWhiteLight,
                                     fontWeight: FontWeight.w900,
                                   ),
@@ -265,7 +267,7 @@ class ConfirmPayment extends StatelessWidget {
                                 const Text(
                                   kDiscountText,
                                   style: TextStyle(
-                                    fontSize: kBodyTextFont,
+                                    fontSize: kHeaderTextFontSmallest,
                                     color: kWhiteLight,
                                     fontWeight: FontWeight.w900,
                                   ),
@@ -275,7 +277,7 @@ class ConfirmPayment extends StatelessWidget {
                                     checkOutController.totalCartDiscount.value,
                                   ),
                                   style: const TextStyle(
-                                    fontSize: kBodyTextFont,
+                                    fontSize: kHeaderTextFontSmallest,
                                     color: kWhiteLight,
                                     fontWeight: FontWeight.w900,
                                   ),
@@ -301,7 +303,7 @@ class ConfirmPayment extends StatelessWidget {
                                 const Text(
                                   kTaxText,
                                   style: TextStyle(
-                                    fontSize: kBodyTextFont,
+                                    fontSize: kHeaderTextFontSmallest,
                                     color: kWhiteLight,
                                     fontWeight: FontWeight.w900,
                                   ),
@@ -311,7 +313,7 @@ class ConfirmPayment extends StatelessWidget {
                                     checkOutController.totalCartTax.value,
                                   ),
                                   style: const TextStyle(
-                                    fontSize: kBodyTextFont,
+                                    fontSize: kHeaderTextFontSmallest,
                                     color: kWhiteLight,
                                     fontWeight: FontWeight.w900,
                                   ),
@@ -343,7 +345,7 @@ class ConfirmPayment extends StatelessWidget {
                                 const Text(
                                   kTotalText,
                                   style: TextStyle(
-                                    fontSize: kBodyTextFont,
+                                    fontSize: kHeaderTextFontSmallest,
                                     color: kWhiteLight,
                                     fontWeight: FontWeight.w900,
                                   ),
@@ -353,7 +355,7 @@ class ConfirmPayment extends StatelessWidget {
                                     checkOutController.totalCartTotal.value,
                                   ),
                                   style: const TextStyle(
-                                    fontSize: kBodyTextFont,
+                                    fontSize: kHeaderTextFontSmallest,
                                     color: kWhiteLight,
                                     fontWeight: FontWeight.w900,
                                   ),

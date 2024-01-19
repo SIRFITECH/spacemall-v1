@@ -7,7 +7,8 @@ const kButtonHeight = 15.0;
 /// ---- FONTS
 const kBodyTextFont = 11.0;
 const kHeaderTextFont = 24.0;
-const kLiquidSwipeHeader = 15.0;
+const kHeaderTextFontSmall = 15.0;
+const kHeaderTextFontSmallest = 13.0;
 const kHorizontalTitleGap = 5.0;
 
 /// ---- LOGIN SIZES
