@@ -86,6 +86,30 @@ List<List<String>> mapCartItemsToStringList(List<CartItemModel> cart) {
   return result;
 }
 
+double makeCartSubtotal(List<CartItemModel> cart) {
+  double subtotal = 0.0;
+  for (var i = 0; i < cart.length; i++) {
+    subtotal += cart[i].subTotal.value;
+  }
+  return subtotal;
+}
+
+double makeCartDiscount(double subtotal) {
+  // double discount = 0.0;
+  // discount = subtotal * 0.1;
+// FIXME: change 0.1 to discount
+  return subtotal * 0.1;
+}
+
+double makeCartTax(double subtotal) {
+  // FIXME: change 0.075 to tax
+  return subtotal * 0.075;
+}
+
+double makeCartTotal(double subtotal, double discount, double tax) {
+  return (subtotal - discount) + tax;
+}
+
 List<TableRow> createBodyRow(List<List<String>> data, TextStyle style) {
   PdfColor pdfBackgroundColor = PdfColors.grey200;
   List<TableRow> tableRows = [];
@@ -175,12 +199,13 @@ Widget buildBody(List<CartItemModel> cart) {
 Widget buildTotal(ReceiptPDFModel receipt) {
   List<CartItemModel> cart = receipt.cartItem;
 
-  double discount = 0.0;
-  double taxc = 0.0;
+  double subtotal = makeCartSubtotal(cart);
+  double discount = makeCartDiscount(subtotal);
+  double tax = makeCartTax(subtotal);
+  double total = makeCartTotal(subtotal, discount, tax);
 
-  for (var item in cart) {
-     discount += item.discount;
-  }
+  List<List<String>> bodyList = mapCartItemsToStringList(cart);
+
   return Container(
     alignment: Alignment.centerRight,
     child: Row(
@@ -195,10 +220,7 @@ Widget buildTotal(ReceiptPDFModel receipt) {
                 title: 'Subtotal',
                 value: nairaFormat.format(
                   double.parse(
-                    receipt.subTotal
-                    // receipt.cartItem
-                    // 0.0.toString()
-                    ,
+                    subtotal.toString(),
                   ),
                 ),
                 unit: true,
@@ -207,9 +229,8 @@ Widget buildTotal(ReceiptPDFModel receipt) {
                 title: 'Discount',
                 value: nairaFormat.format(
                   double.parse(
-                    receipt.discount
-                    // 0.0.toString()
-                    ,
+                    // receipt.discount
+                    discount.toString(),
                   ),
                 ),
                 unit: true,
@@ -218,9 +239,8 @@ Widget buildTotal(ReceiptPDFModel receipt) {
                 title: 'Tax',
                 value: nairaFormat.format(
                   double.parse(
-                    receipt.tax
-                    // 0.0.toString()
-                    ,
+                    // receipt.tax
+                    tax.toString(),
                   ),
                 ),
                 unit: true,
@@ -230,8 +250,8 @@ Widget buildTotal(ReceiptPDFModel receipt) {
                 title: 'Total',
                 value: nairaFormat.format(
                   double.parse(
-                    // CheckOutController.instance.totalCartTotal.value
-                    receipt.totalCartPrice.toString(),
+                    total.toString(),
+                    // receipt.totalCartPrice.toString(),
                   ),
                 ),
                 unit: true,
