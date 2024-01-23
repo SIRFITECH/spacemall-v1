@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:spacemall/src/constants/sizes.dart';
-// import 'package:spacemall/src/features/core_app/check_out/data/check_out_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/application/receipts_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/screens/receipt_view.dart';
@@ -94,7 +93,9 @@ class ReceiptListScreen extends StatelessWidget {
                       onPressed: () async {
                         if (defaultTargetPlatform == TargetPlatform.iOS) {
                           DateTime selectedDate = await SalesController.instance
-                              .pickiOSDate(context, screenSize);
+                              .pickiOSDate(context, 
+                              // screenSize
+                              );
                           // ignore: unnecessary_null_comparison
                           if (selectedDate != null) {
                             receiptController.fromSelectedDate.value =
@@ -150,6 +151,31 @@ class ReceiptListScreen extends StatelessWidget {
                         ? kMainComplimemtColorLight.withOpacity(0.5)
                         : kLightModeBackgroundColor.withOpacity(0.5),
                     child: TextButton(
+                      // onPressed: () async {
+                      //   if (defaultTargetPlatform == TargetPlatform.iOS) {
+                      //     DateTime selectedDate = await SalesController.instance
+                      //         .pickiOSDate(context, screenSize);
+                      //     // ignore: unnecessary_null_comparison
+                      //     if (selectedDate != null) {
+                      //       receiptController.fromSelectedDate.value =
+                      //           DateFormat('d MMM').format(selectedDate);
+                      //     } else {
+                      //       receiptController.fromSelectedDate.value =
+                      //           DateFormat('d MMM').format(DateTime.now());
+                      //     }
+                      //   } else {
+                      //     DateTime selectedDate =
+                      //         await SalesController.instance.pickDate(context);
+                      //     // ignore: unnecessary_null_comparison
+                      //     if (selectedDate != null) {
+                      //       receiptController.fromSelectedDate.value =
+                      //           DateFormat('d MMM').format(selectedDate);
+                      //     } else {
+                      //       receiptController.fromSelectedDate.value =
+                      //           DateFormat('d MMM').format(DateTime.now());
+                      //     }
+                      //   }
+                      // },
                       onPressed: () {
                         receiptController.showCalendarAndSetToDate(context);
                       },
@@ -240,8 +266,9 @@ class ReceiptListScreen extends StatelessWidget {
                                             children: [
                                               Padding(
                                                 padding: EdgeInsets.only(
-                                                    top: screenSize.height *
-                                                        0.015),
+                                                  top:
+                                                      screenSize.height * 0.015,
+                                                ),
                                                 child: Text(
                                                   receipts.customerName,
                                                   style: const TextStyle(

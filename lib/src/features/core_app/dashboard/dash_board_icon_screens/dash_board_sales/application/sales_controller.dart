@@ -68,7 +68,7 @@ class SalesController extends GetxController {
     return pickedDate ?? DateTime.now();
   }
 
-  Future<dynamic> pickiOSDate(BuildContext context, Size screenSize) async {
+  Future<dynamic> pickiOSDate(BuildContext context,  {Size? screenSize}) async {
     DateTime? pickedDate;
     await showCupertinoModalPopup(
       context: context,
@@ -79,7 +79,7 @@ class SalesController extends GetxController {
             decoration: const BoxDecoration(
                 color: kWhiteLight,
                 borderRadius: BorderRadius.all(Radius.circular(10))),
-            height: screenSize.height * 0.3,
+            height: screenSize!.height * 0.3,
             child: Column(
               children: [
                 SizedBox(
@@ -107,6 +107,54 @@ class SalesController extends GetxController {
     );
     return pickedDate ?? DateTime.now();
   }
+
+// Future<dynamic> pickiOSDate(BuildContext context, {Size? screenSize}) async {
+//     DateTime? pickedDate;
+
+//     await showCupertinoModalPopup(
+//       context: context,
+//       builder: (_) => Center(
+//         child: Padding(
+//           padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 8),
+//           child: Container(
+//             decoration: const BoxDecoration(
+//                 color: kWhiteLight,
+//                 borderRadius: BorderRadius.all(Radius.circular(10))),
+//             height:
+//                 screenSize?.height ?? MediaQuery.of(context).size.height * 0.3,
+//             child: Column(
+//               children: [
+//                 SizedBox(
+//                   height: screenSize?.height ??
+//                       MediaQuery.of(context).size.height * 0.2,
+//                   child: CupertinoDatePicker(
+//                     initialDateTime: DateTime.now(),
+//                     mode: CupertinoDatePickerMode.date,
+//                     use24hFormat: true,
+//                     showDayOfWeek: true,
+//                     onDateTimeChanged: (DateTime newDate) {
+//                       pickedDate = newDate;
+//                     },
+//                   ),
+//                 ),
+//                 CupertinoButton(
+//                   child: const Text('OK'),
+//                   onPressed: () {
+//                     Get.back();
+//                   },
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+
+//     return pickedDate ?? DateTime.now();
+//   }
+
+
+
 
   Future<String> pickYesterday(BuildContext context) async {
     now = now.subtract(const Duration(days: 1));

@@ -111,9 +111,7 @@ class _ShopFrontSettingsState extends State<ShopFrontSettings> {
                               ),
                             ),
                             trailing: IconButton(
-                              onPressed: () {
-                                print('toggle clicked');
-                              },
+                              onPressed: () {},
                               icon: Icon(
                                 Icons.toggle_off_outlined,
                                 size: 50,

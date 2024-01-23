@@ -172,100 +172,93 @@ Widget buildBody(List<CartItemModel> cart) {
 }
 
 // build a total line
-Widget buildTotal(ReceiptPDFModel receipt) => Container(
-      alignment: Alignment.centerRight,
-      child: Row(
-        children: [
-          Spacer(flex: 6),
-          Expanded(
-            flex: 4,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildText(
-                  title: 'Subtotal',
-                  value:
-                      // nairaFormat.format(
-                      //   double.parse(
-                      //     CheckOutController.instance.totalCartSubTotal.value
-                      //         .toString(),
-                      //   ),
-                      // ),
-                      nairaFormat.format(
-                    double.parse(
-                      receipt.subTotal
-                      // 0.0.toString()
-                      ,
-                    ),
-                  ),
-                  unit: true,
-                ),
-                buildText(
-                  title: 'Discount',
-                  value: nairaFormat.format(
-                    double.parse(
-                      receipt.discount
-                      // 0.0.toString()
-                      ,
-                    ),
-                  ),
-                  // nairaFormat.format(
-                  //   double.parse(
-                  //     CheckOutController.instance.totalCartDiscount.value
-                  //         .toString(),
-                  //   ),
-                  // ),
-                  unit: true,
-                ),
-                buildText(
-                  title: 'Tax',
-                  value: nairaFormat.format(
-                    double.parse(
-                      receipt.tax
-                      // 0.0.toString()
-                      ,
-                    ),
-                  ),
-                  // nairaFormat.format(
-                  //   double.parse(
-                  //     CheckOutController.instance.totalCartTax.value.toString(),
-                  //   ),
-                  // ),
-                  unit: true,
-                ),
-                Divider(),
-                buildText(
-                  title: 'Total',
-                  value: nairaFormat.format(
-                    double.parse(
-                      // CheckOutController.instance.totalCartTotal.value
-                      receipt.totalCartPrice.toString(),
-                    ),
-                  ),
-                  unit: true,
-                  textStyle: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+Widget buildTotal(ReceiptPDFModel receipt) {
+  List<CartItemModel> cart = receipt.cartItem;
+
+  double discount = 0.0;
+  double taxc = 0.0;
+
+  for (var item in cart) {
+     discount += item.discount;
+  }
+  return Container(
+    alignment: Alignment.centerRight,
+    child: Row(
+      children: [
+        Spacer(flex: 6),
+        Expanded(
+          flex: 4,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildText(
+                title: 'Subtotal',
+                value: nairaFormat.format(
+                  double.parse(
+                    receipt.subTotal
+                    // receipt.cartItem
+                    // 0.0.toString()
+                    ,
                   ),
                 ),
-                SizedBox(height: 2 * PdfPageFormat.mm),
-                Container(
-                  color: PdfColors.grey,
-                  height: 0.5,
-                  child: Divider(),
+                unit: true,
+              ),
+              buildText(
+                title: 'Discount',
+                value: nairaFormat.format(
+                  double.parse(
+                    receipt.discount
+                    // 0.0.toString()
+                    ,
+                  ),
                 ),
-                SizedBox(height: 1 * PdfPageFormat.mm),
-                Container(
-                  color: PdfColors.grey,
-                  height: 0.5,
-                  child: Divider(),
+                unit: true,
+              ),
+              buildText(
+                title: 'Tax',
+                value: nairaFormat.format(
+                  double.parse(
+                    receipt.tax
+                    // 0.0.toString()
+                    ,
+                  ),
                 ),
-              ],
-            ),
+                unit: true,
+              ),
+              Divider(),
+              buildText(
+                title: 'Total',
+                value: nairaFormat.format(
+                  double.parse(
+                    // CheckOutController.instance.totalCartTotal.value
+                    receipt.totalCartPrice.toString(),
+                  ),
+                ),
+                unit: true,
+                textStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 2 * PdfPageFormat.mm),
+              Container(
+                color: PdfColors.grey,
+                height: 0.5,
+                child: Divider(),
+              ),
+              SizedBox(height: 1 * PdfPageFormat.mm),
+              Container(
+                color: PdfColors.grey,
+                height: 0.5,
+                child: Divider(),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ),
+      ],
+    ),
+  );
+}
 
 // build a footer line
 Widget buildFooter(ReceiptPDFModel receipt) => Column(

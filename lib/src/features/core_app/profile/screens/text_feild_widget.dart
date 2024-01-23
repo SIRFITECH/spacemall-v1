@@ -21,6 +21,7 @@ class TextFeildWidget extends StatelessWidget {
     required this.maxLines,
     required this.height,
     required this.width,
+    // this.onTap,
   });
 
   final Size screenSize;
@@ -32,6 +33,7 @@ class TextFeildWidget extends StatelessWidget {
   final int maxLines;
   final dynamic height;
   final dynamic width;
+  // final Function? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -52,30 +54,34 @@ class TextFeildWidget extends StatelessWidget {
           height: height,
           width: width,
           child: TextFormField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                  color: isDarkMood
-                      ? kTextFieldLightBorderColor
-                      : kTextFieldDarkBorderColor,
-                  width: 0.1,
-                )),
-                fillColor: isDarkMood ? kTextFieldDarkColor : kWhiteDark,
-                filled: true,
-                contentPadding: const EdgeInsets.only(top: 10, left: 10),
-                hintText: hintText,
-                hintStyle: Theme.of(context).textTheme.labelSmall!.copyWith(
-                      color: kGreyColor,
-                      fontSize: kBodyTextFont,
-                    ),
-              ),
-              style: Theme.of(context)
-                  .textTheme
-                  .labelSmall
-                  ?.copyWith(fontSize: kBodyTextFont),
-              keyboardType: keyboardType,
-              controller: controller,
-              maxLines: maxLines),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                color: isDarkMood
+                    ? kTextFieldLightBorderColor
+                    : kTextFieldDarkBorderColor,
+                width: 0.1,
+              )),
+              fillColor: isDarkMood ? kTextFieldDarkColor : kWhiteDark,
+              filled: true,
+              contentPadding: const EdgeInsets.only(top: 10, left: 10),
+              hintText: hintText,
+              hintStyle: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    color: kGreyColor,
+                    fontSize: kBodyTextFont,
+                  ),
+            ),
+            style: Theme.of(context)
+                .textTheme
+                .labelSmall
+                ?.copyWith(fontSize: kBodyTextFont),
+            keyboardType: keyboardType,
+            controller: controller,
+            maxLines: maxLines,
+            onEditingComplete: () {
+              FocusScope.of(context).unfocus();
+            },
+          ),
         ),
       ],
     );
@@ -136,8 +142,10 @@ class DateFeildWidget extends StatelessWidget {
                   DateTime selectedDate =
                       defaultTargetPlatform == TargetPlatform.iOS
                           // ignore: use_build_context_synchronously
-                          ? await SalesController.instance
-                              .pickiOSDate(context, screenSize)
+                          ? await SalesController.instance.pickiOSDate(
+                              context,
+                              // screenSize
+                            )
                           // ignore: use_build_context_synchronously
                           : await SalesController.instance.pickDate(context);
 

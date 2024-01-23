@@ -1,14 +1,12 @@
 // import 'package:esc_pos_printer/esc_pos_printer.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 
 import '../../../../../../repository/hive_boxes.dart';
-
-// import 'package:image/image.dart';
-// import 'dart:typed_data';
-// import 'package:flutter/services.dart';
-// import 'package:esc_pos_utils/esc_pos_utils.dart';
 
 class ReceiptsController extends GetxController {
   // The purpose of this class is to hold and manipulate the receipt state
@@ -19,6 +17,7 @@ class ReceiptsController extends GetxController {
   // 4. act as the only public interface to receipt component
 
   static ReceiptsController get instance => Get.put(ReceiptsController());
+  // final ReceiptsController receiptController = ReceiptsController();
 
   RxString cartTotal = '0'.obs;
   RxList<ReceiptsModel> receipts = <ReceiptsModel>[].obs;
@@ -48,17 +47,44 @@ class ReceiptsController extends GetxController {
   Rx<DateTime> toDate = Rx<DateTime>(DateTime.now());
 
   void showCalendarAndSetToDate(BuildContext context) async {
-    DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2022, 1, 1),
-      lastDate: DateTime(2023, 12, 31),
-    );
-
-    if (pickedDate != null) {
-      toDate.value = pickedDate;
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      DateTime selectedDate = await SalesController.instance.pickiOSDate(
+        context,
+        // screenSize
+      );
+      // ignore: unnecessary_null_comparison
+      if (selectedDate != null) {
+        // receiptController.
+        fromSelectedDate.value = DateFormat('d MMM').format(selectedDate);
+      } else {
+        // receiptController.
+        fromSelectedDate.value = DateFormat('d MMM').format(DateTime.now());
+      }
+    } else {
+      DateTime selectedDate = await SalesController.instance.pickDate(context);
+      // ignore: unnecessary_null_comparison
+      if (selectedDate != null) {
+        // receiptController.
+        fromSelectedDate.value = DateFormat('d MMM').format(selectedDate);
+      } else {
+        // receiptController.
+        fromSelectedDate.value = DateFormat('d MMM').format(DateTime.now());
+      }
     }
   }
+
+  // async {
+  //   DateTime? pickedDate = await showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime(2022, 1, 1),
+  //     lastDate: DateTime(2023, 12, 31),
+  //   );
+
+  //   if (pickedDate != null) {
+  //     toDate.value = pickedDate;
+  //   }
+  // }
 
   // get stores
   List<ReceiptsModel> getStoresFromBox() {

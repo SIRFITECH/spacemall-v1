@@ -59,7 +59,9 @@ class DashBoardSalesSummary extends StatelessWidget {
                 onTap: () async {
                   if (defaultTargetPlatform == TargetPlatform.iOS) {
                     DateTime selectedDate = await SalesController.instance
-                        .pickiOSDate(context, screenSize);
+                        .pickiOSDate(context, 
+                        // screenSize
+                        );
                     // ignore: unnecessary_null_comparison
                     if (selectedDate != null) {
                       DashBoardController.instance.todaySales.value =

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/screens/payment_summary.dart';
@@ -31,7 +32,7 @@ class SalesScreen extends StatelessWidget {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-       logoLocalPath: '',
+        logoLocalPath: '',
         logoRemotePath: '',
         storeName: '',
         bankName: '',
@@ -109,7 +110,9 @@ class SalesScreen extends StatelessWidget {
                           onTap: () async {
                             if (defaultTargetPlatform == TargetPlatform.iOS) {
                               DateTime selectedDate = await salesController
-                                  .pickiOSDate(context, screenSize);
+                                  .pickiOSDate(context, 
+                                  // screenSize
+                                  );
                               // ignore: unnecessary_null_comparison
                               if (selectedDate != null) {
                                 salesController.date.value =
@@ -145,6 +148,7 @@ class SalesScreen extends StatelessWidget {
                                   ' $kReportTodayText : ${salesController.date.value} ',
                                   style: const TextStyle(
                                     color: kGreyColor,
+                                    fontSize: kBodyTextFont,
                                   ),
                                 ),
                               ),
@@ -250,7 +254,8 @@ class SalesScreen extends StatelessWidget {
                                                             .customerName
                                                             .substring(0, 1),
                                                         style: TextStyle(
-                                                          fontSize: 45,
+                                                          fontSize:
+                                                              kHeaderTextFont,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           color: !isDarkMood
@@ -267,8 +272,8 @@ class SalesScreen extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              width: 15,
+                                            SizedBox(
+                                              width: screenSize.width * 0.04,
                                             ),
                                             Column(
                                               crossAxisAlignment:
@@ -277,8 +282,9 @@ class SalesScreen extends StatelessWidget {
                                                 Text(
                                                   salesList[index].customerName,
                                                   style: const TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
+                                                    fontSize:
+                                                        kHeaderTextFontSmallest,
+                                                    fontWeight: FontWeight.w900,
                                                   ),
                                                 ),
                                                 Row(
@@ -294,13 +300,14 @@ class SalesScreen extends StatelessWidget {
                                                     //         FontWeight.bold,
                                                     //   ),
                                                     // ),
-                                                    const SizedBox(
-                                                      width: 5,
+                                                    SizedBox(
+                                                      width: screenSize.width *
+                                                          0.002,
                                                     ),
                                                     Text(
                                                       'Sold on ${DateFormat('d MMM, yyyy').format(salesList[index].date)}',
                                                       style: const TextStyle(
-                                                        fontSize: 13,
+                                                        fontSize: kBodyTextFont,
                                                       ),
                                                     ),
                                                   ],

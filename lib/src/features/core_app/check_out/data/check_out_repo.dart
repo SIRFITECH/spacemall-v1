@@ -59,7 +59,6 @@ class CheckOutRepo extends GetxController {
           buildTitle(receipt),
           buildBody(
             receipt.cartItem,
-            // CartItemController.instance.indexValue,
           ),
           Divider(),
           buildTotal(receipt),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_reports/application/report_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_reports/screens/category_report.dart';
@@ -31,7 +32,7 @@ class ReportScreen extends StatelessWidget {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-         logoLocalPath: '',
+        logoLocalPath: '',
         logoRemotePath: '',
         storeName: '',
         bankName: '',
@@ -102,6 +103,7 @@ class ReportScreen extends StatelessWidget {
                             kReportRemainingStockText.toUpperCase(),
                             style: TextStyle(
                               color: !isDarkMood ? kBlack : kWhiteDark,
+                              fontSize: kHeaderTextFontSmallest,
                             ),
                           ),
                           Icon(
@@ -155,9 +157,11 @@ class ReportScreen extends StatelessWidget {
                         GestureDetector(
                           onTap: () async {
                             if (defaultTargetPlatform == TargetPlatform.iOS) {
-                              DateTime selectedDate = await SalesController
-                                  .instance
-                                  .pickiOSDate(context, screenSize);
+                              DateTime selectedDate =
+                                  await SalesController.instance.pickiOSDate(
+                                context,
+                                // screenSize
+                              );
                               // ignore: unnecessary_null_comparison
                               if (selectedDate != null) {
                                 ReportsController.instance.todayReport.value =
@@ -194,6 +198,7 @@ class ReportScreen extends StatelessWidget {
                                   ' $kReportTodayText : ${ReportsController.instance.todayReport.value} ',
                                   style: const TextStyle(
                                     color: kGreyColor,
+                                    fontSize: kBodyTextFont,
                                   ),
                                 ),
                               ),
@@ -268,7 +273,8 @@ class ReportScreen extends StatelessWidget {
                             child: Text(
                               'POS Reports',
                               style: TextStyle(
-                                fontSize: 15,
+                                fontSize: kBodyTextFont,
+                                fontWeight: FontWeight.w900,
                                 color: isDarkMood
                                     ? ReportsController
                                             .instance.showPOSGrid.value
@@ -321,7 +327,8 @@ class ReportScreen extends StatelessWidget {
                           child: Text(
                             'Storefront Reports',
                             style: TextStyle(
-                              fontSize: 15,
+                              fontSize: kBodyTextFont,
+                              fontWeight: FontWeight.w900,
                               color: isDarkMood
                                   ? ReportsController.instance.showPOSGrid.value
                                       ? kWhiteDark
@@ -425,18 +432,15 @@ class ReportScreen extends StatelessWidget {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: Text(
-                                                ReportsController.instance
-                                                    .posReport[index]['title']
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                  color:
-                                                      kTextFieldDarkBorderColor,
-                                                  fontSize: 12,
-                                                ),
+                                            Text(
+                                              ReportsController.instance
+                                                  .posReport[index]['title']
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                color:
+                                                    kTextFieldDarkBorderColor,
+                                                fontSize: kBodyTextFont,
+                                                fontWeight: FontWeight.w900,
                                               ),
                                             ),
                                             Padding(
@@ -453,7 +457,7 @@ class ReportScreen extends StatelessWidget {
                                                     16),
                                                 style: const TextStyle(
                                                   color: kWhiteLight,
-                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: kBodyTextFont,
                                                 ),
                                               ),
                                             ),
@@ -462,9 +466,13 @@ class ReportScreen extends StatelessWidget {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 8.0),
                                               child: Text(
-                                                ReportsController.instance
-                                                    .posReport[index]['value']
-                                                    .toString(),
+                                                truncateString(
+                                                    ReportsController
+                                                        .instance
+                                                        .posReport[index]
+                                                            ['value']
+                                                        .toString(),
+                                                    20),
                                                 style: const TextStyle(
                                                   color: kWhiteLight,
                                                   fontSize: 10,
@@ -579,7 +587,8 @@ class ReportScreen extends StatelessWidget {
                                               style: const TextStyle(
                                                 color:
                                                     kTextFieldDarkBorderColor,
-                                                fontSize: 12,
+                                                fontSize: kBodyTextFont,
+                                                fontWeight: FontWeight.w900,
                                               ),
                                             ),
                                             Padding(
@@ -596,7 +605,7 @@ class ReportScreen extends StatelessWidget {
                                                     16),
                                                 style: const TextStyle(
                                                   color: kWhiteLight,
-                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: kBodyTextFont,
                                                 ),
                                               ),
                                             ),

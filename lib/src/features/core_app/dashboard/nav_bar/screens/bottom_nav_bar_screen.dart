@@ -119,13 +119,14 @@ class MallBottomNavBar extends StatelessWidget {
     final media = MediaQuery.of(context);
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
+    final screenSize = MediaQuery.of(context).size;
 
     return BottomAppBar(
       color: isDarkMood ? kDarkModeBackgroundColor : kLightModeBackgroundColor,
       elevation: 0,
       child: SizedBox(
         height: 67,
-        width: MediaQuery.of(context).size.width,
+        width: screenSize.width,
         child: Column(
           children: [
             CustomDivider(
@@ -134,68 +135,45 @@ class MallBottomNavBar extends StatelessWidget {
               color: isDarkMood ? kWhiteLight : kLightModeBackgroundColor,
               margin: const EdgeInsets.all(0),
             ),
-            Padding(
-              padding: const EdgeInsets.only(
-                right: 0,
-                left: 0,
-              ),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: media.size.width * 0.05,
+            Row(
+              children: [
+                Obx(
+                  () => BottomBarIcon(
+                    text: kWalletIconText,
+                    icon: kWalletIcon,
+                    selected: navBarController.selectedMallIndex.value == 0,
+                    onPress: () {
+                      navBarController.setMallIndex(0);
+                      navBarController.increamentMallIndex();
+                    },
                   ),
-                  // // Icon and text for dashboard
+                ),
 
-                  Obx(
-                    () => BottomBarIcon(
-                      text: kWalletIconText,
-                      icon: kWalletIcon,
-                      selected: navBarController.selectedMallIndex.value == 0,
-                      onPress: () {
-                        navBarController.setMallIndex(0);
-                        navBarController.increamentMallIndex();
-                      },
-                    ),
+                // Icon and text for checkout
+                Obx(
+                  () => BottomBarIcon(
+                    text: kCheckOutIconText,
+                    icon: kCheckOutIcon,
+                    selected: navBarController.selectedMallIndex.value == 1,
+                    onPress: () {
+                      navBarController.setMallIndex(1);
+                      navBarController.increamentMallIndex();
+                    },
                   ),
-
-                  // Icon and text for checkout
-                  Obx(
-                    () => BottomBarIcon(
-                      text: kCheckOutIconText,
-                      icon: kCheckOutIcon,
-                      selected: navBarController.selectedMallIndex.value == 1,
-                      onPress: () {
-                        navBarController.setMallIndex(1);
-                        navBarController.increamentMallIndex();
-                      },
-                    ),
+                ),
+                // Icon and text for profile
+                Obx(
+                  () => BottomBarIcon(
+                    text: kProfileIconText,
+                    icon: kProfileIcon,
+                    selected: navBarController.selectedMallIndex.value == 2,
+                    onPress: () {
+                      navBarController.setMallIndex(2);
+                      navBarController.increamentMallIndex();
+                    },
                   ),
-                  // Icon and text for profile
-                  Obx(
-                    () => BottomBarIcon(
-                      text: kProfileIconText,
-                      icon: kProfileIcon,
-                      selected: navBarController.selectedMallIndex.value == 2,
-                      onPress: () {
-                        navBarController.setMallIndex(2);
-                        navBarController.increamentMallIndex();
-                      },
-                    ),
-                  ),
-                  // Icon and text for setting
-                  Obx(
-                    () => BottomBarIcon(
-                      text: kSettingIconText,
-                      icon: kSettingsIcon,
-                      selected: navBarController.selectedMallIndex.value == 3,
-                      onPress: () {
-                        navBarController.setMallIndex(3);
-                        navBarController.increamentMallIndex();
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
