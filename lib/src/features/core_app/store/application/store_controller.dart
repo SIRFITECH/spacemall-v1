@@ -114,13 +114,6 @@ class StoreController extends GetxController {
       isLoading.value = true;
       storeRepo.saveStore(context);
 
-      // Get.snackbar
-      spaceMallSnackBar(
-        '${storeName.text.trim()} created',
-        '${storeName.text.trim()} store created successfully',
-        kWhiteLight,
-        kBlack,
-      );
       isStoreAdded.value = true;
 
       isLoading.value = false;

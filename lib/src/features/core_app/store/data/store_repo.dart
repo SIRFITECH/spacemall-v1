@@ -47,33 +47,42 @@ class StoreRepo extends GetxController {
         child: CircularProgressIndicator(),
       );
       if (storeController.logo.value != null) {
-        try {
-          StoreFirebaseServices()
-              .saveStoreToDB(
-                  newStore: newStore,
-                  logo: logo,
-                  onSucess: () {
-                    StorePhoneServices().saveStoreDataToDevice(newStore);
-                  })
-              .then((value) {
-            clearControllers();
-            spaceMallSnackBar(
-              'Success!!',
-              'You have added a store with  store name ${newStore.storeName.toUpperCase()}',
-              kWhiteLight,
-              kGreenColor,
-            );
-            Get.to(
-              () => DashBoard(),
-            );
-          });
-        } catch (e) {
-          debugPrint(e.toString());
+        if (StoreRepo.instance.getStoresFromBox().length <= 1) {
+          try {
+            StoreFirebaseServices()
+                .saveStoreToDB(
+                    newStore: newStore,
+                    logo: logo,
+                    onSucess: () {
+                      StorePhoneServices().saveStoreDataToDevice(newStore);
+                    })
+                .then((value) {
+              clearControllers();
+              spaceMallSnackBar(
+                'Success!!',
+                'You have added a store with  store name ${newStore.storeName.toUpperCase()}',
+                kWhiteLight,
+                kGreenColor,
+              );
+              Get.to(
+                () => DashBoard(),
+              );
+            });
+          } catch (e) {
+            debugPrint(e.toString());
 
+            spaceMallSnackBar(
+              'Error',
+              e.toString(),
+              kWhiteDark,
+              kRedColor,
+            );
+          }
+        } else {
           spaceMallSnackBar(
-            'Error',
-            e.toString(),
-            kWhiteDark,
+            'Store Limit Reached',
+            'For now you can only add 1 store',
+            kWhiteLight,
             kRedColor,
           );
         }

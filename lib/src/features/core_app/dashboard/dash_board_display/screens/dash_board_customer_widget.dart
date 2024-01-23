@@ -131,7 +131,7 @@ class DashBoardCustomerWidget extends StatelessWidget {
                           child: Text(
                             truncateString(
                               value.storeName,
-                              14,
+                              12,
                             ),
                             style: textTheme.titleSmall,
                           ),
