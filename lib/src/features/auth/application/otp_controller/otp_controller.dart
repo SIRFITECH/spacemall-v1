@@ -48,6 +48,24 @@ class OtpController extends GetxController {
     });
   }
 
+  void resetTimer() {
+    const onsec = Duration(seconds: 1);
+    OtpController.instance.timer.value = 30;
+    Timer.periodic(onsec, (time) {
+      if (timer.value == 0) {
+        time.cancel();
+        spaceMallSnackBar(
+          'Request resend',
+          'You can request OTP resend now',
+          kWhiteLight,
+          kGreyColor,
+        );
+      } else {
+        timer.value--;
+      }
+    });
+  }
+
   void verifyOTP(
     String otp,
   ) async {

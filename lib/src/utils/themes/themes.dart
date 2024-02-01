@@ -24,7 +24,6 @@ class SAppTheme {
     iconTheme: SIconTheme.lightIconTheme,
     floatingActionButtonTheme:
         SFloatingActionButtonTheme.lightFloatingActionButtonTheme,
-    // datePickerTheme:
   );
 
 // app dark theme

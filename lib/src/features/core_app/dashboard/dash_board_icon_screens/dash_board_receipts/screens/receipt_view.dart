@@ -232,6 +232,7 @@ class ReceiptView extends StatelessWidget {
                                                                       onPressed:
                                                                           () {
                                                                         checkOutController.previewReceipt(
+                                                                            // isDarkMood,
                                                                             receipt.cartId,
                                                                             screenSize);
                                                                       },

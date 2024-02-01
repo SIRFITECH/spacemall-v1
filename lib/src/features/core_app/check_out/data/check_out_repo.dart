@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -53,6 +54,7 @@ class CheckOutRepo extends GetxController {
     int receiptNo = ReceiptsController.instance.receiptNo.value;
     receiptPDF.addPage(
       pw.MultiPage(
+        // theme: SAppTheme.lightTheme,
         pageFormat: PdfPageFormat.a4,
         header: (context) => buildHeader(receipt),
         build: (context) => [

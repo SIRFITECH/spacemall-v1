@@ -46,10 +46,8 @@ class BottomNavBar extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 0, left: 0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SizedBox(
-                    width: media.size.width * 0.001,
-                  ),
                   // Icon and text for setting
                   Obx(
                     () => BottomBarIcon(
@@ -136,6 +134,7 @@ class MallBottomNavBar extends StatelessWidget {
               margin: const EdgeInsets.all(0),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Obx(
                   () => BottomBarIcon(

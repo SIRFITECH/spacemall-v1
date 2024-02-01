@@ -35,8 +35,8 @@ class DashBoardNavBar extends StatelessWidget {
 
           // - dashboard icons
           Container(
-            height: screenSize.height * 0.3,
-            width: screenSize.width,
+            height: screenSize.height * 0.35,
+            width: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: isDarkMood
@@ -74,12 +74,14 @@ class DashBoardNavBar extends StatelessWidget {
             init: NavBarController(),
             builder: (navBarController) => Padding(
               padding: EdgeInsets.only(
-                top: screenSize.height * 0.3,
+                top: screenSize.height * 0.35,
                 bottom: screenSize.height * 0.0027,
               ),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 2.0, horizontal: 10),
+                padding: const EdgeInsets.symmetric(
+                  // vertical: 2.0,
+                  horizontal: 10,
+                ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(6),
                   child: Container(

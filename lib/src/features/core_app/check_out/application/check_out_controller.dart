@@ -230,7 +230,9 @@ class CheckOutController extends GetxController {
                                 children: [
                                   ElevatedButton(
                                     onPressed: () {
-                                      Get.off(() => Stock());
+                                      Get.off(
+                                        () => Stock(),
+                                      );
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: kGreyColor,
@@ -330,7 +332,25 @@ class CheckOutController extends GetxController {
     }
   }
 
-  Future previewReceipt(String saleId, Size screenSize) async {
+  Future previewReceipt(
+    // bool isDark,
+    String saleId,
+    Size screenSize,
+  ) async {
+    // List<dynamic> cart = await SalesPhoneService().getSalesFromDevice(saleId);
+    // if (cart.isEmpty) {
+    //   spaceMallSnackBar(
+    //       "Success", "cart is not empty", kWhiteLight, kGreenColor);
+
+    // } else {
+    //   spaceMallSnackBar(
+    //     'Error ',
+    //     'There was an error fetching receipt data',
+    //     kWhiteLight,
+    //     kRedColor,
+    //   );
+    // }
+    // const theme = SAppTheme;
     List<dynamic> cart = await SalesPhoneService().getSalesFromDevice(saleId);
     List<CartItemModel> receiptList = [];
     double total = 0.0;

@@ -51,11 +51,11 @@ class UserFirebaseServices extends UserRemoteDataBaseAdapter {
 
         _profileController.isLoading.value = false;
       } else {
-          _profileController.isLoading.value = false;
-          
+        _profileController.isLoading.value = false;
+
         spaceMallSnackBar(
-          'You need to Login again',
-          'We can not create profile now, Please Login again',
+          'You need to Login Again',
+          'There was an error creating your profile, Please Login again',
           kWhiteLight,
           kRedColor,
         );

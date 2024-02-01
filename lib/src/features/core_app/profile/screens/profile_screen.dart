@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
@@ -62,10 +63,11 @@ class ProfileScreen extends StatelessWidget {
                                 Text(
                                   kCountryText,
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color:
-                                          isDarkMood ? kWhiteLight : kBlackDark,
-                                      fontSize: 13),
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        isDarkMood ? kWhiteLight : kBlackDark,
+                                    fontSize: kBodyTextFont,
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 40,
@@ -85,7 +87,12 @@ class ProfileScreen extends StatelessWidget {
                               onPressed: () {
                                 Get.to(() => const SetProfile());
                               },
-                              child: const Text(kEditProfileText),
+                              child: const Text(
+                                kEditProfileText,
+                                style: TextStyle(
+                                  fontSize: kBodyTextFont,
+                                ),
+                              ),
                             )
                           ],
                         ),
@@ -137,7 +144,7 @@ class ProfileScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: isDarkMood ? kWhiteLight : kBlackDark,
-                                fontSize: 17,
+                                fontSize: kBodyTextFont,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -157,7 +164,7 @@ class ProfileScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     color:
                                         isDarkMood ? kWhiteLight : kBlackDark,
-                                    fontSize: 17,
+                                    fontSize: kBodyTextFont,
                                   ),
                                 ),
                               ),
@@ -169,7 +176,7 @@ class ProfileScreen extends StatelessWidget {
                                     color: isDarkMood
                                         ? kDarkModeIconColor
                                         : kLightModeIconColor,
-                                    fontSize: 17,
+                                    fontSize: kBodyTextFont,
                                   ),
                                 ),
                               ),
@@ -183,7 +190,7 @@ class ProfileScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       color:
                                           isDarkMood ? kWhiteLight : kBlackDark,
-                                      fontSize: 17,
+                                      fontSize: kBodyTextFont,
                                     ),
                                   ),
                                 ),
@@ -195,7 +202,7 @@ class ProfileScreen extends StatelessWidget {
                                       color: isDarkMood
                                           ? kDarkModeIconColor
                                           : kLightModeIconColor,
-                                      fontSize: 20,
+                                      fontSize: kBodyTextFont,
                                     ),
                                   ),
                                 ),
@@ -219,7 +226,7 @@ class ProfileScreen extends StatelessWidget {
                                         color: isDarkMood
                                             ? kDarkModeIconColor
                                             : kLightModeIconColor,
-                                        fontSize: 17,
+                                        fontSize: kBodyTextFont,
                                       ),
                                     ),
                                   ],
@@ -232,7 +239,7 @@ class ProfileScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     color:
                                         isDarkMood ? kWhiteLight : kBlackDark,
-                                    fontSize: 17,
+                                    fontSize: kBodyTextFont,
                                   ),
                                 )),
                                 DataCell(
@@ -243,7 +250,7 @@ class ProfileScreen extends StatelessWidget {
                                       color: isDarkMood
                                           ? kDarkModeIconColor
                                           : kLightModeIconColor,
-                                      fontSize: 17,
+                                      fontSize: kBodyTextFont,
                                     ),
                                   ),
                                 ),

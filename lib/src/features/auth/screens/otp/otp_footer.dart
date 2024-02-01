@@ -4,7 +4,6 @@ import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/application/otp_controller/otp_controller.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
-// import 'package:spacemall/src/features/auth/screens/login/login.dart';
 
 class OTPFooter extends StatelessWidget {
   const OTPFooter({
@@ -62,10 +61,10 @@ class OTPFooter extends StatelessWidget {
               () => Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextButton(
-                  onPressed: otpController.timer.value > 1
+                  onPressed: otpController.timer.value < 1
                       ? () {
+                        
                           AuthRepo.instance.resendOTP();
-                          // print('resend now');
                         }
                       : null,
                   child: Text.rich(
@@ -78,7 +77,9 @@ class OTPFooter extends StatelessWidget {
                                   .textTheme
                                   .headlineSmall!
                                   .copyWith(
-                                      color: Theme.of(context).disabledColor)
+                                    color: Theme.of(context).disabledColor,
+                                    fontSize: kHeaderTextFontSmall,
+                                  )
                               : Theme.of(context).textTheme.headlineSmall,
                         ),
                       ],

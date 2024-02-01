@@ -204,7 +204,7 @@ Widget buildTotal(ReceiptPDFModel receipt) {
   double tax = makeCartTax(subtotal);
   double total = makeCartTotal(subtotal, discount, tax);
 
-  List<List<String>> bodyList = mapCartItemsToStringList(cart);
+  // List<List<String>> bodyList = mapCartItemsToStringList(cart);
 
   return Container(
     alignment: Alignment.centerRight,

@@ -308,13 +308,28 @@ class AuthRepo extends GetxController {
           ],
         ),
       );
+    } else {
+      spaceMallSnackBar(
+        'Try Again Later',
+        '${e.message}',
+        kWhiteLight,
+        kRedColor,
+      );
+      // print(' the error message is: ${e.message}');
     }
   }
 
+// Resend OTP if it failed the first time
   resendOTP() {
     if (ProfileController.instance.contactNumber != null) {
       phoneAuth(ProfileController.instance.contactNumber!);
-      OtpController.instance.setTimer();
+      OtpController.instance.resetTimer();
+      spaceMallSnackBar(
+        'Resend OTP initiated',
+        'You have intiated resend OTP, you should soon recieve an OTP on your phone',
+        kWhiteLight,
+        kGreenColor,
+      );
     } else {
       spaceMallSnackBar(
         'No phone number',
@@ -594,7 +609,7 @@ class AuthRepo extends GetxController {
         codeSent: (String verificationId, int? resendToken) async {
           spaceMallSnackBar(
             'Code sent',
-            'You should',
+            'Check your phone for the OTP',
             kWhiteLight,
             kGreenColor,
           );
