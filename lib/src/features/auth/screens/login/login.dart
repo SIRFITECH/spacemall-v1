@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
@@ -30,20 +32,20 @@ class Login extends StatelessWidget {
       body: GetBuilder<OtpController>(
         init: OtpController(),
         builder: (otpController) {
-          // if (OtpController.instance.isLoading.value) {
-          //   Positioned(
-          //     child: Container(
-          //         height: screenSize.height,
-          //         width: screenSize.width,
-          //         alignment: Alignment.center,
-          //         decoration: BoxDecoration(
-          //           color: Colors.black.withOpacity(0.5),
-          //         ),
-          //         child: const Center(
-          //           child: CircularProgressIndicator(),
-          //         )),
-          //   );
-          // }
+          if (OtpController.instance.isLoading.value) {
+            Positioned(
+              child: Container(
+                  height: screenSize.height,
+                  width: screenSize.width,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.5),
+                  ),
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  )),
+            );
+          }
           return Stack(
             children: [
               Container(
@@ -63,7 +65,7 @@ class Login extends StatelessWidget {
                     const LoginText(),
                     Padding(
                       padding: const EdgeInsets.all(kFormHeight - 20),
-                      // login FOrm
+                      // login Form
                       child: Form(
                         key: _formKey,
                         child: TextFormField(
@@ -144,11 +146,13 @@ class Login extends StatelessWidget {
                               ProfileController.instance.contactNumber =
                                   '+${loginController.country.value.phoneCode}${loginController.phoneController.text.trim()}';
                               OtpController.instance.setTimer();
-                              Get.off(
-                                () => const OTPScreen(),
-                              );
-                              // AuthRepo.instance.userAlreadyExists(
-                              //     '+${loginController.country.value.phoneCode}${loginController.phoneController.text.trim()}');
+
+                              // Check if the current platform is iOS
+                              if (Platform.isIOS) {
+                                Get.off(
+                                  () => const OTPScreen(),
+                                );
+                              }
                             }
                           },
                           child: const Text(

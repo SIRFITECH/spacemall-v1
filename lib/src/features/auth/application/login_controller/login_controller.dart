@@ -38,6 +38,7 @@ class LoginController extends GetxController {
   }
 
   void signUserInWithPhone(String phoneNumber) {
+    
     AuthRepo.instance.phoneAuth(
       phoneNumber,
     );

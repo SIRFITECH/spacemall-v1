@@ -11,6 +11,7 @@ import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/auth/application/otp_controller/otp_controller.dart';
 import 'package:spacemall/src/features/auth/screens/login/login.dart';
 import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_screen.dart';
+import 'package:spacemall/src/features/auth/screens/otp/otp_screen.dart';
 import 'package:spacemall/src/features/auth/screens/welcome/welcome.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
@@ -29,9 +30,9 @@ class AuthRepo extends GetxController {
   static AuthRepo get instance => Get.find();
   Stream<User?> get signInUser => auth.authStateChanges();
 
-  Future<String> signInWithPhone(String phoneNo) async {
-    return await Future.value('success');
-  }
+  // Future<String> signInWithPhone(String phoneNo) async {
+  //   return await Future.value('success');
+  // }
 
   // IMPORTANTS ABOVE
 
@@ -589,24 +590,21 @@ class AuthRepo extends GetxController {
         phoneNumber: phoneNo,
         verificationCompleted: (PhoneAuthCredential credential) async {
           // Sign the user in (or link) with the auto-generated credential
-
           await auth.signInWithCredential(credential);
-
-          // RecaptchaVerifier(
-          //   container: null, // Provide a container if needed for web
-          //   size: RecaptchaVerifierSize.normal,
-          //    theme: RecaptchaVerifierTheme.dark, auth:,
-          // );
-
-          // check if user is logged in already using uid
-          // and use the uid to link the account
         },
 
         verificationFailed: (FirebaseAuthException e) {
+          // spaceMallSnackBar(
+          //   'An Error occured',
+          //   '${e.message}',
+          //   kWhiteLight,
+          //   kRedColor,
+          // );
           catchLoginError(e);
         },
 
         codeSent: (String verificationId, int? resendToken) async {
+          // tell the user that the code has been sent to device
           spaceMallSnackBar(
             'Code sent',
             'Check your phone for the OTP',
@@ -618,26 +616,13 @@ class AuthRepo extends GetxController {
           resendToken = OtpController.instance.resendToken.value;
           this.verificationId.value = verificationId;
 
-          // // Create a PhoneAuthCredential with the code
-          // PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          //     verificationId: verificationId, smsCode: smsCode);
-          // print('THIS USER HAS THE ACCESS CODE OF $verificationId');
-          // print('smsCode is $smsCode and resendToken is $resendToken');
-          // credential.smsCode;
-
-          // Sign the user in (or link) with the credential
-          // try {
-          //   await auth.signInWithCredential(credential);
-          // } catch (e) {
-          //   Get.snackbar('Login Error', e.toString(),
-          //       colorText: Colors.white, backgroundColor: Colors.red);
-          // }
-          // check if user is logged in already using uid
-          // and use the uid to link the account
+          Get.off(
+            () => const OTPScreen(),
+          );
         },
 
         // code auto retrieval timeout
-        timeout: const Duration(seconds: 30),
+        timeout: const Duration(seconds: 60),
         codeAutoRetrievalTimeout: (verificationId) {
           this.verificationId.value = verificationId;
         },

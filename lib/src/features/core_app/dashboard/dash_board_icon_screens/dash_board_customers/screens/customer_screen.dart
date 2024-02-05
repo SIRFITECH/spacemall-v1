@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
+import 'package:spacemall/src/utils/helpers/helper.dart';
 
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/image_strings.dart';
@@ -120,7 +122,7 @@ class CustomerScreen extends StatelessWidget {
                                               child: Text(
                                                 'O',
                                                 style: TextStyle(
-                                                    fontSize: 45,
+                                                    fontSize: kHeaderTextFont,
                                                     fontWeight: FontWeight.bold,
                                                     color: !isDarkMood
                                                         ? kTextFieldLightBorderColor
@@ -143,7 +145,7 @@ class CustomerScreen extends StatelessWidget {
                                           Text(
                                             'Osagie ',
                                             style: TextStyle(
-                                              fontSize: 15,
+                                              fontSize: kHeaderTextFontSmall,
                                               fontWeight: FontWeight.bold,
                                               color: isDarkMood
                                                   ? kWhiteLight
@@ -156,7 +158,7 @@ class CustomerScreen extends StatelessWidget {
                                           const Text(
                                             '0812345678',
                                             style: TextStyle(
-                                              fontSize: 11,
+                                              fontSize: kBodyTextFont,
                                               fontWeight: FontWeight.bold,
                                               color: kGreyColor,
                                             ),
@@ -166,8 +168,8 @@ class CustomerScreen extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                const SizedBox(
-                                  width: 20,
+                                SizedBox(
+                                  width: screenSize.width * 0.02,
                                 ),
                                 Row(
                                   children: [
@@ -176,7 +178,7 @@ class CustomerScreen extends StatelessWidget {
                                         Text(
                                           'TOTAL ORDER',
                                           style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: kBodyTextFont,
                                             fontWeight: FontWeight.bold,
                                             color: isDarkMood
                                                 ? kGreyColor
@@ -207,7 +209,7 @@ class CustomerScreen extends StatelessWidget {
                                               child: Text(
                                                 '15',
                                                 style: TextStyle(
-                                                  fontSize: 12,
+                                                  fontSize: kBodyTextFont,
                                                   fontWeight: FontWeight.bold,
                                                   color: kWhiteLight,
                                                 ),
@@ -217,15 +219,15 @@ class CustomerScreen extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      width: 5,
+                                    SizedBox(
+                                      width: screenSize.width * 0.01,
                                     ),
                                     Column(
                                       children: [
                                         Text(
                                           'LAST ORDER',
                                           style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: kBodyTextFont,
                                             fontWeight: FontWeight.bold,
                                             color: isDarkMood
                                                 ? kGreyColor
@@ -253,12 +255,12 @@ class CustomerScreen extends StatelessWidget {
                                                   : kTextFieldDarkBorderColor,
                                             ),
                                           ),
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(2.0),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2.0),
                                             child: Text(
-                                              '2 DAYS AGO',
-                                              style: TextStyle(
-                                                fontSize: 12,
+                                              truncateString('2 DAYS AGO', 9),
+                                              style: const TextStyle(
+                                                fontSize: kBodyTextFont,
                                                 fontWeight: FontWeight.bold,
                                                 color: kWhiteLight,
                                               ),
@@ -330,7 +332,7 @@ class CustomerScreen extends StatelessWidget {
                                               child: Text(
                                                 'F',
                                                 style: TextStyle(
-                                                    fontSize: 45,
+                                                    fontSize: kHeaderTextFont,
                                                     fontWeight: FontWeight.bold,
                                                     color: !isDarkMood
                                                         ? kTextFieldLightBorderColor
@@ -353,7 +355,7 @@ class CustomerScreen extends StatelessWidget {
                                           Text(
                                             'Femi ',
                                             style: TextStyle(
-                                              fontSize: 15,
+                                              fontSize: kHeaderTextFontSmall,
                                               fontWeight: FontWeight.bold,
                                               color: isDarkMood
                                                   ? kWhiteLight
@@ -366,7 +368,7 @@ class CustomerScreen extends StatelessWidget {
                                           const Text(
                                             '0812345678',
                                             style: TextStyle(
-                                              fontSize: 11,
+                                              fontSize: kBodyTextFont,
                                               fontWeight: FontWeight.bold,
                                               color: kGreyColor,
                                             ),
@@ -376,8 +378,8 @@ class CustomerScreen extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                const SizedBox(
-                                  width: 20,
+                                SizedBox(
+                                  width: screenSize.width * 0.01,
                                 ),
                                 Row(
                                   children: [
@@ -386,15 +388,15 @@ class CustomerScreen extends StatelessWidget {
                                         Text(
                                           'TOTAL ORDER',
                                           style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: kBodyTextFont,
                                             fontWeight: FontWeight.bold,
                                             color: isDarkMood
                                                 ? kGreyColor
                                                 : kBlackDark,
                                           ),
                                         ),
-                                        const SizedBox(
-                                          height: 5,
+                                        SizedBox(
+                                          height: screenSize.height * 0.005,
                                         ),
                                         Container(
                                           width: screenSize.width * 0.2,
@@ -417,7 +419,7 @@ class CustomerScreen extends StatelessWidget {
                                               child: Text(
                                                 '15',
                                                 style: TextStyle(
-                                                  fontSize: 12,
+                                                  fontSize: kBodyTextFont,
                                                   fontWeight: FontWeight.bold,
                                                   color: kWhiteLight,
                                                 ),
@@ -427,23 +429,23 @@ class CustomerScreen extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      width: 5,
+                                    SizedBox(
+                                      width: screenSize.width * 0.01,
                                     ),
                                     Column(
                                       children: [
                                         Text(
                                           'LAST ORDER',
                                           style: TextStyle(
-                                            fontSize: 12,
+                                            fontSize: kBodyTextFont,
                                             fontWeight: FontWeight.bold,
                                             color: isDarkMood
                                                 ? kGreyColor
                                                 : kBlackDark,
                                           ),
                                         ),
-                                        const SizedBox(
-                                          height: 5,
+                                        SizedBox(
+                                          height: screenSize.height * 0.005,
                                         ),
                                         Container(
                                           width: MediaQuery.of(context)
@@ -463,12 +465,12 @@ class CustomerScreen extends StatelessWidget {
                                                   : kTextFieldDarkBorderColor,
                                             ),
                                           ),
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(2.0),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2.0),
                                             child: Text(
-                                              '2 DAYS AGO',
-                                              style: TextStyle(
-                                                fontSize: 12,
+                                              truncateString('2 DAYS AGO', 9),
+                                              style: const TextStyle(
+                                                fontSize: kBodyTextFont,
                                                 fontWeight: FontWeight.bold,
                                                 color: kWhiteLight,
                                               ),
