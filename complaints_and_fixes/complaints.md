@@ -8,4 +8,6 @@
 2. App gets stuck on the create profile page
    1. Problem is: User started the create profile process and left it half way, when they return, the app could not remember their UID 
    2. Solution: Force user to login again, that way the app can get the UID needed to create the profile
-3. 
+3. Users get error when they enter the mall
+   1. Problem : User gets error about profile not existing 
+   2. solution:  

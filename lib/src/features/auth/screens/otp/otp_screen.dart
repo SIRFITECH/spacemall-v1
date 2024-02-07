@@ -16,6 +16,7 @@ class OTPScreen extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
+      
 
     final OtpController otpController = Get.find();
 

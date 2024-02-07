@@ -7,6 +7,7 @@ class LoginController extends GetxController {
   static LoginController get instance => Get.find();
   RxString phone = ''.obs;
   TextEditingController phoneController = TextEditingController();
+  RxBool isLoading = false.obs;
 
   Rx<Country> country = Country(
     phoneCode: '234',
@@ -38,7 +39,6 @@ class LoginController extends GetxController {
   }
 
   void signUserInWithPhone(String phoneNumber) {
-    
     AuthRepo.instance.phoneAuth(
       phoneNumber,
     );

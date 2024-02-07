@@ -8,6 +8,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/sizes.dart';
+import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
 import 'package:spacemall/src/features/auth/application/otp_controller/otp_controller.dart';
 import 'package:spacemall/src/features/auth/screens/login/login.dart';
 import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_screen.dart';
@@ -92,18 +93,24 @@ class AuthRepo extends GetxController {
         AlertDialog(
           title: const Text(
             'Invalid phone number',
-            style: TextStyle(color: kBlack),
+            style: TextStyle(
+              color: kBlack,
+              fontSize: kBodyTextFont,
+              fontWeight: FontWeight.w900,
+            ),
           ),
           content: const Text(
             'The phone number provided is invalid, check and try again',
-            style: TextStyle(color: kBlack),
+            style: TextStyle(
+              color: kBlack,
+              fontSize: kBodyTextFont,
+            ),
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Get.off(
-                  () => const Login(),
-                );
+                LoginController.instance.isLoading.value = false;
+                Get.back();
               },
               child: const Text('Ok'),
             ),
@@ -119,11 +126,18 @@ class AuthRepo extends GetxController {
         AlertDialog(
           title: const Text(
             'Account exists with different credential',
-            style: TextStyle(color: kBlack),
+            style: TextStyle(
+              color: kBlack,
+              fontSize: kBodyTextFont,
+              fontWeight: FontWeight.w900,
+            ),
           ),
           content: const Text(
             'Please try again with the correct credentials',
-            style: TextStyle(color: kBlack),
+            style: TextStyle(
+              color: kBlack,
+              fontSize: kBodyTextFont,
+            ),
           ),
           actions: [
             TextButton(
@@ -142,41 +156,24 @@ class AuthRepo extends GetxController {
         AlertDialog(
           title: const Text(
             'You can not perform this operation',
-            style: TextStyle(color: kBlack),
-          ),
-          content: const Text(
-            'Please contact customer support',
-            style: TextStyle(color: kBlack),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Get.off(
-                  () => const Login(),
-                );
-              },
-              child: const Text('Ok'),
+            style: TextStyle(
+              color: kBlack,
+              fontSize: kBodyTextFont,
+              fontWeight: FontWeight.w900,
             ),
-          ],
-        ),
-      );
-    } else if (e.code == 'user-disabled') {
-      Get.dialog(
-        AlertDialog(
-          title: const Text(
-            'You user-disabled ',
-            style: TextStyle(color: kBlack),
           ),
           content: const Text(
             'Please contact customer support',
-            style: TextStyle(color: kBlack),
+            style: TextStyle(
+              color: kBlack,
+              fontSize: kBodyTextFont,
+            ),
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Get.off(
-                  () => const Login(),
-                );
+                LoginController.instance.isLoading.value = false;
+                Get.back();
               },
               child: const Text('Ok'),
             ),
@@ -188,18 +185,24 @@ class AuthRepo extends GetxController {
         AlertDialog(
           title: const Text(
             'Your account is disabled ',
-            style: TextStyle(color: kBlack),
+            style: TextStyle(
+              color: kBlack,
+              fontSize: kBodyTextFont,
+              fontWeight: FontWeight.w900,
+            ),
           ),
           content: const Text(
             'Please contact customer support',
-            style: TextStyle(color: kBlack),
+            style: TextStyle(
+              color: kBlack,
+              fontSize: kBodyTextFont,
+            ),
           ),
           actions: [
             TextButton(
               onPressed: () {
-                Get.off(
-                  () => const Login(),
-                );
+                LoginController.instance.isLoading.value = false;
+                Get.back();
               },
               child: const Text('Ok'),
             ),
@@ -214,30 +217,6 @@ class AuthRepo extends GetxController {
         kWhiteLight,
         kRedColor,
       );
-
-      // Get.dialog(
-      //   AlertDialog(
-      //     title: const Text(
-      //       'You have an invalid verification code ',
-      //       style: TextStyle(color: kBlack),
-      //     ),
-      //     content: const Text(
-      //       'Please try again',
-      //       style: TextStyle(color: kBlack),
-      //     ),
-      //     actions: [
-      //       TextButton(
-      //         onPressed: () {
-      //           // OtpController.instance.isLoading.value = false;
-      //           Get.off(
-      //             () => const OTPScreen(),
-      //           );
-      //         },
-      //         child: const Text('Ok'),
-      //       ),
-      //     ],
-      //   ),
-      // );
     } else if (e.code == 'invalid-verification-id') {
       Get.dialog(
         AlertDialog(
@@ -259,9 +238,8 @@ class AuthRepo extends GetxController {
           actions: [
             TextButton(
               onPressed: () {
-                Get.off(
-                  () => const Login(),
-                );
+                LoginController.instance.isLoading.value = false;
+                Get.back();
               },
               child: const Text(
                 'Ok',
@@ -294,9 +272,8 @@ class AuthRepo extends GetxController {
           actions: [
             TextButton(
               onPressed: () {
-                Get.off(
-                  () => const Login(),
-                );
+                LoginController.instance.isLoading.value = false;
+                Get.back();
               },
               child: const Text(
                 'Ok',
@@ -310,6 +287,8 @@ class AuthRepo extends GetxController {
         ),
       );
     } else {
+      LoginController.instance.isLoading.value = false;
+
       spaceMallSnackBar(
         'Try Again Later',
         '${e.message}',
@@ -583,6 +562,18 @@ class AuthRepo extends GetxController {
     return credentials.user != null ? true : false;
   }
 
+  //  await client.SignInWithRedirectAsync(FirebaseProviderType.Google, async uri =>
+  //           {
+  //               var options = new WebAuthenticatorOptions
+  //               {
+  //                   Url = new Uri(uri),
+  //                   CallbackUrl = new Uri("com.companyname.myappname://callback/"),
+  //                   PrefersEphemeralWebBrowserSession= true
+  //               };
+
+  //               var res = await WebAuthenticator.Default.AuthenticateAsync(options);
+  //           });
+
   Future<String> phoneAuth(String phoneNo) async {
     OtpController.instance.isLoading.value = true;
     try {
@@ -615,6 +606,8 @@ class AuthRepo extends GetxController {
           // String smsCode = OtpController.instance.otp.value;
           resendToken = OtpController.instance.resendToken.value;
           this.verificationId.value = verificationId;
+          OtpController.instance.setTimer();
+          LoginController.instance.isLoading.value = false;
 
           Get.off(
             () => const OTPScreen(),
@@ -641,38 +634,6 @@ class AuthRepo extends GetxController {
     OtpController.instance.isLoading.value = false;
     return 'error';
   }
-
-  // Future<bool> verifyOTP(String otp,) async {
-  //   OtpController.instance.isLoading.value = true;
-  //   print('user uid is $_uid');
-  //   print('The user number is $phoneNumber');
-  //   // Step 1: Check if the user already exists using uid
-  //   // bool isExistingUser =
-  //   await checkExistingFirebaseUser( _uid!);
-
-  //   // Step 2: Sign in with the provided OTP
-  //   var credentials = await auth.signInWithCredential(
-  //     PhoneAuthProvider.credential(
-  //       verificationId: verificationId.value,
-  //       smsCode: otp,
-  //     ),
-  //   );
-
-  //   OtpController.instance.isLoading.value = false;
-
-  //   // Step 3: Check if the sign-in was successful
-  //   if (credentials.user != null) {
-  //     // Additional steps can be performed if needed
-  //     // For example, you can get the UID of the signed-in user
-  //     _uid = credentials.user!.uid;
-
-  //     // Step 4: Return true if the user signed in successfully
-  //     return true;
-  //   } else {
-  //     // Step 5: Return false if sign-in failed
-  //     return false;
-  //   }
-  // }
 
   Future<bool> checkExistingFirebaseUser(String userid) async {
     // Implement logic to check if the user already exists in your database
@@ -746,10 +707,19 @@ class AuthRepo extends GetxController {
   }
 
   Future<void> signOut() async {
-    await GoogleSignIn().signOut();
-    await auth.signOut();
-    await setSignedOut();
-    Get.offAll(() => const Login());
+    try {
+      await GoogleSignIn().signOut();
+      await auth.signOut();
+      await setSignedOut();
+      Get.off(() => const Login());
+    } catch (e) {
+      spaceMallSnackBar(
+        'Error on Signout',
+        '$e',
+        kWhiteLight,
+        kRedColor,
+      );
+    }
   }
 
   Future<void> checkInternetConnection() async {

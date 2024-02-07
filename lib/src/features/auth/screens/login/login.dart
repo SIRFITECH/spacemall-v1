@@ -46,127 +46,153 @@ class Login extends StatelessWidget {
                   )),
             );
           }
-          return Stack(
+          return
+              // SingleChildScrollView(
+              //   child:
+              // );
+
+              Stack(
             children: [
-              Container(
-                padding: const EdgeInsets.all(kDefaultSize),
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(kBackGroundAfrica),
-                    fit: BoxFit.contain,
+              SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.all(kDefaultSize),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(kBackGroundAfrica),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Image(
+                        height: screenSize.height * 0.4,
+                        image: const AssetImage(kLoginIllustration),
+                      ),
+                      const LoginText(),
+                      Padding(
+                        padding: const EdgeInsets.all(kFormHeight - 20),
+                        // login Form
+                        child: Form(
+                          key: _formKey,
+                          child: TextFormField(
+                            controller: loginController.phoneController,
+                            style: Theme.of(context).textTheme.labelSmall,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'You have to enter a phone number';
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.phone,
+                            decoration: InputDecoration(
+                              hintText: kLoginPlaceHolderText.toUpperCase(),
+                              hintStyle: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall
+                                  ?.copyWith(fontSize: kBodyTextFont),
+                              border:
+                                  Theme.of(context).inputDecorationTheme.border,
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: kCoutryCodeVertical,
+                                  horizontal: kCoutryCodeHorizontal,
+                                ),
+                                child: InkWell(
+                                    onTap: () => loginController
+                                        .setPickedCountry(context),
+                                    child: Obx(
+                                      () => Text(
+                                        '${loginController.country.value.flagEmoji} + ${loginController.country.value.phoneCode} |',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelSmall
+                                            ?.copyWith(fontSize: kBodyTextFont),
+                                      ),
+                                    )),
+                              ),
+                              suffixIcon: loginController
+                                          .phoneController.text.length >
+                                      9
+                                  ? Padding(
+                                      padding:
+                                          const EdgeInsets.all(kFormPadding),
+                                      child: Container(
+                                        height: kFormHeight - 10,
+                                        width: kFormHeight - 10,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle,
+                                          borderRadius: BorderRadius.circular(
+                                              kFormBorderRadius),
+                                        ),
+                                        child: const Icon(
+                                          Icons.done,
+                                        ),
+                                      ),
+                                    )
+                                  : null,
+                            ),
+                          ),
+                        ),
+                        //Login form end
+                      ),
+                      // Login Button
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: kCoutryCodeHorizontal + 5),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              loginController.isLoading.value = true;
+                              if (_formKey.currentState!.validate()) {
+                                ProfileController.instance.contactNumber =
+                                    '+${loginController.country.value.phoneCode}${loginController.phoneController.text.trim()}';
+                                loginController.signUserInWithPhone(
+                                  '+${loginController.country.value.phoneCode}${loginController.phoneController.text.trim()}',
+                                );
+                                ProfileController.instance.contactNumber =
+                                    '+${loginController.country.value.phoneCode}${loginController.phoneController.text.trim()}';
+
+                                // Check if the current platform is iOS
+                                if (Platform.isIOS) {
+                                  loginController.isLoading.value = false;
+                                  OtpController.instance.setTimer();
+                                  Get.off(
+                                    () => const OTPScreen(),
+                                  );
+                                }
+                              }
+                            },
+                            child: const Text(
+                              kLoginText,
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Login Button stops hear
+                      const LoginOr(),
+                      const FLogin(),
+                    ],
                   ),
                 ),
-                child: ListView(
-                  children: [
-                    Image(
-                      height: screenSize.height * 0.4,
-                      image: const AssetImage(kLoginIllustration),
-                    ),
-                    const LoginText(),
-                    Padding(
-                      padding: const EdgeInsets.all(kFormHeight - 20),
-                      // login Form
-                      child: Form(
-                        key: _formKey,
-                        child: TextFormField(
-                          controller: loginController.phoneController,
-                          style: Theme.of(context).textTheme.labelSmall,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'You have to enter a phone number';
-                            }
-                            return null;
-                          },
-                          keyboardType: TextInputType.phone,
-                          decoration: InputDecoration(
-                            hintText: kLoginPlaceHolderText.toUpperCase(),
-                            hintStyle: Theme.of(context)
-                                .textTheme
-                                .labelSmall
-                                ?.copyWith(fontSize: kBodyTextFont),
-                            border:
-                                Theme.of(context).inputDecorationTheme.border,
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: kCoutryCodeVertical,
-                                horizontal: kCoutryCodeHorizontal,
-                              ),
-                              child: InkWell(
-                                  onTap: () =>
-                                      loginController.setPickedCountry(context),
-                                  child: Obx(
-                                    () => Text(
-                                      '${loginController.country.value.flagEmoji} + ${loginController.country.value.phoneCode} |',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall
-                                          ?.copyWith(fontSize: kBodyTextFont),
-                                    ),
-                                  )),
-                            ),
-                            suffixIcon:
-                                loginController.phoneController.text.length > 9
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.all(kFormPadding),
-                                        child: Container(
-                                          height: kFormHeight - 10,
-                                          width: kFormHeight - 10,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.rectangle,
-                                            borderRadius: BorderRadius.circular(
-                                                kFormBorderRadius),
-                                          ),
-                                          child: const Icon(
-                                            Icons.done,
-                                          ),
-                                        ),
-                                      )
-                                    : null,
-                          ),
-                        ),
-                      ),
-                      //Login form end
-                    ),
-                    // Login Button
-
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: kCoutryCodeHorizontal + 5),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              ProfileController.instance.contactNumber =
-                                  '+${loginController.country.value.phoneCode}${loginController.phoneController.text.trim()}';
-                              loginController.signUserInWithPhone(
-                                '+${loginController.country.value.phoneCode}${loginController.phoneController.text.trim()}',
-                              );
-                              ProfileController.instance.contactNumber =
-                                  '+${loginController.country.value.phoneCode}${loginController.phoneController.text.trim()}';
-                              OtpController.instance.setTimer();
-
-                              // Check if the current platform is iOS
-                              if (Platform.isIOS) {
-                                Get.off(
-                                  () => const OTPScreen(),
-                                );
-                              }
-                            }
-                          },
-                          child: const Text(
-                            kLoginText,
-                          ),
-                        ),
-                      ),
-                    ),
-                    // Login Button stops hear
-                    const LoginOr(),
-                    const FLogin(),
-                  ],
-                ),
               ),
+              Obx(
+                () => loginController.isLoading.value
+                    ? Positioned(
+                        child: Container(
+                            height: screenSize.height,
+                            width: screenSize.width,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.5),
+                            ),
+                            child: const Center(
+                              child: CircularProgressIndicator(),
+                            )),
+                      )
+                    : Container(),
+              )
             ],
           );
         },
