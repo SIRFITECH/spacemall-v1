@@ -15,12 +15,8 @@ class SpacemallApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.system,
-      theme:
-          // ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-          SAppTheme.lightTheme,
-      darkTheme:
-          // ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-          SAppTheme.darkTheme,
+      theme: SAppTheme.lightTheme,
+      darkTheme: SAppTheme.darkTheme,
       defaultTransition: Transition.leftToRightWithFade,
       transitionDuration: const Duration(milliseconds: 10),
       home: const ChooseUserType(),

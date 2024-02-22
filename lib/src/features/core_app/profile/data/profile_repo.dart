@@ -81,6 +81,8 @@ class ProfileRepo extends GetxController {
                     );
               },
             );
+            // send registeration welcome mail to the user
+            LoginController.instance.sendRegMail();
           } else {
             spaceMallSnackBar(
               'Error Creating Profile',

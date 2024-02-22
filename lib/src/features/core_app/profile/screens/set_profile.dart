@@ -11,6 +11,7 @@ import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widget.dart';
+import 'package:spacemall/src/repository/services/network_connectivity/network_connectivity.dart';
 
 class SetProfile extends StatelessWidget {
   const SetProfile({super.key});
@@ -372,7 +373,15 @@ class SetProfile extends StatelessWidget {
 
                     CustomButton(
                       screenSize: screenSize,
-                      onPress: () => profileRepo.saveUser(context),
+                      onPress: () async {
+                        // FIXME: remain on the same screen if there is no internet
+                        bool deviceHasInternet =
+                            await NetworkConnectivity().deviceHasInternet();
+                        if (deviceHasInternet) {
+                          // ignore: use_build_context_synchronously
+                          profileRepo.saveUser(context);
+                        }
+                      },
                       title: kSave,
                       width:
                           // double.infinity,

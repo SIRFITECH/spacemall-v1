@@ -59,6 +59,12 @@ class ShopFrontScreen extends StatelessWidget {
     String urlString = 'https://${store.storeName.toLowerCase()}.spacemall.io';
     // String urlString = 'https://spacemall.io/';
 
+    debugPrint(' image url is  ${UserPhoneServices().chooseImageProvider(
+      profileController.isConnected,
+      storeController.logoPicLocalPath,
+      storeController.logoRemotePath,
+    )}');
+
     final copyText = ClipboardData(text: urlString);
 
     return Scaffold(

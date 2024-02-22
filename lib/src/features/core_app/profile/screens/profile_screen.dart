@@ -144,7 +144,7 @@ class ProfileScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: isDarkMood ? kWhiteLight : kBlackDark,
-                                fontSize: kBodyTextFont,
+                                fontSize: kHeaderTextFontSmall,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -164,7 +164,7 @@ class ProfileScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     color:
                                         isDarkMood ? kWhiteLight : kBlackDark,
-                                    fontSize: kBodyTextFont,
+                                    fontSize: kHeaderTextFontSmallest,
                                   ),
                                 ),
                               ),
@@ -190,7 +190,7 @@ class ProfileScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       color:
                                           isDarkMood ? kWhiteLight : kBlackDark,
-                                      fontSize: kBodyTextFont,
+                                      fontSize: kHeaderTextFontSmallest,
                                     ),
                                   ),
                                 ),
@@ -214,7 +214,7 @@ class ProfileScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     color:
                                         isDarkMood ? kWhiteLight : kBlackDark,
-                                    fontSize: 17,
+                                    fontSize: kHeaderTextFontSmallest,
                                   ),
                                 )),
                                 DataCell(Row(
@@ -239,7 +239,7 @@ class ProfileScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     color:
                                         isDarkMood ? kWhiteLight : kBlackDark,
-                                    fontSize: kBodyTextFont,
+                                    fontSize: kHeaderTextFontSmallest,
                                   ),
                                 )),
                                 DataCell(

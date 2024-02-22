@@ -244,3 +244,30 @@ const String kSettingsAppBarText = 'Printer Settings';
 const String kConnectPrinterAppBarText = 'Connect Printer';
 // const String kAddSocialText = 'Add Socail';
 
+/// --- API ---
+
+// const String sendGridAPIKey =
+//     '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';
+
+// the pass word is the same as the APIKEY
+const String sendGrindSMTPRelayKey =
+    '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';
+
+const String spaceMallPhone = '+234 915 885 5705';
+const String spaceMallEmail = 'spacemall.io.official@gmail.com';
+const String spaceMallSMTPPassword = 'lcfn wbnk zqxl bkcg';
+const String welcomeSubject = 'Welcome to SpaceMall!';
+
+const String welcomeMail =
+    " \n\n Welcome to SpaceMall! \n\n We are happy to have you as a community member and appreciate you choosing SpaceMall to run your business conveniently. \n\n At SpaceMall, we want managing your business to be easy and seamless as possible for you. \n\n Here’s a quick overview of what you can do with the SpaceMall app: \n 1. Own a digital store: Easily create a digital store for business when you download sign in. \n 2. Sell products from your digital store: Start selling your product immediately you upload the items on your digital store. \n 3. Track your business sales: Keep tabs of products you sell on a daily, weekly, or monthly basis in your digital store.\n 4. Track low stocks: Get notified when the quantity of your product is running low so you may restock them.\n 5. View daily total sales: Check the amount of sales you generate each day without having to use a calculator.\n 6. Send and print receipts and invoices: Use your favorite channel to send and print invoices and receipts to your customers.\n\n To get started, simply log in to your account using the phone number you provided during registration. \n\nIf you have any questions or need assistance, our support team is here to help. Feel free to reply to this email.\nOnce again, welcome aboard! We're excited to help you manage your business easily.\n\nBest regards,\nGift Nkwonta\nSpacemall";
+const String loginSubject = 'SpaceMall - Login Notification';
+const String loginMail1 = '\n\n SpaceMall Login confirmation';
+const String loginMail2 =
+    '\n\nPlease be informed that your digital store was accessed at';
+const String loginMail3 =
+    '\nIf you did not log on to your digital store at the detailed time above, please call our 24 hour interactive contact center on:';
+const String loginMail4 = 'or send an email to';
+const String loginMail5 =
+    'immediately.\n\nThank you for managing your business with us.\n\nSpaceMall.';
+String loginMail =
+    "$loginMail1 ${DateTime.now()} $loginMail2 $loginMail3 $spaceMallPhone $loginMail4 $spaceMallEmail $loginMail5 ";

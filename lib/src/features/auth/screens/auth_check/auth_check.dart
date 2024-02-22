@@ -56,9 +56,6 @@ class AuthCheckScreen extends StatelessWidget {
           return Container(
             decoration: const BoxDecoration(color: kWhiteLight),
             child: const SplascreenLoader(),
-            // const Center(
-            //   child: CircularProgressIndicator(),
-            // ),
           );
         } else if (snapshot.hasData && snapshot.data != null) {
           // if user exists and has data
@@ -71,21 +68,21 @@ class AuthCheckScreen extends StatelessWidget {
               // while waiting for app to fetch user data from firebase
               if (userSnapshot.connectionState == ConnectionState.waiting) {
                 return Container(
-                    decoration: const BoxDecoration(color: kWhiteLight),
-                    child: const SplascreenLoader()
-                    //  Center(
-                    //   child: CircularProgressIndicator(),
-                    // ),
-                    );
+                  decoration: const BoxDecoration(color: kWhiteLight),
+                  child: const SplascreenLoader(),
+                );
               } else if (userSnapshot.hasData &&
                   userSnapshot.data!.data() != null) {
+                // this means user has created a profile
                 // List<dynamic> storeUIDs = userSnapshot.data!.get('storeUIDs');
                 // for (var uid in storeUIDs) {
                 //   print(uid);
                 // }
 
+                // LoginController.instance.sendLoginMail();
                 return DashBoard();
               } else {
+                // user has not created a profile
                 return const OnBoarding();
               }
             },

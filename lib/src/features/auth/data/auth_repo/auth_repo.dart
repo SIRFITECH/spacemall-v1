@@ -16,6 +16,7 @@ import 'package:spacemall/src/features/auth/screens/otp/otp_screen.dart';
 import 'package:spacemall/src/features/auth/screens/welcome/welcome.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
+import 'package:spacemall/src/repository/services/network_connectivity/network_connectivity.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 import '../../../core_app/profile/application/profile_controller.dart';
 import '../../../core_app/profile/screens/set_profile.dart';
@@ -549,17 +550,32 @@ class AuthRepo extends GetxController {
 
   Future<bool> verifyOTP(String otp) async {
     OtpController.instance.isLoading.value = true;
-    checkExistingUser();
-    var credentials = await auth.signInWithCredential(
-      PhoneAuthProvider.credential(
-          verificationId: verificationId.value, smsCode: otp),
-    );
-    if (credentials.user != null) {
-      credentials.user!.uid;
-      _uid = credentials.user!.uid;
+    bool deviceHasInternet = await NetworkConnectivity().deviceHasInternet();
+    if (deviceHasInternet) {
+      checkExistingUser();
+      var credentials = await auth.signInWithCredential(
+        PhoneAuthProvider.credential(
+          verificationId: verificationId.value,
+          smsCode: otp,
+        ),
+      );
+      if (credentials.user != null) {
+        credentials.user!.uid;
+        _uid = credentials.user!.uid;
+      }
+      if (credentials.user != null) {
+        credentials.user!.uid;
+        debugPrint('the user email is: ${credentials.user!.email}');
+      }
+
+      return credentials.user != null ? true : false;
+    } else {
+      OtpController.instance.isLoading.value = false;
+
+      return false;
     }
-    OtpController.instance.isLoading.value = false;
-    return credentials.user != null ? true : false;
+
+    // OtpController.instance.isLoading.value = false;
   }
 
   //  await client.SignInWithRedirectAsync(FirebaseProviderType.Google, async uri =>
@@ -609,7 +625,7 @@ class AuthRepo extends GetxController {
           OtpController.instance.setTimer();
           LoginController.instance.isLoading.value = false;
 
-          Get.off(
+          Get.offAll(
             () => const OTPScreen(),
           );
         },
@@ -708,10 +724,16 @@ class AuthRepo extends GetxController {
 
   Future<void> signOut() async {
     try {
-      await GoogleSignIn().signOut();
-      await auth.signOut();
-      await setSignedOut();
-      Get.off(() => const Login());
+      // FIXME: remain on the same screen if there is no internet
+      bool deviceHasInternet = await NetworkConnectivity().deviceHasInternet();
+      if (deviceHasInternet) {
+        await GoogleSignIn().signOut();
+        await auth.signOut();
+        await setSignedOut();
+        Get.off(
+          () => const Login(),
+        );
+      }
     } catch (e) {
       spaceMallSnackBar(
         'Error on Signout',

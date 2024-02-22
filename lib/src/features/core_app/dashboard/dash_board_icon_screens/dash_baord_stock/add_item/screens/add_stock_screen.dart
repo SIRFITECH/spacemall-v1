@@ -613,9 +613,7 @@ class AddStock extends StatelessWidget {
                             children: [
                               CustomButton(
                                 screenSize: screenSize,
-                                onPress: ()
-                                    // =>
-                                    {
+                                onPress: () {
                                   AddItemController.instance.addNewItem();
                                 },
                                 title: kAddStockAppBarText,

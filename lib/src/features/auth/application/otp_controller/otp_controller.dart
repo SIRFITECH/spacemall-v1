@@ -5,9 +5,10 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
 import 'package:spacemall/src/features/auth/application/splash_controller/splash_controller.dart';
+import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_screen.dart';
+import 'package:spacemall/src/features/auth/screens/otp/otp_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
 import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
-import 'package:spacemall/src/features/auth/screens/login/login.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -50,7 +51,7 @@ class OtpController extends GetxController {
 
   void resetTimer() {
     const onsec = Duration(seconds: 1);
-    OtpController.instance.timer.value = 30;
+    OtpController.instance.timer.value = timer.value * 2;
     Timer.periodic(onsec, (time) {
       if (timer.value == 0) {
         time.cancel();
@@ -79,9 +80,7 @@ class OtpController extends GetxController {
       await AuthRepo.instance.verifyOTP(
         otp,
       );
-      // // check if user has a profile existing
-      // var exists = AuthRepo.instance.user.userName != '';
-
+      // .then((value) => LoginController.instance.sendRegMail());
       LoginController.instance.phoneController.clear();
 
       // UserModel user = AuthRepo.instance.user;
@@ -178,7 +177,7 @@ class OtpController extends GetxController {
                           userDocument.data() as Map<String, dynamic>,
                         );
                         setUserStore(user);
-
+                        LoginController.instance.sendLoginMail();
                         return DashBoard();
                       } else {
                         // if the user exists but has not created a profile yet
@@ -186,7 +185,7 @@ class OtpController extends GetxController {
                       }
                     } else {
                       // if the user is a new user with no profile yet
-                      return const SetProfile();
+                      return const OnBoarding();
                     }
                   },
                 );
@@ -197,7 +196,7 @@ class OtpController extends GetxController {
               }
             } else {
               debugPrint('user  does not exist');
-              return const Login();
+              return const OTPScreen();
             }
           },
         ),

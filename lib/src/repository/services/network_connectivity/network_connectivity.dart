@@ -16,17 +16,14 @@ class NetworkConnectivity {
     if (deviceHasConnection && internetConnection == true) {
       setIsDeviceConnected(deviceHasConnection);
     } else {
+      spaceMallSnackBar(
+        'Bad Internet',
+        'Please check your internet connection',
+        kWhiteLight,
+        kRedColor,
+      );
       deviceHasConnection = false;
     }
-
-    if (!deviceHasConnection && !internetConnection) {
-      spaceMallSnackBar(
-          'Notice', 'You are working offline', kWhiteLight, kRedColor);
-    }
-    // else {
-    //   spaceMallSnackBar(
-    //       'Network alert', 'Welcome back online', kBlackDark, kGreyColor[400]);
-    // }
     return deviceHasConnection;
   }
 

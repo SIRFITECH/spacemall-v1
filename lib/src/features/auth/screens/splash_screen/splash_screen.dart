@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/auth/application/splash_controller/splash_controller.dart';
 import 'package:spacemall/src/features/auth/screens/auth_check/auth_check.dart';
-import 'package:spacemall/src/features/core_app/mall/screens/mall_screen.dart';
 
 class ChooseUserType extends StatelessWidget {
   const ChooseUserType({super.key});
@@ -46,9 +46,36 @@ class ChooseUserType extends StatelessWidget {
 
                           break;
                         case 1:
-                          Get.offAll(
-                            () => const MallScreen(),
+                          Get.dialog(
+                            AlertDialog(
+                              title: Text(
+                                'Oops!!',
+                                style: TextStyle(
+                                  color: isDarkMood ? kWhiteLight : kBlackDark,
+                                  fontSize: kHeaderTextFontSmallest,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                              content: Text(
+                                'Sorry, We are only testing the store feature for now',
+                                style: TextStyle(
+                                  color: isDarkMood ? kWhiteLight : kBlackDark,
+                                  fontSize: kBodyTextFont,
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: const Text('Back'),
+                                ),
+                              ],
+                            ),
                           );
+                          // Get.offAll(
+                          //   () => const MallScreen(),
+                          // );
                           splashController.userRole.value = 'Buyer';
 
                           break;
