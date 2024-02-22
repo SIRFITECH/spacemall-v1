@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
@@ -26,12 +28,13 @@ class AddCategory extends StatelessWidget {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+        logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -49,76 +52,119 @@ class AddCategory extends StatelessWidget {
         title: '$kAddCategoryAppBarText to ${store.storeName}',
         automaticallyImplyLeading: false,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: !isDarkMood
-                  ? const AssetImage(kBackGroundCart)
-                  : const AssetImage(kBackGroundCartDarkMood),
-              fit: BoxFit.contain,
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 7),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: Container(
+                color: isDarkMood
+                    ? kDarkModeBackgroundColor.withOpacity(0.020)
+                    : kWhiteLight.withOpacity(0.1),
+                height: screenSize.height * 0.85,
+                child: Padding(
+                  padding: EdgeInsets.all(screenSize.width * 0.025),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: !isDarkMood
+                              ? const AssetImage(kBackGroundCart)
+                              : const AssetImage(kBackGroundCartDarkMood),
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: screenSize.height * 0.65,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: store.categories.length,
+                              itemBuilder: (context, index) {
+                                final category = store.categories[index];
+                                return ListTile(
+                                  leading: IconButton(
+                                    onPressed: () {
+                                      addCategoryController
+                                          .removeCategory(index);
+                                    },
+                                    icon: const Icon(Icons.remove_circle),
+                                    color: kRedColor,
+                                  ),
+                                  title: Text(
+                                    category.categoryName,
+                                    style:
+                                        Theme.of(context).textTheme.labelSmall,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextFeildWidget(
+                                screenSize: screenSize,
+                                isDarkMood: isDarkMood,
+                                controller: addCategoryController.categoryName,
+                                keyboardType: TextInputType.text,
+                                hintText: kHintText,
+                                labelText: kCategoryLabelText,
+                                maxLines: 1,
+                                height: screenSize.width * 0.135,
+                                width: screenSize.width * 0.90,
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.1,
+                          ),
+                          ElevatedButton(
+                              onPressed: () {
+                                addCategoryController
+                                    .addNewCategory(context)
+                                    .then(
+                                      (value) => addCategoryController
+                                          .categoryName
+                                          .clear(),
+                                    );
+                              },
+                              child: const Text(
+                                kAddCategoryText,
+                                style: TextStyle(
+                                  fontSize: kBodyTextFont,
+                                ),
+                              ))
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
-          child: Column(
-            children: [
-              SizedBox(
-                height: screenSize.height * 0.65,
-                child:
-                    //  Obx(
-                    //   () =>
-                    ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: store.categories.length,
-                  itemBuilder: (context, index) {
-                    final category = store.categories[index];
-                    return ListTile(
-                      leading: IconButton(
-                        onPressed: () {
-                          print('Delete from category');
-                          // addCategoryController.removeCategory(index);
-                        },
-                        icon: const Icon(Icons.remove_circle),
-                        color: Colors.red,
-                      ),
-                      title: Text(
-                        category.categoryName,
-                        style: Theme.of(context).textTheme.labelSmall,
-                      ),
-                    );
-                  },
-                ),
-                // ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextFeildWidget(
-                    screenSize: screenSize,
-                    isDarkMood: isDarkMood,
-                    controller: addCategoryController.categoryName,
-                    keyboardType: TextInputType.text,
-                    hintText: kHintText,
-                    labelText: kCategoryLabelText,
-                    maxLines: 1,
-                    height: screenSize.width * 0.135,
-                    width: screenSize.width * 0.90,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.width * 0.1,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    addCategoryController.addNewCategory();
-                  },
-                  child: const Text(kAddCategoryText))
-            ],
-          ),
-        ),
+          Obx(
+            () => addCategoryController.isLoading.value
+                ? Positioned(
+                    child: Container(
+                        height: screenSize.height,
+                        width: screenSize.width,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.5),
+                        ),
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        )),
+                  )
+                : Container(),
+          )
+        ],
       ),
     );
   }

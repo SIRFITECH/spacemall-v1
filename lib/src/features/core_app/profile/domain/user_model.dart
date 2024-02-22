@@ -1,16 +1,17 @@
+import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:spacemall/src/features/core_app/check_out/application/check_out_controller.dart';
 import 'package:spacemall/src/features/core_app/check_out/domain/check_out_item_model.dart';
 import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 
+import '../../check_out/application/check_out_controller.dart';
+
 part 'user_model.g.dart';
 
 @HiveType(typeId: 3)
-//
 class UserModel {
   @HiveField(0)
-  String profilePic;
+  String profilePicLocalPath;
   @HiveField(1)
   String userName;
   @HiveField(2)
@@ -28,10 +29,16 @@ class UserModel {
   @HiveField(8)
   List<CartItemModel> cart;
   @HiveField(9)
-  List<StoreModel> stores;
+  RxList<StoreModel> stores;
+  @HiveField(10)
+  String createdAt;
+  @HiveField(11)
+  String profilePicRemotePath;
+  @HiveField(12)
+  List storeUIDs;
 
   UserModel({
-    required this.profilePic,
+    required this.profilePicLocalPath,
     required this.userName,
     required this.email,
     required this.contactNumber,
@@ -41,14 +48,18 @@ class UserModel {
     required this.cart,
     required this.stores,
     required this.country,
+    required this.createdAt,
+    required this.profilePicRemotePath,
+    required this.storeUIDs,
   });
 
   // populated from map, that is serializing the user object from server
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      cart: CartItemController.instance.convertCartItems(map['cart'] ?? []),
-      stores: StoreController.instance.convertStores(map['stores'] ?? []),
-      profilePic: map['profilePic'] ?? '',
+      cart: CheckOutController.instance.convertCartItems(map['cart'] ?? []),
+      stores:
+          RxList(StoreController.instance.convertStores(map['stores'] ?? [])),
+      profilePicLocalPath: map['profilePicLocalPath'] ?? '',
       userName: map['userName'] ?? '',
       email: map['email'] ?? '',
       contactNumber: map['contactNumber'] ?? '',
@@ -56,15 +67,36 @@ class UserModel {
       role: map['role'] ?? '',
       uid: map['uid'] ?? '',
       bio: map['bio'] ?? '',
+      createdAt: map['createdAt'] ?? '',
+      profilePicRemotePath: map['profilePicLocalPath'] ?? '',
+      storeUIDs: map['storeUIDs'] ?? [],
     );
   }
+
+  // // Factory method to create UserModel from Firebase User
+  // factory UserModel.fromFirebaseUser(User firebaseUser) {
+  //   return UserModel(
+  //       profilePicLocalPath: firebaseUser,
+  //       userName: userName,
+  //       email: email,
+  //       contactNumber: contactNumber,
+  //       uid: firebaseUser.uid,
+  //       role: role,
+  //       bio: bio,
+  //       cart: cart,
+  //       stores: stores,
+  //       country: country,
+  //       createdAt: createdAt,
+  //       profilePicRemotePath: profilePicRemotePath,
+  //       storeUIDs: storeUIDs);
+  // }
 
   // populated to map, that is serializing the user object to string for server use
   Map<String, dynamic> toMap() {
     return {
       "cart": cart,
       'stores': stores,
-      "profilePic": profilePic,
+      "profilePicLocalPath": profilePicLocalPath,
       "userName": userName,
       "email": email,
       "contactNumber": contactNumber,
@@ -72,6 +104,9 @@ class UserModel {
       "role": role,
       "uid": uid,
       "bio": bio,
+      "createdAt": createdAt,
+      "profilePicRemotePath": profilePicRemotePath,
+      "storeUIDs": storeUIDs,
     };
   }
 }

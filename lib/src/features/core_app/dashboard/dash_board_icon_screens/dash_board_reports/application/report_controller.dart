@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../store/data/store_repo.dart';
+import '../../../../store/domain/store_model.dart';
+
 class ReportsController extends GetxController {
   static ReportsController get instance => Get.put(ReportsController());
 
@@ -11,6 +14,8 @@ class ReportsController extends GetxController {
   RxString todayReport = ''.obs;
   RxBool showPOSGrid = true.obs;
   RxBool showLowToHigh = true.obs;
+  RxString lowStock = '0'.obs;
+  RxString totalStock = '0'.obs;
 
   Future<String> pickYesterday(BuildContext context) async {
     now = now.subtract(const Duration(days: 1));
@@ -158,4 +163,27 @@ class ReportsController extends GetxController {
       "value": "femiade@gmail.com"
     },
   ];
+  void setLowStockInStore(index) {
+    List<StoreModel> storesFromBox = StoreRepo.instance.getStoresFromBox();
+    storesFromBox[index].stock.isEmpty;
+    // ? setStore(selectedStore.value)
+    // : setStore(storesFromBox.last);
+  }
+
+//  void setStore(
+//     StoreModel? newValue,
+//   ) {
+//     if (newValue == null) {
+//       return;
+//     }
+
+//     if (stores.any((element) => element.storeName == newValue.storeName)) {
+//       Get.to(
+//         () => const AddStore(),
+//       );
+//     } else {
+//       AddItemRepo.instance.currentStore.value = 'store-${newValue.storeId}';
+//       selectedStore.value = newValue;
+//     }
+//   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/screens/add_category_screen.dart';
+import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
 class ShopFrontController extends GetxController {
   static ShopFrontController get instance => Get.find();
@@ -25,30 +26,31 @@ simple add string sample
   ].obs;
 
   removeCategory(index) {
-    Get.snackbar(
+    spaceMallSnackBar(
       '${stores[index]} removed',
       '${stores[index]} category removed successfully',
-      backgroundColor: kWhiteLight,
-      colorText: kBlack,
+      kBlack,
+      kWhiteLight,
     );
+
     stores.removeAt(index);
   }
 
   addNewCategory() {
     if (storeName.text.isEmpty) {
-      Get.snackbar(
+      spaceMallSnackBar(
         'Error',
         'You can not add an empty category',
-        backgroundColor: kWhiteLight,
-        colorText: kBlack,
+        kBlack,
+        kWhiteLight,
       );
     } else {
       stores.add(storeName.text);
-      Get.snackbar(
+      spaceMallSnackBar(
         '${storeName.text} added',
         '${storeName.text} category added successfully',
-        backgroundColor: kWhiteLight,
-        colorText: kBlack,
+        kBlack,
+        kWhiteLight,
       );
     }
   }

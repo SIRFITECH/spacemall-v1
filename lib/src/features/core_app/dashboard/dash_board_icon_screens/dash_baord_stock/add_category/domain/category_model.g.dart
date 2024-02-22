@@ -18,26 +18,24 @@ class CategoryModelAdapter extends TypeAdapter<CategoryModel> {
     };
     return CategoryModel(
       categoryName: fields[0] as String,
-      itemId: fields[3] as String,
-      categoryId: fields[4] as String,
-      itemName: fields[1] as String,
-      itemQuantity: fields[2] as String,
+      categoryId: fields[3] as String,
+      items: RxList.from(fields[1] as List),
+      // (fields[1] as List).cast<AddItemModel>(),
+      itemsInCategory: fields[2] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, CategoryModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.categoryName)
       ..writeByte(1)
-      ..write(obj.itemName)
+      ..write(obj.items)
       ..writeByte(2)
-      ..write(obj.itemQuantity)
+      ..write(obj.itemsInCategory)
       ..writeByte(3)
-      ..write(obj.itemId)
-      ..writeByte(4)
       ..write(obj.categoryId);
   }
 

@@ -2,13 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/screens/payment_summary.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/image_strings.dart';
-import '../../../../../../localizations/currency.dart';
 import '../../../../../../repository/hive_boxes.dart';
 import '../../../../store/domain/store_model.dart';
 import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
@@ -32,12 +32,13 @@ class SalesScreen extends StatelessWidget {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+        logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -109,7 +110,9 @@ class SalesScreen extends StatelessWidget {
                           onTap: () async {
                             if (defaultTargetPlatform == TargetPlatform.iOS) {
                               DateTime selectedDate = await salesController
-                                  .pickiOSDate(context, screenSize);
+                                  .pickiOSDate(context, 
+                                  // screenSize
+                                  );
                               // ignore: unnecessary_null_comparison
                               if (selectedDate != null) {
                                 salesController.date.value =
@@ -145,6 +148,7 @@ class SalesScreen extends StatelessWidget {
                                   ' $kReportTodayText : ${salesController.date.value} ',
                                   style: const TextStyle(
                                     color: kGreyColor,
+                                    fontSize: kBodyTextFont,
                                   ),
                                 ),
                               ),
@@ -179,21 +183,21 @@ class SalesScreen extends StatelessWidget {
                     ? ListView.builder(
                         itemCount: salesList.length,
                         itemBuilder: (context, index) {
-                          String totalItemPrice = salesList[index]
-                              .cart
-                              .totalItemPrice
-                              .replaceAll(RegExp(r'[^0-9]'), '');
+                          // String totalItemPrice = salesList[index]
+                          //     .cart
+                          //     .totalItemPrice
+                          //     .replaceAll(RegExp(r'[^0-9]'), '');
                           return GestureDetector(
                             onTap: () {
                               Get.to(
                                 () => const PaymentSummary(),
                               );
                               if (salesList.isNotEmpty) {
-                                print(salesList[index]
-                                    .customerName
-                                    .substring(0, 1));
+                                // print(salesList[index]
+                                //     .customerName
+                                //     .substring(0, 1));
                               } else {
-                                print('No item');
+                                // print('No item');
                               }
                             },
                             child: Column(
@@ -249,9 +253,9 @@ class SalesScreen extends StatelessWidget {
                                                         salesList[index]
                                                             .customerName
                                                             .substring(0, 1),
-                                                        // 'N',
                                                         style: TextStyle(
-                                                          fontSize: 45,
+                                                          fontSize:
+                                                              kHeaderTextFont,
                                                           fontWeight:
                                                               FontWeight.bold,
                                                           color: !isDarkMood
@@ -268,8 +272,8 @@ class SalesScreen extends StatelessWidget {
                                                 ),
                                               ],
                                             ),
-                                            const SizedBox(
-                                              width: 15,
+                                            SizedBox(
+                                              width: screenSize.width * 0.04,
                                             ),
                                             Column(
                                               crossAxisAlignment:
@@ -277,32 +281,33 @@ class SalesScreen extends StatelessWidget {
                                               children: [
                                                 Text(
                                                   salesList[index].customerName,
-                                                  // 'New Customer',
                                                   style: const TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.bold,
+                                                    fontSize:
+                                                        kHeaderTextFontSmallest,
+                                                    fontWeight: FontWeight.w900,
                                                   ),
                                                 ),
                                                 Row(
                                                   children: [
-                                                    Text(
-                                                      nairaFormat.format(
-                                                        int.parse(
-                                                            totalItemPrice),
-                                                      ),
-                                                      style: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 5,
+                                                    // Text(
+                                                    //   nairaFormat.format(
+                                                    //     double.parse(
+                                                    //         totalItemPrice),
+                                                    //   ),
+                                                    //   style: const TextStyle(
+                                                    //     fontSize: 15,
+                                                    //     fontWeight:
+                                                    //         FontWeight.bold,
+                                                    //   ),
+                                                    // ),
+                                                    SizedBox(
+                                                      width: screenSize.width *
+                                                          0.002,
                                                     ),
                                                     Text(
                                                       'Sold on ${DateFormat('d MMM, yyyy').format(salesList[index].date)}',
                                                       style: const TextStyle(
-                                                        fontSize: 13,
+                                                        fontSize: kBodyTextFont,
                                                       ),
                                                     ),
                                                   ],

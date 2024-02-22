@@ -15,11 +15,11 @@ class ShopfrontReport extends StatefulWidget {
   State<ShopfrontReport> createState() => _StorefrontReportState();
 }
 
-late List<HourlySalesData> _hourlyChartData;
+late List<HourlySalesData> hourlyChartData;
 // late List<WeeklySalesData> _weeklyChartData;
 late List<MonthlySalesData> _monthlyChartData;
 bool _showGrid = true;
-int _selected = 0;
+int selected = 0;
 
 Map<String, double> dataMap = {
   "Debit Card": 55,
@@ -31,7 +31,7 @@ Map<String, double> dataMap = {
 class _StorefrontReportState extends State<ShopfrontReport> {
   // @override
   // void initState() {
-  //   _hourlyChartData = getHourlyChartData();
+  //   hourlyChartData = getHourlyChartData();
   //   // _weeklyChartData = getWeeklyChartData();
 
   //   super.initState();

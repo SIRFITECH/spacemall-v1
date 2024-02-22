@@ -61,7 +61,15 @@ class PinputWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      const Text(kVerifyOTPSubText),
+      const Padding(
+        padding: EdgeInsets.only(
+          left: kDefaultSize,
+        ),
+        child: Text(
+          kVerifyOTPSubText,
+          style: TextStyle(fontSize: 11),
+        ),
+      ),
       Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: kDefaultSize,

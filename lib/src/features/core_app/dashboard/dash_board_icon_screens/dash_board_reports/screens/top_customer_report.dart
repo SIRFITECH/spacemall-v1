@@ -29,12 +29,13 @@ class _TopCustomerReportState extends State<TopCustomerReport> {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+         logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],

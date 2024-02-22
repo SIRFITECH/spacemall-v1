@@ -33,18 +33,21 @@ class OnBoardingPageWidget extends StatelessWidget {
             children: [
               Text(
                 model.title,
-                style: STextTheme.lightTextTheme.headlineMedium,
+                style: STextTheme.lightTextTheme.headlineMedium
+                    ?.copyWith(fontSize: kHeaderTextFontSmall),
               ),
               Text(
                 model.subTitle,
-                style: STextTheme.lightTextTheme.labelMedium,
+                style: STextTheme.lightTextTheme.labelMedium
+                    ?.copyWith(fontSize: kBodyTextFont),
                 textAlign: TextAlign.center,
               ),
             ],
           ),
           Text(
             model.counterText,
-            style: STextTheme.lightTextTheme.headlineSmall,
+            style: STextTheme.lightTextTheme.headlineSmall
+                ?.copyWith(fontSize: kHeaderTextFontSmall),
           ),
           const SizedBox(
             height: 95.0,

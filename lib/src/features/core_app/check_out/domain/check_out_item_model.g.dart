@@ -19,10 +19,10 @@ class CartItemModelAdapter extends TypeAdapter<CartItemModel> {
     return CartItemModel(
       itemId: fields[0] as String,
       itemName: fields[1] as String,
-      quantityInCart: fields[2] as int,
+      quantityInCart: fields[2] as RxInt,
       price: fields[3] as String,
       totalItemPrice: fields[4] as String,
-      subTotal: fields[5] as double,
+      subTotal: fields[5] as RxDouble,
       discount: fields[6] as double,
       tax: fields[7] as double,
     );

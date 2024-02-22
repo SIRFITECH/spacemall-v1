@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/application/login_controller/login_controller.dart';
-import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
+import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
+
+import '../../../../repository/services/phone_storage/user_phone_services.dart';
+import '../application/profile_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -18,18 +22,25 @@ class ProfileScreen extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     // final screenSize = media.size;
 
-    final profileRepo = Get.put(ProfileRepo());
+    final profileController = ProfileController();
+
     final LoginController loginController = Get.find();
 
     return SafeArea(
       child: Scaffold(
+        appBar: MyAppBar(
+          isDarkMood: isDarkMood,
+          title: 'Profile',
+          automaticallyImplyLeading: false,
+        ),
         body: FutureBuilder<UserModel?>(
-          future: profileRepo.getUserDataFromPhone(),
+          future: profileController.getUserDataFromHive(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             } else {
               UserModel? user = snapshot.data;
+
               return Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
@@ -43,22 +54,6 @@ class ProfileScreen extends StatelessWidget {
                   child: ListView(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 3.0, horizontal: 15),
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Icon(Icons.arrow_back_ios),
-                              Text(kBackText),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -68,10 +63,11 @@ class ProfileScreen extends StatelessWidget {
                                 Text(
                                   kCountryText,
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color:
-                                          isDarkMood ? kWhiteLight : kBlackDark,
-                                      fontSize: 13),
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        isDarkMood ? kWhiteLight : kBlackDark,
+                                    fontSize: kBodyTextFont,
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 40,
@@ -91,27 +87,52 @@ class ProfileScreen extends StatelessWidget {
                               onPressed: () {
                                 Get.to(() => const SetProfile());
                               },
-                              child: const Text(kEditProfileText),
+                              child: const Text(
+                                kEditProfileText,
+                                style: TextStyle(
+                                  fontSize: kBodyTextFont,
+                                ),
+                              ),
                             )
                           ],
                         ),
                       ),
                       CircleAvatar(
-                        radius: 60,
-                        backgroundColor:
-                            kMainComplimemtColorDark.withOpacity(0.2),
+                        radius: 100,
+                        backgroundColor: Colors.transparent,
                         child: SizedBox(
-                            child: ClipOval(
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: CircleAvatar(
-                              radius: 60,
-                              backgroundImage:
-                                  // FileImage(File(user!.profilePic)),
-                                  NetworkImage(user!.profilePic),
+                          child: ClipOval(
+                            child: FutureBuilder<void>(
+                              future: precacheImage(
+                                UserPhoneServices().chooseImageProvider(
+                                  profileController.isConnected,
+                                  user!.profilePicLocalPath,
+                                  user.profilePicRemotePath,
+                                ),
+                                context,
+                              ),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<void> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return CircleAvatar(
+                                    radius: 30,
+                                    backgroundImage:
+                                        UserPhoneServices().chooseImageProvider(
+                                      profileController.isConnected,
+                                      user.profilePicLocalPath,
+                                      user.profilePicRemotePath,
+                                    ),
+                                  );
+                                } else {
+                                  return const CircularProgressIndicator(
+                                    backgroundColor: kWhiteLight,
+                                  );
+                                }
+                              },
                             ),
                           ),
-                        )),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -123,7 +144,7 @@ class ProfileScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: isDarkMood ? kWhiteLight : kBlackDark,
-                                fontSize: 17,
+                                fontSize: kHeaderTextFontSmall,
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -143,7 +164,7 @@ class ProfileScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     color:
                                         isDarkMood ? kWhiteLight : kBlackDark,
-                                    fontSize: 17,
+                                    fontSize: kHeaderTextFontSmallest,
                                   ),
                                 ),
                               ),
@@ -155,7 +176,7 @@ class ProfileScreen extends StatelessWidget {
                                     color: isDarkMood
                                         ? kDarkModeIconColor
                                         : kLightModeIconColor,
-                                    fontSize: 17,
+                                    fontSize: kBodyTextFont,
                                   ),
                                 ),
                               ),
@@ -169,7 +190,7 @@ class ProfileScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       color:
                                           isDarkMood ? kWhiteLight : kBlackDark,
-                                      fontSize: 17,
+                                      fontSize: kHeaderTextFontSmallest,
                                     ),
                                   ),
                                 ),
@@ -181,7 +202,7 @@ class ProfileScreen extends StatelessWidget {
                                       color: isDarkMood
                                           ? kDarkModeIconColor
                                           : kLightModeIconColor,
-                                      fontSize: 20,
+                                      fontSize: kBodyTextFont,
                                     ),
                                   ),
                                 ),
@@ -193,7 +214,7 @@ class ProfileScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     color:
                                         isDarkMood ? kWhiteLight : kBlackDark,
-                                    fontSize: 17,
+                                    fontSize: kHeaderTextFontSmallest,
                                   ),
                                 )),
                                 DataCell(Row(
@@ -205,7 +226,7 @@ class ProfileScreen extends StatelessWidget {
                                         color: isDarkMood
                                             ? kDarkModeIconColor
                                             : kLightModeIconColor,
-                                        fontSize: 17,
+                                        fontSize: kBodyTextFont,
                                       ),
                                     ),
                                   ],
@@ -218,7 +239,7 @@ class ProfileScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                     color:
                                         isDarkMood ? kWhiteLight : kBlackDark,
-                                    fontSize: 17,
+                                    fontSize: kHeaderTextFontSmallest,
                                   ),
                                 )),
                                 DataCell(
@@ -229,7 +250,7 @@ class ProfileScreen extends StatelessWidget {
                                       color: isDarkMood
                                           ? kDarkModeIconColor
                                           : kLightModeIconColor,
-                                      fontSize: 17,
+                                      fontSize: kBodyTextFont,
                                     ),
                                   ),
                                 ),

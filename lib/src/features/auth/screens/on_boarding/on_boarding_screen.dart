@@ -3,6 +3,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/auth/application/on_boarding_controller/on_boarding_controller.dart';
 
 class OnBoarding extends StatelessWidget {
@@ -31,7 +32,7 @@ class OnBoarding extends StatelessWidget {
             child: OutlinedButton(
               onPressed: () => obController.animateToNextSlide(),
               style: ElevatedButton.styleFrom(
-                side: const BorderSide(color: kDefaultIconDarkColor),
+                side: BorderSide(color: kDefaultIconDarkColor),
                 shape: const CircleBorder(),
                 padding: const EdgeInsets.all(20),
                 foregroundColor: kWhiteLight,
@@ -51,7 +52,10 @@ class OnBoarding extends StatelessWidget {
               onPressed: () => obController.skip(),
               child: const Text(
                 'skip',
-                style: TextStyle(color: kMainComplimemtColorLight),
+                style: TextStyle(
+                  color: kMainComplimemtColorLight,
+                  fontSize: kBodyTextFont,
+                ),
               ),
             ),
           ),

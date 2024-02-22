@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/application/date_widget_controller.dart';
 
@@ -20,6 +21,7 @@ class TextFeildWidget extends StatelessWidget {
     required this.maxLines,
     required this.height,
     required this.width,
+    // this.onTap,
   });
 
   final Size screenSize;
@@ -31,6 +33,7 @@ class TextFeildWidget extends StatelessWidget {
   final int maxLines;
   final dynamic height;
   final dynamic width;
+  // final Function? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -41,34 +44,44 @@ class TextFeildWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: screenSize.width * 0.02),
           child: Text(
             labelText,
-            style: Theme.of(context).textTheme.labelSmall,
+            style: Theme.of(context)
+                .textTheme
+                .labelSmall
+                ?.copyWith(fontSize: kBodyTextFont),
           ),
         ),
         SizedBox(
           height: height,
           width: width,
           child: TextFormField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                  color: isDarkMood
-                      ? kTextFieldLightBorderColor
-                      : kTextFieldDarkBorderColor,
-                  width: 0.1,
-                )),
-                fillColor: isDarkMood ? kTextFieldDarkColor : kWhiteDark,
-                filled: true,
-                contentPadding: const EdgeInsets.only(top: 10, left: 10),
-                hintText: hintText,
-                hintStyle: Theme.of(context)
-                    .textTheme
-                    .labelSmall!
-                    .copyWith(color: kGreyColor),
-              ),
-              style: Theme.of(context).textTheme.labelSmall,
-              keyboardType: keyboardType,
-              controller: controller,
-              maxLines: maxLines),
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                color: isDarkMood
+                    ? kTextFieldLightBorderColor
+                    : kTextFieldDarkBorderColor,
+                width: 0.1,
+              )),
+              fillColor: isDarkMood ? kTextFieldDarkColor : kWhiteDark,
+              filled: true,
+              contentPadding: const EdgeInsets.only(top: 10, left: 10),
+              hintText: hintText,
+              hintStyle: Theme.of(context).textTheme.labelSmall!.copyWith(
+                    color: kGreyColor,
+                    fontSize: kBodyTextFont,
+                  ),
+            ),
+            style: Theme.of(context)
+                .textTheme
+                .labelSmall
+                ?.copyWith(fontSize: kBodyTextFont),
+            keyboardType: keyboardType,
+            controller: controller,
+            maxLines: maxLines,
+            onEditingComplete: () {
+              FocusScope.of(context).unfocus();
+            },
+          ),
         ),
       ],
     );
@@ -112,7 +125,10 @@ class DateFeildWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: screenSize.width * 0.02),
           child: Text(
             labelText,
-            style: Theme.of(context).textTheme.labelSmall,
+            style: Theme.of(context)
+                .textTheme
+                .labelSmall
+                ?.copyWith(fontSize: kBodyTextFont),
           ),
         ),
         SizedBox(
@@ -125,8 +141,12 @@ class DateFeildWidget extends StatelessWidget {
 
                   DateTime selectedDate =
                       defaultTargetPlatform == TargetPlatform.iOS
-                          ? await SalesController.instance
-                              .pickiOSDate(context, screenSize)
+                          // ignore: use_build_context_synchronously
+                          ? await SalesController.instance.pickiOSDate(
+                              context,
+                              // screenSize
+                            )
+                          // ignore: use_build_context_synchronously
                           : await SalesController.instance.pickDate(context);
 
                   // ignore: unnecessary_null_comparison
@@ -157,9 +177,14 @@ class DateFeildWidget extends StatelessWidget {
                   filled: true,
                   contentPadding: const EdgeInsets.only(top: 10, left: 10),
                   hintText: hintText,
-                  hintStyle: Theme.of(context).textTheme.labelSmall,
+                  hintStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        fontSize: kBodyTextFont,
+                      ),
                 ),
-                style: Theme.of(context).textTheme.labelSmall,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelSmall
+                    ?.copyWith(fontSize: kBodyTextFont),
                 keyboardType: keyboardType,
                 controller: controller,
               ),

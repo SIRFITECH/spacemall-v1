@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_staff/screens/add_staff.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 
@@ -28,12 +29,13 @@ class _StaffState extends State<StaffScreen> {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+        logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -102,14 +104,14 @@ class _StaffState extends State<StaffScreen> {
                   title: Text(
                     'Timothy Timothy',
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: kHeaderTextFontSmall,
                       color: isDarkMood ? kWhiteDark : kBlackDark,
                     ),
                   ),
                   subtitle: Text(
                     'timothytimothy@gmail.com',
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: kBodyTextFont,
                       color: isDarkMood ? kGreyColor : kBlack,
                     ),
                   ),
@@ -124,7 +126,7 @@ class _StaffState extends State<StaffScreen> {
                       : const Icon(
                           Icons.radio_button_on,
                           size: 25,
-                          color: kCkeckButtonColor,
+                          color: kGreenColor,
                         ),
                 ),
               ),
@@ -155,14 +157,14 @@ class _StaffState extends State<StaffScreen> {
                   title: Text(
                     'Timothy Timothy',
                     style: TextStyle(
-                      fontSize: 17,
+                      fontSize: kHeaderTextFontSmall,
                       color: isDarkMood ? kWhiteDark : kBlackDark,
                     ),
                   ),
                   subtitle: Text(
                     'timothytimothy@gmail.com',
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: kBodyTextFont,
                       color: isDarkMood ? kGreyColor : kBlack,
                     ),
                   ),
@@ -177,7 +179,7 @@ class _StaffState extends State<StaffScreen> {
                       : const Icon(
                           Icons.radio_button_on,
                           size: 25,
-                          color: kCkeckButtonColor,
+                          color: kGreenColor,
                         ),
                 ),
               ),

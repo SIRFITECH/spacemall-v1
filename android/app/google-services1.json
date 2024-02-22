@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1017415678363",
+    "project_id": "spacemall-v1",
+    "storage_bucket": "spacemall-v1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1017415678363:android:89ca0d90a17a1f9052893e",
+        "android_client_info": {
+          "package_name": "io.spacemall"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1017415678363-qdh9ek129u3b8j6hos1bh4o2vskja173.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwHhpISVlHImqzxXaJZ5wWZFfL2L-gTis"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1017415678363-94gg0mporkvcigml1s6cqbrel87evibf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1017415678363-mlb586r2fladi8jjmnmeamefpstcnrvg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.spacemall"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

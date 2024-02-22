@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/screens/add_category_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/screens/add_stock_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_modifier/screens/add_modifier_screen.dart';
@@ -8,9 +9,9 @@ import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screen
 
 class AddItemsCard extends StatelessWidget {
   const AddItemsCard({
-    Key? key,
+    super.key,
     required this.items,
-  }) : super(key: key);
+  });
 
   final List<String> items;
 
@@ -20,6 +21,7 @@ class AddItemsCard extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
+
     return Padding(
       padding: const EdgeInsets.only(left: 16.0),
       child: SizedBox(
@@ -56,9 +58,8 @@ class AddItemsCard extends StatelessWidget {
                     child: Stack(
                       children: [
                         Positioned(
-                          left: screenSize.width * 0.135,
-                          bottom: screenSize.height * 0.0475,
-                          // 42,
+                          left: screenSize.width * 0.14,
+                          bottom: screenSize.height * 0.06,
                           child: GestureDetector(
                             onTap: () {
                               switch (index) {
@@ -71,19 +72,19 @@ class AddItemsCard extends StatelessWidget {
                                   Get.to(
                                     () => const AddCategory(),
                                   );
-                                  debugPrint('$index add category');
+
                                   break;
                                 case 2:
                                   Get.to(
                                     () => const AddTag(),
                                   );
-                                  debugPrint('$index add tag');
+
                                   break;
                                 case 3:
                                   Get.to(
                                     () => const AddModifier(),
                                   );
-                                  debugPrint('$index add modifier');
+
                                   break;
                               }
                             },
@@ -116,11 +117,11 @@ class AddItemsCard extends StatelessWidget {
                               items[index],
                               style: index == 0
                                   ? const TextStyle(
-                                      fontSize: 12,
+                                      fontSize: kBodyTextFont,
                                       color: kWhiteLight,
                                     )
                                   : const TextStyle(
-                                      fontSize: 12,
+                                      fontSize: kBodyTextFont,
                                       color: kDarkComplementColor),
                             ),
                           ),

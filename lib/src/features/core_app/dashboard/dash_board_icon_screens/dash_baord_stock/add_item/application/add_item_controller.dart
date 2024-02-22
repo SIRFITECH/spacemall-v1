@@ -2,21 +2,34 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
 import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 
+import '../../../../../../../constants/text_strings.dart';
+import '../../../../../store/domain/store_model.dart';
+import '../../add_category/application/add_category_controller.dart';
+import '../../add_category/domain/category_model.dart';
+
 class AddItemController extends GetxController {
+  // The purpose of this class is to hold and manipulate the addItem state
+  // its functions are:
+  // 1. Hold addItem variables
+  // 2. Deliver addItem variable manipulation
+  // 3. Arrange addItem data for saving to the db
+  // 4. act as the only public interface to addItem component
+
   static AddItemController get instance => Get.put(
         AddItemController(),
       );
 
-  static AddItemRepo addItemRepo = Get.put(
-    AddItemRepo(),
-  );
+  static AddItemRepo addItemRepo = Get.find();
 
   var isItemAdded = false.obs;
+  var isLoading = false.obs;
 
   var selectedIndex = 0.obs;
 
@@ -25,6 +38,13 @@ class AddItemController extends GetxController {
 
   // my initial variable
   RxList<AddItemModel> itemList = <AddItemModel>[].obs;
+
+  // var selectedCategoryIndex = 0.obs;
+  RxInt selectedCategoryIndex = RxInt(-1);
+  RxInt selectedAllItemsCategoryIndex = RxInt(-1);
+
+  // RxMap to store index variables for each category
+  RxMap<String, RxInt> tapedItem = <String, RxInt>{}.obs;
 
   void setPressed() {
     isPressed.value = true;
@@ -45,18 +65,12 @@ class AddItemController extends GetxController {
     }
   }
 
-  final moreImages = <String>[
-    "Image 1",
-    "Image 2",
-    "Image 3",
-    "Image 4",
-  ];
-
   printItemList() {
     // print(itemList.length);
   }
 
   Rx<File?> itemPic = Rx(null);
+
   final RxBool trackProfit = false.obs;
   final RxBool trackLowStock = false.obs;
   final RxBool preventItemSalesWhenOutOfStock = false.obs;
@@ -89,32 +103,263 @@ class AddItemController extends GetxController {
     update();
   }
 
-  List<AddItemModel> convertStockItems(List stockFromDb) {
+  RxList<AddItemModel> convertStockItems(List stockFromDb) {
     List<AddItemModel> result = [];
     for (var item in stockFromDb) {
-      AddItemModel.fromMap(item);
+      result.add(AddItemModel.fromMap(item));
     }
-    return result;
+    return result.obs; // Convert List to RxList
   }
 
-  getItemPic() {}
-
-  Future<void> addItemToPhone() async {
-    addItemRepo.saveItemData().then((value) => Get.off(() => const Stock()));
+// add item to phone memory
+  Future<void> addNewItem() async {
+    isLoading.value = true;
+    if (AddItemController.instance.itemPic.value != null) {
+      if (AddCategoryController.instance.categoryValue.value?.categoryName !=
+          null) {
+        addItemRepo.saveItemData().then((value) {
+          AddItemRepo.instance.clearControllers();
+          AddItemController.instance.clearImages();
+          update();
+          Get.off(() => Stock());
+        });
+        isLoading.value = false;
+      } else {
+        isLoading.value = false;
+        Get.dialog(
+          AlertDialog(
+            title: const Text(
+              kAddCategoryText,
+              style: TextStyle(color: kBlack),
+            ),
+            content: const Text(
+              kAddCategoryAlertBodyText,
+              style: TextStyle(color: kBlack),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Get.back();
+                  // Get.to(() => const AddCategory());
+                },
+                child: const Text('Ok'),
+              ),
+            ],
+          ),
+        );
+      }
+    } else {
+      isLoading.value = false;
+      spaceMallSnackBar(
+        'Error',
+        'You need to add item pic',
+        kWhiteLight,
+        kRedColor,
+      );
+    }
   }
 
-  RxList images = [].obs;
+  Future<void> editItemOnPhone(AddItemModel editedItem) async {
+    AddItemRepo.instance.editItemData(editedItem);
+  }
 
-  // // Getter to get the list of images
-  // List<String> get images => _images;
+  RxList<File> moreImages = <File>[].obs;
+  // add image to morepics
+  void addImage(BuildContext context) async {
+    File? pickedImage = await pickImage(context);
+    if (pickedImage != null && moreImages.length < 5) {
+      if (moreImages.length == 1) {
+        moreImages.add(pickedImage);
+        update();
+        spaceMallSnackBar(
+          'Notice',
+          'You can delete an image by long pressing on it',
+          kWhiteLight,
+          kWhiteLight,
+        );
+      } else {
+        moreImages.add(pickedImage);
+        update();
+      }
+    } else if (pickedImage != null && moreImages.length == 4) {
+      moreImages.add(pickedImage);
+      update();
+      spaceMallSnackBar(
+        'Limit Warning',
+        'You can not add more than 5 images',
+        kWhiteLight,
+        kRedColor,
+      );
+    } else {
+      spaceMallSnackBar(
+        'Error',
+        'You have exceeded the max images you can add',
+        kWhiteLight,
+        kRedColor,
+      );
+    }
+  }
 
-  // Method to add images
-  void addImage() {
-    // Add your logic to add images here
-    // For example, you can use an ImagePicker to select images from the gallery
-    // and then add the selected image to the _images list
-    // Once the image is added, it will automatically be updated in the UI
-    // as the _images list is an Observable list
-    print('add image files');
+  // remove image from morepics
+  void removeImage(BuildContext context, int index) async {
+    if (index >= 0 && index < 5) {
+      moreImages.remove(moreImages[index]);
+      update();
+    } else {
+      spaceMallSnackBar(
+        'Error',
+        'Image doesn\t exist',
+        kWhiteLight,
+        kRedColor,
+      );
+    }
+  }
+
+  // edit images in morepics
+  void editImages(BuildContext context, AddItemModel item) async {
+    List<File> existingImages = item.morePics;
+    File? pickedImage = await pickImage(context);
+
+    if (existingImages.length <= 4) {
+      existingImages.add(pickedImage!);
+      update();
+    } else if (existingImages.length == 5) {
+      spaceMallSnackBar(
+        'Limit Warning',
+        'You can not add more than 5 images',
+        kWhiteLight,
+        kRedColor,
+      );
+    } else {
+      spaceMallSnackBar(
+        'Error',
+        'No images were added',
+        kWhiteLight,
+        kRedColor,
+      );
+    }
+  }
+
+// show alert to delete image
+  void showDeleteImageAlert(
+      BuildContext context, isDarkMood, VoidCallback onPress) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text(
+            'Delete Image',
+          ),
+          content: const Text(
+            'Are you sure you want to delete this image?',
+          ),
+          contentTextStyle: TextStyle(
+            color: isDarkMood ? null : kBlackDark,
+            fontSize: kBodyTextFont,
+          ),
+          titleTextStyle: TextStyle(
+            color: isDarkMood ? null : kBlackDark,
+            fontSize: kBodyTextFont,
+            fontWeight: FontWeight.w900,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  color: isDarkMood ? kDarkModeBrightIconColor : null,
+                  fontSize: kBodyTextFont,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                onPress();
+                // removeImage(context, index);
+              },
+              child: Text(
+                'Delete',
+                style: TextStyle(
+                  color: isDarkMood ? kDarkModeBrightIconColor : null,
+                  fontSize: kBodyTextFont,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  // remove image from edit morepics
+  void removeImageInEdit(
+      BuildContext context, AddItemModel item, int index) async {
+    List<File> existingImages = item.morePics;
+
+    if (index >= 0 && index < 5) {
+      existingImages.remove(existingImages[index]);
+
+      update();
+    } else {
+      spaceMallSnackBar(
+        'Error',
+        'Image doesn\t exist',
+        kWhiteLight,
+        kRedColor,
+      );
+     
+    }
+  }
+
+// clear images
+  void clearImages() {
+    moreImages.clear();
+  }
+
+  void setSelectedCategoryIndex(int index) {
+    selectedCategoryIndex.value = index;
+    update();
+  }
+
+  // void setSelectedAllItemsCategory(int index) {
+  //   selectedAllItemsCategoryIndex.value = index;
+  //   update();
+  // }
+
+  int allItemsInStore(StoreModel store) {
+    int totalItems = 0;
+
+    for (var category in store.categories) {
+      totalItems += category.itemsInCategory;
+    }
+    return totalItems;
+  }
+
+  List<AddItemModel> allStockInStore(StoreModel store) {
+    List<AddItemModel> listOfStock = [];
+    for (var stock in store.stock) {
+      listOfStock.add(stock);
+    }
+    return listOfStock;
+  }
+
+  List<AddItemModel> filterItemsByCategory(
+      int selectedCategoryIndex, List<CategoryModel> categories) {
+    if (selectedCategoryIndex == -1) {
+      List<AddItemModel> allItems = [];
+      for (var category in categories) {
+        allItems.addAll(category.items);
+      }
+      return allItems;
+    } else if (selectedCategoryIndex >= 0 &&
+        selectedCategoryIndex < categories.length) {
+      return categories[selectedCategoryIndex].items;
+    } else {
+      return [];
+    }
   }
 }

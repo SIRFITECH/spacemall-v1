@@ -1,37 +1,44 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:spacemall/src/constants/colors.dart';
 
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/application/add_item_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/domain/add_item_model.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/screens/stock.dart';
 import 'package:spacemall/src/features/core_app/profile/application/date_widget_controller.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
 import 'package:spacemall/src/repository/hive_boxes.dart';
+import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../../../../../repository/services/network_connectivity/stock_firebase_services.dart';
+import '../../../../../../../repository/services/phone_storage/stock_phone_services.dart';
 
 class AddItemRepo extends GetxController {
   static AddItemRepo get instance => Get.find();
 
   static AddItemController addItemController = Get.find();
   static AddCategoryController addCategoryController = Get.find();
+
   static DateFieldController dateFieldController = Get.find();
 
   final itemPic = addItemController.itemPic.value;
 
   RxString currentStore = ''.obs;
+  var stockList = <AddItemModel>[].obs;
 
-  ///PHONE OPERATIONS
-
-  Future saveItemData() async {
-    // fetch store from storeBox
-    StoreModel storeList = storeBox.get(
-      currentStore.value,
+  void setStockList() {
+    stockList.value = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+        logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -39,8 +46,17 @@ class AddItemRepo extends GetxController {
         customer: [],
         storeId: '',
         categories: [],
-      ),
+      ).stock,
     );
+  }
+
+  ///PHONE OPERATIONS
+
+  Future saveItemData() async {
+    // we just have few things to achieve here
+    // 1. save the item to server
+    // 2. save the item to device
+    // 3. return error if there is error and success if there is success
 
     // create a new item
     AddItemModel newItem = AddItemModel(
@@ -58,19 +74,48 @@ class AddItemRepo extends GetxController {
       expiryAlert: addItemController.expiryAlert.text.trim(),
       itemCount: 0,
       itemId: const Uuid().v4(),
+      morePics: addItemController.moreImages,
     );
 
-    // Add the new stock item to the store's stock list
-    storeList.stock.add(newItem);
+    try {
+      StockFirebaseServices().saveStockItemToDB(
+        stockItem: newItem,
+        onSucess: () {
+          StockPhoneServices().saveStockItemToDevice(newItem);
+          addCategoryController.categoryValue.value?.itemsInCategory++;
 
-// update the storeBox
-    await storeBox.put(
-      currentStore.value,
-      storeList,
+          addCategoryController.categoryValue.value?.items.add(newItem);
+        },
+      );
+    } catch (e) {
+      debugPrint(
+          'An error occured in saveItemData() in addItemRepo: ${e.toString()}');
+      spaceMallSnackBar(
+        'Error adding item',
+        e.toString(),
+        kWhiteLight,
+        kRedColor,
+      );
+    }
+  }
+
+  // edit an itemin the stock list
+
+  Future editItemData(AddItemModel editedItem) async {
+    addCategoryController.isLoading.value = true;
+    StockFirebaseServices().editStockInFirebase(editedItem).then((value) {
+      StockPhoneServices().editStockInDevice(editedItem).then((value) {
+        AddItemRepo.instance.clearControllers();
+        AddItemController.instance.clearImages();
+        addCategoryController.isLoading.value = false;
+      });
+    }).then(
+      (value) => Get.to(
+        () => Stock(),
+      ),
     );
 
-    Get.back();
-    addItemController.isItemAdded.value = true;
+    // StockPhoneServices().editStockInDevice(editedItem);
   }
 
   // clear the TextEditingControllers
@@ -113,6 +158,4 @@ class AddItemRepo extends GetxController {
 
     update();
   }
-
-  ///DATABASE OPERATIONS
 }

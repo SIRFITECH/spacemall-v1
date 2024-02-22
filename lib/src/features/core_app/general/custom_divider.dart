@@ -14,14 +14,24 @@ class CustomDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: margin,
-        child: Divider(
-          height: height,
-          thickness: thickness,
-          color: color,
-        ),
+    return
+        // Expanded(
+        //   child:
+        //    Container(
+        //     margin: margin,
+        //     child: Divider(
+        //       height: height,
+        //       thickness: thickness,
+        //       color: color,
+        //     ),
+        //   ),
+        // )
+        Container(
+      margin: margin,
+      child: Divider(
+        height: height,
+        thickness: thickness,
+        color: color,
       ),
     );
   }

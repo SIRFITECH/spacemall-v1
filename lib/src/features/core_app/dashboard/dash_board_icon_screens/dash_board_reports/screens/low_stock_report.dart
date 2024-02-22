@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../../../../constants/colors.dart';
 import '../../../../../../constants/image_strings.dart';
@@ -20,12 +21,13 @@ class LowStock extends StatelessWidget {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+     logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -35,11 +37,6 @@ class LowStock extends StatelessWidget {
         categories: [],
       ),
     );
-
-    // List<StoreModel> lowStock = store.stock
-    //     .where((item) => int.parse(item.itemQuantity) < 20)
-    //     .map((item) => item as StoreModel)
-    //     .toList();
 
     return Scaffold(
       appBar: MyAppBar(
@@ -88,7 +85,7 @@ class LowStock extends StatelessWidget {
                                   color: int.parse(
                                               store.stock[index].itemQuantity) <
                                           20
-                                      ? Colors.red
+                                      ? kRedColor
                                       : null,
                                 ),
                               ),

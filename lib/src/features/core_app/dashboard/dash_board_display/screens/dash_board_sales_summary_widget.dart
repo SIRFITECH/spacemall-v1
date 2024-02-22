@@ -1,11 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/application/sales_controller.dart';
 import 'package:spacemall/src/features/core_app/generic_dash_board_screens/svg_icons_widget.dart';
+import 'package:spacemall/src/localizations/currency.dart';
+import 'package:spacemall/src/utils/helpers/helper.dart';
 
 import '../application/dash_baord_controller.dart';
 
@@ -25,23 +28,21 @@ class DashBoardSalesSummary extends StatelessWidget {
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
 
-    // String todaySale =
-    //     SalesController.instance.getTotalSalesForToday(DateTime.now());
-
     DashBoardController.instance.todaySales.value = DateFormat('d MMM').format(
       DateTime.now(),
     );
 
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: screenSize.height * 0.25,
-        horizontal: screenSize.width * 0.2,
-      ),
-      child: Positioned(
-        top: 2,
-        child: Container(
-          height: screenSize.height * 0.085,
-          width: screenSize.width * 0.8,
+    return Positioned(
+      top: screenSize.height * 0.3,
+      left: screenSize.width * 0.2,
+      child: LayoutBuilder(builder: (context, constraints) {
+        return Container(
+          height:
+              // constraints.maxHeight
+              screenSize.height * 0.085,
+          width:
+              //constraints.maxWidth
+              screenSize.width * 0.6,
           decoration: BoxDecoration(
             color: isDarkMood ? kLightThemeBgColor : kLightThemeBgColor,
             border: Border.all(
@@ -62,17 +63,27 @@ class DashBoardSalesSummary extends StatelessWidget {
                 child: GestureDetector(
                   onTap: () async {
                     if (defaultTargetPlatform == TargetPlatform.iOS) {
-                      // SalesController.instance.pickiOSDate(context, screenSize);
-                      DateTime selectedDate = await SalesController.instance
-                          .pickiOSDate(context, screenSize);
+                      DateTime selectedDate =
+                          await SalesController.instance.pickiOSDate(
+                        context,
+                        // screenSize
+                      );
                       // ignore: unnecessary_null_comparison
                       if (selectedDate != null) {
                         DashBoardController.instance.todaySales.value =
                             DateFormat('dd-MM-yyyy').format(selectedDate);
+                        DashBoardController.instance.selectedDate =
+                            selectedDate;
                       } else {
                         DashBoardController.instance.todaySales.value =
                             DateFormat('dd-MM-yyyy').format(DateTime.now());
+                        DashBoardController.instance.selectedDate =
+                            selectedDate;
                       }
+
+                      SalesController.instance.getTotalSalesForToday(
+                          DashBoardController.instance.selectedDate =
+                              selectedDate);
                     } else {
                       DateTime selectedDate =
                           await SalesController.instance.pickDate(
@@ -81,11 +92,19 @@ class DashBoardSalesSummary extends StatelessWidget {
                       // ignore: unnecessary_null_comparison
                       if (selectedDate != null) {
                         DashBoardController.instance.todaySales.value =
-                            DateFormat('dd-MM-yyyy').format(selectedDate);
+                            DateFormat('yyyy-MM-dd').format(selectedDate);
+                        DashBoardController.instance.selectedDate =
+                            selectedDate;
                       } else {
                         DashBoardController.instance.todaySales.value =
-                            DateFormat('dd-MM-yyyy').format(DateTime.now());
+                            DateFormat('yyyy-MM-dd').format(DateTime.now());
+                        DashBoardController.instance.selectedDate =
+                            selectedDate;
                       }
+                      SalesController.instance.getTotalSalesForToday(
+                        DateTime.parse(
+                            DashBoardController.instance.todaySales.value),
+                      );
                     }
                   },
                   child: Padding(
@@ -103,31 +122,69 @@ class DashBoardSalesSummary extends StatelessWidget {
                 Icons.arrow_drop_down,
                 color: kBlackDark,
               ),
-              // Obx(
-              //   () =>
               GestureDetector(
-                onTap: () {
-                  print(DashBoardController.instance.todaySales.value);
-                  // if (todaySale != '') {
-                  //   print(todaySale);
-                  // } else {
-                  //   print('No sales');
-                  // }
-                },
+                onTap: () {},
                 child: Row(
                   children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'N ${SalesController.instance.getTotalSalesForToday(DateTime.now())}',
-                          // kTodaySalesValueText',
-                          style: Theme.of(context).textTheme.bodyLarge,
+                        GetBuilder<SalesController>(
+                          id: 'sales-summary',
+                          builder: (salesController) => Text(
+                            truncateString(
+                                nairaFormat.format(
+                                  double.parse(
+                                    SalesController.instance
+                                        .getTotalSalesForToday(
+                                            DashBoardController
+                                                .instance.selectedDate)
+                                        .toString(),
+                                  ),
+                                ),
+                                13),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge!
+                                .copyWith(fontSize: 16),
+                          ),
                         ),
-                        Text(
-                          kTodaySalesText,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
+                        GetBuilder<DashBoardController>(
+                            builder: (dashBoardController) =>
+                                // DashBoardController.instance.todaySales.value ==
+                                //         DateFormat('d MMM').format(
+                                //           DateTime.now(),
+                                //         )
+                                //     ?
+                                Text(
+                                  kTodaySalesText,
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                )
+                            // : RichText(
+                            //     text: TextSpan(
+                            //       children: [
+                            //         TextSpan(
+                            //           text: 'Sales for  ',
+                            //           style: TextStyle(
+                            //             color: isDarkMood
+                            //                 ? kWhiteLight
+                            //                 : kBlackDark,
+                            //           ),
+                            //         ),
+                            //         TextSpan(
+                            //           text: DashBoardController
+                            //               .instance.todaySales.value,
+                            //           style: TextStyle(
+                            //             fontWeight: FontWeight.bold,
+                            //             color: isDarkMood
+                            //                 ? kWhiteLight
+                            //                 : kBlackDark,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            ),
                       ],
                     ),
                     const Icon(
@@ -137,11 +194,10 @@ class DashBoardSalesSummary extends StatelessWidget {
                   ],
                 ),
               ),
-              // )
             ],
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

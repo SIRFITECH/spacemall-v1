@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_shopfront/screens/shop_front_setting.dart';
+import 'package:spacemall/src/features/core_app/general/custom_divider.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
+import 'package:spacemall/src/features/core_app/store/application/store_controller.dart';
 import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
+import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
+import 'package:spacemall/src/utils/helpers/helper.dart';
 
 import '../../../../../../constants/image_strings.dart';
 import '../../../../../../constants/text_strings.dart';
 import '../../../../../../repository/hive_boxes.dart';
+import '../../../../../../repository/services/phone_storage/user_phone_services.dart';
+import '../../../../profile/application/profile_controller.dart';
+import '../../../../store/data/store_repo.dart';
 import '../../../../store/domain/store_model.dart';
 import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
 
@@ -22,16 +31,22 @@ class ShopFrontScreen extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
+    final profileController = Get.put(ProfileController());
+
+    final storeController = Get.put(StoreController(
+      storeRepo: StoreRepo(),
+    ));
 
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+        logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -41,7 +56,14 @@ class ShopFrontScreen extends StatelessWidget {
         categories: [],
       ),
     );
-    String urlString = 'https://spacemall.io/';
+    String urlString = 'https://${store.storeName.toLowerCase()}.spacemall.io';
+    // String urlString = 'https://spacemall.io/';
+
+    debugPrint(' image url is  ${UserPhoneServices().chooseImageProvider(
+      profileController.isConnected,
+      storeController.logoPicLocalPath,
+      storeController.logoRemotePath,
+    )}');
 
     final copyText = ClipboardData(text: urlString);
 
@@ -80,15 +102,59 @@ class ShopFrontScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: CircleAvatar(
-                        radius: 60,
-                        backgroundColor: Colors.transparent,
-                        child: SizedBox(
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Colors.transparent,
+                      child: SizedBox(
+                        child: ClipOval(
+                          child: SizedBox(
                             child: ClipOval(
-                          child: Image.asset(kTrailImage3),
-                        )),
+                              child: Padding(
+                                padding: const EdgeInsets.all(1.0),
+                                child: store.logoLocalPath == ''
+                                    ? Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 10.0),
+                                        child: CircleAvatar(
+                                          radius: 60,
+                                          backgroundColor: isDarkMood
+                                              ? kDarkComplementColor
+                                                  .withOpacity(0.2)
+                                              : kMainComplimemtColorLight
+                                                  .withOpacity(0.2),
+                                          child: SizedBox(
+                                            child: ClipOval(
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(34.0),
+                                                child: SvgPicture.asset(
+                                                  kImageIcon,
+                                                  // ignore: deprecated_member_use
+                                                  color: isDarkMood
+                                                      ? kMainComplimemtColorLight
+                                                      : kMainColorLight,
+                                                  width: 100,
+                                                  height: 100,
+                                                  fit: BoxFit.scaleDown,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 50,
+                                        backgroundImage: UserPhoneServices()
+                                            .chooseImageProvider(
+                                          profileController.isConnected,
+                                          storeController.logoPicLocalPath,
+                                          storeController.logoRemotePath,
+                                        ),
+                                      ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                     Column(
@@ -97,9 +163,16 @@ class ShopFrontScreen extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            const Text('SIRFIMUNCH'),
-                            const SizedBox(
-                              width: 20,
+                            Text(
+                              truncateString(
+                                store.storeName,
+                                14,
+                              ),
+                              style: const TextStyle(
+                                  fontSize: kHeaderTextFontSmall),
+                            ),
+                            SizedBox(
+                              width: screenSize.width * 0.005,
                             ),
                             IconButton(
                               onPressed: () {
@@ -117,22 +190,16 @@ class ShopFrontScreen extends StatelessWidget {
                             )
                           ],
                         ),
-                        const Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'share your website link with your customer and',
-                              style: TextStyle(
-                                fontSize: 10,
+                              truncateString(
+                                'share your website link with your customer and get online orders!',
+                                40,
                               ),
-                              softWrap: false,
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            Text(
-                              'get online orders!',
-                              style: TextStyle(
-                                fontSize: 10,
+                              style: const TextStyle(
+                                fontSize: kBodyTextFont,
                               ),
                               softWrap: false,
                               maxLines: 3,
@@ -140,30 +207,35 @@ class ShopFrontScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 30,
+                        SizedBox(
+                          height: screenSize.height * 0.01,
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(bottom: 8.0),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
                           child: Text(
-                            'https://sirfimunch.spacemall.io',
+                            'https://${store.storeName.toLowerCase()}.spacemall.io',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
-                                color: kWhiteLight
-                                // !isDarkMood
-                                //     ? kMainComplimemtColorLight.withOpacity(0.8)
-                                //     : kMainColorLight.withOpacity(0.3),
-                                ),
+                              fontSize: kBodyTextFont,
+                              fontWeight: FontWeight.bold,
+                              decoration: TextDecoration.underline,
+                              color:
+                                  // kWhiteLight
+                                  !isDarkMood
+                                      ? kMainComplimemtColorLight
+                                          .withOpacity(0.8)
+                                      : kMainColorLight.withOpacity(0.3),
+                            ),
                           ),
                         )
                       ],
                     )
                   ],
                 ),
-                Divider(
-                  color:
-                      !isDarkMood ? kMainColorLight : kMainComplimemtColorLight,
+                CustomDivider(
+                  height: screenSize.width * 0.025,
+                  thickness: screenSize.width * 0.004,
+                  color: kGreyColor,
+                  margin: const EdgeInsets.all(kDividerMargin),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -172,8 +244,12 @@ class ShopFrontScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           Clipboard.setData(copyText).then(
-                            (value) => Get.snackbar('Copy Successful',
-                                'Store Link copied to clipboard'),
+                            (value) => spaceMallSnackBar(
+                              'Copy Successful',
+                              'Store Link copied to clipboard',
+                              kWhiteLight,
+                              kGreyColor,
+                            ),
                           );
                         },
                         child: Container(
@@ -195,7 +271,11 @@ class ShopFrontScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(kShopFrontCopyText),
+                                Text(
+                                  kShopFrontCopyText,
+                                  style:
+                                      TextStyle(fontSize: kHeaderTextFontSmall),
+                                ),
                                 Icon(Icons.copy_rounded),
                               ],
                             ),
@@ -228,7 +308,11 @@ class ShopFrontScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(kShopFrontShareText),
+                                Text(
+                                  kShopFrontShareText,
+                                  style:
+                                      TextStyle(fontSize: kHeaderTextFontSmall),
+                                ),
                                 Icon(Icons.ios_share_outlined),
                               ],
                             ),
@@ -243,10 +327,16 @@ class ShopFrontScreen extends StatelessWidget {
                   child: SizedBox(
                     width: screenSize.height,
                     child: ElevatedButton(
-                        onPressed: () {
-                          Get.to(() => const ShopFrontSettings());
-                        },
-                        child: const Text(kShopFrontLayoutsText)),
+                      onPressed: () {
+                        Get.to(() => const ShopFrontSettings());
+                      },
+                      child: const Text(
+                        kShopFrontLayoutsText,
+                        style: TextStyle(
+                          fontSize: kBodyTextFont,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
-import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
+import 'package:spacemall/src/features/auth/data/auth_repo/auth_repo.dart';
+import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/domain/user_model.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/profile_screen.dart';
 import 'package:spacemall/src/features/core_app/store/screens/add_store.dart';
 import 'package:spacemall/src/utils/themes/app_theme_mood.dart';
 import 'package:spacemall/src/utils/themes/custom_text_styles.dart';
 
+import '../../../../repository/services/phone_storage/user_phone_services.dart';
 import '../../../../utils/themes/themes.dart';
+import '../../dashboard/dash_board_display/screens/dash_board_screen.dart';
 import '../../settings/screens/settings_screen.dart';
 
 class SpacemallDrawer extends StatelessWidget {
@@ -22,11 +25,11 @@ class SpacemallDrawer extends StatelessWidget {
     final brightness = media.platformBrightness;
     final isDarkMood = brightness == Brightness.dark;
     final screenSize = media.size;
-    final profileRepo = Get.put(ProfileRepo());
+    final profileController = Get.put(ProfileController());
     final themeController = Get.put(ThemeController());
 
     return FutureBuilder<UserModel?>(
-        future: profileRepo.getUserDataFromPhone(),
+        future: profileController.getUserDataFromHive(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
@@ -49,36 +52,65 @@ class SpacemallDrawer extends StatelessWidget {
                         user!.userName,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 30,
+                          fontSize: kHeaderTextFont,
                         ),
                       ),
-                      accountEmail: Text(user.email),
+                      accountEmail: Text(
+                        user.email,
+                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              fontSize: kBodyTextFont,
+                              color: kWhiteLight,
+                            ),
+                      ),
                       currentAccountPicture: CircleAvatar(
                         radius: 100,
                         backgroundColor: Colors.transparent,
                         child: SizedBox(
-                            child: ClipOval(
-                          child: CircleAvatar(
-                            radius: 100,
-                            backgroundImage: NetworkImage(
-                              user.profilePic,
+                          child: ClipOval(
+                            child: FutureBuilder<void>(
+                              future: precacheImage(
+                                  UserPhoneServices().chooseImageProvider(
+                                    profileController.isConnected,
+                                    user.profilePicLocalPath,
+                                    user.profilePicRemotePath,
+                                  ),
+                                  context),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<void> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.done) {
+                                  return CircleAvatar(
+                                    radius: 30,
+                                    backgroundImage:
+                                        UserPhoneServices().chooseImageProvider(
+                                      profileController.isConnected,
+                                      user.profilePicLocalPath,
+                                      user.profilePicRemotePath,
+                                    ),
+                                  );
+                                } else {
+                                  return const CircularProgressIndicator(
+                                    backgroundColor: kWhiteLight,
+                                  );
+                                }
+                              },
                             ),
                           ),
-                        )),
+                        ),
                       ),
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ListTile(
-                          horizontalTitleGap: 0,
+                          horizontalTitleGap: kHorizontalTitleGap,
                           onTap: () {
-                            Get.to(() => DashBoard());
+                            Get.off(() => DashBoard());
                           },
                           leading: const Icon(
                             Icons.home_sharp,
                             color: kWhiteLight,
-                            size: 27,
+                            size: kHeaderTextFont,
                           ),
                           title: const Text(
                             kDashBoardIconText,
@@ -86,13 +118,16 @@ class SpacemallDrawer extends StatelessWidget {
                           ),
                         ),
                         ListTile(
-                          horizontalTitleGap: 0,
+                          horizontalTitleGap: kHorizontalTitleGap,
                           onTap: () {
-                            Get.to(() => const ProfileScreen());
+                            Get.to(
+                              () => const ProfileScreen(),
+                            );
                           },
                           leading: const Icon(
                             Icons.person,
                             color: kWhiteLight,
+                            size: kHeaderTextFont,
                           ),
                           title: const Text(
                             kProfileIconText,
@@ -100,13 +135,14 @@ class SpacemallDrawer extends StatelessWidget {
                           ),
                         ),
                         ListTile(
-                          horizontalTitleGap: 0,
+                          horizontalTitleGap: kHorizontalTitleGap,
                           onTap: () {
-                            Get.to(() => const SettingsScreen());
+                            Get.off(() => const SettingsScreen());
                           },
                           leading: const Icon(
                             Icons.settings,
                             color: kWhiteLight,
+                            size: kHeaderTextFont,
                           ),
                           title: const Text(
                             kSettingIconText,
@@ -114,13 +150,14 @@ class SpacemallDrawer extends StatelessWidget {
                           ),
                         ),
                         ListTile(
-                          horizontalTitleGap: 0,
+                          horizontalTitleGap: kHorizontalTitleGap,
                           onTap: () {
                             Get.to(() => const AddStore());
                           },
                           leading: const Icon(
                             Icons.storefront_rounded,
                             color: kWhiteLight,
+                            size: kHeaderTextFont,
                           ),
                           title: const Text(
                             kAddNewStoreText,
@@ -128,7 +165,7 @@ class SpacemallDrawer extends StatelessWidget {
                           ),
                         ),
                         ListTile(
-                          horizontalTitleGap: 0,
+                          horizontalTitleGap: kHorizontalTitleGap,
                           onTap: () {},
                           leading: const Icon(
                             Icons.contact_support_rounded,
@@ -140,20 +177,14 @@ class SpacemallDrawer extends StatelessWidget {
                           ),
                         ),
                         ListTile(
-                          horizontalTitleGap: 0,
-                          onTap: () {
-                            // ap.signOut();
-                            // Navigator.pushReplacement(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => const SignIn(),
-                            //   ),
-                            // );
-                            // // print('Signed out');
+                          horizontalTitleGap: kHorizontalTitleGap,
+                          onTap: () async {
+                            await AuthRepo.instance.signOut();
                           },
                           leading: const Icon(
                             Icons.logout_sharp,
                             color: kWhiteLight,
+                            size: kHeaderTextFont,
                           ),
                           title: const Text(
                             kSignOutText,
@@ -170,90 +201,6 @@ class SpacemallDrawer extends StatelessWidget {
                               themeController.changeTheme(SAppTheme.darkTheme);
                               themeController.saveTheme(true);
                             }
-                            profileRepo.toggleThemeMode();
-                            // showModalBottomSheet(
-                            //   context: context,
-                            //   builder: (context) {
-                            //     return Container(
-                            //       width: double.infinity,
-                            //       height: screenSize.height * 0.3,
-                            //       padding: EdgeInsets.all(
-                            //         screenSize.height * 0.025,
-                            //       ),
-                            //       child: Column(
-                            //         children: [
-                            //           const Text(
-                            //             kDarkMoodText,
-                            //             style: TextStyle(
-                            //               color: kBlackDark,
-                            //               fontSize: 20,
-                            //               fontWeight: FontWeight.normal,
-                            //             ),
-                            //           ),
-                            //           const SizedBox(
-                            //             height: 10,
-                            //           ),
-                            //           Column(
-                            //             crossAxisAlignment:
-                            //                 CrossAxisAlignment.start,
-                            //             children: [
-                            //               const Padding(
-                            //                 padding:
-                            //                     EdgeInsets.only(left: 10.0),
-                            //                 child: Text(kDarkMoodText),
-                            //               ),
-                            //               Row(
-                            //                 mainAxisAlignment:
-                            //                     MainAxisAlignment.start,
-                            //                 children: [
-                            //                   Column(
-                            //                     children: [
-                            //                       CustomRadio(
-                            //                           onChange: (value) {},
-                            //                           color:
-                            //                               kLightModeIconColor,
-                            //                           value: true,
-                            //                           groupValue: true),
-                            //                       const Text(kOnText)
-                            //                     ],
-                            //                   ),
-                            //                   Column(
-                            //                     children: [
-                            //                       CustomRadio(
-                            //                           onChange: (value) {},
-                            //                           color:
-                            //                               kLightModeIconColor,
-                            //                           value: true,
-                            //                           groupValue: true),
-                            //                       const Text(kOffText)
-                            //                     ],
-                            //                   ),
-                            //                 ],
-                            //               ),
-                            //               Padding(
-                            //                 padding: const EdgeInsets.only(
-                            //                     left: 10.0),
-                            //                 child: Row(
-                            //                   children: [
-                            //                     const Text(
-                            //                       kUseSystemSettingsText,
-                            //                       // style: TextStyle(color: kBlack),
-                            //                     ),
-                            //                     CustomRadio(
-                            //                         onChange: (value) {},
-                            //                         color: kLightModeIconColor,
-                            //                         value: false,
-                            //                         groupValue: false)
-                            //                   ],
-                            //                 ),
-                            //               ),
-                            //             ],
-                            //           )
-                            //         ],
-                            //       ),
-                            //     );
-                            //   },
-                            // );
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),

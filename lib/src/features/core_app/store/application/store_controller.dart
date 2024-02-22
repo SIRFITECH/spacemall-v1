@@ -2,13 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_display/screens/dash_board_screen.dart';
+import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/application/add_category_controller.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/main_stock_screen/domain/stock_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_customers/domain/customer_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/domain/debts_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_receipts/domain/receipts_model.dart';
-import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_sales/domain/sales_model.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_staff/domain/staff_model.dart';
 import 'package:spacemall/src/features/core_app/store/data/store_repo.dart';
 import 'package:spacemall/src/features/core_app/store/domain/store_model.dart';
@@ -23,23 +22,30 @@ class StoreController extends GetxController {
     storeRepo.storeController = this;
   }
 
-  @override
-  void onReady() {
-    // Get called after widget is rendered on the screen
-    super.onReady();
-  }
-
   final StoreRepo storeRepo;
   static StoreController get instance => Get.put(
         StoreController(storeRepo: StoreRepo.instance),
       );
-  // final AddItemRepo addItemRepo = AddItemRepo();
+  final AddCategoryController addCategoryController =
+      Get.put(AddCategoryController());
+  @override
+  void onInit() {
+    super.onInit();
+    setInitialSelectedStore();
+  }
 
-  // bool to indicate loading
-  RxBool isLoading = false.obs;
+  RxBool _noStoreYet = true.obs;
+
+  RxBool _isLoading = false.obs;
 
   // check if store already exists
   RxBool isStoreAdded = false.obs;
+
+  String _logoRemotePath = '';
+
+  String _logoPicLocalPath = '';
+
+  StoreModel? _store;
 
 // input data to create the store
   Rx<File?> logo = Rx<File?>(null);
@@ -47,7 +53,7 @@ class StoreController extends GetxController {
   RxList<ReceiptsModel> receipts = <ReceiptsModel>[].obs;
   RxList<DebtsModel> debts = <DebtsModel>[].obs;
   RxList<StaffModel> staff = <StaffModel>[].obs;
-  RxList<SalesModel> sales = <SalesModel>[].obs;
+  RxList<ReceiptsModel> sales = <ReceiptsModel>[].obs;
   RxList<CustomerModel> customers = <CustomerModel>[].obs;
   final String uid = '';
   final TextEditingController storeName = TextEditingController();
@@ -58,6 +64,7 @@ class StoreController extends GetxController {
 //  select and display logo
   void selectLogo(BuildContext context) async {
     logo.value = (await pickImage(context));
+    setLogoPicLocalPath(logo.value!.path);
     update();
   }
 
@@ -65,31 +72,57 @@ class StoreController extends GetxController {
     null,
   );
 
+// set the first store if there is a store in the phone
+  void setInitialSelectedStore() {
+    List<StoreModel> storesFromBox = StoreRepo.instance.getStoresFromBox();
+    storesFromBox.isEmpty
+        ? setStore(selectedStore.value)
+        : setStore(storesFromBox.last);
+  }
+
+  Rx<StoreModel> selectedStoreValue = Rx<StoreModel>(
+    StoreModel(
+      logoLocalPath: '',
+      storeName: '',
+      bankName: '',
+      accountNumber: '',
+      contact: '',
+      stock: [],
+      receipts: [],
+      debts: [],
+      staff: [],
+      sales: [],
+      customer: [],
+      storeId: '',
+      categories: [],
+      logoRemotePath: '',
+    ),
+  );
+
   RxList<StoreModel> stores = <StoreModel>[].obs;
 
 // create a new store
-  Future<void> addNewStoreToPhone() async {
-    isLoading.value = true;
-    storeRepo
-        .saveStoreData()
-        .then((value) => storeRepo.clearControllers())
-        .then(
-          (value) => Get.off(() => DashBoard()),
-        );
-    Get.snackbar(
-      '${storeName.text.trim()} created',
-      '${storeName.text.trim()} store created successfully',
-      backgroundColor: kWhiteLight,
-      colorText: kBlack,
-    );
-    isStoreAdded.value = true;
+  Future<void> addNewStoreToPhone(BuildContext context) async {
+    if (StoreController.instance.logo.value == null ||
+        StoreController.instance.storeName.text == '') {
+      spaceMallSnackBar(
+          'Bad Store',
+          'You can not add a store without logo or a name',
+          kWhiteLight,
+          kRedColor);
+    } else {
+      isLoading.value = true;
+      storeRepo.saveStore(context);
 
-    isLoading.value = false;
+      isStoreAdded.value = true;
+
+      isLoading.value = false;
+    }
   }
 
-  // List myStores = storeBox.values.toList();
-
-  void setStore(StoreModel? newValue) {
+  setStore(
+    StoreModel? newValue,
+  ) {
     if (newValue == null) {
       return;
     }
@@ -127,5 +160,33 @@ class StoreController extends GetxController {
   final storeStatus = true.obs;
   void storeStatusOpen(bool isOpen) {
     storeStatus(isOpen);
+  }
+
+  RxBool get noStoreYet => _noStoreYet;
+  set setNoStoreYet(RxBool value) {
+    _noStoreYet = value;
+  }
+
+  String get logoRemotePath => _logoRemotePath;
+
+  void setLogoRemotePath(String value) {
+    _logoRemotePath = value;
+  }
+
+  String get logoPicLocalPath => _logoPicLocalPath;
+
+  void setLogoPicLocalPath(String value) {
+    _logoPicLocalPath = value;
+  }
+
+  StoreModel? get store => _store;
+
+  void setstore(StoreModel? value) {
+    _store = value;
+  }
+
+  RxBool get isLoading => _isLoading;
+  void setIsLoading(RxBool value) {
+    _isLoading = value;
   }
 }

@@ -35,7 +35,7 @@ class AddModifier extends StatelessWidget {
               isDarkMood,
               kComingSoonTitleText,
               kComingSoonBodyText,
-              () => const Stock(),
+              () => Stock(),
             );
             addModifierController.isAlertShown.value = true;
           }
@@ -229,7 +229,7 @@ class AddModifier extends StatelessWidget {
                             isDarkMood,
                             kComingSoonTitleText,
                             kComingSoonBodyText,
-                            () => const Stock(),
+                            () => Stock(),
                           );
                           addModifierController.isAlertShown.value = true;
                         },
@@ -260,7 +260,7 @@ class AddModifier extends StatelessWidget {
                           isDarkMood,
                           kComingSoonTitleText,
                           kComingSoonBodyText,
-                          () => const Stock(),
+                          () => Stock(),
                         );
                         addModifierController.isAlertShown.value = true;
                       },

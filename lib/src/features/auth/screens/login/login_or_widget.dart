@@ -12,7 +12,7 @@ class LoginOr extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(kFormHeight - 10),
+      padding: const EdgeInsets.symmetric(horizontal: kFormHeight - 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -22,7 +22,10 @@ class LoginOr extends StatelessWidget {
           ),
           Text(
             kDividerText.toUpperCase(),
-            style: Theme.of(context).textTheme.headlineLarge,
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge
+                ?.copyWith(fontSize: kHeaderTextFont),
           ),
           const LoginDivider(
             height: kDividerHeight,

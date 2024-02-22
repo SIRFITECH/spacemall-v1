@@ -23,12 +23,13 @@ class RemainingStock extends StatelessWidget {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+         logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -86,7 +87,7 @@ class RemainingStock extends StatelessWidget {
                                   color: int.parse(
                                               store.stock[index].itemQuantity) <
                                           20
-                                      ? Colors.red
+                                      ? kRedColor
                                       : null,
                                 ),
                               ),

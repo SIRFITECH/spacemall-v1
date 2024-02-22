@@ -9,14 +9,22 @@ class LoginDivider extends StatelessWidget {
   final double thickness;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.all(kDividerMargin),
-        child: Divider(
-          thickness: thickness,
-          height: height,
-        ),
+    return Container(
+      margin: const EdgeInsets.all(kDividerMargin),
+      child: Divider(
+        thickness: thickness,
+        height: height,
       ),
     );
+
+    // Expanded(
+    //   child: Container(
+    //     margin: const EdgeInsets.all(kDividerMargin),
+    //     child: Divider(
+    //       thickness: thickness,
+    //       height: height,
+    //     ),
+    //   ),
+    // );
   }
 }

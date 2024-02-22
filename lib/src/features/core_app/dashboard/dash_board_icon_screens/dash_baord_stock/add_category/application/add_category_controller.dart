@@ -1,29 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
-import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_category/screens/add_category_screen.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_baord_stock/add_item/data/add_item_repo.dart';
+import 'package:spacemall/src/utils/app_utils/appp_utils.dart';
 import 'package:uuid/uuid.dart';
+import '../../../../../../../constants/colors.dart';
 import '../../../../../../../repository/hive_boxes.dart';
 import '../../../../../store/application/store_controller.dart';
 import '../../../../../store/domain/store_model.dart';
+import '../data/add_category_repo.dart';
 import '../domain/category_model.dart';
 
 class AddCategoryController extends GetxController {
   static AddCategoryController get instance => Get.find();
-  final AddItemRepo addItemRepo = Get.put(AddItemRepo());
+  final AddItemRepo addItemRepo = Get.find();
+
+  final AddCategoryRepo _addCategoryRepo = Get.put(AddCategoryRepo());
+
   late StoreController storeController;
+  RxBool isLoading = false.obs;
 
   final TextEditingController categoryName = TextEditingController();
 
   int selectedIndex = 0;
 
   RxBool noCategory = true.obs;
+
   // category dropdown
-  Rx<CategoryModel?> categoryValue = Rx<CategoryModel?>(
-    null,
-  );
+  Rx<CategoryModel?> categoryValue = Rx<CategoryModel?>(null
+      // CategoryModel(
+      //   categoryName: '',
+      //   categoryId: '',
+      //   items: RxList<AddItemModel>([
+      //     AddItemModel(
+      //       itemPic: null,
+      //       itemName: '',
+      //       itemSellingPrice: '',
+      //       itemCategory: '',
+      //       itemQuantity: '',
+      //       itemCostPrice: '',
+      //       trackProfit: false,
+      //       trackLowStock: false,
+      //       preventItemSalesWhenOutOfStock: false,
+      //       trackExpiry: '',
+      //       expiryAlert: '',
+      //       itemCount: 0,
+      //       itemId: '',
+      //       morePics: RxList<File>(),
+      //     ),
+      //   ]),
+      //   itemsInCategory: 0,
+      // ),
+      );
+
   void setCategory(CategoryModel? newValue) {
     if (newValue?.categoryId == newValue?.categoryId) {
       categoryValue.value = newValue!;
@@ -34,87 +63,93 @@ class AddCategoryController extends GetxController {
 
   RxList<CategoryModel> categories = <CategoryModel>[].obs;
 
-  // removeCategory(index) {
-  //   Get.snackbar(
-  //     '${categoryItems[index]} removed',
-  //     '${categoryItems[index]} category removed successfully',
-  //     backgroundColor: kWhiteLight,
-  //     colorText: kBlack,
-  //   );
-  //   categoryItems.removeAt(index);
-  // }
+// add category
+  Future addNewCategory(BuildContext context) async {
+    CategoryModel newCategory = CategoryModel(
+      categoryName: categoryName.text.trim(),
+      categoryId: const Uuid().v4(),
+      items: RxList([]),
+      itemsInCategory: 0,
+    );
 
-  addNewCategory() async {
     if (categoryName.text.isEmpty) {
-      Get.snackbar(
-        'Error',
+      spaceMallSnackBar(
+        'Error Adding Categrory',
         'You cannot add an empty category',
-        backgroundColor: kWhiteLight,
-        colorText: kBlack,
+        kWhiteLight,
+        kRedColor,
       );
     } else {
-      storeBox = await Hive.openBox<StoreModel>('store');
+      _addCategoryRepo.saveCategory(context, newCategory);
+    }
+  }
 
-      // fetch store from storeBox
-      StoreModel store = storeBox.get(
-        AddItemRepo.instance.currentStore.value,
-        defaultValue: StoreModel(
-          logo: null,
-          storeName: '',
-          bankName: '',
-          accountNumber: '',
-          contact: '',
-          stock: [],
-          receipts: [],
-          debts: [],
-          staff: [],
-          sales: [],
-          customer: [],
-          storeId: '',
-          categories: [],
-        ),
+// remove category by index
+  removeCategory(int categoryIndex) {
+    final StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logoLocalPath: '',
+        logoRemotePath: '',
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: RxList([]),
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
+
+    if (store.categories.isEmpty) {
+      spaceMallSnackBar(
+        'Error Deleting Categrory',
+        'You cannot a category that does not exist',
+        kWhiteLight,
+        kRedColor,
       );
-      // // Fetch the current store from the storeBox
-      // StoreModel store = storeBox.get(AddItemRepo.instance.currentStore.value);
-
-      // Create a new category
-      CategoryModel newCategory = CategoryModel(
-        categoryName: categoryName.text.trim(),
-        itemId: '',
-        categoryId: const Uuid().v4(),
-        itemName: '',
-        itemQuantity: '',
-      );
-
-      // Add the new category to the store's categories list
-      store.categories.add(newCategory);
-
-      // Update the storeBox with the modified store
-      await storeBox.put(AddItemRepo.instance.currentStore.value, store);
-
-      categories.add(newCategory);
-      Get.back();
-      categoryName.clear();
-      Get.snackbar(
-        '${categoryName.text} added',
-        '${categoryName.text} category added successfully',
-        backgroundColor: kWhiteLight,
-        colorText: kBlack,
-      );
+    } else {
+      _addCategoryRepo.removeCategory(categoryIndex);
     }
   }
 
 // get categories
   List<CategoryModel> getCategoriesFromBox() {
+    StoreModel store = storeBox.get(
+      AddItemRepo.instance.currentStore.value,
+      defaultValue: StoreModel(
+        logoLocalPath: '',
+        logoRemotePath: '',
+        storeName: '',
+        bankName: '',
+        accountNumber: '',
+        contact: '',
+        stock: RxList([]),
+        receipts: [],
+        debts: [],
+        staff: [],
+        sales: [],
+        customer: [],
+        storeId: '',
+        categories: [],
+      ),
+    );
     List<CategoryModel> categoryList = [];
-    for (var key in storeBox.keys) {
-      if (key.startsWith('store-')) {
-        StoreModel? store = storeBox.get(key);
-        if (store != null) {
-          categoryList.addAll(store.categories);
-        }
-      }
-    }
+
+    // for (var key in storeBox.keys) {
+    //   if (key.startsWith('store-')) {
+    //     StoreModel? store = storeBox.get(key);
+    //     if (store != null) {
+    //       categoryList.addAll(store.categories);
+    //     }
+    //   }
+    // }
+    categoryList.addAll(store.categories);
     return categoryList;
   }
 }

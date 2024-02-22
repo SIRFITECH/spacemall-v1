@@ -74,4 +74,6 @@ class SpaceMallBinding implements Bindings {
 
     //  Get.lazyPut(() => StoreController());
   }
+
+  void initializeGet() {}
 }

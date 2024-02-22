@@ -30,13 +30,15 @@ class AddItemModelAdapter extends TypeAdapter<AddItemModel> {
       expiryAlert: fields[10] as String,
       itemCount: fields[11] as int,
       itemId: fields[12] as String,
+      morePics: RxList.from(fields[13] as List),
+      // (fields[13] as List).cast<File>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, AddItemModel obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.itemPic)
       ..writeByte(1)
@@ -62,7 +64,9 @@ class AddItemModelAdapter extends TypeAdapter<AddItemModel> {
       ..writeByte(11)
       ..write(obj.itemCount)
       ..writeByte(12)
-      ..write(obj.itemId);
+      ..write(obj.itemId)
+      ..writeByte(13)
+      ..write(obj.morePics);
   }
 
   @override

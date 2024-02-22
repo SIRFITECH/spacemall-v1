@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/dashboard/nav_bar/screens/bottom_nav_bar_screen.dart';
 import 'package:spacemall/src/features/core_app/drawer/screens/drawer_screen.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
@@ -21,7 +22,7 @@ class MallScreen extends StatelessWidget {
     return Scaffold(
       appBar: MyAppBar(
         isDarkMood: isDarkMood,
-        title: 'spacemallio',
+        title: 'spacemall.io',
         automaticallyImplyLeading: true,
       ),
       drawer: const SpacemallDrawer(),
@@ -57,7 +58,7 @@ class MallScreen extends StatelessWidget {
                             width: screenSize.width * 0.8),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 30.0),
+                        padding: EdgeInsets.only(top: screenSize.height * 0.05),
                         child: GestureDetector(
                           onTap: () {},
                           child: Column(
@@ -67,9 +68,15 @@ class MallScreen extends StatelessWidget {
                                 color: isDarkMood
                                     ? kDarkModeBrightIconColor
                                     : kDarkModeIconColor,
-                                size: 30,
+                                size: 20,
                               ),
-                              const Text('Help')
+                              const Text(
+                                'Help',
+                                style: TextStyle(
+                                  fontSize: kBodyTextFont,
+                                  // fontWeight: FontWeight.w900,
+                                ),
+                              )
                             ],
                           ),
                         ),

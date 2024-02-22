@@ -27,12 +27,13 @@ class AddToDebt extends StatelessWidget {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+       logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -156,10 +157,10 @@ class AddToDebt extends StatelessWidget {
                   width: screenSize.width * 0.4,
                   child: ElevatedButton(
                       onPressed: () {
-                        print(debtController.nameController.text);
-                        print(debtController.phoneController.text);
-                        print(debtController.amountController.text);
-                        print(debtController.dueDateController.text);
+                        // print(debtController.nameController.text);
+                        // print(debtController.phoneController.text);
+                        // print(debtController.amountController.text);
+                        // print(debtController.dueDateController.text);
                       },
                       child: Text(
                         kAddDebtAddText.toUpperCase(),

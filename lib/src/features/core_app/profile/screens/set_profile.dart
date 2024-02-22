@@ -1,14 +1,17 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/core_app/general/custom_button.dart';
 import 'package:spacemall/src/features/core_app/general/my_app_bar.dart';
 import 'package:spacemall/src/features/core_app/profile/application/profile_controller.dart';
 import 'package:spacemall/src/features/core_app/profile/data/profile_repo.dart';
 import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widget.dart';
+import 'package:spacemall/src/repository/services/network_connectivity/network_connectivity.dart';
 
 class SetProfile extends StatelessWidget {
   const SetProfile({super.key});
@@ -43,85 +46,58 @@ class SetProfile extends StatelessWidget {
                         children: [
                           Obx(
                             () => GestureDetector(
-                                onTap: () {
-                                  profileController.selectImage(context);
-                                  debugPrint(
-                                      'Select Image: ${profileController.profilePic}');
-                                },
-                                child: image.value == null
-                                    ? Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 10.0),
-                                        child: CircleAvatar(
-                                          radius: 60,
-                                          backgroundColor: isDarkMood
-                                              ? kDarkComplementColor
-                                                  .withOpacity(0.2)
-                                              : kMainComplimemtColorLight
-                                                  .withOpacity(0.2),
-                                          child: SizedBox(
-                                            child: ClipOval(
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(34.0),
-                                                child: SvgPicture.asset(
-                                                  kProfileIcon,
-                                                  // ignore: deprecated_member_use
-                                                  color: isDarkMood
-                                                      ? kMainComplimemtColorLight
-                                                      : kMainColorLight,
-                                                  width: 100,
-                                                  height: 100,
-                                                  fit: BoxFit.scaleDown,
-                                                ),
+                              onTap: () {
+                                profileController.selectImage(context);
+                              },
+                              child: image.value == null
+                                  ? Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 10.0),
+                                      child: CircleAvatar(
+                                        radius: 60,
+                                        backgroundColor: isDarkMood
+                                            ? kDarkComplementColor
+                                                .withOpacity(0.2)
+                                            : kMainComplimemtColorLight
+                                                .withOpacity(0.2),
+                                        child: SizedBox(
+                                          child: ClipOval(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(34.0),
+                                              child: SvgPicture.asset(
+                                                kProfileIcon,
+                                                // ignore: deprecated_member_use
+                                                color: isDarkMood
+                                                    ? kMainComplimemtColorLight
+                                                    : kMainColorLight,
+                                                width: 100,
+                                                height: 100,
+                                                fit: BoxFit.scaleDown,
                                               ),
                                             ),
                                           ),
                                         ),
-                                      )
-                                    : CircleAvatar(
-                                        radius: 60,
-                                        backgroundImage:
-                                            FileImage(image.value!),
-                                      )),
+                                      ),
+                                    )
+                                  : CircleAvatar(
+                                      radius: 60,
+                                      backgroundImage: FileImage(image.value!),
+                                    ),
+                            ),
                           ),
                           Text(
                             kChangePhotoText,
-                            style: Theme.of(context).textTheme.labelSmall,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.copyWith(fontSize: kBodyTextFont),
                           )
                         ],
                       ),
                     ),
-                    // Row(
-                    //   children: [
-                    //     TextFeildWidget(
-                    //       screenSize: screenSize,
-                    //       isDarkMood: isDarkMood,
-                    //       controller: profileController.tUserName,
-                    //       keyboardType: TextInputType.name,
-                    //       height: screenSize.width * 0.1,
-                    //       hintText: '',
-                    //       labelText: kFNameText,
-                    //       maxLines: 1,
-                    //       width: screenSize.width * 0.42,
-                    //     ),
-                    //     const SizedBox(
-                    //       width: 5,
-                    //     ),
-                    //     TextFeildWidget(
-                    //       screenSize: screenSize,
-                    //       isDarkMood: isDarkMood,
-                    //       controller: profileController.tLName,
-                    //       keyboardType: TextInputType.name,
-                    //       width: screenSize.width * 0.42,
-                    //       height: screenSize.width * 0.1,
-                    //       hintText: '',
-                    //       labelText: kLNameText,
-                    //       maxLines: 1,
-                    //     )
-                    //   ],
-                    // ),
-// username input
+                    // username input
+
                     TextFeildWidget(
                       screenSize: screenSize,
                       isDarkMood: isDarkMood,
@@ -148,10 +124,10 @@ class SetProfile extends StatelessWidget {
                     // TextFeildWidget(
                     //   screenSize: screenSize,
                     //   isDarkMood: isDarkMood,
-                    //   controller: profileController.tHomeAddress,
+                    //   controller: profileController.tContactNumber!,
                     //   keyboardType: TextInputType.streetAddress,
                     //   hintText: '',
-                    //   labelText: kHomeText,
+                    //   labelText: kPhoneText,
                     //   maxLines: 4,
                     //   width: screenSize.width * 0.84,
                     //   height: screenSize.width * 0.1,
@@ -314,32 +290,98 @@ class SetProfile extends StatelessWidget {
                       labelText: kBioText,
                       maxLines: 5,
                     ),
-                    // TextFeildWidget(
-                    //   screenSize: screenSize,
-                    //   isDarkMood: isDarkMood,
-                    //   controller: profileController.tJobTitle,
-                    //   keyboardType: TextInputType.text,
-                    //   hintText: '',
-                    //   labelText: kJobTitleText,
-                    //   maxLines: 1,
-                    //   width: screenSize.width * 0.84,
-                    //   height: screenSize.width * 0.1,
-                    // ),
-                    // TextFeildWidget(
-                    //   screenSize: screenSize,
-                    //   isDarkMood: isDarkMood,
-                    //   controller: profileController.tAlternativeEmail,
-                    //   keyboardType: TextInputType.emailAddress,
-                    //   hintText: '',
-                    //   labelText: kAlternativeEmailText,
-                    //   maxLines: 1,
-                    //   width: screenSize.width * 0.84,
-                    //   height: screenSize.width * 0.1,
-                    // ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.only(right: 14.0),
+                      child: ExpandablePanel(
+                        theme: ExpandableThemeData(
+                          iconColor: !isDarkMood
+                              ? kMainColorLight
+                              : kTextFieldDarkBorderColor.withOpacity(0.8),
+                        ),
+                        header: Text(
+                          'Advanced Details',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color:
+                                  isDarkMood ? kGreyColor.shade600 : kBlackDark,
+                              fontSize: kBodyTextFont),
+                        ),
+                        expanded: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextFeildWidget(
+                                  screenSize: screenSize,
+                                  isDarkMood: isDarkMood,
+                                  controller: profileController.tTrial,
+                                  keyboardType: TextInputType.text,
+                                  hintText: '',
+                                  labelText: 'Just for test',
+                                  maxLines: 1,
+                                  width: screenSize.width * 0.84,
+                                  height: screenSize.width * 0.1,
+                                ),
+                                TextFeildWidget(
+                                  screenSize: screenSize,
+                                  isDarkMood: isDarkMood,
+                                  controller: profileController.tTrial,
+                                  keyboardType: TextInputType.emailAddress,
+                                  hintText: '',
+                                  labelText: 'Just for test',
+                                  maxLines: 1,
+                                  width: screenSize.width * 0.84,
+                                  height: screenSize.width * 0.1,
+                                ),
+                                TextFeildWidget(
+                                  screenSize: screenSize,
+                                  isDarkMood: isDarkMood,
+                                  controller: profileController.tTrial,
+                                  keyboardType: TextInputType.text,
+                                  hintText: '',
+                                  labelText: 'Just for trial',
+                                  maxLines: 1,
+                                  width: screenSize.width * 0.84,
+                                  height: screenSize.width * 0.1,
+                                ),
+                                TextFeildWidget(
+                                  screenSize: screenSize,
+                                  isDarkMood: isDarkMood,
+                                  controller: profileController.tTrial,
+                                  keyboardType: TextInputType.emailAddress,
+                                  hintText: '',
+                                  labelText: 'Just for trial',
+                                  maxLines: 1,
+                                  width: screenSize.width * 0.84,
+                                  height: screenSize.width * 0.1,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        collapsed: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text('...'),
+                        ),
+                      ),
+                    ),
 
                     CustomButton(
                       screenSize: screenSize,
-                      onPress: () => profileRepo.saveData(context),
+                      onPress: () async {
+                        // FIXME: remain on the same screen if there is no internet
+                        bool deviceHasInternet =
+                            await NetworkConnectivity().deviceHasInternet();
+                        if (deviceHasInternet) {
+                          // ignore: use_build_context_synchronously
+                          profileRepo.saveUser(context);
+                        }
+                      },
                       title: kSave,
                       width:
                           // double.infinity,

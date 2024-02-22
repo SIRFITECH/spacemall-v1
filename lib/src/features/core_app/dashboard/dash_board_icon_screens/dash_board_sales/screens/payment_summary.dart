@@ -5,9 +5,6 @@ import 'package:spacemall/src/features/core_app/profile/screens/text_feild_widge
 
 import '../../../../../../constants/image_strings.dart';
 import '../../../../../../constants/text_strings.dart';
-// import '../../../../../../repository/hive_boxes.dart';
-// import '../../../../store/domain/store_model.dart';
-// import '../../dash_baord_stock/add_item/data/add_item_repo.dart';
 import '../application/sales_controller.dart';
 
 class PaymentSummary extends StatefulWidget {

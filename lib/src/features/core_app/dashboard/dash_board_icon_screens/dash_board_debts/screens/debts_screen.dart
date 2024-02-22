@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:spacemall/src/common_widgets/common_widgets.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/screens/add_debts.dart';
 import 'package:spacemall/src/features/core_app/dashboard/dash_board_icon_screens/dash_board_debts/screens/debt_summary.dart';
 
@@ -25,12 +26,13 @@ class DebtScreen extends StatelessWidget {
     StoreModel store = storeBox.get(
       AddItemRepo.instance.currentStore.value,
       defaultValue: StoreModel(
-        logo: null,
+        logoLocalPath: '',
+        logoRemotePath: '',
         storeName: '',
         bankName: '',
         accountNumber: '',
         contact: '',
-        stock: [],
+        stock: RxList([]),
         receipts: [],
         debts: [],
         staff: [],
@@ -123,7 +125,7 @@ class DebtScreen extends StatelessWidget {
                                               child: Text(
                                                 'N',
                                                 style: TextStyle(
-                                                  fontSize: 45,
+                                                  fontSize: kHeaderTextFont,
                                                   fontWeight: FontWeight.bold,
                                                   color: !isDarkMood
                                                       ? kMainColorLight
@@ -147,14 +149,14 @@ class DebtScreen extends StatelessWidget {
                                         Text(
                                           'New Customer',
                                           style: TextStyle(
-                                            fontSize: 20,
+                                            fontSize: kHeaderTextFontSmall,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         Text(
                                           '- N20,000',
                                           style: TextStyle(
-                                            fontSize: 17,
+                                            fontSize: kHeaderTextFontSmallest,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -163,7 +165,9 @@ class DebtScreen extends StatelessWidget {
                                         ),
                                         Text(
                                           '6 days remaining',
-                                          style: TextStyle(fontSize: 12),
+                                          style: TextStyle(
+                                            fontSize: kBodyTextFont,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -380,7 +384,7 @@ class DebtScreen extends StatelessWidget {
                                               child: Text(
                                                 'O',
                                                 style: TextStyle(
-                                                  fontSize: 45,
+                                                  fontSize: kHeaderTextFont,
                                                   fontWeight: FontWeight.bold,
                                                   color: !isDarkMood
                                                       ? kMainColorLight
@@ -404,14 +408,14 @@ class DebtScreen extends StatelessWidget {
                                         Text(
                                           'Osagie David',
                                           style: TextStyle(
-                                            fontSize: 20,
+                                            fontSize: kHeaderTextFontSmall,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                         Text(
                                           '- N50,000',
                                           style: TextStyle(
-                                            fontSize: 17,
+                                            fontSize: kHeaderTextFontSmallest,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -420,7 +424,9 @@ class DebtScreen extends StatelessWidget {
                                         ),
                                         Text(
                                           '6 days remaining',
-                                          style: TextStyle(fontSize: 12),
+                                          style: TextStyle(
+                                            fontSize: kBodyTextFont,
+                                          ),
                                         ),
                                       ],
                                     ),

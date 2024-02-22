@@ -6,8 +6,8 @@ import 'package:spacemall/src/constants/colors.dart';
 import 'package:spacemall/src/constants/image_strings.dart';
 import 'package:spacemall/src/constants/text_strings.dart';
 import 'package:spacemall/src/features/auth/domain/on_boarding_model.dart';
-import 'package:spacemall/src/features/auth/screens/login/login.dart';
 import 'package:spacemall/src/features/auth/screens/on_boarding/on_boarding_page_widget.dart';
+import 'package:spacemall/src/features/core_app/profile/screens/set_profile.dart';
 
 class OnBoradingController extends GetxController {
   final controller = LiquidController();
@@ -50,7 +50,7 @@ class OnBoradingController extends GetxController {
         const Duration(seconds: 3),
         () {
           Get.off(
-            () => const Login(),
+            () => const SetProfile(),
           );
           _timer.cancel();
         },
@@ -66,7 +66,7 @@ class OnBoradingController extends GetxController {
       controller.animateToPage(page: nextpage);
     } else if (controller.currentPage == 2) {
       Get.off(
-        () => const Login(),
+        () => const SetProfile(),
       );
     }
   }

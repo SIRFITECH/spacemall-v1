@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spacemall/src/constants/sizes.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
@@ -17,14 +18,19 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: screenSize.width * 0.05),
+      padding: EdgeInsets.symmetric(vertical: screenSize.width * 0.01),
       child: Row(
         children: [
           SizedBox(
             width: width,
             child: ElevatedButton(
               onPressed: onPress,
-              child: Text(title),
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: kBodyTextFont,
+                ),
+              ),
             ),
           ),
         ],

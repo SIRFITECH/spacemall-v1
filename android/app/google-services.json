@@ -7,22 +7,22 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1017415678363:android:350377590ed4d76752893e",
+        "mobilesdk_app_id": "1:1017415678363:android:89ca0d90a17a1f9052893e",
         "android_client_info": {
-          "package_name": "com.example.spacemall"
+          "package_name": "io.spacemall"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1017415678363-1mbva1dvqeopov2rtoe0ib92ohp6l91c.apps.googleusercontent.com",
+          "client_id": "1017415678363-719s5i0mmqm39if7131376vg2ltsntf6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.spacemall",
+            "package_name": "io.spacemall",
             "certificate_hash": "a47ebfb5aa4bdb5449005f7ad2b61c246cc9d454"
           }
         },
         {
-          "client_id": "1017415678363-94gg0mporkvcigml1s6cqbrel87evibf.apps.googleusercontent.com",
+          "client_id": "1017415678363-3ioqumo5ljq322df8nbh68gn3nflcqk6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -35,14 +35,14 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1017415678363-94gg0mporkvcigml1s6cqbrel87evibf.apps.googleusercontent.com",
+              "client_id": "1017415678363-3ioqumo5ljq322df8nbh68gn3nflcqk6.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1017415678363-nn4tmt3qndv4k94mvmu7vikifefi3nra.apps.googleusercontent.com",
+              "client_id": "1017415678363-mlb586r2fladi8jjmnmeamefpstcnrvg.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.spacemall"
+                "bundle_id": "io.spacemall"
               }
             }
           ]
