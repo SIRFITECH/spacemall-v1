@@ -21,6 +21,10 @@ class StockController extends GetxController {
     stockList.remove(object);
   }
 
+  void clearStock() {
+    stockList.clear();
+  }
+
   List<StockModel> convertStockItems(List stockFromDb) {
     List<StockModel> result = [];
     for (var item in stockFromDb) {

@@ -306,40 +306,99 @@ class Stock extends StatelessWidget {
                                             child: LoginDivider(
                                                 height: 0, thickness: 3)),
                                         SizedBox(
-                                          height: 30,
+                                          height: screenSize.height * 0.04,
                                           child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                left: 7, bottom: 5),
-                                            child: ListView(
-                                              scrollDirection: Axis.horizontal,
-                                              children: [
-                                                ElevatedButton(
-                                                  onPressed: () {},
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    padding:
-                                                        const EdgeInsets.all(5),
-                                                  ),
-                                                  child: const Text('Small'),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                ElevatedButton(
-                                                  onPressed: () {},
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        kLightModeInactiveButtonColor
-                                                            .withOpacity(0.3),
-                                                    padding:
-                                                        const EdgeInsets.all(5),
-                                                  ),
-                                                  child: const Text('Meduim'),
-                                                )
-                                              ],
-                                            ),
-                                          ),
+                                              padding: const EdgeInsets.only(
+                                                  left: 7, bottom: 5),
+                                              child: ListView.builder(
+                                                  scrollDirection:
+                                                      Axis.horizontal,
+                                                  itemCount: 5,
+                                                  itemBuilder: (context, int) {
+                                                    return
+                                                        // Padding(
+                                                        //   padding:
+                                                        //       EdgeInsets.symmetric(
+                                                        //           horizontal:
+                                                        //               screenSize
+                                                        //                       .height *
+                                                        //                   0.005),
+                                                        //   child: ElevatedButton(
+                                                        //     onPressed: () {
+                                                        //       print(
+                                                        //           'Button in item variant pressed');
+                                                        //     },
+                                                        //     style: ElevatedButton
+                                                        //         .styleFrom(
+                                                        //       padding:
+                                                        //           const EdgeInsets
+                                                        //               .all(5),
+                                                        //     ),
+                                                        //     child:
+                                                        //         const Text('Small'),
+                                                        //   ),
+                                                        // );
+                                                        Padding(
+                                                      padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal:
+                                                                  screenSize
+                                                                          .height *
+                                                                      0.005),
+                                                      child: ElevatedButton(
+                                                        onPressed: () {
+                                                          print(
+                                                              'Button in item variant pressed');
+                                                        },
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          backgroundColor:
+                                                              kLightModeInactiveButtonColor
+                                                                  .withOpacity(
+                                                                      0.3),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(5),
+                                                        ),
+                                                        child: const Text(
+                                                            'Meduim'),
+                                                      ),
+                                                    );
+                                                  })
+
+                                              // ListView(
+                                              //   scrollDirection: Axis.horizontal,
+                                              //   children: [
+                                              //     ElevatedButton(
+                                              //       onPressed: () {
+                                              //         print(
+                                              //             'Button in item variant pressed');
+                                              //       },
+                                              //       style:
+                                              //           ElevatedButton.styleFrom(
+                                              //         padding:
+                                              //             const EdgeInsets.all(5),
+                                              //       ),
+                                              //       child: const Text('Small'),
+                                              //     ),
+                                              //     const SizedBox(
+                                              //       width: 10,
+                                              //     ),
+                                              //     ElevatedButton(
+                                              //       onPressed: () {},
+                                              //       style:
+                                              //           ElevatedButton.styleFrom(
+                                              //         backgroundColor:
+                                              //             kLightModeInactiveButtonColor
+                                              //                 .withOpacity(0.3),
+                                              //         padding:
+                                              //             const EdgeInsets.all(5),
+                                              //       ),
+                                              //       child: const Text('Meduim'),
+                                              //     )
+                                              //   ],
+                                              // ),
+                                              ),
                                         ),
                                       ],
                                     ),
